@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-config.dtd">
+
+<configuration>
+	 <settings>
+         <setting name="logImpl" value="LOG4J2" />
+         <setting name="callSettersOnNulls" value="true"/>
+     </settings>
+     <typeAliases>
+		<typeAlias type="net.chetong.order.model.UserVO" alias="UserVO"/>
+		<typeAlias type="net.chetong.order.model.SysUserVO" alias="SysUserVO"/>
+		<typeAlias type="net.chetong.order.model.FmOrderCaseVO" alias="FmOrderCaseVO"/>
+		<typeAlias type="net.chetong.order.model.FmOrderVO" alias="FmOrderVO"/>
+		<typeAlias type="net.chetong.order.model.FmHandoutVO" alias="FmHandoutVO"/>
+		<typeAlias type="net.chetong.order.model.FhLossModelVO" alias="FhLossModelVO"/>
+		<typeAlias type="net.chetong.order.model.FhPartModelVO" alias="FhPartModelVO"/>
+		<typeAlias type="net.chetong.order.model.FhRepairModelVO" alias="FhRepairModelVO"/>
+		<typeAlias type="net.chetong.order.model.CtPromotionOneMoneyVO" alias="CtPromotionOneMoneyVO"/>
+		<typeAlias type="net.chetong.order.model.CtPromotionOrderRelationVO" alias="CtPromotionOrderRelationVO"/>
+		<typeAlias type="net.chetong.order.model.CtAdjustPriceAreaVO" alias="CtAdjustPriceAreaVO"/>
+		<typeAlias type="net.chetong.order.model.CtAdjustPriceVO" alias="CtAdjustPriceVO"/>
+		<typeAlias type="net.chetong.order.model.PrNegoPriceInfoVO" alias="PrNegoPriceInfoVO"/>
+		<typeAlias type="net.chetong.order.model.PrNegoPriceDetailVO" alias="PrNegoPriceDetailVO"/>
+		<typeAlias type="net.chetong.order.model.PrRuleInfoVO" alias="PrRuleInfoVO"/>
+		<typeAlias type="net.chetong.order.model.PrRuleDetailVO" alias="PrRuleDetailVO"/>		
+		<typeAlias type="net.chetong.order.model.PrInvoiceAreaVO" alias="PrInvoiceAreaVO"/>
+		<typeAlias type="net.chetong.order.model.PdServiceChannelTaxVO" alias="PdServiceChannelTaxVO"/>
+		<typeAlias type="net.chetong.order.model.PdOrderPayInfoVO" alias="PdOrderPayInfoVO"/>
+		
+		<typeAlias type="net.chetong.order.model.FhCarInfoVO" alias="FhCarInfoVO"/>
+		<typeAlias type="net.chetong.order.model.FhDriverInfoVO" alias="FhDriverInfoVO"/>
+		<typeAlias type="net.chetong.order.model.FhSurveyInfoVO" alias="FhSurveyInfoVO"/>
+		<typeAlias type="net.chetong.order.model.FhLossInfoVO" alias="FhLossInfoVO"/>
+		<typeAlias type="net.chetong.order.model.FhPartItemVO" alias="FhPartItemVO"/>
+		<typeAlias type="net.chetong.order.model.FhRepairItemVO" alias="FhRepairItemVO"/>
+		<typeAlias type="net.chetong.order.model.FhFeeItemVO" alias="FhFeeItemVO"/>
+		<typeAlias type="net.chetong.order.model.FhRepairFactoryInfoVO" alias="FhRepairFactoryInfoVO"/>
+		<typeAlias type="net.chetong.order.model.FhLossItemVO" alias="FhLossItemVO"/>
+		<typeAlias type="net.chetong.order.model.SysParametersVO" alias="SysParametersVO"/>
+		<typeAlias type="net.chetong.order.model.FhWorkSendLogVO" alias="FhWorkSendLogVO"/>
+		<typeAlias type="net.chetong.order.model.FmTaskInfoVO" alias="FmTaskInfoVO"/>
+		<typeAlias type="net.chetong.order.model.FhGetTaskLogVO" alias="FhGetTaskLogVO"/>
+		<typeAlias type="net.chetong.order.model.FmTaskOrderWorkRelationVO" alias="FmTaskOrderWorkRelationVO"/>
+		<typeAlias type="net.chetong.order.model.FhInsureDataInfoVO" alias="FhInsureDataInfoVO"/>
+		<typeAlias type="net.chetong.order.model.FhSurveyReportItemVO" alias="FhSurveyReportItemVO"/>
+		
+		<typeAlias type="net.chetong.order.model.FhAuditModelVO" alias="FhAuditModelVO"/>
+		<typeAlias type="net.chetong.order.model.CtPersonServiceVO" alias="CtPersonServiceVO"/>
+		<typeAlias type="net.chetong.order.model.FhThirdCarInfoVO" alias="FhThirdCarInfoVO"/>
+		<typeAlias type="net.chetong.order.model.FhBankInfoVO" alias="FhBankInfoVO"/>
+		
+		<typeAlias type="net.chetong.order.model.SysUserConfigVO" alias="SysUserConfigVO"/>
+		<typeAlias type="net.chetong.order.model.FhSendDataInfoVO" alias="FhSendDataInfoVO"/>
+	</typeAliases>
+	<plugins>
+		<plugin interceptor="net.chetong.order.util.page.OffsetLimitInterceptor">
+            <property name="dialectClass" value="net.chetong.order.util.page.dialect.MySQLDialect"/>
+        </plugin>
+	</plugins>
+	<mappers>
+<!-- 		<mapper resource="mapping/sqlmap_user.xml"/> -->
+<!-- 		<mapper resource="mapping/sqlmap_user_manage.xml"/> -->
+<!-- 		<mapper resource="mapping/sqlmap_user_price.xml"/> -->
+<!-- 		<mapper resource="mapping/sqlmap_commons.xml"/> -->
+<!-- 		<mapper resource="mapping/sqlmap_work_model.xml"/>		 -->
+<!-- 		<mapper resource="mapping/sqlmap_fm_order_seqno.xml"/> -->
+<!-- 		<mapper resource="mapping/sqlmap_fm_order_case_mapping.xml"/> -->
+<!-- 		<mapper resource="mapping/sqlmap_fm_order_mapping.xml"/> -->
+<!-- 		<mapper resource="mapping/sqlmap_fm_order_cost.xml"/> -->
+<!-- 		<mapper resource="mapping/sqlmap_fm_order_cost_detail.xml"/> -->
+<!-- 		<mapper resource="mapping/sqlmap_fm_handout.xml"/> -->
+<!-- 		<mapper resource="mapping/sqlmap_fh_audit_model.xml"/> -->
+<!-- 		<mapper resource="mapping/sqlmap_fh_car_model.xml"/> -->
+<!-- 		<mapper resource="mapping/sqlmap_fh_damage_model.xml"/> -->
+<!-- 		<mapper resource="mapping/sqlmap_fh_repair_model.xml"/>		 -->
+<!-- 		<mapper resource="mapping/sqlmap_fh_leave_model.xml"/> -->
+<!-- 		<mapper resource="mapping/sqlmap_fh_survey_model.xml"/> -->
+<!-- 		<mapper resource="mapping/sqlmap_fh_loss_model.xml"/> -->
+<!-- 		<mapper resource="mapping/sqlmap_fh_part_model.xml"/>							 -->
+<!-- 		<mapper resource="mapping/sqlmap_ct_take_payment.xml"/> -->
+<!-- 		<mapper resource="mapping/sqlmap_ct_group.xml"/> -->
+<!-- 		<mapper resource="mapping/sqlmap_pd_service_subject.xml"/> -->
+<!-- 		<mapper resource="mapping/sqlmap_para_area_code.xml"/>	 -->
+<!-- 		<mapper resource="mapping/sqlmap_ac_acount_log_mapping.xml"/>	 -->
+<!-- 		<mapper resource="mapping/sqlmap_ct_third_apply_info_mapping.xml"/>	 -->
+<!-- 		<mapper resource="mapping/sqlmap_fm_order_audit_mapping.xml"/>	 -->
+<!-- 		<mapper resource="mapping/sqlmap_image.xml"/>	 -->
+<!-- 		<mapper resource="mapping/sqlmap_ct_promotion_one_money_mapping.xml"/> -->
+<!-- 		<mapper resource="mapping/sqlmap_append_order_price.xml"/> -->
+		
+<!-- 		<mapper resource="mapping/sqlmap_fh_survey_mapping.xml"/>	 -->
+<!-- 		<mapper resource="mapping/sqlmap_fh_car_mapping.xml"/> -->
+<!-- 		<mapper resource="mapping/sqlmap_fh_driver_mapping.xml"/> -->
+		
+	</mappers>
+</configuration>

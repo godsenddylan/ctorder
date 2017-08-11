@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="sqlmap_commons">
+
+	<!-- 查询地区 -->
+	<select id="queryParaAreaCode" parameterType="net.chetong.order.model.ParaAreaCodeVO" resultType ="net.chetong.order.model.ParaAreaCodeVO" >
+		SELECT 
+			prov_code as provCode,
+			area_code as areaCode,
+			prov_name as provName,
+			city_name as cityName,
+			area_name as areaName,
+			parent_code as parentCode,
+			prov_short as provShort,
+			full_desc as fullDesc,
+			note as note
+		FROM para_area_code 
+		 <where>
+		    <if test="provCode!= null">
+                  and prov_code=#{provCode}
+            </if>
+		    <if test="areaCode!= null">
+                  and area_code=#{areaCode}
+            </if>
+		    <if test="provName!= null">
+                  and prov_name=#{provName}
+            </if>
+		    <if test="cityName!= null">
+                  and city_name=#{cityName}
+            </if>
+		    <if test="areaName!= null">
+                  and area_name=#{areaName}
+            </if>
+		    <if test="parentCode!= null">
+                  and parent_code=#{parentCode}
+            </if>
+		    <if test="provShort!= null">
+                  and prov_short=#{provShort}
+            </if>
+		    <if test="fullDesc!= null">
+                  and full_desc=#{fullDesc}
+            </if>
+		    <if test="note!= null">
+                  and note=#{note}
+            </if>
+  		</where>
+	</select>
+	
+	<!-- 查询节假日等特殊时间 -->
+	<select id="queryPdHoliday" parameterType="net.chetong.order.model.PdHolidayVO" resultType ="net.chetong.order.model.PdHolidayVO" >
+		SELECT 
+			id as id,
+			holiday_type as holidayType,
+			date as date,
+			ext1 as ext1,
+			ext2 as ext2,
+			ext3 as ext3
+		FROM pd_holiday 
+		 <where>
+		    <if test="id!= null">
+                  and id=#{id}
+            </if>
+		    <if test="holidayType!= null">
+                  and holiday_type=#{holidayType}
+            </if>
+		    <if test="date!= null">
+                  and date=#{date}
+            </if>
+		    <if test="ext1!= null">
+                  and ext1=#{ext1}
+            </if>
+		    <if test="ext2!= null">
+                  and ext2=#{ext2}
+            </if>
+		    <if test="ext3!= null">
+                  and ext3=#{ext3}
+            </if>
+  		</where>
+		  		ORDER BY id DESC
+	</select>
+	
+	<!-- 按userId查询加盟状态 -->
+	<select id="queryCtPersonByUserId" parameterType="java.lang.String" resultType ="java.lang.String" >
+		SELECT 
+			
+			service_id
+			
+		FROM ct_person_service 
+		 <where>
+		 	<!-- service_id in ('1','5', '7') -->
+            user_id=#{userId} and audit_stat = '0'
+  		</where>
+		  		ORDER BY service_id ASC
+	</select>
+</mapper>

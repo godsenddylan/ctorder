@@ -1,0 +1,202 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:sec="http://www.springframework.org/schema/security"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.1.xsd
+       http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-4.0.xsd ">
+	
+    <!-- 不过滤，其中**代表可以跨越目录，*不可跨越目录 
+    <sec:http pattern="/webservice/**/*" security="none" />
+	<sec:http pattern="/resources/**/*" security="none" />
+	<sec:http pattern="/common/**/*" security="none" />
+	<sec:http pattern="/admin/fh/*" security="none" />
+	
+	<sec:http pattern="/user/userLoginCheck.jhtml" security="none" />
+	
+	<sec:http pattern="/site/none/**" security="none"/>
+	<sec:http pattern="/admin/siteinfo/newsDetailToCode.jsp" security="none" />
+	<sec:http pattern="/admin/siteinfo/newsDetailToCodeFrame.jsp" security="none" />
+	<sec:http pattern="/admin/login.jsp" security="none" />
+	<sec:http pattern="/case/*" security="none" />
+	<sec:http pattern="/Survey/*" security="none" />
+	<sec:http pattern="/Loss/*" security="none" />
+	<sec:http pattern="/Image/*" security="none" />
+	<sec:http pattern="/ImgUpload/*" security="none" />
+	<sec:http pattern="/logout/cancelOrderByOrderId.jhtml" security="none" />	
+	<sec:http pattern="/historyimages/**/*" security="none" />
+	<sec:http pattern="/orderImport/orderImportAuditPass.jhtml" security="none" />  
+	-->
+	<sec:http pattern="/index.jsp" security="none" />
+	<sec:http pattern="/user/queryUserList.jhtml" security="none" />
+	<sec:http pattern="/user/login.jhtml" security="none" />
+    <sec:http auto-config="true" use-expressions="true" entry-point-ref="secAuthenticationLoginEntry" 
+     	  authentication-manager-ref="authenticationManager">
+     	  
+     	<sec:intercept-url pattern="/**/*" access="isAuthenticated()"/>
+     	 
+     	 <!-- 
+     	<sec:intercept-url pattern="/**/*" access="hasAnyRole('ROLE_UA_USER','ROLE_UA_AUTH_ADMIN')"/>
+		-->
+		<sec:csrf disabled="true"/>
+        <sec:logout logout-url="/secLogout" success-handler-ref="secLogoutSuccessHandler"/>
+
+        <sec:custom-filter ref="secAuthenticationProcessingFilter" before="LOGOUT_FILTER"/>
+        
+    </sec:http>
+
+	<!-- 登出 配置 -->
+    <bean id="secLogoutSuccessHandler" class="com.ctweb.util.security.logout.SecLogoutSuccessHandler">
+    	<property name="defaultUrl" value="/index.jsp"></property>
+        <property name="resolvers">
+            <list>
+                <ref bean="secLogoutSuccessUrlResolver"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="secLogoutSuccessUrlResolver" class="com.ctweb.util.security.logout.SecLogoutSuccessUrlResolver">
+    	<!-- 登出后 显示界面 -->
+        <property name="url" value="/admin/login.jsp"/>
+    </bean>
+
+	<!-- 入口 配置 -->
+    <bean id="secAuthenticationLoginEntry"
+                class="com.ctweb.util.security.login.SecAuthenticationLoginEntry">
+        <property name="defaultLoginUrl" value="/index.jsp"/>
+    </bean>
+
+	<!--  认证拦截器 -->
+    <bean id="secAuthenticationProcessingFilter"
+                class="com.ctweb.util.security.filter.SecAuthenticationProcessingFilter">
+        <!--  登录 拦截的 url，这个需要与登录action 一致 
+        <form action='<%=request.getContextPath()%>/gvlogin/check' method='post'>  
+        -->
+        <constructor-arg value="/user/checked"/>
+        <property name="tokenResolver" ref="secAuthenticationTokenResolver"></property>
+        <property name="authenticationManager" ref="authenticationManager"/>
+        <property name="authenticationSuccessHandler" ref="secAuthenticationSuccessHandler"/>
+        <property name="authenticationFailureHandler" ref="secAuthenticationFailureHandler"/>
+        <property name="allowEmptyValidateCode" value="false"></property>
+    </bean>
+    
+    <!--  权限 认证 ， 提供了 基于角色的认证， 与基本的spring Security 认证一致
+    		基于IP 的认证，及 在下面配置的ip中，则不用登录即可访问 
+     <bean id="accessDecisionManager" class="org.springframework.security.access.vote.AffirmativeBased" >
+		<property name="decisionVoters">
+			<list>
+				<ref bean="roleVoter"/>
+				<ref bean="authenticatedVoter"/>
+				<ref bean="ipVoter"/>
+			</list>
+		</property>
+	</bean>
+   -->
+	<bean id="roleVoter" class="org.springframework.security.access.vote.RoleVoter"/>
+	<bean id="authenticatedVoter" class="org.springframework.security.access.vote.AuthenticatedVoter"/>
+	<bean id="ipVoter" class="com.ctweb.util.security.access.vote.IPVoter">
+		<property name="ipConfig" ref="ipConfig"></property>
+	</bean>
+	
+	
+	<bean id="ipConfig" class="com.ctweb.util.security.access.intercept.IPConfig">
+		<property name="ipAddress">
+			<list>
+				<value>*</value>
+			</list>
+		</property>
+	</bean>
+	
+	
+	<!-- Toke 解析器 -->
+    <bean id="secAuthenticationTokenResolver"
+                class="com.ctweb.util.security.filter.SecAuthenticationTokenResolver">
+    </bean>
+
+   <!-- 认证成功 处理器 -->
+    <bean id="secAuthenticationSuccessHandler"
+                class="com.ctweb.util.security.authentication.handler.SecAuthenticationSuccessHandler">
+        <property name="defaultTargetUrl" value="/admin/index.jsp"></property>
+        <!-- alwaysUseDefaultTargetUrl 
+            为false，则，实现了用户 请求的继续进行 ；
+        			如，用户浏览商品后 添加到购物车，点击提交时，若用户没有登录 ，则显示登录界面，
+        			  登录成功之后，则显示订单信息。
+        	为true，则会丢失用户在客户端的操作，只要登录成功就一定会进入 defaultTargetUrl 指定的页面  -->
+        <property name="alwaysUseDefaultTargetUrl" value="true"/>
+        <!-- <property name="secUserDetailsDAO" ref="secUserDetailsDAO"></property> -->
+    </bean>
+
+
+	<!-- 认证失败 处理器 -->
+    <bean id="secAuthenticationFailureHandler"
+                class="org.springframework.security.web.authentication.ExceptionMappingAuthenticationFailureHandler">
+        <property name="exceptionMappings">
+            <map>
+                <entry key="com.bontai.scaffold.sec.exception.SecBadCredentialsException"
+                             value="/admin/login.jsp?error=1"/>
+                <entry key="com.bontai.scaffold.sec.exception.SecCaptchaWrongException"
+                             value="/admin/login.jsp?error=2"/>
+            </map>
+        </property>
+    </bean>
+
+	<!-- 认证管理 -->
+    <sec:authentication-manager alias="authenticationManager" erase-credentials="false">
+        <sec:authentication-provider ref="secAuthenticationProvider"/>
+      <!--   <sec:authentication-provider ref="anonymousAuthenticationProvider"/>  -->
+    </sec:authentication-manager>
+	<!-- 
+    <bean id="anonymousAuthenticationProvider" class="org.springframework.security.authentication.AnonymousAuthenticationProvider">
+            <property name="key" value="template"/>
+    </bean>
+ -->
+    <bean id="secAuthenticationProvider"
+                class="com.ctweb.util.security.authentication.provider.SecAuthenticationProvider">
+        <property name="userDetailsService" ref="secUserDetailsService"/>
+        
+        <!--  用户密码 加密 自动处理，如下，实现的是 MD的加密，若程序 已经实现了自己的加密处理，则注释掉这个 -->
+        <property name="passwordEncoder" ref="passwordEncode" />
+    </bean>
+    
+    <bean name="passwordEncode" class="org.springframework.security.authentication.encoding.Md5PasswordEncoder"></bean>
+    
+    <!-- 用户详情信息 服务 -->           
+    <bean name="secUserDetailsService" class="com.ctweb.util.security.SecUserDetailsServiceImpl">
+    	<!--<property name="secUserDetailsDAO" ref="secUserDetailsDAO"></property>
+    	  为了沿用 UA的数据库结果，则 需要 单独使用时，也请再数据库中指定一下这个项目的信息 -->
+    	<property name="appName" value="${appName}"></property>
+    </bean>
+
+</beans>
+
+<!-- 
+<?xml version="1.0" encoding="UTF-8"?>
+<beans:beans xmlns="http://www.springframework.org/schema/security"
+    xmlns:beans="http://www.springframework.org/schema/beans" 
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+                        http://www.springframework.org/schema/beans/spring-beans-4.1.xsd
+                        http://www.springframework.org/schema/security
+                        http://www.springframework.org/schema/security/spring-security-4.0.xsd ">
+ 	
+    <http pattern="/resource/**" security="none"/>   
+    <http auto-config="true" use-expressions="true">
+        <intercept-url pattern="/toTall*" access="hasRole('ROLE_ADMIN')" />
+        <intercept-url pattern="/**" access="isAuthenticated()" />
+        <access-denied-handler error-page="/403.jsp"/>
+        <session-management>
+            <concurrency-control max-sessions="1" error-if-maximum-exceeded="true"/>
+        </session-management>
+    </http>
+    <authentication-manager>
+        <authentication-provider>
+            <user-service >
+                <user name="Admin" password="Admin" authorities="ROLE_ADMIN" />
+                <user name="User" password="User" authorities="ROLE_USER" />
+                <user name="zhang" password="zhang" authorities="ROLE_USER" />
+            </user-service>
+        </authentication-provider>
+    </authentication-manager>
+</beans:beans>
+
+-->

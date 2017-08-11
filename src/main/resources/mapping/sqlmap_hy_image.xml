@@ -1,0 +1,326 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="sqlmap_hy_image" >
+  <resultMap id="BaseResultMap" type="net.chetong.order.model.HyImageVO" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="order_no" property="orderNo" jdbcType="VARCHAR" />
+    <result column="case_no" property="caseNo" jdbcType="VARCHAR" />
+    <result column="user_id" property="userId" jdbcType="BIGINT" />
+    <result column="tag_id" property="tagId" jdbcType="BIGINT" />
+    <result column="link" property="link" jdbcType="VARCHAR" />
+    <result column="thumb_link" property="thumbLink" jdbcType="VARCHAR" />
+    <result column="take_time" property="takeTime" jdbcType="TIMESTAMP" />
+    <result column="upload_time" property="uploadTime" jdbcType="TIMESTAMP" />
+    <result column="filename" property="filename" jdbcType="VARCHAR" />
+    <result column="file_size" property="fileSize" jdbcType="BIGINT" />
+    <result column="created_by" property="createdBy" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="updated_by" property="updatedBy" jdbcType="VARCHAR" />
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+    <result column="upload_type" property="uploadType" jdbcType="TIMESTAMP" />
+  </resultMap>
+  
+  <sql id="Base_Column_List" >
+    id, order_no, case_no, user_id, tag_id, link,thumb_link, take_time, upload_time, filename, file_size, 
+    created_by, create_time, updated_by, update_time,upload_type
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from hy_image
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from hy_image
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="net.chetong.order.model.HyImageVO" >
+    insert into hy_image (id, order_no, case_no, 
+      user_id, tag_id, link, thumb_link, 
+      take_time, upload_time, filename, 
+      file_size, created_by, create_time, 
+      updated_by, update_time)
+    values (#{id,jdbcType=BIGINT}, #{orderNo,jdbcType=VARCHAR}, #{caseNo,jdbcType=VARCHAR}, 
+      #{userId,jdbcType=BIGINT}, #{tagId,jdbcType=BIGINT}, #{link,jdbcType=VARCHAR},#{thumbLink,jdbcType=VARCHAR},
+      #{takeTime,jdbcType=TIMESTAMP}, #{uploadTime,jdbcType=TIMESTAMP}, #{filename,jdbcType=VARCHAR}, 
+      #{fileSize,jdbcType=BIGINT}, #{createdBy,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{updatedBy,jdbcType=VARCHAR}, #{updateTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="net.chetong.order.model.HyImageVO" useGeneratedKeys="true" keyColumn="id" keyProperty="id">
+    insert into hy_image
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="orderNo != null" >
+        order_no,
+      </if>
+      <if test="caseNo != null" >
+        case_no,
+      </if>
+      <if test="userId != null" >
+        user_id,
+      </if>
+      <if test="tagId != null" >
+        tag_id,
+      </if>
+      <if test="link != null" >
+        link,
+      </if>
+       <if test="thumbLink != null" >
+        thumb_link,
+      </if>
+      <if test="takeTime != null" >
+        take_time,
+      </if>
+      <if test="uploadTime != null" >
+        upload_time,
+      </if>
+      <if test="filename != null" >
+        filename,
+      </if>
+      <if test="fileSize != null" >
+        file_size,
+      </if>
+      <if test="createdBy != null" >
+        created_by,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="updatedBy != null" >
+        updated_by,
+      </if>
+      <if test="updateTime != null" >
+        update_time,
+      </if>
+      <if test="uploadType != null" >
+        upload_Type,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="orderNo != null" >
+        #{orderNo,jdbcType=VARCHAR},
+      </if>
+      <if test="caseNo != null" >
+        #{caseNo,jdbcType=VARCHAR},
+      </if>
+      <if test="userId != null" >
+        #{userId,jdbcType=BIGINT},
+      </if>
+      <if test="tagId != null" >
+        #{tagId,jdbcType=BIGINT},
+      </if>
+      <if test="link != null" >
+        #{link,jdbcType=VARCHAR},
+      </if>
+      <if test="thumbLink != null" >
+        #{thumbLink,jdbcType=VARCHAR},
+      </if>
+      <if test="takeTime != null" >
+        #{takeTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="uploadTime != null" >
+        #{uploadTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="filename != null" >
+        #{filename,jdbcType=VARCHAR},
+      </if>
+      <if test="fileSize != null" >
+        #{fileSize,jdbcType=BIGINT},
+      </if>
+      <if test="createdBy != null" >
+        #{createdBy,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatedBy != null" >
+        #{updatedBy,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="uploadType != null" >
+        #{uploadType,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="net.chetong.order.model.HyImageVO" >
+    update hy_image
+    <set >
+      <if test="orderNo != null" >
+        order_no = #{orderNo,jdbcType=VARCHAR},
+      </if>
+      <if test="caseNo != null" >
+        case_no = #{caseNo,jdbcType=VARCHAR},
+      </if>
+      <if test="userId != null" >
+        user_id = #{userId,jdbcType=BIGINT},
+      </if>
+      <if test="tagId != null" >
+        tag_id = #{tagId,jdbcType=BIGINT},
+      </if>
+      <if test="link != null" >
+        link = #{link,jdbcType=VARCHAR},
+      </if>
+       <if test="thumbLink != null" >
+        thumb_link = #{thumbLink,jdbcType=VARCHAR},
+      </if>
+      <if test="takeTime != null" >
+        take_time = #{takeTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="uploadTime != null" >
+        upload_time = #{uploadTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="filename != null" >
+        filename = #{filename,jdbcType=VARCHAR},
+      </if>
+      <if test="fileSize != null" >
+        file_size = #{fileSize,jdbcType=BIGINT},
+      </if>
+      <if test="createdBy != null" >
+        created_by = #{createdBy,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatedBy != null" >
+        updated_by = #{updatedBy,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null" >
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="net.chetong.order.model.HyImageVO" >
+    update hy_image
+    set order_no = #{orderNo,jdbcType=VARCHAR},
+      case_no = #{caseNo,jdbcType=VARCHAR},
+      user_id = #{userId,jdbcType=BIGINT},
+      tag_id = #{tagId,jdbcType=BIGINT},
+      link = #{link,jdbcType=VARCHAR},
+      thumb_link = #{thumbLink,jdbcType=VARCHAR},
+      take_time = #{takeTime,jdbcType=TIMESTAMP},
+      upload_time = #{uploadTime,jdbcType=TIMESTAMP},
+      filename = #{filename,jdbcType=VARCHAR},
+      file_size = #{fileSize,jdbcType=BIGINT},
+      created_by = #{createdBy,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      updated_by = #{updatedBy,jdbcType=VARCHAR},
+      update_time = #{updateTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  
+  <select id="queryHyImageList" parameterType="net.chetong.order.model.HyImageVO" resultMap="BaseResultMap">
+  	select 
+  	<include refid="Base_Column_List" />
+    from hy_image
+    <where>
+    	<if test="orderNo != null">
+    		and order_no = #{orderNo}
+    	</if>
+    	<if test="caseNo != null">
+    		and case_no = #{caseNo}
+    	</if>
+    	<if test="userId != null">
+    		and user_id = #{userId}
+    	</if>
+    	<if test="tagId != null">
+    		and tag_id = #{tagId}
+    	</if>
+    </where>
+  </select>
+  
+  <delete id="delHyImageBatch" parameterType="java.util.Map">
+  	delete from hy_image where user_id = #{userId} and id in
+  	<foreach collection="idsList" item="idItem" open="(" separator="," close=")">
+  		#{idItem}
+  	</foreach>
+  </delete>
+  
+   <select id="queryHyImages" resultMap="BaseResultMap">
+    	select 
+	    <include refid="Base_Column_List" />
+	    from hy_image
+	    <where>
+	    <if test="caseNo!=null and caseNo!=''">
+	    	and case_no=#{caseNo}
+	    </if>
+	    <if test="orderNo!=null and orderNo!=''">
+	    	and order_no=#{orderNo}
+	    </if>
+	    <if test="ids !=null">
+        	and id IN
+        	<foreach collection="ids" item="item" open="(" separator="," close=")">
+        	#{item}
+        	</foreach>
+        </if>
+        </where>
+   </select>
+   
+   <select id="queryImgList" resultType="net.chetong.order.model.webservice.YcImageVO" parameterType="map">
+		  SELECT 
+		  t.report_no AS reportNo,
+		  t.company_task_id AS taskId,
+		  p.photo_code AS minType,
+		  p.photo_type_code AS maxType,
+		  i.link as url,
+		  i.filename as fileName
+		FROM
+		  hy_image i,
+		  para_photography p,
+		  fm_task_info t,
+		  fm_task_order_work_relation r
+		WHERE i.tag_id = p.para_id 
+		AND t.report_no=i.case_no 
+		AND t.id=r.task_id 
+		AND i.order_no=r.order_no
+		AND i.case_no = #{reportNo} AND t.company_task_id=#{cpyTaskId}
+   </select>
+   
+   
+    <select id="queryHyImagesByOrderNo" resultMap="BaseResultMap">
+    	select 
+	    <include refid="Base_Column_List" />
+	    from hy_image
+	    <where>
+	   
+	    	order_no=#{orderNo}
+	 
+        </where>
+   </select>
+   
+   <select id="queryLinksByIds" parameterType="list" resultType="string">
+   		SELECT i.link FROM hy_image i WHERE i.id in
+	  	<foreach collection="list" item="item" open="(" separator="," close=")">
+	  		#{item}
+	  	</foreach>
+   </select>
+   
+   <select id="yetImgCount" parameterType="map" resultType="java.lang.Long">
+   SELECT COUNT(1) FROM fh_send_data_info sd,hy_image hi WHERE sd.relation_type=#{relationType} AND hi.order_no=#{orderNo} AND hi.id=sd.relation_id
+   </select>
+   
+   <select id="queryHyPhotoNodeList" parameterType="string" resultType="net.chetong.order.model.PhotoNode">
+   		SELECT
+			i.id nodeId,
+			i.filename name,
+			i.tag_id parentId,
+			i.order_no orderNo,
+			i.case_no caseNo,
+			i.link imageUrl,
+			i.file_size imageUrl,
+			i.upload_time uploadTime,
+			i.take_time takephotoTime,
+			i.user_id userId
+		FROM
+			hy_image i
+		WHERE
+			i.order_no = #{orderNo}
+   </select>
+</mapper>

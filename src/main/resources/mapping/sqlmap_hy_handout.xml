@@ -1,0 +1,315 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="sqlmap_hy_handout" >
+  <resultMap id="BaseResultMap" type="net.chetong.order.model.HyHandoutVO" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="order_no" property="orderNo" jdbcType="VARCHAR" />
+    <result column="state" property="state" jdbcType="INTEGER" />
+    <result column="buyer_user_id" property="buyerUserId" jdbcType="BIGINT" />
+    <result column="buyer_user_name" property="buyerUserName" jdbcType="VARCHAR" />
+    <result column="seller_user_id" property="sellerUserId" jdbcType="BIGINT" />
+    <result column="seller_user_name" property="sellerUserName" jdbcType="VARCHAR" />
+    <result column="pay_money" property="payMoney" jdbcType="DECIMAL" />
+    <result column="channel_money" property="channelMoney" jdbcType="DECIMAL" />
+    <result column="invoice_money" property="invoiceMoney" jdbcType="DECIMAL" />
+    <result column="group_manage_money" property="groupManageMoney" jdbcType="DECIMAL" />
+    <result column="insurance_money" property="insuranceMoney" jdbcType="DECIMAL" />
+    <result column="finance_money" property="financeMoney" jdbcType="DECIMAL" />
+    <result column="created_by" property="createdBy" jdbcType="BIGINT" />
+    <result column="updated_by" property="updatedBy" jdbcType="BIGINT" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  
+  <sql id="Base_Column_List" >
+    id, order_no, state, buyer_user_id, buyer_user_name, seller_user_id, seller_user_name, 
+    pay_money, channel_money, invoice_money, group_manage_money, insurance_money, finance_money, 
+    created_by, updated_by, create_time, update_time
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from hy_handout
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from hy_handout
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="net.chetong.order.model.HyHandoutVO" >
+    insert into hy_handout (id, order_no, state, 
+      buyer_user_id, buyer_user_name, seller_user_id, 
+      seller_user_name, pay_money, channel_money, 
+      invoice_money, group_manage_money, insurance_money, 
+      finance_money, created_by, updated_by, 
+      create_time, update_time)
+    values (#{id,jdbcType=BIGINT}, #{orderNo,jdbcType=VARCHAR}, #{state,jdbcType=INTEGER}, 
+      #{buyerUserId,jdbcType=BIGINT}, #{buyerUserName,jdbcType=VARCHAR}, #{sellerUserId,jdbcType=BIGINT}, 
+      #{sellerUserName,jdbcType=VARCHAR}, #{payMoney,jdbcType=DECIMAL}, #{channelMoney,jdbcType=DECIMAL}, 
+      #{invoiceMoney,jdbcType=DECIMAL}, #{groupManageMoney,jdbcType=DECIMAL}, #{insuranceMoney,jdbcType=DECIMAL}, 
+      #{financeMoney,jdbcType=DECIMAL}, #{createdBy,jdbcType=BIGINT}, #{updatedBy,jdbcType=BIGINT}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="net.chetong.order.model.HyHandoutVO" >
+    insert into hy_handout
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="orderNo != null" >
+        order_no,
+      </if>
+      <if test="state != null" >
+        state,
+      </if>
+      <if test="buyerUserId != null" >
+        buyer_user_id,
+      </if>
+      <if test="buyerUserName != null" >
+        buyer_user_name,
+      </if>
+      <if test="sellerUserId != null" >
+        seller_user_id,
+      </if>
+      <if test="sellerUserName != null" >
+        seller_user_name,
+      </if>
+      <if test="mileage != null" >
+        mileage,
+      </if>
+      <if test="payMoney != null" >
+        pay_money,
+      </if>
+      <if test="channelMoney != null" >
+        channel_money,
+      </if>
+      <if test="invoiceMoney != null" >
+        invoice_money,
+      </if>
+      <if test="groupManageMoney != null" >
+        group_manage_money,
+      </if>
+      <if test="insuranceMoney != null" >
+        insurance_money,
+      </if>
+      <if test="financeMoney != null" >
+        finance_money,
+      </if>
+      <if test="workPrice != null" >
+        work_price,
+      </if>
+      <if test="createdBy != null" >
+        created_by,
+      </if>
+      <if test="updatedBy != null" >
+        updated_by,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="updateTime != null" >
+        update_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="orderNo != null" >
+        #{orderNo,jdbcType=VARCHAR},
+      </if>
+      <if test="state != null" >
+        #{state,jdbcType=INTEGER},
+      </if>
+      <if test="buyerUserId != null" >
+        #{buyerUserId,jdbcType=BIGINT},
+      </if>
+      <if test="buyerUserName != null" >
+        #{buyerUserName,jdbcType=VARCHAR},
+      </if>
+      <if test="sellerUserId != null" >
+        #{sellerUserId,jdbcType=BIGINT},
+      </if>
+      <if test="sellerUserName != null" >
+        #{sellerUserName,jdbcType=VARCHAR},
+      </if>
+       <if test="mileage != null" >
+       	#{mileage},
+      </if>
+      <if test="payMoney != null" >
+        #{payMoney,jdbcType=DECIMAL},
+      </if>
+      <if test="channelMoney != null" >
+        #{channelMoney,jdbcType=DECIMAL},
+      </if>
+      <if test="invoiceMoney != null" >
+        #{invoiceMoney,jdbcType=DECIMAL},
+      </if>
+      <if test="groupManageMoney != null" >
+        #{groupManageMoney,jdbcType=DECIMAL},
+      </if>
+      <if test="insuranceMoney != null" >
+        #{insuranceMoney,jdbcType=DECIMAL},
+      </if>
+      <if test="financeMoney != null" >
+        #{financeMoney,jdbcType=DECIMAL},
+      </if>
+      <if test="workPrice != null" >
+        #{workPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="createdBy != null" >
+        #{createdBy,jdbcType=BIGINT},
+      </if>
+      <if test="updatedBy != null" >
+        #{updatedBy,jdbcType=BIGINT},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="net.chetong.order.model.HyHandoutVO" >
+    update hy_handout
+    <set >
+      <if test="orderNo != null" >
+        order_no = #{orderNo,jdbcType=VARCHAR},
+      </if>
+      <if test="state != null" >
+        state = #{state,jdbcType=INTEGER},
+      </if>
+      <if test="buyerUserId != null" >
+        buyer_user_id = #{buyerUserId,jdbcType=BIGINT},
+      </if>
+      <if test="buyerUserName != null" >
+        buyer_user_name = #{buyerUserName,jdbcType=VARCHAR},
+      </if>
+      <if test="sellerUserId != null" >
+        seller_user_id = #{sellerUserId,jdbcType=BIGINT},
+      </if>
+      <if test="sellerUserName != null" >
+        seller_user_name = #{sellerUserName,jdbcType=VARCHAR},
+      </if>
+      <if test="payMoney != null" >
+        pay_money = #{payMoney,jdbcType=DECIMAL},
+      </if>
+      <if test="channelMoney != null" >
+        channel_money = #{channelMoney,jdbcType=DECIMAL},
+      </if>
+      <if test="invoiceMoney != null" >
+        invoice_money = #{invoiceMoney,jdbcType=DECIMAL},
+      </if>
+      <if test="groupManageMoney != null" >
+        group_manage_money = #{groupManageMoney,jdbcType=DECIMAL},
+      </if>
+      <if test="insuranceMoney != null" >
+        insurance_money = #{insuranceMoney,jdbcType=DECIMAL},
+      </if>
+      <if test="financeMoney != null" >
+        finance_money = #{financeMoney,jdbcType=DECIMAL},
+      </if>
+      <if test="createdBy != null" >
+        created_by = #{createdBy,jdbcType=BIGINT},
+      </if>
+      <if test="updatedBy != null" >
+        updated_by = #{updatedBy,jdbcType=BIGINT},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="net.chetong.order.model.HyHandoutVO" >
+    update hy_handout
+    set order_no = #{orderNo,jdbcType=VARCHAR},
+      state = #{state,jdbcType=INTEGER},
+      buyer_user_id = #{buyerUserId,jdbcType=BIGINT},
+      buyer_user_name = #{buyerUserName,jdbcType=VARCHAR},
+      seller_user_id = #{sellerUserId,jdbcType=BIGINT},
+      seller_user_name = #{sellerUserName,jdbcType=VARCHAR},
+      pay_money = #{payMoney,jdbcType=DECIMAL},
+      channel_money = #{channelMoney,jdbcType=DECIMAL},
+      invoice_money = #{invoiceMoney,jdbcType=DECIMAL},
+      group_manage_money = #{groupManageMoney,jdbcType=DECIMAL},
+      insurance_money = #{insuranceMoney,jdbcType=DECIMAL},
+      finance_money = #{financeMoney,jdbcType=DECIMAL},
+      created_by = #{createdBy,jdbcType=BIGINT},
+      updated_by = #{updatedBy,jdbcType=BIGINT},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_time = #{updateTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  
+  <select id="selectByExample" parameterType="net.chetong.order.model.HyHandoutVO" resultMap="BaseResultMap" >
+  	 select 
+    <include refid="Base_Column_List" />
+    from hy_handout
+    <where>
+      <if test="id != null" >
+        AND id = #{id,jdbcType=BIGINT}
+      </if>
+      <if test="mileage != null" >
+        AND mileage = #{mileage,jdbcType=REAL}
+      </if>
+      <if test="orderNo != null" >
+        AND order_no = #{orderNo,jdbcType=VARCHAR}
+      </if>
+      <if test="state != null" >
+        AND state = #{state,jdbcType=INTEGER}
+      </if>
+      <if test="buyerUserId != null" >
+        AND buyer_user_id = #{buyerUserId,jdbcType=BIGINT}
+      </if>
+      <if test="buyerUserName != null" >
+        AND buyer_user_name = #{buyerUserName,jdbcType=VARCHAR}
+      </if>
+      <if test="sellerUserId != null" >
+        AND seller_user_id = #{sellerUserId,jdbcType=BIGINT}
+      </if>
+      <if test="sellerUserName != null" >
+        AND seller_user_name = #{sellerUserName,jdbcType=VARCHAR}
+      </if>
+      <if test="payMoney != null" >
+        AND pay_money = #{payMoney,jdbcType=DECIMAL}
+      </if>
+      <if test="channelMoney != null" >
+        AND channel_money = #{channelMoney,jdbcType=DECIMAL}
+      </if>
+      <if test="invoiceMoney != null" >
+        AND invoice_money = #{invoiceMoney,jdbcType=DECIMAL}
+      </if>
+      <if test="groupManageMoney != null" >
+        AND group_manage_money = #{groupManageMoney,jdbcType=DECIMAL}
+      </if>
+      <if test="insuranceMoney != null" >
+        AND insurance_money = #{insuranceMoney,jdbcType=DECIMAL}
+      </if>
+      <if test="financeMoney != null" >
+        AND finance_money = #{financeMoney,jdbcType=DECIMAL}
+      </if>
+      <if test="createdBy != null" >
+        AND created_by = #{createdBy,jdbcType=BIGINT}
+      </if>
+      <if test="updatedBy != null" >
+        AND updated_by = #{updatedBy,jdbcType=BIGINT}
+      </if>
+      <if test="createTime != null" >
+        AND create_time = #{createTime,jdbcType=TIMESTAMP}
+      </if>
+      <if test="updateTime != null" >
+        AND update_time = #{updateTime,jdbcType=TIMESTAMP}
+      </if>
+    </where>
+  
+  </select>
+  	
+  	<delete id="deleteHyHandoutByOrderNo">
+  		DELETE FROM hy_handout WHERE state = '0' and order_no = #{orderNo}
+  	</delete>
+</mapper>

@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="sqlmap.fm_order_transform_log">
+
+	<!--实体映射-->
+	<resultMap id="BaseResultMap" type="net.chetong.order.model.FmOrderTransformLog">
+		<!---->
+		<id column="id" property="id" jdbcType="BIGINT"/>
+		<!--订单id-->
+		<result column="order_id" property="orderId" jdbcType="BIGINT"/>
+		<!--订单号-->
+		<result column="order_no" property="orderNo" jdbcType="VARCHAR"/>
+		<!--旧订单卖家id-->
+		<result column="old_seller_id" property="oldSellerId" jdbcType="BIGINT"/>
+		<!---->
+		<result column="old_seller_name" property="oldSellerName" jdbcType="VARCHAR"/>
+		<!--订单新卖家id-->
+		<result column="new_seller_id" property="newSellerId" jdbcType="BIGINT"/>
+		<!---->
+		<result column="new_seller_name" property="newSellerName" jdbcType="VARCHAR"/>
+		<!--转派时间-->
+		<result column="trans_time" property="transTime" jdbcType="TIMESTAMP"/>
+	</resultMap>
+
+
+	<!-- 通用查询结果列-->
+	<sql id="Base_Column_List">
+		id,	order_id,	order_no,	old_seller_id,	old_seller_name,	new_seller_id,	new_seller_name,	trans_time
+	</sql>
+
+	<!-- 查询（根据主键ID查询） -->
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long">
+		 SELECT
+		 <include refid="Base_Column_List" />
+		 FROM fm_order_transform_log
+		 WHERE id = #{id,jdbcType=BIGINT}
+	</select>
+
+	<!--删除（根据主键ID删除） -->
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+		 DELETE FROM fm_order_transform_log
+		 WHERE id = #{id,jdbcType=BIGINT}
+	</delete>
+
+	<!-- 查询（根据参数查询） -->
+	<select id="selectByParams" resultMap="BaseResultMap" parameterType="net.chetong.order.model.FmOrderTransformLog">
+		 SELECT
+		 <include refid="Base_Column_List" />
+		 FROM fm_order_transform_log
+		 <where>
+			<if test="id != null and id != ''">
+				 and id = #{id,jdbcType=BIGINT}
+			</if>
+			<if test="orderId != null and orderId != ''">
+				 and order_id = #{orderId,jdbcType=BIGINT}
+			</if>
+			<if test="orderNo != null and orderNo != ''">
+				 and order_no = #{orderNo,jdbcType=VARCHAR}
+			</if>
+			<if test="oldSellerId != null and oldSellerId != ''">
+				 and old_seller_id = #{oldSellerId,jdbcType=BIGINT}
+			</if>
+			<if test="oldSellerName != null and oldSellerName != ''">
+				 and old_seller_name = #{oldSellerName,jdbcType=VARCHAR}
+			</if>
+			<if test="newSellerId != null and newSellerId != ''">
+				 and new_seller_id = #{newSellerId,jdbcType=BIGINT}
+			</if>
+			<if test="newSellerName != null and newSellerName != ''">
+				 and new_seller_name = #{newSellerName,jdbcType=VARCHAR}
+			</if>
+			<if test="transTime != null and transTime != ''">
+				 and trans_time = #{transTime,jdbcType=TIMESTAMP}
+			</if>
+		 </where>
+	</select>
+
+	<!-- 添加 -->
+	<insert id="insert" parameterType="net.chetong.order.model.FmOrderTransformLog" useGeneratedKeys="true" keyProperty="id">
+		 INSERT INTO fm_order_transform_log
+ 		(id,order_id,order_no,old_seller_id,old_seller_name,new_seller_id,new_seller_name,trans_time) 
+		 VALUES 
+ 		(#{id,jdbcType=BIGINT},#{orderId,jdbcType=BIGINT},#{orderNo,jdbcType=VARCHAR},#{oldSellerId,jdbcType=BIGINT},#{oldSellerName,jdbcType=VARCHAR},#{newSellerId,jdbcType=BIGINT},#{newSellerName,jdbcType=VARCHAR},#{transTime,jdbcType=TIMESTAMP}) 
+	</insert>
+
+	<!-- 添加 （匹配有值的字段）-->
+	<insert id="insertSelective" parameterType="net.chetong.order.model.FmOrderTransformLog" useGeneratedKeys="true" keyProperty="id">
+		 INSERT INTO fm_order_transform_log
+		 <trim prefix="(" suffix=")" suffixOverrides="," >
+			<if test="id != null">
+				 id,
+			</if>
+			<if test="orderId != null">
+				 order_id,
+			</if>
+			<if test="orderNo != null">
+				 order_no,
+			</if>
+			<if test="oldSellerId != null">
+				 old_seller_id,
+			</if>
+			<if test="oldSellerName != null">
+				 old_seller_name,
+			</if>
+			<if test="newSellerId != null">
+				 new_seller_id,
+			</if>
+			<if test="newSellerName != null">
+				 new_seller_name,
+			</if>
+			<if test="transTime != null">
+				 trans_time,
+			</if>
+		 </trim>
+		 <trim prefix="values (" suffix=")" suffixOverrides="," >
+			<if test="id!=null">
+				 #{id,jdbcType=BIGINT},
+			</if>
+			<if test="orderId!=null">
+				 #{orderId,jdbcType=BIGINT},
+			</if>
+			<if test="orderNo!=null">
+				 #{orderNo,jdbcType=VARCHAR},
+			</if>
+			<if test="oldSellerId!=null">
+				 #{oldSellerId,jdbcType=BIGINT},
+			</if>
+			<if test="oldSellerName!=null">
+				 #{oldSellerName,jdbcType=VARCHAR},
+			</if>
+			<if test="newSellerId!=null">
+				 #{newSellerId,jdbcType=BIGINT},
+			</if>
+			<if test="newSellerName!=null">
+				 #{newSellerName,jdbcType=VARCHAR},
+			</if>
+			<if test="transTime!=null">
+				 #{transTime,jdbcType=TIMESTAMP},
+			</if>
+		 </trim>
+	</insert>
+
+	<!-- 修 改-->
+	<update id="updateByPrimaryKeySelective" parameterType="net.chetong.order.model.FmOrderTransformLog">
+		 UPDATE fm_order_transform_log
+ 		 <set> 
+			<if test="orderId != null and orderId != ''">
+				 order_id = #{orderId,jdbcType=BIGINT},
+			</if>
+			<if test="orderNo != null and orderNo != ''">
+				 order_no = #{orderNo,jdbcType=VARCHAR},
+			</if>
+			<if test="oldSellerId != null and oldSellerId != ''">
+				 old_seller_id = #{oldSellerId,jdbcType=BIGINT},
+			</if>
+			<if test="oldSellerName != null and oldSellerName != ''">
+				 old_seller_name = #{oldSellerName,jdbcType=VARCHAR},
+			</if>
+			<if test="newSellerId != null and newSellerId != ''">
+				 new_seller_id = #{newSellerId,jdbcType=BIGINT},
+			</if>
+			<if test="newSellerName != null and newSellerName != ''">
+				 new_seller_name = #{newSellerName,jdbcType=VARCHAR},
+			</if>
+			<if test="transTime != null and transTime != ''">
+				 trans_time = #{transTime,jdbcType=TIMESTAMP},
+			</if>
+ 		 </set>
+		 WHERE id = #{id,jdbcType=BIGINT}
+	</update>
+
+	<!-- 修 改-->
+	<update id="updateByPrimaryKey" parameterType="net.chetong.order.model.FmOrderTransformLog">
+		 UPDATE fm_order_transform_log
+		 SET 
+			 order_id = #{orderId,jdbcType=BIGINT},
+			 order_no = #{orderNo,jdbcType=VARCHAR},
+			 old_seller_id = #{oldSellerId,jdbcType=BIGINT},
+			 old_seller_name = #{oldSellerName,jdbcType=VARCHAR},
+			 new_seller_id = #{newSellerId,jdbcType=BIGINT},
+			 new_seller_name = #{newSellerName,jdbcType=VARCHAR},
+			 trans_time = #{transTime,jdbcType=TIMESTAMP}
+		 WHERE id = #{id,jdbcType=BIGINT}
+	</update>
+
+</mapper>

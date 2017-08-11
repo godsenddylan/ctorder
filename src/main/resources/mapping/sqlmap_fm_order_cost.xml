@@ -1,0 +1,324 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="sqlmap_fm_order_cost">
+
+	<select id="queryCountFmOrderCost" parameterType="net.chetong.order.model.FmOrderCostVO" resultType="java.lang.Long" >
+		SELECT 
+			count(*)
+		FROM fm_order_cost 
+		<where>
+			<if test="id!= null">
+				and id=#{id}
+			</if>
+			<if test="orderId!= null">
+				and order_id=#{orderId}
+			</if>
+			<if test="mileage!= null">
+				and mileage=#{mileage}
+			</if>
+			<if test="lostMoney!= null">
+				and lost_money=#{lostMoney}
+			</if>
+			<if test="payMoney!= null">
+				and pay_money=#{payMoney}
+			</if>
+			<if test="refundMoney!= null">
+				and refund_money=#{refundMoney}
+			</if>
+			<if test="channelMoney!= null">
+				and channel_money=#{channelMoney}
+			</if>
+			<if test="taxMoney!= null">
+				and tax_money=#{taxMoney}
+			</if>
+			<if test="rewardMoney!= null">
+				and reward_money=#{rewardMoney}
+			</if>
+			<if test="ctRewardMoney!= null">
+				and ct_reward_money=#{ctRewardMoney}
+			</if>
+			<if test="serviceMoney!= null">
+				and service_money=#{serviceMoney}
+			</if>
+			<if test="ext1!= null">
+				and ext1=#{ext1}
+			</if>
+			<if test="ext2!= null">
+				and ext2=#{ext2}
+			</if>
+			<if test="ext3!= null">
+				and ext3=#{ext3}
+			</if>
+			<if test="groupMoney!= null">
+		        and group_money=#{groupMoney}
+		    </if>
+		</where> 
+	</select>
+	
+	<select id="queryFmOrderCost" parameterType="net.chetong.order.model.FmOrderCostVO" resultType ="net.chetong.order.model.FmOrderCostVO" >
+		SELECT 
+			id as id,
+			order_id as orderId,
+			mileage as mileage,
+			lost_money as lostMoney,
+			pay_money as payMoney,
+			refund_money as refundMoney,
+			channel_money as channelMoney,
+			tax_money as taxMoney,
+			reward_money as rewardMoney,
+			ct_reward_money as ctRewardMoney,
+			service_money as serviceMoney,
+			ext1 as ext1,
+			ext2 as ext2,
+			ext3 as ext3,
+			group_money as groupMoney
+		FROM fm_order_cost 
+		 <where>
+		    <if test="id!= null">
+                  and id=#{id}
+            </if>
+		    <if test="orderId!= null">
+                  and order_id=#{orderId}
+            </if>
+		    <if test="mileage!= null">
+                  and mileage=#{mileage}
+            </if>
+		    <if test="lostMoney!= null">
+                  and lost_money=#{lostMoney}
+            </if>
+		    <if test="payMoney!= null">
+                  and pay_money=#{payMoney}
+            </if>
+		    <if test="refundMoney!= null">
+                  and refund_money=#{refundMoney}
+            </if>
+		    <if test="channelMoney!= null">
+                  and channel_money=#{channelMoney}
+            </if>
+		    <if test="taxMoney!= null">
+                  and tax_money=#{taxMoney}
+            </if>
+		    <if test="rewardMoney!= null">
+                  and reward_money=#{rewardMoney}
+            </if>
+		    <if test="ctRewardMoney!= null">
+                  and ct_reward_money=#{ctRewardMoney}
+            </if>
+		    <if test="serviceMoney!= null">
+                  and service_money=#{serviceMoney}
+            </if>
+		    <if test="ext1!= null">
+                  and ext1=#{ext1}
+            </if>
+		    <if test="ext2!= null">
+                  and ext2=#{ext2}
+            </if>
+		    <if test="ext3!= null">
+                  and ext3=#{ext3}
+            </if>
+            <if test="groupMoney!= null">
+                  and group_money=#{groupMoney}
+            </if>
+  		</where>
+	</select>
+	
+		<insert id="insertNotNull" parameterType="net.chetong.order.model.FmOrderCostVO" useGeneratedKeys="true" keyProperty="id">
+			INSERT INTO fm_order_cost   
+			(
+				<trim suffix="" suffixOverrides=",">
+					<if test="id!= null">
+		                   id,
+		            </if>
+					<if test="orderId!= null">
+		                   order_id,
+		            </if>
+					<if test="mileage!= null">
+		                   mileage,
+		            </if>
+					<if test="lostMoney!= null">
+		                   lost_money,
+		            </if>
+					<if test="payMoney!= null">
+		                   pay_money,
+		            </if>
+					<if test="refundMoney!= null">
+		                   refund_money,
+		            </if>
+					<if test="channelMoney!= null">
+		                   channel_money,
+		            </if>
+					<if test="taxMoney!= null">
+		                   tax_money,
+		            </if>
+					<if test="rewardMoney!= null">
+		                   reward_money,
+		            </if>
+					<if test="ctRewardMoney!= null">
+		                   ct_reward_money,
+		            </if>
+					<if test="serviceMoney!= null">
+		                   service_money,
+		            </if>
+					<if test="ext1!= null">
+		                   ext1,
+		            </if>
+					<if test="ext2!= null">
+		                   ext2,
+		            </if>
+					<if test="ext3!= null">
+		                   ext3,
+		            </if>
+		            <if test="groupMoney!= null">
+		                   group_money,
+		            </if>
+	            </trim>
+			)
+			VALUES
+	   		(
+	   			<trim suffix="" suffixOverrides=",">
+		   			<if test="id!= null">
+		   			#{id},
+		   			</if>
+		   			<if test="orderId!= null">
+		   			#{orderId},
+		   			</if>
+		   			<if test="mileage!= null">
+		   			#{mileage},
+		   			</if>
+		   			<if test="lostMoney!= null">
+		   			#{lostMoney},
+		   			</if>
+		   			<if test="payMoney!= null">
+		   			#{payMoney},
+		   			</if>
+		   			<if test="refundMoney!= null">
+		   			#{refundMoney},
+		   			</if>
+		   			<if test="channelMoney!= null">
+		   			#{channelMoney},
+		   			</if>
+		   			<if test="taxMoney!= null">
+		   			#{taxMoney},
+		   			</if>
+		   			<if test="rewardMoney!= null">
+		   			#{rewardMoney},
+		   			</if>
+		   			<if test="ctRewardMoney!= null">
+		   			#{ctRewardMoney},
+		   			</if>
+		   			<if test="serviceMoney!= null">
+		   			#{serviceMoney},
+		   			</if>
+		   			<if test="ext1!= null">
+		   			#{ext1},
+		   			</if>
+		   			<if test="ext2!= null">
+		   			#{ext2},
+		   			</if>
+		   			<if test="ext3!= null">
+		   			#{ext3},
+		   			</if>
+		   			<if test="groupMoney!= null">
+		            #{groupMoney},
+		            </if>
+	   			</trim>
+			)
+		</insert>
+
+	<select id="queryByKey" resultType="net.chetong.order.model.FmOrderCostVO">
+		SELECT 
+			id as id, 
+			order_id as orderId, 
+			mileage as mileage, 
+			lost_money as lostMoney, 
+			pay_money as payMoney, 
+			refund_money as refundMoney, 
+			channel_money as channelMoney, 
+			tax_money as taxMoney, 
+			reward_money as rewardMoney, 
+			ct_reward_money as ctRewardMoney, 
+			service_money as serviceMoney, 
+			ext1 as ext1, 
+			ext2 as ext2, 
+			ext3 as ext3,
+			group_money as groupMoney  
+		FROM
+			fm_order_cost
+	    <where>		   
+		    	 and id = #{id}
+		</where>
+	</select>
+	
+	<delete id="deleteByKey">
+		DELETE FROM 
+			fm_order_cost 
+		<where>		   
+		    	 and id = #{id}
+		</where>
+	</delete>
+	
+	<update id="updateByKeyNotNull">
+		UPDATE fm_order_cost 
+		  <trim prefix="SET" suffixOverrides=",">  
+					<if test="orderId!= null">
+		   			order_id = #{orderId},
+		   			</if>  
+					<if test="mileage!= null">
+		   			mileage = #{mileage},
+		   			</if>  
+					<if test="lostMoney!= null">
+		   			lost_money = #{lostMoney},
+		   			</if>  
+					<if test="payMoney!= null">
+		   			pay_money = #{payMoney},
+		   			</if>  
+					<if test="refundMoney!= null">
+		   			refund_money = #{refundMoney},
+		   			</if>  
+					<if test="channelMoney!= null">
+		   			channel_money = #{channelMoney},
+		   			</if>  
+					<if test="taxMoney!= null">
+		   			tax_money = #{taxMoney},
+		   			</if>  
+					<if test="rewardMoney!= null">
+		   			reward_money = #{rewardMoney},
+		   			</if>  
+					<if test="ctRewardMoney!= null">
+		   			ct_reward_money = #{ctRewardMoney},
+		   			</if>  
+					<if test="serviceMoney!= null">
+		   			service_money = #{serviceMoney},
+		   			</if>  
+					<if test="ext1!= null">
+		   			ext1 = #{ext1},
+		   			</if>  
+					<if test="ext2!= null">
+		   			ext2 = #{ext2},
+		   			</if>  
+					<if test="ext3!= null">
+		   			ext3 = #{ext3},
+		   			</if>
+		   			<if test="groupMoney!= null">
+                    group_money=#{groupMoney}
+                    </if>    
+		  </trim>
+		  <where>	   
+				    and id = #{id}
+		 </where>
+	</update>
+	
+	<!-- 删除订单费用信息 -->
+	<delete id="deleteByOrderId" parameterType="long">
+		DELETE FROM fm_order_cost WHERE order_id=#{orderId}
+	</delete>
+	
+	<!-- 将团队管理费归入车童费用 -->
+	<update id="cleanGroupFeeByOrderId" parameterType="long">
+		UPDATE fm_order_cost
+		SET service_money = IFNULL(service_money, 0) + IFNULL(group_money, 0),
+			group_money = 0
+		WHERE
+			order_id = #{orderId}
+	</update>
+</mapper>

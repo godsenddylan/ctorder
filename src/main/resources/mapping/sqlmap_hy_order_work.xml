@@ -1,0 +1,218 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="sqlmap_hy_order_work" >
+  <resultMap id="BaseResultMap" type="net.chetong.order.model.HyOrderWorkVO" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="order_no" property="orderNo" jdbcType="VARCHAR" />
+    <result column="case_no" property="caseNo" jdbcType="VARCHAR" />
+    <result column="accident_desc" property="accidentDesc" jdbcType="VARCHAR" />
+    <result column="dealing_opinion" property="dealingOpinion" jdbcType="VARCHAR" />
+    <result column="account_name" property="accountName" jdbcType="VARCHAR" />
+    <result column="bank" property="bank" jdbcType="VARCHAR" />
+    <result column="insured_account" property="insuredAccount" jdbcType="VARCHAR" />
+    <result column="created_by" property="createdBy" jdbcType="VARCHAR" />
+    <result column="updated_by" property="updatedBy" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  
+   <sql id="Base_Column_List" >
+    id, order_no, case_no, accident_desc, dealing_opinion,account_name,bank,insured_account,created_by, updated_by, create_time, 
+    update_time
+  </sql>
+		
+	<!-- 根据货运险订单号查询事故经过  -->
+    <select id="queryHyOrderWorkByOrderNo" parameterType="java.lang.String" resultMap="BaseResultMap">
+        SELECT 
+        	<include refid="Base_Column_List" />
+        FROM hy_order_work 
+		 WHERE order_no=#{orderNo}
+    </select>
+    
+    <!-- 更新货运险作业信息 -->
+    <update id="saveHyOrderWork" parameterType="net.chetong.order.model.HyOrderWorkVO" >
+    update hy_order_work
+    <set >
+      <if test="caseNo != null" >
+        case_no = #{caseNo,jdbcType=VARCHAR},
+      </if>
+      <if test="accidentDesc != null" >
+        accident_desc = #{accidentDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="dealingOpinion != null" >
+        dealing_opinion = #{dealingOpinion,jdbcType=VARCHAR},
+      </if>
+      <if test="accountName != null" >
+        account_name = #{accountName,jdbcType=VARCHAR},
+      </if>
+      <if test="bank != null" >
+        bank = #{bank,jdbcType=VARCHAR},
+      </if>
+      <if test="insuredAccount != null" >
+        insured_account = #{insuredAccount,jdbcType=VARCHAR},
+      </if>
+      <if test="createdBy != null" >
+        created_by = #{createdBy,jdbcType=VARCHAR},
+      </if>
+      <if test="updatedBy != null" >
+        updated_by = #{updatedBy,jdbcType=VARCHAR},
+      </if>
+      update_time = SYSDATE()
+    </set>
+    where order_no = #{orderNo,jdbcType=VARCHAR}
+  </update>
+    
+    
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from hy_order_work
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from hy_order_work
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="net.chetong.order.model.HyOrderWorkVO" >
+    insert into hy_order_work (id, order_no, case_no, 
+      accident_desc, dealing_opinion,account_name,bank,insured_account,created_by, 
+      updated_by, create_time, update_time
+      )
+    values (#{id,jdbcType=BIGINT}, #{orderNo,jdbcType=VARCHAR}, #{caseNo,jdbcType=VARCHAR}, 
+      #{accidentDesc,jdbcType=VARCHAR}, #{dealingOpinion,jdbcType=VARCHAR},#{accountName,jdbcType=VARCHAR},
+      #{bank,jdbcType=VARCHAR},#{insuredAccount,jdbcType=VARCHAR}, #{createdBy,jdbcType=VARCHAR}, 
+      #{updatedBy,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="net.chetong.order.model.HyOrderWorkVO" >
+    insert into hy_order_work
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="orderNo != null" >
+        order_no,
+      </if>
+      <if test="caseNo != null" >
+        case_no,
+      </if>
+      <if test="accidentDesc != null" >
+        accident_desc,
+      </if>
+      <if test="dealingOpinion != null" >
+        dealing_opinion,
+      </if>
+      <if test="accountName != null" >
+        account_name,
+      </if>
+      <if test="bank != null" >
+        bank,
+      </if>
+      <if test="insuredAccount != null" >
+        insured_account,
+      </if>
+      <if test="createdBy != null" >
+        created_by,
+      </if>
+      <if test="updatedBy != null" >
+        updated_by,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="updateTime != null" >
+        update_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="orderNo != null" >
+        #{orderNo,jdbcType=VARCHAR},
+      </if>
+      <if test="caseNo != null" >
+        #{caseNo,jdbcType=VARCHAR},
+      </if>
+      <if test="accidentDesc != null" >
+        #{accidentDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="dealingOpinion != null" >
+        #{dealingOpinion,jdbcType=VARCHAR},
+      </if>
+      <if test="accountName != null" >
+        #{accountName,jdbcType=VARCHAR},
+      </if>
+      <if test="bank != null" >
+        #{bank,jdbcType=VARCHAR},
+      </if>
+      <if test="insuredAccount != null" >
+        #{insuredAccount,jdbcType=VARCHAR},
+      </if>
+      <if test="createdBy != null" >
+        #{createdBy,jdbcType=VARCHAR},
+      </if>
+      <if test="updatedBy != null" >
+        #{updatedBy,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="net.chetong.order.model.HyOrderWorkVO" >
+    update hy_order_work
+    <set >
+      <if test="orderNo != null" >
+        order_no = #{orderNo,jdbcType=VARCHAR},
+      </if>
+      <if test="caseNo != null" >
+        case_no = #{caseNo,jdbcType=VARCHAR},
+      </if>
+      <if test="accidentDesc != null" >
+        accident_desc = #{accidentDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="dealingOpinion != null" >
+        dealing_opinion = #{dealingOpinion,jdbcType=VARCHAR},
+      </if>
+      <if test="accountName != null" >
+        account_name = #{accountName,jdbcType=VARCHAR},
+      </if>
+      <if test="bank != null" >
+        bank = #{bank,jdbcType=VARCHAR},
+      </if>
+      <if test="insuredAccount != null" >
+        insured_account = #{insuredAccount,jdbcType=VARCHAR},
+      </if>
+      <if test="createdBy != null" >
+        created_by = #{createdBy,jdbcType=VARCHAR},
+      </if>
+      <if test="updatedBy != null" >
+        updated_by = #{updatedBy,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="net.chetong.order.model.HyOrderWorkVO" >
+    update hy_order_work
+    set order_no = #{orderNo,jdbcType=VARCHAR},
+      case_no = #{caseNo,jdbcType=VARCHAR},
+      accident_desc = #{accidentDesc,jdbcType=VARCHAR},
+      dealing_opinion = #{dealingOpinion,jdbcType=VARCHAR},
+      account_name = #{accountName,jdbcType=VARCHAR},
+      bank = #{bank,jdbcType=VARCHAR},
+      insured_account = #{insuredAccount,jdbcType=VARCHAR},
+      created_by = #{createdBy,jdbcType=VARCHAR},
+      updated_by = #{updatedBy,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_time = #{updateTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+    <delete id="deleteByOrderNo" parameterType="String">
+  	delete from hy_order_work
+    where order_no = #{orderNo}
+  </delete>
+</mapper>

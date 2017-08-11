@@ -1,0 +1,208 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="yy_track_report_mapper">
+
+	<!--实体映射-->
+	<resultMap id="yyTrackReportResultMap" type="com.chetong.aic.entity.track.YyTrackReport">
+		<id property="id" column="id" />		<!--表id-->
+		<result property="orderNo" column="order_no" />		<!--订单号-->
+		<result property="buyerUserId" column="buyer_user_id" />		<!--买家id-->
+		<result property="sellerUserId" column="seller_user_id" />		<!--车童id-->
+		<result property="trackLinkState" column="track_link_state" />		<!--轨迹链接状态：0-有效期，1-过时，2-失败(或者未点击过)-->
+		<result property="standingTime" column="standing_time" />		<!--停留查看页面时间（单位;秒）-->
+		<result property="provCode" column="prov_code" />		<!--省代码-->
+		<result property="cityCode" column="city_code" />		<!--市代码-->
+		<result property="areaCode" column="area_code" />		<!--区代码-->
+		<result property="arriveState" column="arrive_state" />		<!--车童已到达状态：正常到达(车童手动到达切在范围内，
+            或系统自动判断已到达)，
+            非正常到达（车童点击已到达按钮时的当前位置与车主位置未
+            指定范围内），超时到达(超过车童轨迹有效期)-->
+		<result property="createTime" column="create_time" />		<!--创建时间-->
+		<result property="updateTime" column="update_time" />		<!--更新时间-->
+	</resultMap>
+
+
+	<!-- 通用查询结果列-->
+	<sql id="Base_Column_List">
+		id,
+		order_no,
+		buyer_user_id,
+		seller_user_id,
+		track_link_state,
+		standing_time,
+		prov_code,
+		city_code,
+		area_code,
+		arrive_state,
+		create_time,
+		update_time
+
+	</sql>
+
+	<!-- 查询（根据主键ID查询） -->
+	<select id="queryYyTrackReport" resultMap="yyTrackReportResultMap" parameterType="java.lang.String">
+		 SELECT
+		 <include refid="Base_Column_List" />
+		 FROM yy_track_report
+		 WHERE id = #{id}
+	</select>
+
+	<!--删除：根据主键ID删除-->
+	<delete id="deleteYyTrackReport" parameterType="java.lang.String">
+		 DELETE FROM yy_track_report
+		 WHERE id = #{id}
+	</delete>
+
+	<!-- 添加 -->
+	<insert id="insertYyTrackReport" parameterType="com.chetong.aic.entity.track.YyTrackReport" useGeneratedKeys="true" keyProperty="id">
+		 INSERT INTO yy_track_report
+ 		(order_no,buyer_user_id,seller_user_id,track_link_state,standing_time,prov_code,city_code,area_code,arrive_state,create_time,update_time) 
+		 VALUES 
+ 		(#{orderNo},#{buyerUserId},#{sellerUserId},#{trackLinkState},#{standingTime},#{provCode},#{cityCode},#{areaCode},#{arriveState},#{createTime},#{updateTime}) 
+	</insert>
+
+	<!-- 添加 （匹配有值的字段）-->
+	<insert id="insertYyTrackReportNotNull" parameterType="com.chetong.aic.entity.track.YyTrackReport" useGeneratedKeys="true" keyProperty="id">
+		 INSERT INTO yy_track_report
+		 <trim prefix="(" suffix=")" suffixOverrides="," >
+			<if test="orderNo != null">
+				 order_no,
+			</if>
+			<if test="buyerUserId != null">
+				 buyer_user_id,
+			</if>
+			<if test="sellerUserId != null">
+				 seller_user_id,
+			</if>
+			<if test="trackLinkState != null">
+				 track_link_state,
+			</if>
+			<if test="standingTime != null">
+				 standing_time,
+			</if>
+			<if test="provCode != null">
+				 prov_code,
+			</if>
+			<if test="cityCode != null">
+				 city_code,
+			</if>
+			<if test="areaCode != null">
+				 area_code,
+			</if>
+			<if test="arriveState != null">
+				 arrive_state,
+			</if>
+				 create_time,
+				 update_time,
+
+		 </trim>
+		 <trim prefix="values (" suffix=")" suffixOverrides="," >
+			<if test="orderNo!=null">
+				 #{orderNo},
+			</if>
+			<if test="buyerUserId!=null">
+				 #{buyerUserId},
+			</if>
+			<if test="sellerUserId!=null">
+				 #{sellerUserId},
+			</if>
+			<if test="trackLinkState!=null">
+				 #{trackLinkState},
+			</if>
+			<if test="standingTime!=null">
+				 #{standingTime},
+			</if>
+			<if test="provCode!=null">
+				 #{provCode},
+			</if>
+			<if test="cityCode!=null">
+				 #{cityCode},
+			</if>
+			<if test="areaCode!=null">
+				 #{areaCode},
+			</if>
+			<if test="arriveState!=null">
+				 #{arriveState},
+			</if>
+				 NOW(),
+				 NOW(),
+		 </trim>
+	</insert>
+
+	<!-- 修 改-->
+	<update id="updateYyTrackReportNotNull" parameterType="com.chetong.aic.entity.track.YyTrackReport">
+		 UPDATE yy_track_report
+ 		 <set> 
+			<if test="orderNo != null">
+				 order_no = #{orderNo},
+			</if>
+			<if test="buyerUserId != null">
+				 buyer_user_id = #{buyerUserId},
+			</if>
+			<if test="sellerUserId != null">
+				 seller_user_id = #{sellerUserId},
+			</if>
+			<if test="trackLinkState != null">
+				 track_link_state = #{trackLinkState},
+			</if>
+			<if test="standingTime != null">
+				 standing_time = #{standingTime},
+			</if>
+			<if test="provCode != null">
+				 prov_code = #{provCode},
+			</if>
+			<if test="cityCode != null">
+				 city_code = #{cityCode},
+			</if>
+			<if test="areaCode != null">
+				 area_code = #{areaCode},
+			</if>
+			<if test="arriveState != null">
+				 arrive_state = #{arriveState},
+			</if>
+			<if test="createTime != null">
+				 create_time = #{createTime},
+			</if>
+			<if test="updateTime != null">
+				 update_time = #{updateTime},
+			</if>
+ 		 </set>
+		 WHERE id = #{id}
+	</update>
+
+	<!-- 修 改-->
+	<update id="updateYyTrackReport" parameterType="com.chetong.aic.entity.track.YyTrackReport">
+		 UPDATE yy_track_report
+		 SET 
+			 order_no = #{orderNo},
+			 buyer_user_id = #{buyerUserId},
+			 seller_user_id = #{sellerUserId},
+			 track_link_state = #{trackLinkState},
+			 standing_time = #{standingTime},
+			 prov_code = #{provCode},
+			 city_code = #{cityCode},
+			 area_code = #{areaCode},
+			 arrive_state = #{arriveState},
+			 create_time = #{createTime},
+			 update_time = #{updateTime}
+		 WHERE id = #{id}
+	</update>
+	
+	<select id="getViewTrackInfo" resultMap="yyTrackReportResultMap" parameterType="java.lang.String">
+		 SELECT
+		 <include refid="Base_Column_List" />
+		 FROM yy_track_report
+		 WHERE order_no = #{orderNo}
+	</select>
+	
+	<update id="updateTrackReportStat" parameterType="java.util.Map">
+		UPDATE yy_track_report
+ 		 <set> 
+			arrive_state = #{trackState}
+			
+ 		 </set>
+		 WHERE order_no = #{orderNo}
+	</update>
+
+</mapper>

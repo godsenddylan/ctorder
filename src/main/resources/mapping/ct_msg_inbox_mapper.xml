@@ -1,0 +1,567 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ct_msg_inbox">
+
+  <resultMap id="BaseResultMap" type="com.ctweb.model.user.CtMsgInbox" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="user_id" property="userId" jdbcType="BIGINT" />
+    <result column="stat" property="stat" jdbcType="VARCHAR" />
+    <result column="sms_type" property="smsType" jdbcType="VARCHAR" />
+    <result column="sms_title" property="smsTitle" jdbcType="VARCHAR" />
+    <result column="send_type" property="sendType" jdbcType="VARCHAR" />
+    <result column="send_time" property="sendTime" jdbcType="TIMESTAMP" />
+    <result column="receive_time" property="receiveTime" jdbcType="TIMESTAMP" />
+    <result column="ext1" property="ext1" jdbcType="VARCHAR" />
+    <result column="ext2" property="ext2" jdbcType="VARCHAR" />
+    <result column="ext3" property="ext3" jdbcType="VARCHAR" />
+    <result column="sms_content" property="smsContent" jdbcType="LONGVARCHAR" />
+    <result column="send_id" property="sendId" jdbcType="LONGVARCHAR" />
+  </resultMap>
+
+  <sql id="Base_Column_List" >
+    id, user_id, stat, sms_type, sms_title, send_type, send_time, receive_time, ext1, 
+    ext2, ext3, sms_content, send_id
+  </sql>
+
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from ct_msg_inbox
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  
+  <select id="selectByParams" resultMap="BaseResultMap" parameterType="com.ctweb.model.user.CtMsgInbox" >
+    select 
+    <include refid="Base_Column_List" />
+    from ct_msg_inbox
+    <where>
+	    <if test="id!= null">
+			and id=#{id}
+		</if>
+		<if test="userId!= null">
+			and user_id=#{userId}
+		</if>
+		<if test="stat!= null">
+			and stat=#{stat}
+		</if>
+		<if test="stat == null and statArray != null">
+			and stat in
+			<foreach item="array" index="index" collection="statArray" open="(" separator="," close=")">
+			${array}</foreach>
+		</if>
+		<if test="smsType!= null">
+			and sms_type=#{smsType}
+		</if>
+		<if test="smsType == null and smsType != null">
+			and sms_type in
+			<foreach item="array" index="index" collection="smsTypeArray" open="(" separator="," close=")">
+			${array}</foreach>
+		</if>
+		<if test="smsTitle!= null">
+			and sms_title like CONCAT('%',#{smsTitle},'%')
+		</if>
+		<if test="smsContent!= null">
+			and sms_content=#{smsContent}
+		</if>
+		<if test="sendType!= null">
+			and send_type=#{sendType}
+		</if>
+		<if test="sendId!= null">
+			and send_id=#{sendId}
+		</if>
+		<if test="sendTime!= null">
+			and send_time=#{sendTime}
+		</if>
+		<if test="receiveTime!= null">
+			and receive_time=#{receiveTime}
+		</if>
+		<if test="ext1!= null">
+			and ext1=#{ext1}
+		</if>
+		<if test="ext2!= null">
+			and ext2=#{ext2}
+		</if>
+		<if test="ext3!= null">
+			and ext3=#{ext3}
+		</if>
+ 	</where>
+  </select>
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from ct_msg_inbox
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  
+  <delete id="deleteByPrimaryKeyArray">
+    delete from ct_msg_inbox
+    <where>
+		<if test="array!= null">
+			and id in
+			<foreach item="array" index="index" collection="array" open="(" separator="," close=")">
+			#{array}</foreach>
+		</if>
+			
+	</where>
+  </delete>
+  
+  <insert id="insertSelectiveBatch" parameterType="java.util.List">
+  	insert into ct_msg_inbox
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+        user_id,
+        stat,
+        sms_type,
+        sms_title,
+        send_type,
+        send_time,
+        receive_time,
+        ext1,
+        ext2,
+        ext3,
+        sms_content,
+        send_id,
+    </trim>
+    select temp.* from
+    <foreach collection="list" item="item" index="index" open="(" close=")" separator="union all">
+    	select
+			#{item.userId,jdbcType=BIGINT} as user_id,
+			#{item.stat,jdbcType=VARCHAR} as stat,
+			#{item.smsType,jdbcType=VARCHAR} as sms_type,
+			#{item.smsTitle,jdbcType=VARCHAR} as sms_title,
+			#{item.sendType,jdbcType=VARCHAR} as send_type,
+			#{item.sendTime,jdbcType=TIMESTAMP} as send_time,
+			#{item.receiveTime,jdbcType=TIMESTAMP} as receive_time,
+			#{item.ext1,jdbcType=VARCHAR} as ext1,
+			#{item.ext2,jdbcType=VARCHAR} as ext2,
+			#{item.ext3,jdbcType=VARCHAR} as ext3,
+			#{item.smsContent,jdbcType=LONGVARCHAR} as sms_content,
+			#{item.sendId,jdbcType=LONGVARCHAR} as send_id
+  	</foreach>
+  	as temp
+  </insert>
+  
+  <insert id="insertSelective" parameterType="com.ctweb.model.user.CtMsgInbox" useGeneratedKeys="true" keyProperty="id">
+    insert into ct_msg_inbox
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="userId != null" >
+        user_id,
+      </if>
+      <if test="stat != null" >
+        stat,
+      </if>
+      <if test="smsType != null" >
+        sms_type,
+      </if>
+      <if test="smsTitle != null" >
+        sms_title,
+      </if>
+      <if test="sendType != null" >
+        send_type,
+      </if>
+      <if test="sendTime != null" >
+        send_time,
+      </if>
+      <if test="receiveTime != null" >
+        receive_time,
+      </if>
+      <if test="ext1 != null" >
+        ext1,
+      </if>
+      <if test="ext2 != null" >
+        ext2,
+      </if>
+      <if test="ext3 != null" >
+        ext3,
+      </if>
+      <if test="smsContent != null" >
+        sms_content,
+      </if>
+      <if test="sendId != null" >
+        send_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="userId != null" >
+        #{userId,jdbcType=BIGINT},
+      </if>
+      <if test="stat != null" >
+        #{stat,jdbcType=VARCHAR},
+      </if>
+      <if test="smsType != null" >
+        #{smsType,jdbcType=VARCHAR},
+      </if>
+      <if test="smsTitle != null" >
+        #{smsTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="sendType != null" >
+        #{sendType,jdbcType=VARCHAR},
+      </if>
+      <if test="sendTime != null" >
+        #{sendTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="receiveTime != null" >
+        #{receiveTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="ext1 != null" >
+        #{ext1,jdbcType=VARCHAR},
+      </if>
+      <if test="ext2 != null" >
+        #{ext2,jdbcType=VARCHAR},
+      </if>
+      <if test="ext3 != null" >
+        #{ext3,jdbcType=VARCHAR},
+      </if>
+      <if test="smsContent != null" >
+        #{smsContent,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="sendId != null" >
+        #{sendId,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  
+  <update id="updateByPrimaryKeySelective" parameterType="com.ctweb.model.user.CtMsgInbox" >
+    update ct_msg_inbox
+    <set >
+      <if test="userId != null" >
+        user_id = #{userId,jdbcType=BIGINT},
+      </if>
+      <if test="stat != null" >
+        stat = #{stat,jdbcType=VARCHAR},
+      </if>
+      <if test="smsType != null" >
+        sms_type = #{smsType,jdbcType=VARCHAR},
+      </if>
+      <if test="smsTitle != null" >
+        sms_title = #{smsTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="sendType != null" >
+        send_type = #{sendType,jdbcType=VARCHAR},
+      </if>
+      <if test="sendTime != null" >
+        send_time = #{sendTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="receiveTime != null" >
+        receive_time = #{receiveTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="ext1 != null" >
+        ext1 = #{ext1,jdbcType=VARCHAR},
+      </if>
+      <if test="ext2 != null" >
+        ext2 = #{ext2,jdbcType=VARCHAR},
+      </if>
+      <if test="ext3 != null" >
+        ext3 = #{ext3,jdbcType=VARCHAR},
+      </if>
+      <if test="smsContent != null" >
+        sms_content = #{smsContent,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="sendId != null" >
+        send_id = #{sendId,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  
+  <update id="updateByPrimaryKeyArray" parameterType="java.util.Map" >
+    update ct_msg_inbox
+    <set >
+      <if test="stat != null" >
+        stat = #{stat,jdbcType=VARCHAR},
+      </if>
+      <if test="operateTime != null" >
+        receive_time = #{operateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    <where>
+		<if test="msgIdArray!= null">
+			and id in
+			<foreach item="array" index="index" collection="msgIdArray" open="(" separator="," close=")">
+			#{array}</foreach>
+		</if>
+		<if test="msgIdArray == null and userId != null">
+			and user_id = #{userId}
+			and stat != #{stat}
+			and stat != '2'
+		</if>	
+	</where>
+  </update>
+  
+	<select id="queryCountCtMsgInbox" parameterType="com.ctweb.model.user.CtMsgInbox" resultType="java.lang.Long" >
+		SELECT 
+			count(*)
+		FROM ct_msg_inbox 
+		<where>
+			<if test="id!= null">
+				and id=#{id}
+			</if>
+			<if test="userId!= null">
+				and user_id=#{userId}
+			</if>
+			<if test="stat!= null">
+				and stat=#{stat}
+			</if>
+			<if test="smsType!= null">
+				and sms_type=#{smsType}
+			</if>
+			<if test="smsTitle!= null">
+				and sms_title=#{smsTitle}
+			</if>
+			<if test="smsContent!= null">
+				and sms_content=#{smsContent}
+			</if>
+			<if test="sendType!= null">
+				and send_type=#{sendType}
+			</if>
+			<if test="sendId!= null">
+				and send_id=#{sendId}
+			</if>
+			<if test="sendTime!= null">
+				and send_time=#{sendTime}
+			</if>
+			<if test="receiveTime!= null">
+				and receive_time=#{receiveTime}
+			</if>
+			<if test="ext1!= null">
+				and ext1=#{ext1}
+			</if>
+			<if test="ext2!= null">
+				and ext2=#{ext2}
+			</if>
+			<if test="ext3!= null">
+				and ext3=#{ext3}
+			</if>
+		</where> 
+	</select>
+	
+	<select id="queryCtMsgInbox" parameterType="com.ctweb.model.user.CtMsgInbox" resultType ="com.ctweb.model.user.CtMsgInbox" >
+		SELECT 
+			id as id,
+			user_id as userId,
+			stat as stat,
+			sms_type as smsType,
+			sms_title as smsTitle,
+			sms_content as smsContent,
+			send_type as sendType,
+			send_id as sendId,
+			send_time as sendTime,
+			receive_time as receiveTime,
+			ext1 as ext1,
+			ext2 as ext2,
+			ext3 as ext3
+		FROM ct_msg_inbox 
+		 <where>
+		    <if test="id!= null">
+                  and id=#{id}
+            </if>
+		    <if test="userId!= null">
+                  and user_id=#{userId}
+            </if>
+		    <if test="stat!= null">
+                  and stat=#{stat}
+            </if>
+		    <if test="smsType!= null">
+                  and sms_type=#{smsType}
+            </if>
+		    <if test="smsTitle!= null">
+                  and sms_title=#{smsTitle}
+            </if>
+		    <if test="smsContent!= null">
+                  and sms_content=#{smsContent}
+            </if>
+		    <if test="sendType!= null">
+                  and send_type=#{sendType}
+            </if>
+		    <if test="sendId!= null">
+                  and send_id=#{sendId}
+            </if>
+		    <if test="sendTime!= null">
+                  and send_time=#{sendTime}
+            </if>
+		    <if test="receiveTime!= null">
+                  and receive_time=#{receiveTime}
+            </if>
+		    <if test="ext1!= null">
+                  and ext1=#{ext1}
+            </if>
+		    <if test="ext2!= null">
+                  and ext2=#{ext2}
+            </if>
+		    <if test="ext3!= null">
+                  and ext3=#{ext3}
+            </if>
+  		</where>
+		  		ORDER BY id DESC
+	</select>
+	
+		<insert id="insertNotNull" parameterType="com.ctweb.model.user.CtMsgInbox" useGeneratedKeys="true" keyProperty="id">
+			INSERT INTO ct_msg_inbox   
+			(
+				<trim suffix="" suffixOverrides=",">
+					<if test="id!= null">
+		                   id,
+		            </if>
+					<if test="userId!= null">
+		                   user_id,
+		            </if>
+					<if test="stat!= null">
+		                   stat,
+		            </if>
+					<if test="smsType!= null">
+		                   sms_type,
+		            </if>
+					<if test="smsTitle!= null">
+		                   sms_title,
+		            </if>
+					<if test="smsContent!= null">
+		                   sms_content,
+		            </if>
+					<if test="sendType!= null">
+		                   send_type,
+		            </if>
+					<if test="sendId!= null">
+		                   send_id,
+		            </if>
+					<if test="sendTime!= null">
+		                   send_time,
+		            </if>
+					<if test="receiveTime!= null">
+		                   receive_time,
+		            </if>
+					<if test="ext1!= null">
+		                   ext1,
+		            </if>
+					<if test="ext2!= null">
+		                   ext2,
+		            </if>
+					<if test="ext3!= null">
+		                   ext3,
+		            </if>
+	            </trim>
+			)
+			VALUES
+	   		(
+	   			<trim suffix="" suffixOverrides=",">
+		   			<if test="id!= null">
+		   			#{id},
+		   			</if>
+		   			<if test="userId!= null">
+		   			#{userId},
+		   			</if>
+		   			<if test="stat!= null">
+		   			#{stat},
+		   			</if>
+		   			<if test="smsType!= null">
+		   			#{smsType},
+		   			</if>
+		   			<if test="smsTitle!= null">
+		   			#{smsTitle},
+		   			</if>
+		   			<if test="smsContent!= null">
+		   			#{smsContent},
+		   			</if>
+		   			<if test="sendType!= null">
+		   			#{sendType},
+		   			</if>
+		   			<if test="sendId!= null">
+		   			#{sendId},
+		   			</if>
+		   			<if test="sendTime!= null">
+		   			#{sendTime},
+		   			</if>
+		   			<if test="receiveTime!= null">
+		   			#{receiveTime},
+		   			</if>
+		   			<if test="ext1!= null">
+		   			#{ext1},
+		   			</if>
+		   			<if test="ext2!= null">
+		   			#{ext2},
+		   			</if>
+		   			<if test="ext3!= null">
+		   			#{ext3},
+		   			</if>
+	   			</trim>
+			)
+		</insert>
+
+	<select id="queryByKey" resultType="com.ctweb.model.user.CtMsgInbox">
+		SELECT 
+			id as id, 
+			user_id as userId, 
+			stat as stat, 
+			sms_type as smsType, 
+			sms_title as smsTitle, 
+			sms_content as smsContent, 
+			send_type as sendType, 
+			send_id as sendId, 
+			send_time as sendTime, 
+			receive_time as receiveTime, 
+			ext1 as ext1, 
+			ext2 as ext2, 
+			ext3 as ext3 
+		FROM
+			ct_msg_inbox
+	    <where>		   
+		    	 and id = #{id}
+		</where>
+	</select>
+	
+	<delete id="deleteByKey">
+		DELETE FROM 
+			ct_msg_inbox 
+		<where>		   
+		    	 and id = #{id}
+		</where>
+	</delete>
+	
+	<update id="updateByKeyNotNull">
+		UPDATE ct_msg_inbox 
+		  <trim prefix="SET" suffixOverrides=",">  
+					<if test="userId!= null">
+		   			user_id = #{userId},
+		   			</if>  
+					<if test="stat!= null">
+		   			stat = #{stat},
+		   			</if>  
+					<if test="smsType!= null">
+		   			sms_type = #{smsType},
+		   			</if>  
+					<if test="smsTitle!= null">
+		   			sms_title = #{smsTitle},
+		   			</if>  
+					<if test="smsContent!= null">
+		   			sms_content = #{smsContent},
+		   			</if>  
+					<if test="sendType!= null">
+		   			send_type = #{sendType},
+		   			</if>  
+					<if test="sendId!= null">
+		   			send_id = #{sendId},
+		   			</if>  
+					<if test="sendTime!= null">
+		   			send_time = #{sendTime},
+		   			</if>  
+					<if test="receiveTime!= null">
+		   			receive_time = #{receiveTime},
+		   			</if>  
+					<if test="ext1!= null">
+		   			ext1 = #{ext1},
+		   			</if>  
+					<if test="ext2!= null">
+		   			ext2 = #{ext2},
+		   			</if>  
+					<if test="ext3!= null">
+		   			ext3 = #{ext3},
+		   			</if>  
+		  </trim>
+		  <where>	   
+				    and id = #{id}
+		 </where>
+	</update>
+</mapper>

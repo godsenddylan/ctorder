@@ -1,0 +1,333 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="sqlmap_hy_express" >
+  <resultMap id="BaseResultMap" type="net.chetong.order.model.HyExpressVO" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="express_type" property="expressType" jdbcType="VARCHAR" />
+    <result column="express_name" property="expressName" jdbcType="VARCHAR" />
+    <result column="express_no" property="expressNo" jdbcType="VARCHAR" />
+    <result column="express_pic" property="expressPic" jdbcType="VARCHAR" />
+    <result column="province" property="province" jdbcType="VARCHAR" />
+    <result column="city" property="city" jdbcType="VARCHAR" />
+    <result column="area" property="area" jdbcType="VARCHAR" />
+    <result column="detail_adress" property="detailAdress" jdbcType="VARCHAR" />
+    <result column="link_name" property="linkName" jdbcType="VARCHAR" />
+    <result column="link_mobile" property="linkMobile" jdbcType="VARCHAR" />
+    <result column="order_id" property="orderId" jdbcType="VARCHAR" />
+    <result column="user_id" property="userId" jdbcType="BIGINT" />
+  </resultMap>
+    
+    <!-- 根据货运险订单号插入快递信息  -->
+	<!-- <update id="updateExpress" parameterType="java.util.Map">
+        update hy_express set express_no=#{expressNo},express_type=#{expressType},express_name=#{expressName},express_pic=#{expressPic} where order_id=#{orderNo}
+    </update>-->
+    <insert id="insertExpress" parameterType="net.chetong.order.model.HyExpressVO" useGeneratedKeys="true" keyProperty="id">
+    insert into hy_express(
+    <trim suffix="" suffixOverrides=",">
+     
+      <if test="expressType != null" >
+        express_type,
+      </if>
+      <if test="expressName != null" >
+        express_name,
+      </if>
+      <if test="expressNo != null" >
+        express_no,
+      </if>
+      <if test="expressPic != null" >
+        express_pic,
+      </if>
+      <if test="provinceCode != null" >
+        province_code,
+      </if>
+      <if test="province != null" >
+        province,
+      </if>
+      <if test="cityCode != null" >
+        city_code,
+      </if>
+      <if test="city != null" >
+        city,
+      </if>
+      <if test="areaCode != null" >
+        area_code,
+      </if>
+      <if test="area != null" >
+        area,
+      </if>
+      <if test="detailAdress != null" >
+        detail_adress,
+      </if>
+      <if test="linkName != null" >
+        link_name,
+      </if>
+      <if test="linkMobile != null" >
+        link_mobile,
+      </if>
+      <if test="orderNo != null" >
+        order_id,
+      </if>
+      <if test="userId != null" >
+        user_id,
+      </if>
+    </trim>
+    )
+			VALUES
+	   		(
+    <trim suffix="" suffixOverrides=",">
+      
+      <if test="expressType != null" >
+        #{expressType},
+      </if>
+      <if test="expressName != null" >
+        #{expressName},
+      </if>
+      <if test="expressNo != null" >
+        #{expressNo},
+      </if>
+      <if test="expressPic != null" >
+        #{expressPic},
+      </if>
+      <if test="provinceCode != null" >
+        #{provinceCode},
+      </if>
+      <if test="province != null" >
+        #{province},
+      </if>
+      <if test="cityCode != null" >
+        #{cityCode},
+      </if>
+       <if test="city != null" >
+        #{city},
+      </if>
+       <if test="areaCode != null" >
+        #{areaCode},
+      </if>
+      <if test="area != null" >
+        #{area},
+      </if>
+      <if test="detailAdress != null" >
+        #{detailAdress},
+      </if>
+      <if test="linkName != null" >
+        #{linkName},
+      </if>
+      <if test="linkMobile != null" >
+        #{linkMobile},
+      </if>
+      <if test="orderNo != null" >
+        #{orderNo},
+      </if>
+      <if test="userId != null" >
+        #{userId},
+      </if>
+    </trim>
+    )
+  </insert>
+		
+	<!-- 根据货运险订单号查询快递信息  -->
+    <select id="queryHyExpressByOrderNo" parameterType="java.lang.String" resultType="Map">
+        SELECT 	
+        	id as id,
+        	express_name as expressName,
+        	express_type as expressType,
+        	express_no as expressNo,
+        	express_pic as expressPic,
+        	province_code as provinceCode,
+        	province as province,
+        	city_code as cityCode,
+        	city as city,
+        	area_code as areaCode,
+        	area as area,
+        	detail_adress as detailAdress,
+        	link_name as linkName,
+        	link_mobile as linkMobile
+        FROM hy_express 
+		 WHERE order_id=#{orderNo}
+		 order by id desc
+    </select>
+    
+    <!-- 根据货运险订单号删除快递图片  -->
+	<update id="updateExpressPic" parameterType="java.util.Map">
+        update hy_express set express_pic= '' where order_id=#{orderNo} AND express_pic = {imageUrl}
+    </update>
+    
+  <sql id="Base_Column_List" >
+    id, express_type, express_name, express_no, express_pic, province, city, area, detail_adress, 
+    link_name, link_mobile, order_id, user_id
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from hy_express
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from hy_express
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="net.chetong.order.model.HyExpressVO" >
+    insert into hy_express (id, express_type, express_name, 
+      express_no, express_pic, province, 
+      city, area, detail_adress, 
+      link_name, link_mobile, order_id, 
+      user_id)
+    values (#{id,jdbcType=BIGINT}, #{expressType,jdbcType=VARCHAR}, #{expressName,jdbcType=VARCHAR}, 
+      #{expressNo,jdbcType=VARCHAR}, #{expressPic,jdbcType=VARCHAR}, #{province,jdbcType=VARCHAR}, 
+      #{city,jdbcType=VARCHAR}, #{area,jdbcType=VARCHAR}, #{detailAdress,jdbcType=VARCHAR}, 
+      #{linkName,jdbcType=VARCHAR}, #{linkMobile,jdbcType=VARCHAR}, #{orderId,jdbcType=VARCHAR}, 
+      #{userId,jdbcType=BIGINT})
+  </insert>
+  <insert id="insertSelective" parameterType="net.chetong.order.model.HyExpressVO" >
+    insert into hy_express
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="expressType != null" >
+        express_type,
+      </if>
+      <if test="expressName != null" >
+        express_name,
+      </if>
+      <if test="expressNo != null" >
+        express_no,
+      </if>
+      <if test="expressPic != null" >
+        express_pic,
+      </if>
+      <if test="province != null" >
+        province,
+      </if>
+      <if test="city != null" >
+        city,
+      </if>
+      <if test="area != null" >
+        area,
+      </if>
+      <if test="detailAdress != null" >
+        detail_adress,
+      </if>
+      <if test="linkName != null" >
+        link_name,
+      </if>
+      <if test="linkMobile != null" >
+        link_mobile,
+      </if>
+      <if test="orderId != null" >
+        order_id,
+      </if>
+      <if test="userId != null" >
+        user_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="expressType != null" >
+        #{expressType,jdbcType=VARCHAR},
+      </if>
+      <if test="expressName != null" >
+        #{expressName,jdbcType=VARCHAR},
+      </if>
+      <if test="expressNo != null" >
+        #{expressNo,jdbcType=VARCHAR},
+      </if>
+      <if test="expressPic != null" >
+        #{expressPic,jdbcType=VARCHAR},
+      </if>
+      <if test="province != null" >
+        #{province,jdbcType=VARCHAR},
+      </if>
+      <if test="city != null" >
+        #{city,jdbcType=VARCHAR},
+      </if>
+      <if test="area != null" >
+        #{area,jdbcType=VARCHAR},
+      </if>
+      <if test="detailAdress != null" >
+        #{detailAdress,jdbcType=VARCHAR},
+      </if>
+      <if test="linkName != null" >
+        #{linkName,jdbcType=VARCHAR},
+      </if>
+      <if test="linkMobile != null" >
+        #{linkMobile,jdbcType=VARCHAR},
+      </if>
+      <if test="orderId != null" >
+        #{orderId,jdbcType=VARCHAR},
+      </if>
+      <if test="userId != null" >
+        #{userId,jdbcType=BIGINT},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="net.chetong.order.model.HyExpressVO" >
+    update hy_express
+    <set >
+      <if test="expressType != null" >
+        express_type = #{expressType,jdbcType=VARCHAR},
+      </if>
+      <if test="expressName != null" >
+        express_name = #{expressName,jdbcType=VARCHAR},
+      </if>
+      <if test="expressNo != null" >
+        express_no = #{expressNo,jdbcType=VARCHAR},
+      </if>
+      <if test="expressPic != null" >
+        express_pic = #{expressPic,jdbcType=VARCHAR},
+      </if>
+      <if test="province != null" >
+        province = #{province,jdbcType=VARCHAR},
+      </if>
+      <if test="city != null" >
+        city = #{city,jdbcType=VARCHAR},
+      </if>
+      <if test="area != null" >
+        area = #{area,jdbcType=VARCHAR},
+      </if>
+      <if test="detailAdress != null" >
+        detail_adress = #{detailAdress,jdbcType=VARCHAR},
+      </if>
+      <if test="linkName != null" >
+        link_name = #{linkName,jdbcType=VARCHAR},
+      </if>
+      <if test="linkMobile != null" >
+        link_mobile = #{linkMobile,jdbcType=VARCHAR},
+      </if>
+      <if test="orderId != null" >
+        order_id = #{orderId,jdbcType=VARCHAR},
+      </if>
+      <if test="userId != null" >
+        user_id = #{userId,jdbcType=BIGINT},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="net.chetong.order.model.HyExpressVO" >
+    update hy_express
+    set express_type = #{expressType,jdbcType=VARCHAR},
+      express_name = #{expressName,jdbcType=VARCHAR},
+      express_no = #{expressNo,jdbcType=VARCHAR},
+      express_pic = #{expressPic,jdbcType=VARCHAR},
+      province = #{province,jdbcType=VARCHAR},
+      city = #{city,jdbcType=VARCHAR},
+      area = #{area,jdbcType=VARCHAR},
+      detail_adress = #{detailAdress,jdbcType=VARCHAR},
+      link_name = #{linkName,jdbcType=VARCHAR},
+      link_mobile = #{linkMobile,jdbcType=VARCHAR},
+      order_id = #{orderId,jdbcType=VARCHAR},
+      user_id = #{userId,jdbcType=BIGINT}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  
+  	<!-- 删除医健险快递图片 -->
+  	<update id="delExpressPic" parameterType="java.util.Map">
+    	UPDATE rs_order_express
+		SET expressPic = ''
+		WHERE
+			order_no = #{orderNo} AND AND expressPic = #{imageUrl}
+    </update>
+    
+</mapper>

@@ -1,0 +1,225 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="sqlmap_fm_simple_work">
+
+	<!--实体映射-->
+	<resultMap id="fmSimpleWorkResultMap" type="net.chetong.order.model.FmSimpleWork">
+		<!--表id-->
+		<id property="id" column="id" />
+		<!--提交作业人id(车童id)-->
+		<result property="userId" column="user_id" />
+		<!--报案号-->
+		<result property="caseNo" column="case_no" />
+		<!--订单号-->
+		<result property="orderNo" column="order_no" />
+		<!--估损金额-->
+		<result property="lossMoney" column="loss_money" />
+		<!--车型-->
+		<result property="carType" column="car_type" />
+		<!--责任类型：1-私了，2-无责。-->
+		<result property="duty" column="duty" />
+		<!--服务类型：1-查勘、2-定损（包括物损）-->
+		<result property="subjectType" column="subject_type" />
+		<!--服务类型文字描述：1-查勘、2-定损（包括物损）-->
+		<result property="subjectTypeDesc" column="subject_type_desc" />
+		<!--每种服务类型下的选项内容：
+查勘类型(1)
+1）现场已勘，标的估损金额______ 车型______（需点选配件库）
+2）已勘销案:(1)私了(2)无责 
+3）拒赔 
+4）现场定损
+5）其他________(手动填写)。
+定损类型,包含物损(2)：
+1) 定损
+2）已勘销案（1）私了 （2）无责 
+3）拒赔 
+4）其他________(手动填写)-->
+		<result property="subjectOption" column="subject_option" />
+		<!--每种服务类型下的选项内容文字描述-->
+		<result property="subjectOptionDesc" column="subject_option_desc" />
+		<!--提交创建时间-->
+		<result property="createTime" column="create_time" />
+		<!--作业更新时间-->
+		<result property="updateTime" column="update_time" />
+	</resultMap>
+
+
+	<!-- 通用查询结果列-->
+	<sql id="Base_Column_List">
+		 id,	user_id,	case_no,	order_no,	loss_money,	car_type,	duty,	subject_type,	subject_type_desc,	subject_option,	subject_option_desc,	create_time,	update_time
+	</sql>
+
+	<!-- 查询（根据主键ID查询） -->
+	<select id="selectByPrimaryKey" resultMap="fmSimpleWorkResultMap" parameterType="java.lang.Long">
+		 SELECT
+		 <include refid="Base_Column_List" />
+		 FROM fm_simple_work
+		 WHERE id = #{id}
+	</select>
+
+	<!--删除：根据主键ID删除-->
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+		 DELETE FROM fm_simple_work
+		 WHERE id = #{id}
+	</delete>
+
+	<!-- 添加 -->
+	<insert id="insert" parameterType="net.chetong.order.model.FmSimpleWork">
+		 INSERT INTO fm_simple_work
+ 		(id,user_id,case_no,order_no,loss_money,car_type,duty,subject_type,subject_type_desc,subject_option,subject_option_desc,create_time,update_time) 
+		 VALUES 
+ 		(#{id},#{userId},#{caseNo},#{orderNo},#{lossMoney},#{carType},#{duty},#{subjectType},#{subjectTypeDesc},#{subjectOption},#{subjectOptionDesc},#{createTime},#{updateTime}) 
+	</insert>
+
+	<!-- 添加 （匹配有值的字段）-->
+	<insert id="insertSelective" parameterType="net.chetong.order.model.FmSimpleWork">
+		 INSERT INTO fm_simple_work
+		 <trim prefix="(" suffix=")" suffixOverrides="," >
+			<if test="userId != null">
+				 user_id,
+			</if>
+			<if test="caseNo != null">
+				 case_no,
+			</if>
+			<if test="orderNo != null">
+				 order_no,
+			</if>
+			<if test="lossMoney != null">
+				 loss_money,
+			</if>
+			<if test="carType != null">
+				 car_type,
+			</if>
+			<if test="duty != null">
+				 duty,
+			</if>
+			<if test="subjectType != null">
+				 subject_type,
+			</if>
+			<if test="subjectTypeDesc != null">
+				 subject_type_desc,
+			</if>
+			<if test="subjectOption != null">
+				 subject_option,
+			</if>
+			<if test="subjectOptionDesc != null">
+				 subject_option_desc,
+			</if>
+				 create_time,
+				 update_time,
+
+		 </trim>
+		 <trim prefix="values (" suffix=")" suffixOverrides="," >
+			<if test="userId!=null">
+				 #{userId},
+			</if>
+			<if test="caseNo!=null">
+				 #{caseNo},
+			</if>
+			<if test="orderNo!=null">
+				 #{orderNo},
+			</if>
+			<if test="lossMoney!=null">
+				 #{lossMoney},
+			</if>
+			<if test="carType!=null">
+				 #{carType},
+			</if>
+			<if test="duty!=null">
+				 #{duty},
+			</if>
+			<if test="subjectType!=null">
+				 #{subjectType},
+			</if>
+			<if test="subjectTypeDesc!=null">
+				 #{subjectTypeDesc},
+			</if>
+			<if test="subjectOption!=null">
+				 #{subjectOption},
+			</if>
+			<if test="subjectOptionDesc!=null">
+				 #{subjectOptionDesc},
+			</if>
+				 SYSDATE(),
+				 SYSDATE(),
+		 </trim>
+	</insert>
+
+	<!-- 修 改-->
+	<update id="updateByPrimaryKeySelective" parameterType="net.chetong.order.model.FmSimpleWork">
+		 UPDATE fm_simple_work
+ 		 <set> 
+			<if test="userId != null">
+				 user_id = #{userId},
+			</if>
+			<if test="caseNo != null">
+				 case_no = #{caseNo},
+			</if>
+			<if test="orderNo != null">
+				 order_no = #{orderNo},
+			</if>
+			<if test="lossMoney != null">
+				 loss_money = #{lossMoney},
+			</if>
+			<if test="carType != null">
+				 car_type = #{carType},
+			</if>
+			<if test="duty != null">
+				 duty = #{duty},
+			</if>
+			<if test="subjectType != null">
+				 subject_type = #{subjectType},
+			</if>
+			<if test="subjectTypeDesc != null">
+				 subject_type_desc = #{subjectTypeDesc},
+			</if>
+			<if test="subjectOption != null">
+				 subject_option = #{subjectOption},
+			</if>
+			<if test="subjectOptionDesc != null">
+				 subject_option_desc = #{subjectOptionDesc},
+			</if>
+			<if test="createTime != null">
+				 create_time = #{createTime},
+			</if>
+				 update_time = SYSDATE(),
+
+ 		 </set>
+		 WHERE id = #{id}
+	</update>
+
+	<!-- 修 改-->
+	<update id="updateByPrimaryKey" parameterType="net.chetong.order.model.FmSimpleWork">
+		 UPDATE fm_simple_work
+		 SET 
+			 user_id = #{userId},
+			 case_no = #{caseNo},
+			 order_no = #{orderNo},
+			 loss_money = #{lossMoney},
+			 car_type = #{carType},
+			 duty = #{duty},
+			 subject_type = #{subjectType},
+			 subject_type_desc = #{subjectTypeDesc},
+			 subject_option = #{subjectOption},
+			 subject_option_desc = #{subjectOptionDesc},
+			 create_time = #{createTime},
+			 update_time = SYSDATE()
+		 WHERE id = #{id}
+	</update>
+	
+	<select id="querySimpleOrderWorkInfo" parameterType="java.util.Map" resultMap="fmSimpleWorkResultMap" >
+		 SELECT
+		 <include refid="Base_Column_List" />
+		 FROM fm_simple_work
+		 <where>
+		 	<if test="orderNo != null and orderNo != ''">
+				 AND order_no = #{orderNo}
+			</if>
+			<if test="caseNo != null and caseNo != ''">
+				 AND case_no = #{caseNo}
+			</if>
+		 </where>
+	</select>
+
+</mapper>

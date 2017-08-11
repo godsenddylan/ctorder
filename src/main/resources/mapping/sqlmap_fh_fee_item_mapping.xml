@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="sqlmap_fh_fee_item">
+	
+	<sql id="feeItemSql">
+		created_by as createdBy,
+		created_date as createdDate,
+		updated_by as updatedBy,
+		updated_date as updatedDate,
+		id as id,
+		loss_id as lossId,
+		insure_code as insureCode,
+		fee_type as feeType,
+		loss_amount as lossAmount,
+		audit_amount as auditAmount,
+		first_amount as firstAmount
+	</sql>
+	<select id="queryFeeItemInfo" resultType="FhFeeItemVO">
+		select <include refid="feeItemSql" /> 
+		from fh_fee_item 
+		where 1=1
+		<if test="id!=null">
+			and id=#{id}
+		</if>
+		<if test="lossId!=null">
+			and loss_id =#{lossId}
+		</if>
+	</select>
+	
+	<insert id="insertFeeItemInfo" parameterType="FhFeeItemVO" useGeneratedKeys="true" keyProperty="id">
+		insert into fh_fee_item(
+			 created_by,
+			 created_date,
+			 updated_by,
+			 updated_date,
+			 loss_id,
+			 insure_code,
+			 fee_type,
+			 loss_amount,
+			 audit_amount,
+			 first_amount)
+		 values(
+		 	#{createdBy},SYSDATE(),#{updatedBy},SYSDATE(),
+		 	#{lossId},#{insureCode},#{feeType},#{lossAmount},#{auditAmount},#{firstAmount}
+		 )
+	
+	</insert>
+	<update id="updateFeeItemInfo" parameterType="FhFeeItemVO">
+		update fh_fee_item set 
+			<if test="insureCode!=null">
+				insure_code=#{insureCode},
+			</if>
+			<if test="feeType!=null">
+				fee_type=#{feeType},
+			</if>
+			<if test="lossAmount!=null">
+				loss_amount=#{lossAmount},
+			</if>
+			<if test="auditAmount!=null">
+				audit_amount=#{auditAmount},
+			</if>
+			<if test="firstAmount!=null">
+				first_amount=#{firstAmount},
+			</if>
+			updated_by=#{updatedBy},
+			updated_date = SYSDATE()
+		where id=#{id}
+			<if test='lossId!=null and lossId!="" '>
+				and loss_id=#{lossId}
+			</if>
+	</update>
+	
+	<delete id="deleteFeeItemInfo">
+		delete from fh_fee_item where id=#{id}
+	</delete>
+	
+</mapper>

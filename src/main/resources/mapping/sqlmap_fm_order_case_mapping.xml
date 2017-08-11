@@ -1,0 +1,233 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="fm_order_case">
+  
+	<select id="queryCaseInfo" parameterType="map" resultType="FmOrderCaseVO">
+		SELECT 
+			id as id, 
+			user_id as userId, 
+			case_no as caseNo, 
+			case_time as caseTime, 
+			car_no as carNo, 
+			is_alert as isAlert, 
+			link_man as linkMan, 
+			link_tel as linkTel, 
+			accident_time as accidentTime, 
+			prov_code as provCode, 
+			city_code as cityCode, 
+			area_code as areaCode, 
+			prov_desc as provDesc, 
+			city_desc as cityDesc, 
+			area_desc as areaDesc, 
+			accident_address as accidentAddress, 
+			delegate_info as delegateInfo, 
+			ext1 as ext1, 
+			ext2 as ext2, 
+			ext3 as ext3 
+		FROM
+			fm_order_case
+	     <where>
+		    <if test="id!= null">
+                  and id=#{id}
+            </if>
+		    <if test="caseNo!= null">
+                  and case_no=#{caseNo}
+            </if>
+         </where>   
+	</select>
+	
+	<select id="queryCaseInfoList" parameterType="map" resultType="FmOrderCaseVO">
+		SELECT 
+			c.id as id,
+            t.id as taskId,
+            d.id as taskDetailId,
+			c.status as status, 
+			t.task_type as subjectId,  				
+			c.case_no as caseNo, 
+			c.case_time as caseTime, 
+			d.car_no as carNo, 
+			c.is_alert as isAlert, 
+			d.entrust_id as entrustId,
+			d.entrust_name as entrustName,
+			d.is_entrust as isEntrust,
+			d.company_name as companyName,
+			d.accident_linkman as accidentLinkMan, 
+			CAST(AES_DECRYPT(UNHEX(d.accident_linktel),'CHEtong@20161102') AS CHAR) as accidentLinkTel, 
+			c.accident_time as accidentTime, 		
+			t.work_address as accidentAddress, 
+			d.accident_description as delegateInfo, 
+			d.support_linkman as entrustLinkMan, 
+			d.support_linktel as entrustLinkTel,
+			d.is_allow as isAllow,
+			d.allow_money as allowMoney,
+			d.is_allow_mediation AS isAllowMediation,
+			d.allow_mediation_money AS allowMediationMoney,
+			c.create_time as createTime,
+			c.creator as creator
+			FROM
+			fm_order_case_cx c,fm_task_info t,fm_task_detail_info d
+	     <where> c.case_no=t.report_no and d.task_id=t.id 	     
+		    <if test="id!= null">
+                  and c.id=#{id}
+            </if>
+		    <if test="caseNo!= null">
+                  and c.case_no=#{caseNo}
+            </if>
+            <if test="status!= null">
+                  and c.status=#{status}
+            </if>
+            <if test="carNo!= null">
+                  and d.car_no=#{carNo}
+            </if>
+            <if test="subjectId!= null">
+                  and t.task_type=#{subjectId}
+            </if>
+            <if test="taskId!= null">
+                  and t.id=#{taskId}
+            </if>             
+         </where>   
+	</select>
+	
+	<select id="queryCaseInfoByCaseNo" parameterType="map" resultType="FmOrderCaseVO">
+		SELECT 
+			c.id as id,			
+			c.case_no as caseNo, 
+			DATE_FORMAT(c.case_time,'%Y-%m-%d %H:%i:%s') as caseTime, 
+			DATE_FORMAT(c.accident_time,'%Y-%m-%d %H:%i:%s') as accidentTime, 		
+			c.accident_address as accidentAddress, 
+			c.delegate_info as delegateInfo, 
+			c.create_time as createTime,
+			c.creator as creator
+			FROM
+			fm_order_case_cx c
+	     <where>      
+              case_no=#{caseNo}
+         </where>
+	</select>
+	
+	<!-- 仅查询案件表信息 -->
+	<select id="querySingleCaseInfoList" parameterType="java.lang.String" resultType="FmOrderCaseVO">
+		SELECT
+			id as id, 			
+			status as status, 		
+			case_no as caseNo, 
+			case_time as caseTime, 
+			is_alert as isAlert, 
+			accident_time as accidentTime, 		
+			accident_address as accidentAddress, 
+			delegate_info as delegateInfo, 
+			create_time as createTime,
+			creator as creator
+		FROM
+			fm_order_case_cx
+	     <where>	     		  
+            case_no=#{caseNo}
+         </where>   
+	</select>
+	
+	<!-- 仅查询案件表信息 -->
+	<select id="querySimpleCaseByCaseNo" parameterType="java.lang.String" resultType="net.chetong.order.model.FmOrderCase">
+		SELECT
+		    id as id, 			
+			status as status, 		
+			case_no as caseNo, 
+			case_time as caseTime, 
+			IFNULL(is_alert,0) as isAlert, 
+			accident_time as accidentTime, 		
+			accident_address as accidentAddress, 
+			delegate_info as delegateInfo, 
+			create_time as createTime,
+			creator as creator
+		FROM
+			fm_order_case_cx
+	     <where>	     		  
+            case_no=#{caseNo}
+         </where>   
+	</select>
+	
+	
+	<insert id="insertCase" parameterType="FmOrderCaseVO" useGeneratedKeys="true" keyProperty="id">
+			INSERT INTO fm_order_case_cx(id,status,case_no,case_time,is_alert,accident_time,accident_address,delegate_info,create_time,creator)   			
+			VALUES(#{id},#{status},#{caseNo},#{caseTime},#{isAlert},#{accidentTime},#{accidentAddress},#{delegateInfo},#{createTime},#{creator})			
+	</insert>	
+	
+	<update id="updateCase" parameterType="java.lang.String">
+		UPDATE fm_order_case_cx 
+		  <trim prefix="SET" suffixOverrides=",">  				  
+		   			<if test="status!= null">
+		   			status = #{status},
+		   			</if> 
+		   			<if test="caseNo!= null">
+		   			case_no = #{caseNo},
+		   			</if> 
+					<if test="caseTime!= null">
+		   			case_time = #{caseTime},
+		   			</if>
+		   			<if test="isAlert!= null">
+		   			is_alert = #{isAlert},
+		   			</if>      		   				
+					<if test="accidentTime!= null">
+		   			accident_time = #{accidentTime},
+		   			</if>  					
+					<if test="accidentAddress!= null">
+		   			accident_address = #{accidentAddress},
+		   			</if>  
+					<if test="delegateInfo!= null">
+		   			delegate_info = #{delegateInfo},
+		   			</if>  			
+		  </trim>
+		  <where> 	 
+		    id=#{id}           
+		 </where>
+	</update>
+	
+	<select id="isExistsReport" parameterType="map" resultType="integer">
+		select count(1) from fm_order_case_cx t where t.case_no =#{reportNo}
+	</select>
+	
+	<select id="queryCase" parameterType="map" resultType="net.chetong.order.model.FmOrderCase">
+		select
+		id, 
+		case_no as caseNo, 
+		status, 
+		case_time as caseTime, 
+		is_alert as isAlert, 
+		accident_time as accidentTime, 
+		accident_address as accidentAddress, 
+		creator, 
+    	create_time as createTime,
+    	delegate_info as delegateInfo
+    	from
+    	fm_order_case_cx
+    	<where>
+    		case_no = #{caseNo}
+    	</where>
+	</select>
+	
+	<select id="queryFmTaskDetailByOrderNo" resultType="map" parameterType="String">
+		SELECT
+			d.support_linktel,
+			d.car_no
+		FROM
+			fm_task_detail_info d,
+			fm_task_order_work_relation r
+		WHERE
+			r.task_id = d.task_id
+		AND r.order_no=#{orderNo}
+	</select>
+	
+	<select id="queryReportLinkManByReportNo" resultType="map" parameterType="String">
+		SELECT 
+		  d.accident_linkman as accidentLinkman,
+		  CAST(AES_DECRYPT(UNHEX(d.accident_linktel),'CHEtong@20161102') AS CHAR) as accidentLinktel,
+		  t.work_address as workAddress
+		FROM
+		  fm_task_info t,
+		  fm_task_detail_info d 
+		WHERE t.id = d.task_id 
+		  AND t.report_no = #{reportNo}
+		ORDER BY t.task_type 
+		LIMIT 1 
+	</select>
+		
+</mapper>

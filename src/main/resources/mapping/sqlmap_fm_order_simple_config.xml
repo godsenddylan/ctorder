@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="fm_order_simple_config">
+	<select id="queryFmOrderSimpleConfig" resultType="net.chetong.order.model.FmOrderSimpleConfig">
+		SELECT 
+			fosc.id as id, 
+			fosc.buyer_user_id as buyerUserId, 
+			fosc.order_type as orderType, 
+			fosc.is_must_img as isMustImg, 
+			fosc.start_time as startTime, 
+			fosc.end_time as endTime, 
+			fosc.create_time as createTime, 
+			fosc.update_time as updateTime, 
+			fosc.ext1 as ext1, 
+			fosc.ext2 as ext2, 
+			fosc.ext3 as ext3 
+		FROM
+			fm_order_simple_config fosc
+	    WHERE 1=1
+	    AND fosc.buyer_user_id = #{buyerUserId}
+	    AND fosc.order_type = #{orderType}
+	    AND <![CDATA[DATE_FORMAT(fosc.start_time,'%Y-%m-%d')<=DATE_FORMAT(#{nowTime},'%Y-%m-%d')]]>
+	    AND <![CDATA[DATE_FORMAT(#{nowTime},'%Y-%m-%d')<=DATE_FORMAT(fosc.end_time,'%Y-%m-%d')]]>
+	</select>
+</mapper>

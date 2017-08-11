@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>  
+<configuration status="OFF"> 
+  	<!-- 日志级别  ALL > TRACE > DEBUG > INFO > WARN > ERROR > FATAL > OFF -->
+	<properties>
+		<property name="info_file">/log/ctorder_168/ctorder-info.log</property>
+		<property name="error_file">/log/ctorder_168/ctorder-error.log</property>
+		<property name="all_file">/log/ctorder_168/ctorder-all.log</property>
+		<property name="op_file">/log/ctorder/ctorder-op.log</property>
+		<!-- Email配置 -->
+		<property name="to">wufeng@chetong.net</property>
+        <property name="from">wufeng@chetong.net</property>
+        <property name="smtpHost">smtp.exmail.qq.com</property>
+        <property name="smtpPort">25</property>
+        <property name="smtpProtocol">smtp</property>
+        <property name="smtpUser">log@chetong.net</property> <!-- 需要修改 -->
+        <property name="smtpPassword">Chetong@2015</property>  <!-- 需要修改 -->
+        <property name="cc">wufj@chetong.net,zhoucs@chetong.net</property>
+		<property name="log_pattern">[ctorder]%d{yyyy-MM-dd HH:mm:ss z} %-5level %class{36} %L %M - %msg%xEx%n</property>
+		<property name="error_file_gz">/log/ctorder_168/ctorder-error-%d{yyyy-MM-dd}-%i.log.gz</property>
+		<property name="info_file_gz">/log/ctorder_168/ctorder-info-%d{yyyy-MM-dd}-%i.log.gz</property>
+		<property name="all_file_gz">/log/ctorder_168/ctorder-all-%d{yyyy-MM-dd}-%i.log.gz</property>
+		<property name="op_file_gz">/log/ctorder/ctorder-op-%d{yyyy-MM-dd}-%i.log.gz</property>
+		<property name="every_file_size">10M</property><!-- 日志切割的最小单位 -->
+			
+	</properties> 
+    <appenders>
+        <Console name="Console" target="SYSTEM_OUT">
+        	<ThresholdFilter level="trace" onMatch="ACCEPT" onMismatch="DENY"/>
+            <PatternLayout charset="UTF-8" pattern="${log_pattern}"/>  
+        </Console> 
+        
+        <!-- 只输出ERROR -->
+        <RollingFile name="ErrorRollingFile" fileName="${error_file}" filePattern="${error_file_gz}">
+            <PatternLayout pattern="${log_pattern}"/>
+            <SizeBasedTriggeringPolicy size="${every_file_size}"/>
+            <Filters>
+                <ThresholdFilter level="error" onMatch="ACCEPT" onMismatch="DENY"/>
+            </Filters>
+        </RollingFile>
+        
+        <!-- 只输出INFO -->
+        <RollingFile name="InfoRollingFile" fileName="${info_file}" filePattern="${info_file_gz}">
+            <PatternLayout pattern="${log_pattern}"/>
+            <SizeBasedTriggeringPolicy size="${every_file_size}"/>
+            <Filters>
+            	<ThresholdFilter level="error" onMatch="DENY" onMismatch="NEUTRAL"/>
+                <ThresholdFilter level="info" onMatch="ACCEPT" onMismatch="DENY"/>
+            </Filters>
+        </RollingFile>
+        
+        <!-- 所有 -->
+        <RollingFile name="AllRollingFile" fileName="${all_file}" filePattern="${all_file_gz}">  
+	      <PatternLayout pattern="${log_pattern}"/>  
+	      <SizeBasedTriggeringPolicy size="${every_file_size}" />
+	    </RollingFile> 
+         
+	    <!-- 操作日志 -->
+        <RollingFile name="OP_LOG" fileName="${op_file}" filePattern="${op_file_gz}">  
+	      <PatternLayout pattern="${log_pattern}"/>  
+	      <SizeBasedTriggeringPolicy size="2GB" />
+	    </RollingFile>
+         
+<!--         <SMTP name="Mailer" ignoreExceptions="true" -->
+<!--               subject="ctweb日志监控" to="${to}" from="${from}" cc="${cc}" -->
+<!--               smtpHost="${smtpHost}" smtpPort="${smtpPort}" -->
+<!--               smtpProtocol="${smtpProtocol}" smtpUsername="${smtpUser}"  -->
+<!--               smtpPassword="${smtpPassword}" smtpDebug="false" bufferSize="512"> -->
+<!--          	<ThresholdFilter level="error" onMatch="ACCEPT" onMismatch="DENY"/> -->
+<!--         </SMTP> -->
+        <!-- 
+        <Async name="AsyncMailer" > 
+            <appender-ref ref="Mailer" level="ERROR"/>
+        </Async>
+        -->
+    </appenders>  
+    <loggers>  
+    	<!-- 操作日志log -->
+    	<Logger name="opLogger" additivity="false" level="INFO">  
+            <Appender-ref ref="OP_LOG"/>
+            <Appender-ref ref="Console" />  
+        </Logger> 
+        <root level="DEBUG">
+            <Appender-ref ref="Console" />
+            <Appender-ref ref="ErrorRollingFile" />
+            <Appender-ref ref="InfoRollingFile" />
+            <Appender-ref ref="AllRollingFile" />
+<!--             <Appender-Ref ref="AsyncMailer"/> -->
+        </root>
+    </loggers>  
+</configuration>  

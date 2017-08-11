@@ -1,0 +1,225 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="sqlmap_pr_guide_price_info" >
+  <resultMap id="BaseResultMap" type="net.chetong.order.model.PrGuidePriceInfoVO" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="service_id" property="serviceId" jdbcType="INTEGER" />
+    <result column="prov_code" property="provCode" jdbcType="VARCHAR" />
+    <result column="prov_desc" property="provDesc" jdbcType="VARCHAR" />
+    <result column="city_code" property="cityCode" jdbcType="VARCHAR" />
+    <result column="county_code" property="countyCode" jdbcType="VARCHAR" />
+    <result column="county_desc" property="countyDesc" jdbcType="VARCHAR" />
+    <result column="first_price" property="firstPrice" jdbcType="DECIMAL" />
+    <result column="append_price" property="appendPrice" jdbcType="DECIMAL" />
+    <result column="create_by" property="createBy" jdbcType="BIGINT" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="update_by" property="updateBy" jdbcType="BIGINT" />
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, service_id, prov_code, prov_desc, city_code, county_code, county_desc, first_price, 
+    append_price, create_by, create_time, update_by, update_time
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from pr_guide_price_info
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from pr_guide_price_info
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="net.chetong.order.model.PrGuidePriceInfoVO" >
+    insert into pr_guide_price_info (id, service_id, prov_code, 
+      prov_desc, city_code, county_code, 
+      county_desc, first_price, append_price, 
+      create_by, create_time, update_by, 
+      update_time)
+    values (#{id,jdbcType=BIGINT}, #{serviceId,jdbcType=INTEGER}, #{provCode,jdbcType=VARCHAR}, 
+      #{provDesc,jdbcType=VARCHAR}, #{cityCode,jdbcType=VARCHAR}, #{countyCode,jdbcType=VARCHAR}, 
+      #{countyDesc,jdbcType=VARCHAR}, #{firstPrice,jdbcType=DECIMAL}, #{appendPrice,jdbcType=DECIMAL}, 
+      #{createBy,jdbcType=BIGINT}, #{createTime,jdbcType=TIMESTAMP}, #{updateBy,jdbcType=BIGINT}, 
+      #{updateTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="net.chetong.order.model.PrGuidePriceInfoVO" >
+    insert into pr_guide_price_info
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="serviceId != null" >
+        service_id,
+      </if>
+      <if test="provCode != null" >
+        prov_code,
+      </if>
+      <if test="provDesc != null" >
+        prov_desc,
+      </if>
+      <if test="cityCode != null" >
+        city_code,
+      </if>
+      <if test="countyCode != null" >
+        county_code,
+      </if>
+      <if test="countyDesc != null" >
+        county_desc,
+      </if>
+      <if test="firstPrice != null" >
+        first_price,
+      </if>
+      <if test="appendPrice != null" >
+        append_price,
+      </if>
+      <if test="createBy != null" >
+        create_by,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="updateBy != null" >
+        update_by,
+      </if>
+      <if test="updateTime != null" >
+        update_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="serviceId != null" >
+        #{serviceId,jdbcType=INTEGER},
+      </if>
+      <if test="provCode != null" >
+        #{provCode,jdbcType=VARCHAR},
+      </if>
+      <if test="provDesc != null" >
+        #{provDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="cityCode != null" >
+        #{cityCode,jdbcType=VARCHAR},
+      </if>
+      <if test="countyCode != null" >
+        #{countyCode,jdbcType=VARCHAR},
+      </if>
+      <if test="countyDesc != null" >
+        #{countyDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="firstPrice != null" >
+        #{firstPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="appendPrice != null" >
+        #{appendPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="createBy != null" >
+        #{createBy,jdbcType=BIGINT},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateBy != null" >
+        #{updateBy,jdbcType=BIGINT},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="net.chetong.order.model.PrGuidePriceInfoVO" >
+    update pr_guide_price_info
+    <set >
+      <if test="serviceId != null" >
+        service_id = #{serviceId,jdbcType=INTEGER},
+      </if>
+      <if test="provCode != null" >
+        prov_code = #{provCode,jdbcType=VARCHAR},
+      </if>
+      <if test="provDesc != null" >
+        prov_desc = #{provDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="cityCode != null" >
+        city_code = #{cityCode,jdbcType=VARCHAR},
+      </if>
+      <if test="countyCode != null" >
+        county_code = #{countyCode,jdbcType=VARCHAR},
+      </if>
+      <if test="countyDesc != null" >
+        county_desc = #{countyDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="firstPrice != null" >
+        first_price = #{firstPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="appendPrice != null" >
+        append_price = #{appendPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="createBy != null" >
+        create_by = #{createBy,jdbcType=BIGINT},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateBy != null" >
+        update_by = #{updateBy,jdbcType=BIGINT},
+      </if>
+      <if test="updateTime != null" >
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="net.chetong.order.model.PrGuidePriceInfoVO" >
+    update pr_guide_price_info
+    set service_id = #{serviceId,jdbcType=INTEGER},
+      prov_code = #{provCode,jdbcType=VARCHAR},
+      prov_desc = #{provDesc,jdbcType=VARCHAR},
+      city_code = #{cityCode,jdbcType=VARCHAR},
+      county_code = #{countyCode,jdbcType=VARCHAR},
+      county_desc = #{countyDesc,jdbcType=VARCHAR},
+      first_price = #{firstPrice,jdbcType=DECIMAL},
+      append_price = #{appendPrice,jdbcType=DECIMAL},
+      create_by = #{createBy,jdbcType=BIGINT},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_by = #{updateBy,jdbcType=BIGINT},
+      update_time = #{updateTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  
+  <select id="queryGuidePrice" parameterType="map" resultType="net.chetong.order.model.PrGuidePriceInfoVO">
+  	select 
+		i.id as id, 
+		i.service_id as serviceId, 
+		i.prov_code as provCode, 
+		i.prov_desc as provDesc, 
+		i.city_code as cityCode, 
+		i.county_code as countyCode, 
+		i.county_desc as countyDesc, 
+		i.first_price as firstPrice, 
+		i.append_price as appendPrice, 
+		i.create_by as createBy, 
+		i.create_time as createTime, 
+		i.update_by as updateBy, 
+		i.update_time as updateTime    	
+    from pr_guide_price_info i
+    <where>
+       <if test="provCode != null" >
+          and i.prov_code = #{provCode}
+       </if>
+       <if test="cityCode != null" >
+          and i.city_code = #{cityCode}
+      </if>
+      <if test="countryCode != null" >
+         and i.county_code = #{countryCode}
+      </if>
+      <if test="serviceId != null" >
+         and i.service_id = #{serviceId}
+      </if>
+      <if test="state != null" >
+         and i.state = #{state}
+      </if>
+    </where>
+    
+  </select>
+  
+</mapper>

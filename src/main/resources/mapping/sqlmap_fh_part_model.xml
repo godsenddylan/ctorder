@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="sqlmap_fh_part_model">
+	<!-- 根据任务ID和GUID查询配件-->
+    <select id="queryPartByIdAndGuid" parameterType="java.util.Map" resultType="net.chetong.order.model.FhPartModelVO">
+        select 
+			id as id,
+			part_name as partName,
+			part_code as partCode,
+			insert_time as insertTime,
+			guid as guid,
+			loss_id as lossId,
+			market_price as marketPrice,
+			s_price as sPrice,
+			complex_price as complexPrice,
+			remark as remark,
+			remark2 as remark2,
+			part_id as partId,
+			part_num as partNum,
+			is_manual as isManual,
+			part_price as partPrice,
+			audit_price as auditPrice
+		 from fh_part_model where loss_id=#{taskId} and guid=#{guid}
+		 order by id
+    </select>
+    
+    <!-- 查询配件费用 -->
+    <select id="queryPartPriceByOrderNo" parameterType="string" resultType="net.chetong.order.model.FhPartModelVO">
+        SELECT
+			p.part_num AS partNum,
+			p.part_price AS partPrice
+		FROM
+			fh_part_model p,
+			fh_loss_model l
+		WHERE
+			p.guid = l.guid
+		AND l.order_code=#{orderNo}
+    </select>
+    
+	<insert id="insertNotNull" parameterType="net.chetong.order.model.FhPartModelVO" useGeneratedKeys="true" keyProperty="id">
+			INSERT INTO fh_part_model   
+			(
+				<trim suffix="" suffixOverrides=",">
+					<if test="partName!= null">
+		                   part_name,
+		            </if>
+					<if test="partCode!= null">
+		                   part_code,
+		            </if>
+					<if test="insertTime!= null">
+		                   insert_time,
+		            </if>
+					<if test="guid!= null">
+		                   guid,
+		            </if>
+					<if test="lossId!= null">
+		                   loss_id,
+		            </if>
+					<if test="marketPrice!= null">
+		                   market_price,
+		            </if>
+					<if test="sPrice!= null">
+		                   s_price,
+		            </if>
+					<if test="complexPrice!= null">
+		                   complex_price,
+		            </if>
+					<if test="remark!= null">
+		                   remark,
+		            </if>
+					<if test="remark2!= null">
+		                   remark2,
+		            </if>
+					<if test="partId!= null">
+		                   part_id,
+		            </if>
+					<if test="partNum!= null">
+		                   part_num,
+		            </if>
+					<if test="isManual!= null">
+		                   is_manual,
+		            </if>
+					<if test="partPrice!= null">
+		                   part_price,
+		            </if>
+					<if test="auditPrice!= null">
+		                   audit_price,
+		            </if>
+	            </trim>
+			)
+			VALUES
+	   		(
+	   			<trim suffix="" suffixOverrides=",">
+		   			<if test="partName!= null">
+		   			#{partName},
+		   			</if>
+		   			<if test="partCode!= null">
+		   			#{partCode},
+		   			</if>
+		   			<if test="insertTime!= null">
+		   			#{insertTime},
+		   			</if>
+		   			<if test="guid!= null">
+		   			#{guid},
+		   			</if>
+		   			<if test="lossId!= null">
+		   			#{lossId},
+		   			</if>
+		   			<if test="marketPrice!= null">
+		   			#{marketPrice},
+		   			</if>
+		   			<if test="sPrice!= null">
+		   			#{sPrice},
+		   			</if>
+		   			<if test="complexPrice!= null">
+		   			#{complexPrice},
+		   			</if>
+		   			<if test="remark!= null">
+		   			#{remark},
+		   			</if>
+		   			<if test="remark!= null">
+		   			#{remark2},
+		   			</if>
+		   			<if test="partId!= null">
+		   			#{partId},
+		   			</if>
+		   			<if test="partNum!= null">
+		   			#{partNum},
+		   			</if>
+		   			<if test="isManual!= null">
+		   			#{isManual},
+		   			</if>
+		   			<if test="partPrice!= null">
+		   			#{partPrice},
+		   			</if>
+		   			<if test="auditPrice!= null">
+		   			#{auditPrice},
+		   			</if>
+	   			</trim>
+			)
+		</insert>
+		
+	<!-- 清空指定任务配件项目 -->
+	<delete id="delPartByTaskIDAndGuid" parameterType="java.util.Map">
+		delete from fh_part_model where loss_id=#{taskId} and guid=#{guid}
+	</delete>
+	
+	<!-- 修改审核价格 -->
+	<update id="updatePartAuditPrice" parameterType="net.chetong.order.model.FhPartModelVO">
+		update fh_part_model set audit_price=#{auditPrice},remark2=#{remark2} where id=#{id}
+	</update>
+	
+	<!-- 查询订单定损金额 -->
+	<select id="selectCXOrderPartPrice" resultType="map" parameterType="net.chetong.order.model.MyWorkResponseModel">
+		SELECT
+			l.order_code orderNo,
+			SUM(m.audit_price) auditPrice,
+			SUM(m.complex_price) lossAmount
+		FROM
+			fh_part_model m,
+			fh_loss_model l
+		WHERE
+			m.loss_id=l.id
+			AND l.order_code IN 
+			<foreach collection="list" item="item" separator="," open="(" close=")">
+				#{item.orderNo}
+			</foreach>
+		GROUP BY l.order_code
+	</select>
+</mapper>

@@ -1,0 +1,374 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ct_group">
+
+<select id="queryCountCtGroup" parameterType="net.chetong.order.model.CtGroupVO" resultType="java.lang.Long" >
+		SELECT 
+			count(1)
+		FROM ct_group 
+		<where>
+			<if test="id!= null">
+				and id=#{id}
+			</if>
+			<if test="userId!= null">
+				and user_id=#{userId}
+			</if>
+			<if test="serviceCount!= null">
+				and service_count=#{serviceCount}
+			</if>
+			<if test="orgName!= null">
+				and org_name=#{orgName}
+			</if>
+			<if test="orgShortName!= null">
+				and org_short_name=#{orgShortName}
+			</if>
+			<if test="orgCode!= null">
+				and org_code=#{orgCode}
+			</if>
+			<if test="businessCode!= null">
+				and business_code=#{businessCode}
+			</if>
+			<if test="faxCode!= null">
+				and fax_code=#{faxCode}
+			</if>
+			<if test="postCode!= null">
+				and post_code=#{postCode}
+			</if>
+			<if test="connName!= null">
+				and conn_name=#{connName}
+			</if>
+			<if test="connDept!= null">
+				and conn_dept=#{connDept}
+			</if>
+			<if test="connTel1!= null">
+				and conn_tel1=#{connTel1}
+			</if>
+			<if test="connTel2!= null">
+				and conn_tel2=#{connTel2}
+			</if>
+			<if test="provCode!= null">
+				and prov_code=#{provCode}
+			</if>
+			<if test="cityCode!= null">
+				and city_code=#{cityCode}
+			</if>
+			<if test="areaCode!= null">
+				and area_code=#{areaCode}
+			</if>
+			<if test="provDesc!= null">
+				and prov_desc=#{provDesc}
+			</if>
+			<if test="cityDesc!= null">
+				and city_desc=#{cityDesc}
+			</if>
+			<if test="areaDesc!= null">
+				and area_desc=#{areaDesc}
+			</if>
+			<if test="address!= null">
+				and address=#{address}
+			</if>
+			<if test="website!= null">
+				and website=#{website}
+			</if>
+			<if test="staff!= null">
+				and staff=#{staff}
+			</if>
+			<if test="nature!= null">
+				and nature=#{nature}
+			</if>
+			<if test="memberCount!= null">
+				and member_count=#{memberCount}
+			</if>
+			<if test="headCompany!= null">
+				and head_company=#{headCompany}
+			</if>
+			<if test="branchCompany!= null">
+				and branch_company=#{branchCompany}
+			</if>
+			<if test="orgType!= null">
+				and org_type=#{orgType}
+			</if>
+			<if test="workRequire!= null">
+				and work_require=#{workRequire}
+			</if>
+			<if test="isManageOrg!= null">
+				and is_manage_org=#{isManageOrg}
+			</if>
+		</where> 
+	</select>
+
+	<select id="queryByKey" resultType="net.chetong.order.model.CtGroupVO">
+		SELECT
+		id as id,
+		user_id as userId,
+		service_count as serviceCount,
+		org_name as orgName,
+		org_short_name as orgShortName,
+		org_code as orgCode,
+		business_code as businessCode,
+		fax_code as faxCode,
+		post_code as postCode,
+		conn_name as connName,
+		conn_dept as connDept,
+		conn_tel1 as connTel1,
+		conn_tel2 as connTel2,
+		prov_code as provCode,
+		city_code as cityCode,
+		area_code as areaCode,
+		prov_desc as provDesc,
+		city_desc as cityDesc,
+		area_desc as areaDesc,
+		address as address,
+		website as website,
+		staff as staff,
+		nature as nature,
+		member_count as memberCount,
+		head_company as headCompany,
+		branch_company as branchCompany,
+		org_type as orgType,
+		work_require as workRequire,
+		is_manage_org as isManageOrg
+		FROM
+		ct_group
+		<where>
+			and id = #{id}
+		</where>
+	</select>
+	
+	<select id="queryByUserId" resultType="net.chetong.order.model.CtGroupVO">
+		SELECT
+		id as id,
+		user_id as userId,
+		service_count as serviceCount,
+		org_name as orgName,
+		org_short_name as orgShortName,
+		org_code as orgCode,
+		business_code as businessCode,
+		fax_code as faxCode,
+		post_code as postCode,
+		conn_name as connName,
+		conn_dept as connDept,
+		conn_tel1 as connTel1,
+		conn_tel2 as connTel2,
+		prov_code as provCode,
+		city_code as cityCode,
+		area_code as areaCode,
+		prov_desc as provDesc,
+		city_desc as cityDesc,
+		area_desc as areaDesc,
+		address as address,
+		website as website,
+		staff as staff,
+		nature as nature,
+		member_count as memberCount,
+		head_company as headCompany,
+		branch_company as branchCompany,
+		org_type as orgType,
+		work_require as workRequire,
+		is_manage_org as isManageOrg
+		FROM
+		ct_group
+		<where>
+			and user_id = #{userId}
+		</where>
+	</select>
+	
+	<select id="queryCtGroup" parameterType="net.chetong.order.model.CtGroupVO" resultType ="net.chetong.order.model.CtGroupVO" >
+		SELECT 
+			id as id,
+			user_id as userId,
+			service_count as serviceCount,
+			org_name as orgName,
+			org_short_name as orgShortName,
+			org_code as orgCode,
+			business_code as businessCode,
+			fax_code as faxCode,
+			post_code as postCode,
+			conn_name as connName,
+			conn_dept as connDept,
+			conn_tel1 as connTel1,
+			conn_tel2 as connTel2,
+			prov_code as provCode,
+			city_code as cityCode,
+			area_code as areaCode,
+			prov_desc as provDesc,
+			city_desc as cityDesc,
+			area_desc as areaDesc,
+			address as address,
+			website as website,
+			staff as staff,
+			nature as nature,
+			member_count as memberCount,
+			head_company as headCompany,
+			branch_company as branchCompany,
+			org_type as orgType,
+			work_require as workRequire,
+			is_manage_org as isManageOrg
+		FROM ct_group 
+		 <where>
+		    <if test="id!= null">
+                  and id=#{id}
+            </if>
+		    <if test="userId!= null">
+                  and user_id=#{userId}
+            </if>
+		    <if test="serviceCount!= null">
+                  and service_count=#{serviceCount}
+            </if>
+		    <if test="orgName!= null">
+                  and org_name=#{orgName}
+            </if>
+		    <if test="orgShortName!= null">
+                  and org_short_name=#{orgShortName}
+            </if>
+		    <if test="orgCode!= null">
+                  and org_code=#{orgCode}
+            </if>
+		    <if test="businessCode!= null">
+                  and business_code=#{businessCode}
+            </if>
+		    <if test="faxCode!= null">
+                  and fax_code=#{faxCode}
+            </if>
+		    <if test="postCode!= null">
+                  and post_code=#{postCode}
+            </if>
+		    <if test="connName!= null">
+                  and conn_name=#{connName}
+            </if>
+		    <if test="connDept!= null">
+                  and conn_dept=#{connDept}
+            </if>
+		    <if test="connTel1!= null">
+                  and conn_tel1=#{connTel1}
+            </if>
+		    <if test="connTel2!= null">
+                  and conn_tel2=#{connTel2}
+            </if>
+		    <if test="provCode!= null">
+                  and prov_code=#{provCode}
+            </if>
+		    <if test="cityCode!= null">
+                  and city_code=#{cityCode}
+            </if>
+		    <if test="areaCode!= null">
+                  and area_code=#{areaCode}
+            </if>
+		    <if test="provDesc!= null">
+                  and prov_desc=#{provDesc}
+            </if>
+		    <if test="cityDesc!= null">
+                  and city_desc=#{cityDesc}
+            </if>
+		    <if test="areaDesc!= null">
+                  and area_desc=#{areaDesc}
+            </if>
+		    <if test="address!= null">
+                  and address=#{address}
+            </if>
+		    <if test="website!= null">
+                  and website=#{website}
+            </if>
+		    <if test="staff!= null">
+                  and staff=#{staff}
+            </if>
+		    <if test="nature!= null">
+                  and nature=#{nature}
+            </if>
+		    <if test="memberCount!= null">
+                  and member_count=#{memberCount}
+            </if>
+		    <if test="headCompany!= null">
+                  and head_company=#{headCompany}
+            </if>
+		    <if test="branchCompany!= null">
+                  and branch_company=#{branchCompany}
+            </if>
+		    <if test="orgType!= null">
+                  and org_type=#{orgType}
+            </if>
+		    <if test="workRequire!= null">
+                  and work_require=#{workRequire}
+            </if>
+            <if test="isManageOrg!= null">
+				  and is_manage_org=#{isManageOrg}
+			</if>
+  		</where>
+		  		ORDER BY id DESC
+	</select>
+	
+	
+	    <!-- 	zhouchushu   订单导入 -->
+	<select id="queryImportOrderGroup" resultType="net.chetong.order.model.CtGroupVO">
+        SELECT 
+            cg.id as id, 
+            cg.user_id as userId, 
+            cg.service_count as serviceCount, 
+            cg.org_name as orgName, 
+            cg.org_short_name as orgShortName, 
+            cg.org_code as orgCode, 
+            cg.business_code as businessCode, 
+            cg.fax_code as faxCode, 
+            cg.post_code as postCode, 
+            cg.conn_name as connName, 
+            cg.conn_dept as connDept, 
+            cg.conn_tel1 as connTel1, 
+            cg.conn_tel2 as connTel2, 
+            cg.prov_code as provCode, 
+            cg.city_code as cityCode, 
+            cg.area_code as areaCode, 
+            cg.prov_desc as provDesc, 
+            cg.city_desc as cityDesc, 
+            cg.area_desc as areaDesc, 
+            cg.address as address, 
+            cg.website as website, 
+            cg.staff as staff, 
+            cg.nature as nature, 
+            cg.member_count as memberCount, 
+            cg.head_company as headCompany, 
+            cg.branch_company as branchCompany, 
+            cg.org_type as orgType, 
+            cg.work_require as workRequire 
+        FROM
+            fm_order_import foi,
+		    ct_user cu,
+		    ct_group cg
+        <where>        
+                 foi.seller_group_login_name = cu.login_name
+                 AND cu.id = cg.user_id
+                 AND foi.order_no = #{orderNo}
+        </where>
+    </select>
+    
+    <select id="getGroupEmailAndTel" parameterType="java.lang.String" resultType="java.util.Map">
+    	SELECT
+			u.mobile AS mobile,
+			u.email AS email,
+			g.conn_tel1 AS connTel
+		FROM
+			ct_user u
+		INNER JOIN ct_group g ON u.id = g.user_id
+		WHERE
+			u.id = #{userId}
+    	
+    </select>
+    
+    <select id="queryOrgNameByUserId" resultType="net.chetong.order.model.CtGroupVO">
+		SELECT
+		id as id,
+		user_id as userId,
+		org_name as orgName,
+		org_short_name as orgShortName,
+		org_code as orgCode
+		FROM
+		ct_group
+		<where>
+			and user_id IN
+			<foreach collection="list" item="item" open="(" separator="," close=")">
+				${item}
+			</foreach>
+		</where>
+	</select>
+	
+
+</mapper>

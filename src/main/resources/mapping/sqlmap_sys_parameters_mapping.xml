@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="sqlmap_sys_parameters">
+	
+	<select id="queryParametersInfo" parameterType="java.util.Map" resultType="SysParametersVO">
+		select 
+			created_by as createdBy,
+			created_date as createdDate,
+			updated_by as updatedBy,
+			updated_date as updatedDate,
+			id as id ,
+			company_code as companyCode,
+			type_code as typeCode,
+			code as code,
+			short_name as shortName,
+			full_name as fullName,
+			parent_code as parentCode,
+			remark as remark
+		from sys_parameters
+		<where>
+			<if test="id!= null">
+				and id=#{id}
+			</if>
+			<if test="companyCode!= null">
+				and company_code=#{companyCode}
+			</if>
+			<if test="typeCode!= null">
+				and type_code=#{typeCode}
+			</if>
+			<if test="code!= null">
+				and code=#{code}
+			</if>
+			<if test="parentCode!= null">
+				and parent_code=#{parentCode}
+			</if>
+		</where>
+	</select>	
+	<!-- 返回页面 page  text -->
+    <select id="queryParametersInfoToPage" parameterType="java.util.Map" resultType="java.util.Map">
+		select 
+			code as value,
+			short_name as text
+		from sys_parameters
+		<where>
+			<if test="id!= null">
+				and id=#{id}
+			</if>
+			<if test="companyCode!= null">
+				and company_code=#{companyCode}
+			</if>
+			<if test="typeCode!= null">
+				and type_code=#{typeCode}
+			</if>
+			<if test="code!= null">
+				and code=#{code}
+			</if>
+			<if test="parentCode!= null">
+				and parent_code=#{parentCode}
+			</if>
+		</where>
+	</select>	
+    <!-- 根据公司B的业务字段获取对应公司A的业务字段 -->
+    <select id="queryCmpParamByOtherCmp" parameterType="java.util.Map" resultType="SysParametersVO">
+    	SELECT 
+		  	a.created_by as createdBy,
+			a.created_date as createdDate,
+			a.updated_by as updatedBy,
+			a.updated_date as updatedDate,
+			a.id as id ,
+			a.company_code as companyCode,
+			a.type_code as typeCode,
+			a.code as code,
+			a.short_name as shortName,
+			a.full_name as fullName,
+			a.parent_code as parentCode,
+			a.remark as remark 
+		FROM
+		  sys_parameters a 
+		WHERE a.company_code = #{cmpCodeA} 
+		  AND a.type_code = #{codeType}
+		  AND a.short_name = 
+		  (SELECT 
+		    b.short_name 
+		  FROM
+		    sys_parameters b 
+		  WHERE b.company_code = #{cmpCodeB} 
+		    AND b.type_code = #{codeType}
+		    AND b.code = #{code}) 
+    </select>
+   
+</mapper>

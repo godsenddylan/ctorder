@@ -1,0 +1,259 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="dd_driver_evaluate_info">
+
+	<select id="queryCountDdDriverEvaluateInfo" parameterType="net.chetong.order.model.DdDriverEvaluateInfo" resultType="java.lang.Long" >
+		SELECT 
+			count(*)
+		FROM dd_driver_evaluate_info 
+		<where>
+			<if test="id!= null">
+				and id=#{id}
+			</if>
+			<if test="orderNo!= null">
+				and order_no=#{orderNo}
+			</if>
+			<if test="carNo!= null">
+				and car_no=#{carNo}
+			</if>
+			<if test="linkTel!= null">
+				and link_tel=#{linkTel}
+			</if>
+			<if test="createTime!= null">
+				and create_time=#{createTime}
+			</if>
+			<if test="provCode!= null">
+				and prov_code=#{provCode}
+			</if>
+			<if test="cityCode!= null">
+				and city_code=#{cityCode}
+			</if>
+			<if test="areaCode!= null">
+				and area_code=#{areaCode}
+			</if>
+			<if test="visitFailCount!= null">
+				and visit_fail_count=#{visitFailCount}
+			</if>
+			<if test="visitTime!= null">
+				and visit_time=#{visitTime}
+			</if>
+			<if test="evPoint!= null">
+				and ev_point=#{evPoint}
+			</if>
+			<if test="evTime!= null">
+				and ev_time=#{evTime}
+			</if>
+		</where> 
+	</select>
+	
+	<select id="queryDdDriverEvaluateInfo" parameterType="net.chetong.order.model.DdDriverEvaluateInfo" resultType ="net.chetong.order.model.DdDriverEvaluateInfo" >
+		SELECT 
+			id as id,
+			order_no as orderNo,
+			car_no as carNo,
+			link_tel as linkTel,
+			create_time as createTime,
+			prov_code as provCode,
+			city_code as cityCode,
+			area_code as areaCode,
+			visit_fail_count as visitFailCount,
+			visit_time as visitTime,
+			ev_point as evPoint,
+			ev_time as evTime
+		FROM dd_driver_evaluate_info 
+		 <where>
+		    <if test="id!= null">
+                  and id=#{id}
+            </if>
+		    <if test="orderNo!= null">
+                  and order_no=#{orderNo}
+            </if>
+		    <if test="carNo!= null">
+                  and car_no=#{carNo}
+            </if>
+		    <if test="linkTel!= null">
+                  and link_tel=#{linkTel}
+            </if>
+		    <if test="createTime!= null">
+                  and create_time=#{createTime}
+            </if>
+		    <if test="provCode!= null">
+                  and prov_code=#{provCode}
+            </if>
+		    <if test="cityCode!= null">
+                  and city_code=#{cityCode}
+            </if>
+		    <if test="areaCode!= null">
+                  and area_code=#{areaCode}
+            </if>
+		    <if test="visitFailCount!= null">
+                  and visit_fail_count=#{visitFailCount}
+            </if>
+		    <if test="visitTime!= null">
+                  and visit_time=#{visitTime}
+            </if>
+		    <if test="evPoint!= null">
+                  and ev_point=#{evPoint}
+            </if>
+		    <if test="evTime!= null">
+                  and ev_time=#{evTime}
+            </if>
+  		</where>
+	</select>
+	
+		<insert id="insertNotNull" parameterType="net.chetong.order.model.DdDriverEvaluateInfo" useGeneratedKeys="true" keyProperty="id">
+			INSERT INTO dd_driver_evaluate_info   
+			(
+				<trim suffix="" suffixOverrides=",">
+					<if test="id!= null">
+		                   id,
+		            </if>
+					<if test="orderNo!= null">
+		                   order_no,
+		            </if>
+					<if test="carNo!= null">
+		                   car_no,
+		            </if>
+					<if test="linkTel!= null">
+		                   link_tel,
+		            </if>
+					<if test="createTime!= null">
+		                   create_time,
+		            </if>
+					<if test="provCode!= null">
+		                   prov_code,
+		            </if>
+					<if test="cityCode!= null">
+		                   city_code,
+		            </if>
+					<if test="areaCode!= null">
+		                   area_code,
+		            </if>
+					<if test="visitFailCount!= null">
+		                   visit_fail_count,
+		            </if>
+					<if test="visitTime!= null">
+		                   visit_time,
+		            </if>
+					<if test="evPoint!= null">
+		                   ev_point,
+		            </if>
+					<if test="evTime!= null">
+		                   ev_time,
+		            </if>
+	            </trim>
+			)
+			VALUES
+	   		(
+	   			<trim suffix="" suffixOverrides=",">
+		   			<if test="id!= null">
+		   			#{id},
+		   			</if>
+		   			<if test="orderNo!= null">
+		   			#{orderNo},
+		   			</if>
+		   			<if test="carNo!= null">
+		   			#{carNo},
+		   			</if>
+		   			<if test="linkTel!= null">
+		   			#{linkTel},
+		   			</if>
+		   			<if test="createTime!= null">
+		   			#{createTime},
+		   			</if>
+		   			<if test="provCode!= null">
+		   			#{provCode},
+		   			</if>
+		   			<if test="cityCode!= null">
+		   			#{cityCode},
+		   			</if>
+		   			<if test="areaCode!= null">
+		   			#{areaCode},
+		   			</if>
+		   			<if test="visitFailCount!= null">
+		   			#{visitFailCount},
+		   			</if>
+		   			<if test="visitTime!= null">
+		   			#{visitTime},
+		   			</if>
+		   			<if test="evPoint!= null">
+		   			#{evPoint},
+		   			</if>
+		   			<if test="evTime!= null">
+		   			#{evTime},
+		   			</if>
+	   			</trim>
+			)
+		</insert>
+
+	<select id="queryByKey" resultType="net.chetong.order.model.DdDriverEvaluateInfo">
+		SELECT 
+			id as id, 
+			order_no as orderNo, 
+			car_no as carNo, 
+			link_tel as linkTel, 
+			create_time as createTime, 
+			prov_code as provCode, 
+			city_code as cityCode, 
+			area_code as areaCode, 
+			visit_fail_count as visitFailCount, 
+			visit_time as visitTime, 
+			ev_point as evPoint, 
+			ev_time as evTime 
+		FROM
+			dd_driver_evaluate_info
+	    <where>		   
+		    	 and id = #{id}
+		</where>
+	</select>
+	
+	<delete id="deleteByKey">
+		DELETE FROM 
+			dd_driver_evaluate_info 
+		<where>		   
+		    	 and id = #{id}
+		</where>
+	</delete>
+	
+	<update id="updateByKeyNotNull">
+		UPDATE dd_driver_evaluate_info 
+		  <trim prefix="SET" suffixOverrides=",">  
+					<if test="orderNo!= null">
+		   			order_no = #{orderNo},
+		   			</if>  
+					<if test="carNo!= null">
+		   			car_no = #{carNo},
+		   			</if>  
+					<if test="linkTel!= null">
+		   			link_tel = #{linkTel},
+		   			</if>  
+					<if test="createTime!= null">
+		   			create_time = #{createTime},
+		   			</if>  
+					<if test="provCode!= null">
+		   			prov_code = #{provCode},
+		   			</if>  
+					<if test="cityCode!= null">
+		   			city_code = #{cityCode},
+		   			</if>  
+					<if test="areaCode!= null">
+		   			area_code = #{areaCode},
+		   			</if>  
+					<if test="visitFailCount!= null">
+		   			visit_fail_count = #{visitFailCount},
+		   			</if>  
+					<if test="visitTime!= null">
+		   			visit_time = #{visitTime},
+		   			</if>  
+					<if test="evPoint!= null">
+		   			ev_point = #{evPoint},
+		   			</if>  
+					<if test="evTime!= null">
+		   			ev_time = #{evTime},
+		   			</if>  
+		  </trim>
+		  <where>	   
+				    and id = #{id}
+		 </where>
+	</update>
+</mapper>

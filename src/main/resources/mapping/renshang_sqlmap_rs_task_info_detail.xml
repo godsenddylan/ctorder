@@ -1,0 +1,252 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="renshang_sqlmap_rs_task_info_detail">
+
+	<!--实体映射-->
+	<resultMap id="rsTaskInfoDetailResultMap" type="net.chetong.order.model.RsTaskInfoDetail">
+		<!---->
+		<id property="id" column="id" />
+		<!--案件号-->
+		<result property="caseNo" column="case_no" />
+		<!--任务id-->
+		<result property="taskId" column="task_id" />
+		<!--合约委托人id-->
+		<result property="entrustId" column="entrust_id" />
+		<!--合约委托人名称-->
+		<result property="entrustName" column="entrust_name" />
+		<!--现场联系人-->
+		<result property="accidentLinkman" column="accident_linkman" />
+		<!--现场联系人电话-->
+		<result property="accidentLinktel" column="accident_linktel" />
+		<!--对接人名称-->
+		<result property="supportLinkman" column="support_linkman" />
+		<!--对接人电话-->
+		<result property="supportLinktel" column="support_linktel" />
+		<!--标的车牌号-->
+		<result property="carNo" column="car_no" />
+		<!--是否授予一次性调解-->
+		<result property="isAllow" column="is_allow" />
+		<!--授予金额-->
+		<result property="allowMoney" column="allow_money" />
+		<!--伤者姓名-->
+		<result property="injuredName" column="injured_name" />
+		<!--伤者电话-->
+		<result property="injuredTel" column="injured_tel" />
+		<!--医院地址-->
+		<result property="hospitalAddress" column="hospital_address" />
+		<!--事故经过描述-->
+		<result property="accidentDesc" column="accident_desc" />
+	</resultMap>
+
+
+	<!-- 通用查询结果列-->
+	<sql id="Base_Column_List">
+		 id,	case_no,	task_id,	entrust_id,	entrust_name,	accident_linkman,	accident_linktel,	support_linkman,	support_linktel,	car_no,	is_allow,	allow_money,	injured_name,	injured_tel,	hospital_address,	accident_desc
+	</sql>
+
+	<!-- 查询（根据主键ID查询） -->
+	<select id="selectByPrimaryKey" resultMap="rsTaskInfoDetailResultMap" parameterType="java.lang.Long">
+		 SELECT
+		 <include refid="Base_Column_List" />
+		 FROM rs_task_info_detail
+		 WHERE id = #{id}
+	</select>
+
+	<!--删除：根据主键ID删除-->
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+		 DELETE FROM rs_task_info_detail
+		 WHERE id = #{id}
+	</delete>
+
+	<!-- 添加 -->
+	<insert id="insert" parameterType="net.chetong.order.model.RsTaskInfoDetail">
+		 INSERT INTO rs_task_info_detail
+ 		(id,case_no,task_id,entrust_id,entrust_name,accident_linkman,accident_linktel,support_linkman,support_linktel,car_no,is_allow,allow_money,injured_name,injured_tel,hospital_address,accident_desc) 
+		 VALUES 
+ 		(#{id},#{caseNo},#{taskId},#{entrustId},#{entrustName},#{accidentLinkman},#{accidentLinktel},#{supportLinkman},#{supportLinktel},#{carNo},#{isAllow},#{allowMoney},#{injuredName},#{injuredTel},#{hospitalAddress},#{accidentDesc}) 
+	</insert>
+
+	<!-- 添加 （匹配有值的字段）-->
+	<insert id="insertSelective" parameterType="net.chetong.order.model.RsTaskInfoDetail" useGeneratedKeys="true" keyColumn="id" keyProperty="id">
+		 INSERT INTO rs_task_info_detail
+		 <trim prefix="(" suffix=")" suffixOverrides="," >
+			<if test="id != null">
+				 id,
+			</if>
+			<if test="caseNo != null">
+				 case_no,
+			</if>
+			<if test="taskId != null">
+				 task_id,
+			</if>
+			<if test="entrustId != null">
+				 entrust_id,
+			</if>
+			<if test="entrustName != null">
+				 entrust_name,
+			</if>
+			<if test="accidentLinkman != null">
+				 accident_linkman,
+			</if>
+			<if test="accidentLinktel != null">
+				 accident_linktel,
+			</if>
+			<if test="supportLinkman != null">
+				 support_linkman,
+			</if>
+			<if test="supportLinktel != null">
+				 support_linktel,
+			</if>
+			<if test="carNo != null">
+				 car_no,
+			</if>
+			<if test="isAllow != null">
+				 is_allow,
+			</if>
+			<if test="allowMoney != null">
+				 allow_money,
+			</if>
+			<if test="injuredName != null">
+				 injured_name,
+			</if>
+			<if test="injuredTel != null">
+				 injured_tel,
+			</if>
+			<if test="hospitalAddress != null">
+				 hospital_address,
+			</if>
+			<if test="accidentDesc != null">
+				 accident_desc,
+			</if>
+
+		 </trim>
+		 <trim prefix="values (" suffix=")" suffixOverrides="," >
+			<if test="id!=null">
+				 #{id},
+			</if>
+			<if test="caseNo!=null">
+				 #{caseNo},
+			</if>
+			<if test="taskId!=null">
+				 #{taskId},
+			</if>
+			<if test="entrustId!=null">
+				 #{entrustId},
+			</if>
+			<if test="entrustName!=null">
+				 #{entrustName},
+			</if>
+			<if test="accidentLinkman!=null">
+				 #{accidentLinkman},
+			</if>
+			<if test="accidentLinktel!=null">
+				 #{accidentLinktel},
+			</if>
+			<if test="supportLinkman!=null">
+				 #{supportLinkman},
+			</if>
+			<if test="supportLinktel!=null">
+				 #{supportLinktel},
+			</if>
+			<if test="carNo!=null">
+				 #{carNo},
+			</if>
+			<if test="isAllow!=null">
+				 #{isAllow},
+			</if>
+			<if test="allowMoney!=null">
+				 #{allowMoney},
+			</if>
+			<if test="injuredName!=null">
+				 #{injuredName},
+			</if>
+			<if test="injuredTel!=null">
+				 #{injuredTel},
+			</if>
+			<if test="hospitalAddress!=null">
+				 #{hospitalAddress},
+			</if>
+			<if test="accidentDesc!=null">
+				 #{accidentDesc},
+			</if>
+		 </trim>
+	</insert>
+
+	<!-- 修 改-->
+	<update id="updateByPrimaryKeySelective" parameterType="net.chetong.order.model.RsTaskInfoDetail">
+		 UPDATE rs_task_info_detail
+ 		 <set> 
+			<if test="caseNo != null">
+				 case_no = #{caseNo},
+			</if>
+			<if test="taskId != null">
+				 task_id = #{taskId},
+			</if>
+			<if test="entrustId != null">
+				 entrust_id = #{entrustId},
+			</if>
+			<if test="entrustName != null">
+				 entrust_name = #{entrustName},
+			</if>
+			<if test="accidentLinkman != null">
+				 accident_linkman = #{accidentLinkman},
+			</if>
+			<if test="accidentLinktel != null">
+				 accident_linktel = #{accidentLinktel},
+			</if>
+			<if test="supportLinkman != null">
+				 support_linkman = #{supportLinkman},
+			</if>
+			<if test="supportLinktel != null">
+				 support_linktel = #{supportLinktel},
+			</if>
+			<if test="carNo != null">
+				 car_no = #{carNo},
+			</if>
+			<if test="isAllow != null">
+				 is_allow = #{isAllow},
+			</if>
+			<if test="allowMoney != null">
+				 allow_money = #{allowMoney},
+			</if>
+			<if test="injuredName != null">
+				 injured_name = #{injuredName},
+			</if>
+			<if test="injuredTel != null">
+				 injured_tel = #{injuredTel},
+			</if>
+			<if test="hospitalAddress != null">
+				 hospital_address = #{hospitalAddress},
+			</if>
+			<if test="accidentDesc != null">
+				 accident_desc = #{accidentDesc},
+			</if>
+
+ 		 </set>
+		 WHERE id = #{id}
+	</update>
+
+	<!-- 修 改-->
+	<update id="updateByPrimaryKey" parameterType="net.chetong.order.model.RsTaskInfoDetail">
+		 UPDATE rs_task_info_detail
+		 SET 
+			 case_no = #{caseNo},
+			 task_id = #{taskId},
+			 entrust_id = #{entrustId},
+			 entrust_name = #{entrustName},
+			 accident_linkman = #{accidentLinkman},
+			 accident_linktel = #{accidentLinktel},
+			 support_linkman = #{supportLinkman},
+			 support_linktel = #{supportLinktel},
+			 car_no = #{carNo},
+			 is_allow = #{isAllow},
+			 allow_money = #{allowMoney},
+			 injured_name = #{injuredName},
+			 injured_tel = #{injuredTel},
+			 hospital_address = #{hospitalAddress},
+			 accident_desc = #{accidentDesc}
+		 WHERE id = #{id}
+	</update>
+
+</mapper>

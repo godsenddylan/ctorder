@@ -1,0 +1,325 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context" xmlns:jdbc="http://www.springframework.org/schema/jdbc" xmlns:jee="http://www.springframework.org/schema/jee" xmlns:tx="http://www.springframework.org/schema/tx" xmlns:util="http://www.springframework.org/schema/util"
+    xsi:schemaLocation="
+        http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.1.xsd
+        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.1.xsd
+        http://www.springframework.org/schema/jdbc http://www.springframework.org/schema/jdbc/spring-jdbc-4.1.xsd
+        http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee-4.1.xsd
+        http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.1.xsd
+        http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-4.1.xsd">
+
+    <!-- 启动触发器的配置开始 -->
+    <bean name="startQuertz" lazy-init="false" autowire="no" class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
+        <property name="triggers">
+            <list>
+                <ref bean="asyncGetTasksJobForYCTrigger" /> 
+              	<ref bean="asyncSurveyJobForYCTrigger" /> 
+              	<ref bean="asyncMainLossJobForYCTrigger" /> 
+              	<ref bean="asyncThirdLossJobForYCTrigger" /> 
+              	<ref bean="asyncMainDamageJobForYCTrigger" /> 
+              	<ref bean="asyncThirdDamageJobForYCTrigger" /> 
+              	<ref bean="checkOverOrderTaskMethodTrigger" />
+              	<ref bean="asyncGetCheckLossListForYCTrigger" />
+              	<ref bean="asyncAuditSurveyOrderTrigger" />
+              	<ref bean="asyncUploadImgToYCTrigger" />
+              	<ref bean="orderLoseciTrigger" />
+              	<ref bean="orderLosefTrigger" />
+              	<ref bean="autoAuditOrderTrigger" />
+              	<ref bean="autoSellerEvaluateBuyerTrigger" />
+              	<!-- <ref bean="availableMoneyRemindTrigger" /> -->
+              	<ref bean="trackRemindPushTaskMethodTrigger" />
+             </list>
+        </property>
+        <property name="schedulerName"><value>first</value></property> 
+    </bean>
+    <!-- 启动触发器的配置结束 -->
+    <!-- 永诚对接 -->
+    <bean id="asyncGetTasksJobForYCTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+        <property name="jobDetail">
+            <ref bean="asyncGetTasksJobForYCDetail" />
+        </property>
+        <property name="cronExpression" value="${asyncGetTasksJobForYC}">
+        </property>
+    </bean>
+    <bean id="asyncSurveyJobForYCTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+        <property name="jobDetail">
+            <ref bean="asyncSurveyJobForYCDetail" />
+        </property>
+        <property name="cronExpression" value="${asyncSurveyJobForYC}">
+        </property>
+    </bean>
+    <bean id="asyncMainLossJobForYCTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+        <property name="jobDetail">
+            <ref bean="asyncMainLossJobForYCDetail" />
+        </property>
+        <property name="cronExpression" value="${asyncMainLossJobForYC}">
+        </property>
+    </bean>
+     <bean id="asyncThirdLossJobForYCTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+        <property name="jobDetail">
+            <ref bean="asyncThirdLossJobForYCDetail" />
+        </property>
+        <property name="cronExpression" value="${asyncThirdLossJobForYC}">
+        </property>
+    </bean>
+    <bean id="asyncMainDamageJobForYCTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+        <property name="jobDetail">
+            <ref bean="asyncMainDamageJobForYCDetail" />
+        </property>
+        <property name="cronExpression" value="${asyncMainDamageJobForYC}">
+        </property>
+    </bean>
+     <bean id="asyncThirdDamageJobForYCTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+        <property name="jobDetail">
+            <ref bean="asyncThirdDamageJobForYCDetail" />
+        </property>
+        <property name="cronExpression" value="${asyncThirdDamageJobForYC}">
+        </property>
+    </bean>
+    
+    <bean id="asyncGetCheckLossListForYCTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+        <property name="jobDetail">
+            <ref bean="asyncGetCheckLossListForYCDetail" />
+        </property>
+        <property name="cronExpression" value="${asyncGetCheckLossListForYC}">
+        </property>
+    </bean>
+    <bean id="asyncAuditSurveyOrderTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+        <property name="jobDetail">
+            <ref bean="asyncAuditSurveyOrderDetail" />
+        </property>
+        <property name="cronExpression" value="${asyncAuditSurveyOrder}">
+        </property>
+    </bean>
+    <bean id="asyncUploadImgToYCTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+        <property name="jobDetail">
+            <ref bean="asyncUploadImgToYCDetail" />
+        </property>
+        <property name="cronExpression" value="${asyncUploadImgToYC}">
+        </property>
+    </bean>
+    <!-- 调度的配置结束 -->
+    
+    
+    <!-- 永诚对接 -->
+    <bean id="asyncGetTasksJobForYCDetail" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+        <property name="targetObject">
+            <ref bean="asyncService" />
+        </property>
+        <property name="targetMethod">
+            <value>asyncGetTasksJobForYC</value>
+        </property>
+        <property name="concurrent">  
+        	<value>false</value>  
+    	</property>
+    </bean>
+    <bean id="asyncSurveyJobForYCDetail" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+        <property name="targetObject">
+            <ref bean="asyncService" />
+        </property>
+        <property name="targetMethod">
+            <value>asyncSurveyJobForYC</value>
+        </property>
+        <property name="concurrent">  
+        	<value>false</value>  
+   	 	</property>
+    </bean>
+    <bean id="asyncMainLossJobForYCDetail" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+        <property name="targetObject">
+            <ref bean="asyncService" />
+        </property>
+        <property name="targetMethod">
+            <value>asyncMainLossJobForYC</value>
+        </property>
+    </bean>
+    <bean id="asyncThirdLossJobForYCDetail" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+        <property name="targetObject">
+            <ref bean="asyncService" />
+        </property>
+        <property name="targetMethod">
+            <value>asyncThirdLossJobForYC</value>
+        </property>
+    </bean>
+    <bean id="asyncMainDamageJobForYCDetail" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+        <property name="targetObject">
+            <ref bean="asyncService" />
+        </property>
+        <property name="targetMethod">
+            <value>asyncMainDamageJobForYC</value>
+        </property>
+    </bean>
+    <bean id="asyncThirdDamageJobForYCDetail" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+        <property name="targetObject">
+            <ref bean="asyncService" />
+        </property>
+        <property name="targetMethod">
+            <value>asyncThirdDamageJobForYC</value>
+        </property>
+    </bean>
+    <bean id="asyncGetCheckLossListForYCDetail" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+        <property name="targetObject">
+            <ref bean="asyncService" />
+        </property>
+        <property name="targetMethod">
+            <value>asyncGetCheckLossListForYC</value>
+        </property>
+    </bean>
+    <bean id="asyncAuditSurveyOrderDetail" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+        <property name="targetObject">
+            <ref bean="asyncService" />
+        </property>
+        <property name="targetMethod">
+            <value>asyncAuditSurveyOrder</value>
+        </property>
+    </bean>
+    <bean id="asyncUploadImgToYCDetail" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+        <property name="targetObject">
+            <ref bean="asyncService" />
+        </property>
+        <property name="targetMethod">
+            <value>asyncUploadImgToYC</value>
+        </property>
+        <property name="concurrent">  
+        	<value>false</value>  
+   	 	</property>
+    </bean>
+    
+    
+    <!-- 超时订单催促推送 -->
+    <bean id="checkOverOrderTaskMethod" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject">
+        	<ref bean="pushOrderService" />
+        </property>
+        <property name="targetMethod">
+            <value>checkOverOrder</value>
+        </property>
+	</bean>
+	<!-- 0 1/20 * * * ?  每20分钟 -->
+    <bean id="checkOverOrderTaskMethodTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+		<property name="jobDetail" ref="checkOverOrderTaskMethod" />
+		<property name="cronExpression">
+			<!-- 秒     分   时  每月几号 月 星期 年 ,-->     
+   		 	<value>0 1/20 * * * ?</value>  
+	   </property>
+	</bean>
+	
+	<!-- 订单失效任务 -车险 -->
+	 <bean id="orderLoseTaskMethodci" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject">
+        	<ref bean="pushOrderService" />
+        </property>
+        <property name="targetMethod">
+            <value>orderLoseForCarInsurance</value>
+        </property>
+	 </bean>
+	 
+	 <!-- 订单那失效定义触发时间 三秒扫描一次 -->	
+	 <bean id="orderLoseciTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+		<property name="jobDetail" ref="orderLoseTaskMethodci" />
+	 	<property name="cronExpression">
+        	<!--         秒     分   时  每月几号 月 星期 年 ,-->     
+   		 	<value>1/3 * * * * ?</value>
+        </property>
+     </bean>
+     
+     <!-- 订单失效任务 -货运险 （与车险分开配置，便于控制）-->
+     <bean id="orderLoseTaskMethodf" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject">
+        	<ref bean="pushOrderService" />
+        </property>
+        <property name="targetMethod">
+            <value>orderLoseForFreight</value>
+        </property>
+	 </bean>
+	 
+	 <!-- 订单那失效定义触发时间 三秒扫描一次 -->	
+	 <bean id="orderLosefTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+		<property name="jobDetail" ref="orderLoseTaskMethodf" />
+	 	<property name="cronExpression">
+        	<!--         秒     分   时  每月几号 月 星期 年 ,-->     
+   		 	<value>1/3 * * * * ?</value>
+        </property>
+     </bean>
+     
+	 <!-- 超时自动审单 -->
+	 <bean id="autoAuditOrderTaskMethod" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject">
+        	<ref bean="orderService" />
+        </property>
+        <property name="targetMethod">
+            <value>autoAuditOrder</value>
+        </property>
+	 </bean>
+	 
+	 <!-- 超时自动审单 一小时扫描一次 -->	
+	 <bean id="autoAuditOrderTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+		<property name="jobDetail" ref="autoAuditOrderTaskMethod" />
+	 	<property name="cronExpression">
+        	<!--         秒     分   时  每月几号 月 星期 年 ,-->     
+   		 	<value>0 0 1/1 * * ?</value>
+   		 	<!-- <value>10/30 * * * * ?</value> -->
+        </property>
+     </bean>
+     
+	 <!-- 超时自动车童评价委托人 -->
+	 <bean id="autoSellerEvaluateBuyerTaskMethod" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject">
+        	<ref bean="evaluateSystemService" />
+        </property>
+        <property name="targetMethod">
+            <value>autoSellerEvaluateBuyer</value>
+        </property>
+	 </bean>
+	 
+	 <!-- 超时自动车童评价委托人 一小时扫描一次 -->	
+	 <bean id="autoSellerEvaluateBuyerTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+		<property name="jobDetail" ref="autoSellerEvaluateBuyerTaskMethod" />
+	 	<property name="cronExpression">
+        	<!--         秒     分   时  每月几号 月 星期 年 ,-->     
+   		 	<value>0 0 1/1 * * ?</value>
+   		 	<!-- <value>10/30 * * * * ?</value> -->
+        </property>
+     </bean>
+     
+     
+     <!-- 机构余额监控提醒方法 -->
+	 <bean id="availableMoneyRemindTaskMethod" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject">
+        	<ref bean="moneyRemindService" />
+        </property>
+        <property name="targetMethod">
+            <value>availableMoneyRemind</value>
+        </property>
+	 </bean>
+	 
+	 <!-- 机构余额监控提醒方法 ，触发器 ,每天12点59分执行-->	
+	 <bean id="availableMoneyRemindTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+		<property name="jobDetail" ref="availableMoneyRemindTaskMethod" />
+	 	<property name="cronExpression">
+        	<!--         秒     分   时  每月几号 月 星期 年 ,-->     
+   		 	<value>0 59 12 * * ?</value>
+   		 	<!-- 每五分钟 -->
+   		 	<!-- <value>0 0/5 * * * ?</value> -->
+        </property>
+     </bean>
+     
+     <!-- 轨迹推送开始 -->
+    <bean id="trackRemindPushTaskMethod" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject">
+        	<ref bean="pushTrackService" />
+        </property>
+        <property name="targetMethod">
+            <value>trackRemindPush</value>
+        </property>
+	</bean>
+	<!--每三分钟 执行-->
+    <bean id="trackRemindPushTaskMethodTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+		<property name="jobDetail" ref="trackRemindPushTaskMethod" />
+		<property name="cronExpression">
+			<!-- 秒     分   时  每月几号 月 星期 年 ,-->     
+   		 	<value>0 0/3 * * * ?</value>  
+	   </property>
+	</bean>
+    <!-- 轨迹推送结束 -->
+     
+</beans>

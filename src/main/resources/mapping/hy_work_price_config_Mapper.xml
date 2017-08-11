@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="hy_work_price_config" >
+  <resultMap id="BaseResultMap" type="net.chetong.order.model.HyWorkPriceConfig" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="org_user_id" property="orgUserId" jdbcType="BIGINT" />
+    <result column="prov_code" property="provCode" jdbcType="VARCHAR" />
+    <result column="city_code" property="cityCode" jdbcType="VARCHAR" />
+    <result column="prov_desc" property="provDesc" jdbcType="VARCHAR" />
+    <result column="city_desc" property="cityDesc" jdbcType="VARCHAR" />
+    <result column="work_price" property="workPrice" jdbcType="DECIMAL" />
+    <result column="create_by" property="createBy" jdbcType="BIGINT" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="update_by" property="updateBy" jdbcType="BIGINT" />
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, org_user_id, prov_code, city_code, prov_desc, city_desc, work_price, create_by, 
+    create_time, update_by, update_time
+  </sql>
+  
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from hy_work_price_config
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  
+  <select id="selectByNotNull" resultMap="BaseResultMap" parameterType="net.chetong.order.model.HyWorkPriceConfig">
+  	select 
+  	<include refid="Base_Column_List" />
+  	from hy_work_price_config
+  	<where>
+      <if test="id != null" >
+      	AND id=#{id}
+      </if>
+      <if test="orgUserId != null" >
+        AND org_user_id=#{orgUserId}
+      </if>
+      <if test="provCode != null" >
+        AND prov_code=#{provCode}
+      </if>
+      <if test="cityCode != null" >
+        AND city_code=#{cityCode}
+      </if>
+    </where>
+  </select>
+  
+    <select id="selectByAreaCode" resultMap="BaseResultMap" parameterType="net.chetong.order.model.HyWorkPriceConfig">
+  	select 
+  	<include refid="Base_Column_List" />
+  	from hy_work_price_config
+  	<where>
+       <if test="provCode != null" >
+        AND prov_code=#{provCode} AND city_code is null
+      </if>
+      <if test="cityCode != null" >
+        AND city_code=#{cityCode}
+      </if>
+    </where>
+  </select>
+  
+</mapper>

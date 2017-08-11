@@ -1,0 +1,729 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="sqlmap_hy_order_task" >
+  <resultMap id="BaseResultMap" type="net.chetong.order.model.HyOrderTaskVO" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="case_no" property="caseNo" jdbcType="VARCHAR" />
+    <result column="order_no" property="orderNo" jdbcType="VARCHAR" />
+    <result column="transport_type" property="transportType" jdbcType="VARCHAR" />
+    <result column="support_linkman" property="supportLinkman" jdbcType="VARCHAR" />
+    <result column="support_linktel" property="supportLinktel" jdbcType="VARCHAR" />
+    <result column="case_linkman" property="caseLinkman" jdbcType="VARCHAR" />
+    <result column="case_linktel" property="caseLinktel" jdbcType="VARCHAR" />
+    <result column="send_linkman" property="sendLinkman" jdbcType="VARCHAR" />
+    <result column="send_linktel" property="sendLinktel" jdbcType="VARCHAR" />
+    <result column="receive_linkman" property="receiveLinkman" jdbcType="VARCHAR" />
+    <result column="receive_linktel" property="receiveLinktel" jdbcType="VARCHAR" />
+    <result column="carry_linktel" property="carryLinktel" jdbcType="VARCHAR" />
+    <result column="carry_linkman" property="carryLinkman" jdbcType="VARCHAR" />
+    <result column="insurer_linkman" property="insurerLinkman" jdbcType="VARCHAR" />
+    <result column="insurer_linktel" property="insurerLinktel" jdbcType="VARCHAR" />
+    <result column="insured_linkman" property="insuredLinkman" jdbcType="VARCHAR" />
+    <result column="insured_linktel" property="insuredLinktel" jdbcType="VARCHAR" />
+    <result column="buyer_user_id" property="buyerUserId" jdbcType="BIGINT" />
+    <result column="buyer_user_name" property="buyerUserName" jdbcType="VARCHAR" />
+    <result column="is_entrust" property="isEntrust" jdbcType="VARCHAR" />
+    <result column="carry_time" property="carryTime" jdbcType="TIMESTAMP" />
+    <result column="cargo_name" property="cargoName" jdbcType="VARCHAR" />
+    <result column="accident_time" property="accidentTime" jdbcType="TIMESTAMP" />
+    <result column="accident_address" property="accidentAddress" jdbcType="VARCHAR" />
+    <result column="accident_company" property="accidentCompany" jdbcType="VARCHAR" />
+    <result column="loss_desc" property="lossDesc" jdbcType="VARCHAR" />
+    <result column="survey_require" property="surveyRequire" jdbcType="VARCHAR" />
+    <result column="accident_cause" property="accidentCause" jdbcType="VARCHAR" />
+    <result column="limit_time" property="limitTime" jdbcType="TIMESTAMP" />
+    <result column="pay_money" property="payMoney" jdbcType="DECIMAL" />
+    <result column="real_money" property="realMoney" jdbcType="DECIMAL" />
+    <result column="express_address" property="expressAddress" jdbcType="VARCHAR" />
+    <result column="express_detail_address" property="expressDetailAddress" jdbcType="VARCHAR" />
+    <result column="express_prov_code" property="expressProvCode" jdbcType="VARCHAR" />
+    <result column="express_city_code" property="expressCityCode" jdbcType="VARCHAR" />
+    <result column="express_area_code" property="expressAreaCode" jdbcType="VARCHAR" />
+    <result column="express_linkman" property="expressLinkman" jdbcType="VARCHAR" />
+    <result column="express_linktel" property="expressLinktel" jdbcType="VARCHAR" />
+    <result column="remark" property="remark" jdbcType="VARCHAR" />
+    <result column="accident_detail_opinion" property="accidentDetailOpinion" jdbcType="VARCHAR" />
+    <result column="created_by" property="createdBy" jdbcType="VARCHAR" />
+    <result column="updated_by" property="updatedBy" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+    <collection property="hualwayList" resultMap="haulwayModel"/>
+  </resultMap>
+  
+  <resultMap type="net.chetong.order.model.HyOrderTaskHaulwayVO" id="haulwayModel">
+  	<id column="h_id" property="id" jdbcType="BIGINT" />
+  	<id column="h_task_id" property="taskId" jdbcType="BIGINT" />
+    <result column="start_address" property="startAddress" jdbcType="VARCHAR" />
+    <result column="end_address" property="endAddress" jdbcType="VARCHAR" />
+  </resultMap>
+  
+  
+  <sql id="Base_Column_List" >
+    id, case_no, order_no, transport_type, support_linkman, support_linktel, case_linkman, 
+    case_linktel, send_linkman, send_linktel, receive_linkman, receive_linktel, carry_linktel, 
+    carry_linkman, insurer_linkman, insurer_linktel, insured_linkman, insured_linktel, buyer_user_id, buyer_user_name, is_entrust,
+    carry_time, cargo_name, accident_time, accident_address, accident_company, loss_desc, 
+    survey_require, accident_cause, limit_time, pay_money, real_money, express_address, express_detail_address, express_prov_code, express_city_code, express_area_code,
+    express_linkman, express_linktel, accident_detail_opinion, remark, created_by, updated_by, create_time, update_time
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from hy_order_task
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from hy_order_task
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="net.chetong.order.model.HyOrderTaskVO" >
+    insert into hy_order_task (id, case_no, order_no, 
+      transport_type, support_linkman, support_linktel, 
+      case_linkman, case_linktel, send_linkman, 
+      send_linktel, receive_linkman, receive_linktel, 
+      carry_linktel, carry_linkman, insurer_linkman, 
+      insurer_linktel, insured_linkman, insured_linktel, buyer_user_id, buyer_user_name, is_entrust,
+      carry_time, cargo_name, accident_time, 
+      accident_address, accident_company, loss_desc, 
+      survey_require, accident_cause, limit_time, 
+      pay_money, real_money,
+      express_address, express_detail_address, express_prov_code, express_city_code, express_area_code,
+      express_linkman, express_linktel, accident_detail_opinion, remark, 
+      created_by, updated_by, create_time, 
+      update_time)
+    values (#{id,jdbcType=BIGINT}, #{caseNo,jdbcType=VARCHAR}, #{orderNo,jdbcType=VARCHAR}, 
+      #{transportType,jdbcType=VARCHAR}, #{supportLinkman,jdbcType=VARCHAR}, #{supportLinktel,jdbcType=VARCHAR}, 
+      #{caseLinkman,jdbcType=VARCHAR}, #{caseLinktel,jdbcType=VARCHAR}, #{sendLinkman,jdbcType=VARCHAR}, 
+      #{sendLinktel,jdbcType=VARCHAR}, #{receiveLinkman,jdbcType=VARCHAR}, #{receiveLinktel,jdbcType=VARCHAR}, 
+      #{carryLinktel,jdbcType=VARCHAR}, #{carryLinkman,jdbcType=VARCHAR}, #{insurerLinkman,jdbcType=VARCHAR}, 
+      #{insurerLinktel,jdbcType=VARCHAR}, #{insuredLinkman,jdbcType=VARCHAR}, #{insuredLinktel,jdbcType=VARCHAR}, 
+      #{buyerUserId}, #{buyerUserName}, #{isEntrust},
+      #{carryTime,jdbcType=TIMESTAMP}, #{cargoName,jdbcType=VARCHAR}, #{accidentTime,jdbcType=TIMESTAMP}, 
+      #{accidentAddress,jdbcType=VARCHAR}, #{accidentCompany,jdbcType=VARCHAR}, #{lossDesc,jdbcType=VARCHAR}, 
+      #{surveyRequire,jdbcType=VARCHAR}, #{accidentCause,jdbcType=VARCHAR}, #{limitTime,jdbcType=TIMESTAMP}, 
+      #{payMoney,jdbcType=DECIMAL}, #{realMoney,jdbcType=DECIMAL}, 
+      #{expressAddress,jdbcType=VARCHAR},  #{expressDetailAddress,jdbcType=VARCHAR},  #{expressProvCode,jdbcType=VARCHAR},  #{expressCityCode,jdbcType=VARCHAR},  #{expressAreaCode,jdbcType=VARCHAR}, 
+      #{expressLinkman,jdbcType=VARCHAR}, #{expressLinktel,jdbcType=VARCHAR}, #{accidentDetailOpinion}, #{remark,jdbcType=VARCHAR}, 
+      #{createdBy,jdbcType=VARCHAR}, #{updatedBy,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{updateTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="net.chetong.order.model.HyOrderTaskVO"  useGeneratedKeys="true" keyProperty="id">
+    insert into hy_order_task
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="caseNo != null" >
+        case_no,
+      </if>
+      <if test="orderNo != null" >
+        order_no,
+      </if>
+      <if test="transportType != null" >
+        transport_type,
+      </if>
+      <if test="supportLinkman != null" >
+        support_linkman,
+      </if>
+      <if test="supportLinktel != null" >
+        support_linktel,
+      </if>
+      <if test="caseLinkman != null" >
+        case_linkman,
+      </if>
+      <if test="caseLinktel != null" >
+        case_linktel,
+      </if>
+      <if test="sendLinkman != null" >
+        send_linkman,
+      </if>
+      <if test="sendLinktel != null" >
+        send_linktel,
+      </if>
+      <if test="receiveLinkman != null" >
+        receive_linkman,
+      </if>
+      <if test="receiveLinktel != null" >
+        receive_linktel,
+      </if>
+      <if test="carryLinktel != null" >
+        carry_linktel,
+      </if>
+      <if test="carryLinkman != null" >
+        carry_linkman,
+      </if>
+      <if test="insurerLinkman != null" >
+        insurer_linkman,
+      </if>
+      <if test="insurerLinktel != null" >
+        insurer_linktel,
+      </if>
+      <if test="insuredLinkman != null" >
+        insured_linkman,
+      </if>
+      <if test="insuredLinktel != null" >
+        insured_linktel,
+      </if>
+      <if test="buyerUserId != null" >
+        buyer_user_id,
+      </if>
+      <if test="buyerUserName != null" >
+        buyer_user_name,
+      </if>
+      <if test="isEntrust != null" >
+        is_entrust,
+      </if>
+      <if test="carryTime != null and carryTime != ''" >
+        carry_time,
+      </if>
+      <if test="cargoName != null" >
+        cargo_name,
+      </if>
+      <if test="accidentTime != null and accidentTime != ''" >
+        accident_time,
+      </if>
+      <if test="accidentAddress != null" >
+        accident_address,
+      </if>
+      <if test="accidentCompany != null" >
+        accident_company,
+      </if>
+      <if test="lossDesc != null" >
+        loss_desc,
+      </if>
+      <if test="surveyRequire != null" >
+        survey_require,
+      </if>
+      <if test="accidentCause != null" >
+        accident_cause,
+      </if>
+      <if test="limitTime != null and limitTime != '' " >
+        limit_time,
+      </if>
+      <if test="payMoney != null" >
+        pay_money,
+      </if>
+      <if test="realMoney != null" >
+        real_money,
+      </if>
+      <if test="expressAddress != null" >
+        express_address,
+      </if>
+      <if test="expressDetailAddress != null" >
+        express_detail_address,
+      </if>
+      <if test="expressProvCode != null" >
+        express_prov_code,
+      </if>
+      <if test="expressCityCode != null" >
+        express_city_code,
+      </if>
+      <if test="expressAreaCode != null" >
+        express_area_code,
+      </if>
+      <if test="expressLinkman != null" >
+        express_linkman,
+      </if>
+      <if test="expressLinktel != null" >
+        express_linktel,
+      </if>
+      <if test="accidentDetailOpinion != null" >
+        accident_detail_opinion,
+      </if>
+      <if test="remark != null" >
+        remark,
+      </if>
+      <if test="createdBy != null" >
+        created_by,
+      </if>
+      <if test="updatedBy != null" >
+        updated_by,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="updateTime != null" >
+        update_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="caseNo != null" >
+        #{caseNo,jdbcType=VARCHAR},
+      </if>
+      <if test="orderNo != null" >
+        #{orderNo,jdbcType=VARCHAR},
+      </if>
+      <if test="transportType != null" >
+        #{transportType,jdbcType=VARCHAR},
+      </if>
+      <if test="supportLinkman != null" >
+        #{supportLinkman,jdbcType=VARCHAR},
+      </if>
+      <if test="supportLinktel != null" >
+        #{supportLinktel,jdbcType=VARCHAR},
+      </if>
+      <if test="caseLinkman != null" >
+        #{caseLinkman,jdbcType=VARCHAR},
+      </if>
+      <if test="caseLinktel != null" >
+        #{caseLinktel,jdbcType=VARCHAR},
+      </if>
+      <if test="sendLinkman != null" >
+        #{sendLinkman,jdbcType=VARCHAR},
+      </if>
+      <if test="sendLinktel != null" >
+        #{sendLinktel,jdbcType=VARCHAR},
+      </if>
+      <if test="receiveLinkman != null" >
+        #{receiveLinkman,jdbcType=VARCHAR},
+      </if>
+      <if test="receiveLinktel != null" >
+        #{receiveLinktel,jdbcType=VARCHAR},
+      </if>
+      <if test="carryLinktel != null" >
+        #{carryLinktel,jdbcType=VARCHAR},
+      </if>
+      <if test="carryLinkman != null" >
+        #{carryLinkman,jdbcType=VARCHAR},
+      </if>
+      <if test="insurerLinkman != null" >
+        #{insurerLinkman,jdbcType=VARCHAR},
+      </if>
+      <if test="insurerLinktel != null" >
+        #{insurerLinktel,jdbcType=VARCHAR},
+      </if>
+      <if test="insuredLinkman != null" >
+        #{insuredLinkman,jdbcType=VARCHAR},
+      </if>
+      <if test="insuredLinktel != null" >
+        #{insuredLinktel,jdbcType=VARCHAR},
+      </if>
+      <if test="buyerUserId != null" >
+        #{buyerUserId},
+      </if>
+      <if test="buyerUserName != null" >
+        #{buyerUserName},
+      </if>
+      <if test="isEntrust != null" >
+        #{isEntrust},
+      </if>
+      <if test="carryTime != null and carryTime != ''" >
+        #{carryTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="cargoName != null" >
+        #{cargoName,jdbcType=VARCHAR},
+      </if>
+      <if test="accidentTime != null and accidentTime != ''" >
+        #{accidentTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="accidentAddress != null" >
+        #{accidentAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="accidentCompany != null" >
+        #{accidentCompany,jdbcType=VARCHAR},
+      </if>
+      <if test="lossDesc != null" >
+        #{lossDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="surveyRequire != null" >
+        #{surveyRequire,jdbcType=VARCHAR},
+      </if>
+      <if test="accidentCause != null" >
+        #{accidentCause,jdbcType=VARCHAR},
+      </if>
+      <if test="limitTime != null and limitTime != ''" >
+        #{limitTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="payMoney != null" >
+        #{payMoney,jdbcType=DECIMAL},
+      </if>
+      <if test="realMoney != null" >
+        #{realMoney,jdbcType=DECIMAL},
+      </if>
+      <if test="expressAddress != null" >
+        #{expressAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="expressDetailAddress != null" >
+        #{expressDetailAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="expressProvCode != null" >
+        #{expressProvCode,jdbcType=VARCHAR},
+      </if>
+      <if test="expressCityCode != null" >
+        #{expressCityCode,jdbcType=VARCHAR},
+      </if>
+      <if test="expressAreaCode != null" >
+        #{expressAreaCode,jdbcType=VARCHAR},
+      </if>
+      <if test="expressLinkman != null" >
+        #{expressLinkman,jdbcType=VARCHAR},
+      </if>
+      <if test="expressLinktel != null" >
+        #{expressLinktel,jdbcType=VARCHAR},
+      </if>
+      <if test="accidentDetailOpinion != null" >
+        #{accidentDetailOpinion},
+      </if>
+      <if test="remark != null" >
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="createdBy != null" >
+        #{createdBy,jdbcType=VARCHAR},
+      </if>
+      <if test="updatedBy != null" >
+        #{updatedBy,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="net.chetong.order.model.HyOrderTaskVO" >
+    update hy_order_task
+    <set >
+      <if test="caseNo != null" >
+        case_no = #{caseNo,jdbcType=VARCHAR},
+      </if>
+      <if test="orderNo != null" >
+        order_no = #{orderNo,jdbcType=VARCHAR},
+      </if>
+      <if test="transportType != null" >
+        transport_type = #{transportType,jdbcType=VARCHAR},
+      </if>
+      <if test="supportLinkman != null" >
+        support_linkman = #{supportLinkman,jdbcType=VARCHAR},
+      </if>
+      <if test="supportLinktel != null" >
+        support_linktel = #{supportLinktel,jdbcType=VARCHAR},
+      </if>
+      <if test="caseLinkman != null" >
+        case_linkman = #{caseLinkman,jdbcType=VARCHAR},
+      </if>
+      <if test="caseLinktel != null" >
+        case_linktel = #{caseLinktel,jdbcType=VARCHAR},
+      </if>
+      <if test="sendLinkman != null" >
+        send_linkman = #{sendLinkman,jdbcType=VARCHAR},
+      </if>
+      <if test="sendLinktel != null" >
+        send_linktel = #{sendLinktel,jdbcType=VARCHAR},
+      </if>
+      <if test="receiveLinkman != null" >
+        receive_linkman = #{receiveLinkman,jdbcType=VARCHAR},
+      </if>
+      <if test="receiveLinktel != null" >
+        receive_linktel = #{receiveLinktel,jdbcType=VARCHAR},
+      </if>
+      <if test="carryLinktel != null" >
+        carry_linktel = #{carryLinktel,jdbcType=VARCHAR},
+      </if>
+      <if test="carryLinkman != null" >
+        carry_linkman = #{carryLinkman,jdbcType=VARCHAR},
+      </if>
+      <if test="insurerLinkman != null" >
+        insurer_linkman = #{insurerLinkman,jdbcType=VARCHAR},
+      </if>
+      <if test="insurerLinktel != null" >
+        insurer_linktel = #{insurerLinktel,jdbcType=VARCHAR},
+      </if>
+      <if test="insuredLinkman != null" >
+        insured_linkman = #{insuredLinkman,jdbcType=VARCHAR},
+      </if>
+      <if test="insuredLinktel != null" >
+        insured_linktel = #{insuredLinktel,jdbcType=VARCHAR},
+      </if>
+      <if test="buyerUserId != null" >
+        buyer_user_id = #{buyerUserId},
+      </if>
+      <if test="buyerUserName != null" >
+        buyer_user_name = #{buyerUserName,jdbcType=VARCHAR},
+      </if>
+      <if test="isEntrust != null" >
+        is_entrust = #{isEntrust,jdbcType=VARCHAR},
+      </if>
+      <if test="carryTime != null and carryTime != ''" >
+        carry_time = #{carryTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="cargoName != null and cargoName != ''" >
+        cargo_name = #{cargoName,jdbcType=VARCHAR},
+      </if>
+      <if test="accidentTime != null and accidentTime !=''" >
+        accident_time = #{accidentTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="accidentAddress != null" >
+        accident_address = #{accidentAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="accidentCompany != null" >
+        accident_company = #{accidentCompany,jdbcType=VARCHAR},
+      </if>
+      <if test="lossDesc != null" >
+        loss_desc = #{lossDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="surveyRequire != null" >
+        survey_require = #{surveyRequire,jdbcType=VARCHAR},
+      </if>
+      <if test="accidentCause != null" >
+        accident_cause = #{accidentCause,jdbcType=VARCHAR},
+      </if>
+      <if test="limitTime != null and limitTime != ''" >
+        limit_time = #{limitTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="payMoney != null" >
+        pay_money = #{payMoney,jdbcType=DECIMAL},
+      </if>
+      <if test="realMoney != null" >
+        real_money = #{realMoney,jdbcType=DECIMAL},
+      </if>
+      <if test="expressAddress != null" >
+        express_address = #{expressAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="expressDetailAddress != null" >
+        express_detail_address = #{expressDetailAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="expressProvCode != null" >
+        express_prov_code = #{expressProvCode,jdbcType=VARCHAR},
+      </if>
+      <if test="expressCityCode != null" >
+        express_city_code = #{expressCityCode,jdbcType=VARCHAR},
+      </if>
+      <if test="expressAreaCode != null" >
+        express_area_code = #{expressAreaCode,jdbcType=VARCHAR},
+      </if>
+      <if test="expressLinkman != null" >
+        express_linkman = #{expressLinkman,jdbcType=VARCHAR},
+      </if>
+      <if test="expressLinktel != null" >
+        express_linktel = #{expressLinktel,jdbcType=VARCHAR},
+      </if>
+      <if test="accidentDetailOpinion != null" >
+        accident_detail_opinion = #{accidentDetailOpinion,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null" >
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="createdBy != null" >
+        created_by = #{createdBy,jdbcType=VARCHAR},
+      </if>
+      <if test="updatedBy != null" >
+        updated_by = #{updatedBy,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="net.chetong.order.model.HyOrderTaskVO" >
+    update hy_order_task
+    set case_no = #{caseNo,jdbcType=VARCHAR},
+      order_no = #{orderNo,jdbcType=VARCHAR},
+      transport_type = #{transportType,jdbcType=VARCHAR},
+      support_linkman = #{supportLinkman,jdbcType=VARCHAR},
+      support_linktel = #{supportLinktel,jdbcType=VARCHAR},
+      case_linkman = #{caseLinkman,jdbcType=VARCHAR},
+      case_linktel = #{caseLinktel,jdbcType=VARCHAR},
+      send_linkman = #{sendLinkman,jdbcType=VARCHAR},
+      send_linktel = #{sendLinktel,jdbcType=VARCHAR},
+      receive_linkman = #{receiveLinkman,jdbcType=VARCHAR},
+      receive_linktel = #{receiveLinktel,jdbcType=VARCHAR},
+      carry_linktel = #{carryLinktel,jdbcType=VARCHAR},
+      carry_linkman = #{carryLinkman,jdbcType=VARCHAR},
+      insurer_linkman = #{insurerLinkman,jdbcType=VARCHAR},
+      insurer_linktel = #{insurerLinktel,jdbcType=VARCHAR},
+      insured_linkman = #{insuredLinkman,jdbcType=VARCHAR},
+      insured_linktel = #{insuredLinktel,jdbcType=VARCHAR},
+      buyer_user_id = #{buyerUserId},
+      buyer_user_name = #{buyerUserName,jdbcType=VARCHAR},
+      is_entrust = #{isEntrust,jdbcType=VARCHAR},
+      carry_time = #{carryTime,jdbcType=TIMESTAMP},
+      cargo_name = #{cargoName,jdbcType=VARCHAR},
+      accident_time = #{accidentTime,jdbcType=TIMESTAMP},
+      accident_address = #{accidentAddress,jdbcType=VARCHAR},
+      accident_company = #{accidentCompany,jdbcType=VARCHAR},
+      loss_desc = #{lossDesc,jdbcType=VARCHAR},
+      survey_require = #{surveyRequire,jdbcType=VARCHAR},
+      accident_cause = #{accidentCause,jdbcType=VARCHAR},
+      limit_time = #{limitTime,jdbcType=TIMESTAMP},
+      pay_money = #{payMoney,jdbcType=DECIMAL},
+      real_money = #{realMoney,jdbcType=DECIMAL},
+      express_address = #{expressAddress,jdbcType=VARCHAR},
+      express_detail_address = #{expressDetailAddress,jdbcType=VARCHAR},
+      express_prov_code = #{expressProvCode,jdbcType=VARCHAR},
+      express_city_code = #{expressCityCode,jdbcType=VARCHAR},
+      express_area_code = #{expressAreaCode,jdbcType=VARCHAR},
+      express_linkman = #{expressLinkman,jdbcType=VARCHAR},
+      express_linktel = #{expressLinktel,jdbcType=VARCHAR},
+      accident_detail_opinion = #{accidentDetailOpinion,jdbcType=VARCHAR},
+      remark = #{remark,jdbcType=VARCHAR},
+      created_by = #{createdBy,jdbcType=VARCHAR},
+      updated_by = #{updatedBy,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_time = #{updateTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  
+  <!-- 根据案件号查询案件任务信息 -->
+  <select id="queryTaskInfoByCaseNo" parameterType="string" resultMap="BaseResultMap">
+  		SELECT
+  		    t.id,
+			t.case_no,
+			t.order_no,
+			t.transport_type,
+			t.support_linkman,
+			t.support_linktel,
+			t.case_linkman,
+			t.case_linktel,
+			t.send_linkman,
+			t.send_linktel,
+			t.receive_linkman,
+			t.receive_linktel,
+			t.carry_linktel,
+			t.carry_linkman,
+			t.insurer_linkman,
+			t.insurer_linktel,
+			t.insured_linkman,
+			t.insured_linktel,
+			t.buyer_user_id,
+			t.buyer_user_name,
+			t.is_entrust,
+			t.carry_time,
+			t.cargo_name,
+			t.accident_time,
+			t.accident_address,
+			t.accident_company,
+			t.loss_desc,
+			t.survey_require,
+			t.accident_cause,
+			t.limit_time,
+			t.pay_money,
+			t.real_money,
+			t.express_address,
+			t.express_linkman,
+			t.express_linktel,
+			t.accident_detail_opinion,
+			t.remark
+		FROM
+			hy_order_task t
+		WHERE
+			t.case_no = #{caseNo}
+  </select>
+  
+  <select id="queryTaskByOrderNo" parameterType="String" resultMap="BaseResultMap">
+      select
+  	  		t.id,
+			t.case_no,
+			t.order_no,
+			t.transport_type,
+			t.support_linkman,
+			t.support_linktel,
+			t.case_linkman,
+			t.case_linktel,
+			t.send_linkman,
+			t.send_linktel,
+			t.receive_linkman,
+			t.receive_linktel,
+			t.carry_linktel,
+			t.carry_linkman,
+			t.insurer_linkman,
+			t.insurer_linktel,
+			t.insured_linkman,
+			t.insured_linktel,
+			t.buyer_user_id,
+			t.buyer_user_name,
+			t.is_entrust,
+			t.carry_time,
+			t.cargo_name,
+			t.accident_time,
+			t.accident_address,
+			t.accident_company,
+			t.loss_desc,
+			t.survey_require,
+			t.accident_cause,
+			t.limit_time,
+			t.pay_money,
+			t.real_money,
+			t.express_address,
+			t.express_detail_address,
+			t.express_prov_code,
+			t.express_city_code,
+			t.express_area_code,
+			t.express_linkman,
+			t.express_linktel,
+			t.accident_detail_opinion,
+			t.remark,
+			h.id AS h_id,
+			h.task_id AS h_task_id,
+			h.start_address,
+			h.end_address
+		FROM
+			hy_order_task t
+			LEFT JOIN hy_order_task_haulway h 
+				ON  t.id = h.task_id
+		WHERE
+			t.order_no = #{orderNo}
+  </select>
+  
+  <select id="queryTaskByCaseNo" parameterType="String" resultMap="BaseResultMap">
+      select
+  	  		t.id,
+			t.case_no,
+			t.order_no,
+			t.transport_type,
+			t.support_linkman,
+			t.support_linktel,
+			t.case_linkman,
+			t.case_linktel,
+			t.send_linkman,
+			t.send_linktel,
+			t.receive_linkman,
+			t.receive_linktel,
+			t.carry_linktel,
+			t.carry_linkman,
+			t.insurer_linkman,
+			t.insurer_linktel,
+			t.insured_linkman,
+			t.insured_linktel,
+			t.buyer_user_id,
+			t.buyer_user_name,
+			t.is_entrust,
+			t.carry_time,
+			t.cargo_name,
+			t.accident_time,
+			t.accident_address,
+			t.accident_company,
+			t.loss_desc,
+			t.survey_require,
+			t.accident_cause,
+			t.limit_time,
+			t.pay_money,
+			t.real_money,
+			t.express_address,
+			t.express_detail_address,
+			t.express_prov_code,
+			t.express_city_code,
+			t.express_area_code,
+			t.express_linkman,
+			t.express_linktel,
+			t.accident_detail_opinion,
+			t.remark,
+			h.id AS h_id,
+			h.task_id AS h_task_id,
+			h.start_address,
+			h.end_address
+		FROM
+			hy_order_task t
+			LEFT JOIN hy_order_task_haulway h 
+				ON  t.id = h.task_id
+		WHERE
+			t.case_no = #{caseNo}
+  </select>
+</mapper>

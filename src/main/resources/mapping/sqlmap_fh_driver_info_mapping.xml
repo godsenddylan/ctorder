@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="sqlmap_fh_driver">
+	<sql id="driverSql">
+		created_by as createdBy,
+		created_date as createdDate,
+		updated_by as updatedBy,
+		updated_date as updatedDate,
+		id AS id,
+		driver_name AS driverName,
+		driver_phone AS driverPhone,
+		driver_card AS driverCard,
+		permit_model AS permitModel,
+		is_driver AS isDriver,
+		driver_type AS driverType,
+		remark AS remark,
+		car_id AS carId
+	</sql>
+	
+    <select id="queryDriverInfo" parameterType="map" resultType="FhDriverInfoVO">
+        select 
+			<include refid="driverSql"></include>
+		from fh_driver_info
+		<where>
+			<if test="id!= null">
+                  and id=#{id}
+            </if>
+            <if test="carId!= null">
+                  and car_id=#{carId}
+            </if>
+		</where>
+    </select>
+    
+	<insert id="insertDriverInfo" parameterType="FhDriverInfoVO" useGeneratedKeys="true" keyProperty="id">
+			INSERT INTO fh_driver_info  
+			(
+				created_by,created_date,updated_by,updated_date,
+				driver_name,driver_phone,driver_card,permit_model,
+				is_driver,driver_type,remark,car_id
+			)
+			VALUES
+	   		(
+	   			#{createdBy},SYSDATE(),#{updatedBy},SYSDATE(),
+	   			#{driverName},#{driverPhone},#{driverCard},#{permitModel},
+	   			#{isDriver},#{driverType},#{remark},#{carId}
+			)
+	</insert>
+	<update id="updateDriverInfo" parameterType="FhDriverInfoVO">
+		update fh_driver_info set
+		 	<if test="driverName!=null">
+		 		driver_name=#{driverName},
+		 	</if>
+		 	<if test="driverPhone!=null">
+		 		driver_phone = #{driverPhone},
+		 	</if>
+		 	<if test="driverCard!=null">
+		 		driver_card = #{driverCard},
+		 	</if>
+		 	<if test="permitModel!=null">
+		 		permit_model = #{permitModel},
+		 	</if>
+		 	<if test="isDriver!=null">
+		 		is_driver = #{isDriver},
+		 	</if>
+		 	<if test="driverType!=null">
+		 		driver_type = #{driverType},
+		 	</if>
+		 	<if test="remark!=null">
+		 		remark = #{remark},
+		 	</if>
+		 	<if test="carId!=null">
+		 		car_id = #{carId},
+		 	</if>
+			updated_by = #{updatedBy},
+			updated_date = SYSDATE()
+		where id=#{id}
+	</update>
+</mapper>

@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="sqlmap_fh_third_car_info">
+
+	<sql id="sqlThirdCarInfo">
+		created_by as createdBy,
+		created_date as createdDate,
+		updated_by as updatedBy,
+		updated_date as updatedDate,
+		id as id,
+		car_mark as carMark,
+		report_no as reportNo,
+		company_code as companyCode,
+		policy_no as policyNo,
+		claim_amount as claimAmount,
+		driver_name as driverName,
+		driver_phone as driverPhone,
+		remark as remark
+	</sql>
+	<select id="queryThirdCarInfo" resultType="FhThirdCarInfoVO" parameterType="map">
+		select <include refid="sqlThirdCarInfo" /> 
+		from fh_third_car_info
+		where 1=1
+		<if test="id!=null">
+			and id=#{id}
+		</if>
+		<if test="reportNo!=null">
+			and report_no=#{reportNo}
+		</if>
+	</select>
+	<insert id="insertThirdCarInfo" parameterType="FhThirdCarInfoVO" useGeneratedKeys="true" keyProperty="id">
+		insert into fh_third_car_info (
+			created_by,
+			created_date,
+			updated_by,
+			updated_date,
+			id,
+			car_mark,
+			report_no,
+			company_code,
+			policy_no,
+			claim_amount,
+			driver_name,
+			driver_phone,
+			remark
+		)values( 
+			#{createdBy},
+			SYSDATE(),
+			#{updatedBy},
+			SYSDATE(),
+			#{id},
+			#{carMark},
+			#{reportNo},
+			#{companyCode},
+			#{policyNo},
+			<choose>
+	   			<when test='claimAmount!=null and claimAmount!=""'>#{claimAmount},</when>
+	   			<otherwise>null,</otherwise>
+	   		</choose>
+			#{driverName},
+			#{driverPhone},
+			#{remark}
+		)
+	</insert>
+	<update id="updateThirdCarInfo" parameterType="FhThirdCarInfoVO">
+		update fh_third_car_info set
+			<if test="carMark!=null">
+				car_mark = #{carMark},
+			</if>
+			<if test="reportNo!=null">
+				report_no = #{reportNo},
+			</if>
+			<if test="companyCode!=null">
+				company_code = #{companyCode},
+			</if>
+			<if test="policyNo!=null">
+				policy_no = #{policyNo},
+			</if>
+			<if test="claimAmount!=null">
+				<choose>
+				<when test='claimAmount!=""'>claim_amount = #{claimAmount},</when>
+				<otherwise>claim_amount = null,</otherwise>
+				</choose>
+			</if>
+			<if test="driverName!=null">
+				driver_name = #{driverName},
+			</if>
+			<if test="driverPhone!=null">
+				driver_phone = #{driverPhone},
+			</if>
+			<if test="remark!=null">
+				remark = #{remark},
+			</if>
+				updated_by = #{updatedBy},
+				updated_date = SYSDATE()
+		where id=#{id}
+	</update>
+	
+	<select id="queryThreeCarListForAppend" parameterType="map" resultType="map">
+		SELECT 
+		  CAST(t.id AS CHAR) id,
+		  t.car_mark,
+		  t.driver_name,
+		  t.driver_phone 
+		FROM
+		  fh_third_car_info t
+		WHERE t.report_no = #{reportNo}
+	</select>
+	
+	<delete id="deleteThirdCarInfo">
+		delete from fh_third_car_info where id=#{id}
+	</delete>
+</mapper>

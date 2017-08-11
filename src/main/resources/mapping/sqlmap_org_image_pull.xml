@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="sqlmap_org_image_pull">
+
+	 <resultMap type="net.chetong.order.model.orgimgpull.CaseImageInfo" id="caseImageInfo">
+         <result property="caseNo" column="caseNo"/>
+         <result property="accidentTime" column="accidentTime"/>
+         <result property="sellerName" column="sellerName"/>
+         <result property="buyerName" column="buyerName"/>
+         <result property="carNo" column="carNo"/>
+         <collection property="images" resultMap="imageModel"></collection>
+     </resultMap>
+     
+	 <resultMap type="net.chetong.order.model.orgimgpull.ImageModel" id="imageModel">
+         <result property="taskId" column="taskId"/>
+         <result property="imgType" column="imgType"/>
+         <result property="imgName" column="imgName"/>
+         <result property="imgPath" column="imgPath"/>
+         <result property="insertTime" column="insertTime"/>
+         <result property="enabled" column="enabled"/>
+     </resultMap>
+     
+     <sql id="caseImageInfoSelect">
+     	c.case_no AS caseNo,
+		c.accident_time AS accidentTime,
+		o.seller_user_name AS sellerName,
+		o.buyer_user_name AS buyerName,
+		o.car_no AS carNo,
+		o.order_type AS orderType,
+		m.guid AS guid,
+		i.task_id AS taskId,
+		i.img_type AS imgType,
+		i.img_name AS imgName,
+		i.img_path AS imgPath,
+		i.insert_time AS insertTime,
+		i.enabled AS enabled
+     </sql>
+
+	<!-- 查询最近更新的作业信息 -->
+	<select id="queryLastImage" parameterType="net.chetong.order.model.orgimgpull.CaseImgsRequest" resultMap="caseImageInfo">
+		SELECT
+			<include refid="caseImageInfoSelect"></include>			
+		FROM
+			fh_loss_image i,
+			fh_survey_model m,
+			fm_order o,
+			fm_order_case_cx c
+		WHERE
+			i.guid = m.guid
+		AND m.order_code = o.order_no
+		AND o.case_id=c.id
+		AND o.import_type='0'
+		AND o.order_type='0'
+		<if test="isSpecialArea!=1">
+			AND o.ext1 = #{areaNo}
+		</if>
+		<if test="isSpecialArea==1">
+			AND o.ext2 = #{areaNo}
+		</if>
+		AND (i.update_time>#{lastTime}
+			OR i.insert_time>#{lastTime}
+		)
+		
+		UNION ALL
+		
+		SELECT
+			<include refid="caseImageInfoSelect"></include>	
+		FROM
+			fh_loss_image i,
+			fh_loss_model m,
+			fm_order o,
+			fm_order_case_cx c
+		WHERE
+			i.guid = m.guid
+		AND m.order_code = o.order_no
+		AND o.case_id=c.id
+		AND o.import_type='0'
+		AND o.order_source='0' <!-- 非追加订单 -->
+		<if test="isSpecialArea!=1">
+			AND o.ext1 = #{areaNo}
+		</if>
+		<if test="isSpecialArea==1">
+			AND o.ext2 = #{areaNo}
+		</if>
+		AND (i.update_time>#{lastTime}
+			OR i.insert_time>#{lastTime}
+		)
+	</select>
+	
+	<!-- 查询GUID下的所有车俩-->
+    <select id="queryAllCarByGuid" parameterType="java.lang.String" resultType="net.chetong.order.model.orgimgpull.CarModel">
+        SELECT
+			id AS taskId,
+			car_mark AS carMark,
+			is_subject AS isMain
+		FROM
+			fh_loss_model
+		WHERE
+			guid = #{guid} 
+			and enabled=1
+    </select>
+</mapper>

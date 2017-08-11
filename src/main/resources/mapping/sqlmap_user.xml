@@ -1,0 +1,1993 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="sqlmap_user">
+
+	<!-- 查询用户 -->
+	<select id="queryUserByKey" resultType="net.chetong.order.model.CtUserVO">
+		SELECT 
+			id as id, 
+			pid as pid, 
+			user_type as userType, 
+			is_sub as isSub, 
+			chk_stat as chkStat, 
+			stat as stat, 
+			ac_stat as acStat, 
+			bank_chk_stat as bankChkStat, 
+			service_stat as serviceStat, 
+			origin as origin, 
+			login_name as loginName, 
+			login_pwd as loginPwd, 
+			pay_pwd as payPwd, 
+			email as email, 
+			lastname as lastname, 
+			firstname as firstname, 
+			department as department, 
+			pin as pin, 
+			birthday as birthday, 
+			sex as sex, 
+			bank as bank, 
+			branch as branch, 
+			bank_no as bankNo, 
+			link_bank as linkBank, 
+			mobile as mobile, 
+			tel as tel, 
+			reg_time as regTime, 
+			last_time as lastTime, 
+			last_ip as lastIp, 
+			visit_count as visitCount, 
+			welcome as welcome, 
+			payable_bond_money as payableBondMoney, 
+			hy_payable_bond_money as hyPayableBondMoney,
+			user_money as userMoney, 
+			bond_money as bondMoney, 
+			bond_money_hy as bondMoneyHy,
+			frozen_money as frozenMoney, 
+			available_money as availableMoney, 
+			credit_money as creditMoney, 
+			total_money as totalMoney, 
+			oper_id as operId, 
+			chk_app_time as chkAppTime, 
+			chk_audit_time as chkAuditTime, 
+			chk_oper_audit_id as chkOperAuditId, 
+			chk_audit_reason as chkAuditReason, 
+			bank_chk_audit_time as bankChkAuditTime, 
+			bank_chk_oper_audit_id as bankChkOperAuditId, 
+			bank_chk_audit_reason as bankChkAuditReason, 
+			mail_prov_code as mailProvCode, 
+			mail_city_code as mailCityCode, 
+			mail_area_code as mailAreaCode, 
+			mail_prov_desc as mailProvDesc, 
+			mail_city_desc as mailCityDesc, 
+			mail_area_desc as mailAreaDesc, 
+			mail_address as mailAddress, 
+			my_credit as myCredit, 
+			is_fanhua as isFanhua, 
+			sound as sound, 
+			org_name as orgName, 
+			org_short_name as orgShortName, 
+			sign_rescue as signRescue, 
+			ext1 as ext1, 
+			ext2 as ext2, 
+			ext3 as ext3, 
+			ext4 as ext4, 
+			ext5 as ext5, 
+			is_mgr as isMgr,
+			is_seed_person as isSeedPerson,
+			show_price as showPrice
+		FROM
+			ct_user
+	    <where>		   
+		    	 and id = #{id}
+		</where>
+	</select>
+	
+	<select id="queryUser" resultType="net.chetong.order.model.CtUserVO"  parameterType="net.chetong.order.model.CtUserVO">
+		SELECT 
+			id as id, 
+			pid as pid, 
+			user_type as userType, 
+			is_sub as isSub, 
+			chk_stat as chkStat, 
+			stat as stat, 
+			ac_stat as acStat, 
+			bank_chk_stat as bankChkStat, 
+			service_stat as serviceStat, 
+			origin as origin, 
+			login_name as loginName, 
+			login_pwd as loginPwd, 
+			pay_pwd as payPwd, 
+			email as email, 
+			lastname as lastname, 
+			firstname as firstname, 
+			department as department, 
+			pin as pin, 
+			birthday as birthday, 
+			sex as sex, 
+			bank as bank, 
+			branch as branch, 
+			bank_no as bankNo, 
+			link_bank as linkBank, 
+			mobile as mobile, 
+			tel as tel, 
+			reg_time as regTime, 
+			last_time as lastTime, 
+			last_ip as lastIp, 
+			visit_count as visitCount, 
+			welcome as welcome, 
+			payable_bond_money as payableBondMoney, 
+			user_money as userMoney, 
+			bond_money as bondMoney, 
+			frozen_money as frozenMoney, 
+			available_money as availableMoney, 
+			credit_money as creditMoney, 
+			total_money as totalMoney, 
+			oper_id as operId, 
+			chk_app_time as chkAppTime, 
+			chk_audit_time as chkAuditTime, 
+			chk_oper_audit_id as chkOperAuditId, 
+			chk_audit_reason as chkAuditReason, 
+			bank_chk_audit_time as bankChkAuditTime, 
+			bank_chk_oper_audit_id as bankChkOperAuditId, 
+			bank_chk_audit_reason as bankChkAuditReason, 
+			mail_prov_code as mailProvCode, 
+			mail_city_code as mailCityCode, 
+			mail_area_code as mailAreaCode, 
+			mail_prov_desc as mailProvDesc, 
+			mail_city_desc as mailCityDesc, 
+			mail_area_desc as mailAreaDesc, 
+			mail_address as mailAddress, 
+			my_credit as myCredit, 
+			is_fanhua as isFanhua, 
+			sound as sound, 
+			org_name as orgName, 
+			org_short_name as orgShortName, 
+			sign_rescue as signRescue, 
+			ext1 as ext1, 
+			ext2 as ext2, 
+			ext3 as ext3, 
+			ext4 as ext4, 
+			ext5 as ext5, 
+			is_mgr as isMgr,
+			is_seed_person as isSeedPerson
+		FROM
+			ct_user
+	    <where>	
+	    		<if test="id!=null and id!=''">
+		    		and id = #{id}
+		    	 </if>	   
+		    	 <if test="pid!=null and pid!=''">
+		    	    and pid = #{pid}
+		    	 </if>	   
+		</where>
+	</select>
+
+	<!-- 查询议价下的车童用户id信息 -->
+	<select id="queryWorkTeamCtUserIdNegoPriceList" parameterType="java.util.Map" resultType="java.util.Map">
+		select
+			i.id as negoId,
+			g.id as groupId,
+			i.team_user_id as groupUserId,
+			i.is_default as isDefault
+		  from ct_group g, pr_nego_price_info i, pr_nego_price_area a
+		  where i.id = a.nego_id
+		    and g.user_id= i.team_user_id
+		  	and i.status = '1'
+		  	and i.subject_type = #{subjectType}
+		    and a.prov_code = #{provCode}
+		    and a.city_code = #{cityCode}
+		    <if test="countyCode != null and countyCode != '' ">
+		    	and a.county_code = #{countyCode}
+		    </if>
+		    <if test="buyerUserId != null and buyerUserId != '' ">
+		    	and i.buyer_user_id = #{buyerUserId}
+		    </if>
+		    <if test="isDefault != null and isDefault != '' ">
+		    	and i.is_default = #{isDefault}
+		    </if>
+	</select>
+	
+	<!-- 查询车童信息 -->
+	<select id="queryCtUserListWithSend" parameterType="java.util.Map" resultType="net.chetong.order.model.MyEntrustQueryPeopleVO">
+		SELECT
+			u.id AS userId,
+			u.lastname AS lastName,
+			u.firstname AS firstName,
+			u.mobile AS mobile,
+			u.sex AS sex,
+			s.review_rank AS reviewRank,
+			s.ext1 AS reviewScore,
+			s.ext2 AS serviceYear,
+			p.longitude AS personLongitude,
+			p.dimension AS personLatitude,
+			p.is_busy AS isBusy,
+			IF (30 > TIMESTAMPDIFF(MINUTE,p.last_notify_time,now()) AND p.ext1 = '1','1','0') AS isOnLine,
+		    <!-- ROUND(getDistance(p.longitude,p.dimension,#{longitude},#{latitude}),2) AS distance, -->
+		    u.is_seed_person AS isSeedPerson,
+		    (SELECT GROUP_CONCAT(cps.service_id) FROM ct_person_service cps WHERE cps.user_id = u.id) AS serviceId,
+		    (SELECT a.att_url FROM ct_attachment a WHERE u.id=a.user_id AND att_code='icon') AS iconImgPath,
+			(SELECT count(1) FROM fm_order o WHERE o.seller_user_id = u.id and o.deal_stat = '09') AS finishOrderCount,
+			IFNULL((SELECT 1 FROM ct_buyer_collection bc WHERE bc.seller_id = u.id AND bc.ext2 = #{buyerId} AND bc. STATUS = '2' AND bc.service_id = 1),'0') AS isCollect
+		FROM
+			ct_user u,              <!-- 用户表 -->
+			ct_person_group g,      <!-- 用户团队关联表 -->
+			ct_person_service s,    <!-- 用户加盟服务表 -->
+			ct_person_stat p		<!-- 用户状态表 -->
+		WHERE
+		 u.id = g.user_id
+		AND u.id = s.user_id
+		AND u.id = p.user_id
+		AND u.user_type = '0'
+		<choose>
+			<when test="isAllowMediation == 1">
+				AND u.id IN (
+								select user_id  from (
+									SELECT user_id,COUNT(1) AS num FROM ct_person_service 
+									WHERE (service_id = 1 OR service_id = 7) AND is_service = '1'
+											AND stat = '1' AND audit_stat = '0'
+								    GROUP BY user_id HAVING num = 2 	
+								) AS temp
+							)
+			</when>
+			<otherwise>
+				AND s.is_service = '1'
+				AND s.service_id='1'
+				AND s.stat = '1'
+				AND s.audit_stat = '0'
+			</otherwise>
+		</choose>
+		AND s.is_service = '1'
+		AND s.service_id='1'
+		AND s.stat = '1'
+		AND s.audit_stat = '0'
+		AND g.group_id = #{groupId}
+		<if test="isBusy == 0">
+	    	and p.is_busy = '0'
+	    </if>
+		<if test="isOnLine==1">       <!--是否要求在线-->
+		AND 30 > TIMESTAMPDIFF(MINUTE,p.last_notify_time,now())
+		AND p.ext1 = '1'
+		</if>
+		AND g.stat = '1'
+		AND u.chk_stat = '2'
+		AND u.stat = '0'
+		AND NOT EXISTS (     <!-- 没有拉黑 -->
+			SELECT
+				1
+			FROM
+				ct_buyer_pullblack bpb
+			WHERE
+				bpb. STATUS = '2'
+			AND u.id = bpb.seller_id
+			AND bpb.ext2 =#{buyerId}
+		)
+		<if test="isCollect == 1">
+		AND EXISTS (     <!-- 买家收藏车童 -->
+				SELECT
+					1
+				FROM
+					ct_buyer_collection bc
+				WHERE
+					bc.seller_id = u.id
+				AND bc.ext2 = #{buyerId}
+				AND bc. STATUS = '2'
+				AND bc.service_id = 1
+			)
+		</if>
+		<if test="queryKey !='' and queryKey != null">       <!-- 关键字查询 -->
+	     	and (CONCAT(u.lastname,u.firstname)= #{queryKey} or u.login_name= #{queryKey} or u.mobile= #{queryKey})
+	    </if>
+	    GROUP BY userId
+	    <if test="distanceOrder !=0">
+			ORDER BY
+				isOnLine DESC,
+				getDistance (p.longitude,p.dimension,#{longitude},#{latitude}) ASC
+		</if>
+	</select>
+	
+	<!-- 查询议价之外的车童信息 -->
+	<select id="queryCtUserListWithSendLimitN" parameterType="java.util.Map" resultType="net.chetong.order.model.MyEntrustQueryPeopleVO">
+		SELECT
+			u.id AS userId,
+			u.lastname AS lastName,
+			u.firstname AS firstName,
+			u.sex AS sex,
+			s.review_rank AS reviewRank,
+			s.ext1 AS reviewScore,
+			s.ext2 AS serviceYear,
+			p.longitude AS personLongitude,
+			p.dimension AS personLatitude,
+			p.is_busy AS isBusy,
+			IF (30 > TIMESTAMPDIFF(MINUTE,p.last_notify_time,now()) AND p.ext1 = '1','1','0') AS isOnLine,
+		    <!-- ROUND(getDistance(p.longitude,p.dimension,#{longitude},#{latitude}),2) AS distance, -->
+		    u.is_seed_person AS isSeedPerson,
+		    (SELECT GROUP_CONCAT(cps.service_id) FROM ct_person_service cps WHERE cps.user_id = u.id) AS serviceId,
+		    (SELECT a.att_url FROM ct_attachment a WHERE u.id=a.user_id AND att_code='icon') AS iconImgPath,
+			(SELECT count(1) FROM fm_order o WHERE o.seller_user_id = u.id and o.deal_stat = '09') AS finishOrderCount,
+			IFNULL((SELECT 1 FROM ct_buyer_collection bc WHERE bc.seller_id = u.id AND bc.ext2 = #{buyerId} AND bc. STATUS = '2' AND bc.service_id = 1),'0') AS isCollect
+		FROM
+			ct_user u,              <!-- 用户表 -->
+			ct_person_stat p,		<!-- 用户状态表 -->
+			ct_person_service s     <!-- 用户加盟服务表 -->
+		WHERE
+		 u.id = s.user_id
+		AND u.id = p.user_id
+		AND u.user_type = '0'
+		<choose>
+			<when test="isAllowMediation == 1">
+				AND u.id IN (
+								select user_id  from (
+									SELECT user_id,COUNT(1) AS num FROM ct_person_service 
+									WHERE (service_id = 1 OR service_id = 7) AND is_service = '1'
+											AND stat = '1' AND audit_stat = '0'
+								    GROUP BY user_id 
+								) AS temp
+							)
+			</when>
+			<otherwise>
+				AND s.is_service = '1'
+				AND s.service_id='1'
+				AND s.stat = '1'
+				AND s.audit_stat = '0'
+			</otherwise>
+		</choose>
+		<if test="isBusy == 0">
+	    	and p.is_busy = '0'
+	    </if>
+	    AND u.id not in (${exceptChetong})
+		<if test="isOnLine==1">       <!--是否要求在线-->
+		AND 30 > TIMESTAMPDIFF(MINUTE,p.last_notify_time,now())
+		AND p.ext1 = '1'
+		</if>
+		AND u.chk_stat = '2'
+		AND u.stat = '0'
+		AND NOT EXISTS (     <!-- 没有拉黑 -->
+			SELECT
+				1
+			FROM
+				ct_buyer_pullblack bpb
+			WHERE
+				bpb. STATUS = '2'
+			AND u.id = bpb.seller_id
+			AND bpb.ext2 =#{buyerId}
+		)
+		<if test="isCollect == 1">
+		AND EXISTS (     <!-- 买家收藏车童 -->
+				SELECT
+					1
+				FROM
+					ct_buyer_collection bc
+				WHERE
+					bc.seller_id = u.id
+				AND bc.ext2 = #{buyerId}
+				AND bc. STATUS = '2'
+				AND bc.service_id = 1
+			)
+		</if>
+	  	<if test="longitudeSubt !='' and longitudePlus !='' ">
+	     	and p.longitude BETWEEN #{longitudeSubt} and #{longitudePlus}
+	     </if>
+	    <if test="latitudeSubt !='' and latitudePlus !='' ">
+	     	and p.dimension BETWEEN #{latitudeSubt} and #{latitudePlus}
+	     </if>
+		<if test="queryKey !='' and queryKey != null">       <!-- 关键字查询 -->
+	     	and (CONCAT(u.lastname,u.firstname)= #{queryKey} or u.login_name= #{queryKey} or u.mobile= #{queryKey})
+	    </if>
+	    GROUP BY userId
+		<if test="distanceOrder !=0">
+			ORDER BY
+				isOnLine DESC,
+				getDistance (p.longitude,p.dimension,#{longitude},#{latitude}) ASC
+		</if>
+		LIMIT 0,#{num}
+	</select>
+	
+	<!-- 查询用户的团队信息根据用户id -->
+	<select id="queryUserGroupByUserId" parameterType="java.lang.Long" resultType="net.chetong.order.model.CtGroupVO">
+		SELECT
+			cg.id as id,
+			cg.user_id as userId,
+			cg.service_count as serviceCount,
+			cg.org_name as orgName,
+			cg.org_short_name as orgShortName,
+			cg.org_code as orgCode,
+			cg.business_code as businessCode,
+			cg.fax_code as faxCode,
+			cg.post_code as postCode,
+			cg.conn_name as connName,
+			cg.conn_dept as connDept,
+			cg.conn_tel1 as connTel1,
+			cg.conn_tel2 as connTel2,
+			cg.prov_code as provCode,
+			cg.city_code as cityCode,
+			cg.area_code as areaCode,
+			cg.prov_desc as provDesc,
+			cg.city_desc as cityDesc,
+			cg.area_desc as areaDesc,
+			cg.address as address,
+			cg.website as website,
+			cg.staff as staff,
+			cg.nature as nature,
+			cg.member_count as memberCount,
+			cg.head_company as headCompany,
+			cg.branch_company as branchCompany,
+			cg.org_type as orgType,
+			cg.work_require as workRequire,
+			cg.is_manage_org as isManageOrg
+		FROM
+			ct_group cg
+		WHERE
+		 cg.user_id = #{userId}
+	</select>
+	
+	<!-- 查询委托人信息 -->
+	<select id="queryGrantUserListByBuyerId" parameterType="java.util.Map" resultType="net.chetong.order.model.GrantUserInfoModel">
+		select
+			t.id as grantId,
+			t.grant_id_c as grantUserId,
+			g.org_name as grantName
+		  from ct_third_apply_info t, ct_group g
+		  where t.grant_id_c = g.user_id
+		    and t.service_id = #{serviceId}
+		    and t.grant_type = '1'
+		    and t.status = '2'
+		    and t.apply_id_a = #{applyId}
+		    <if test="grantUserName != null and grantUserName != '' ">
+		    	and g.org_name like concat('%',#{grantUserName},'%')
+		    </if>
+	</select>
+	
+	<!-- 我的作业 导出列表 不分页-->
+	<select id="queryMyWorkToExcelExport" parameterType="java.util.Map" resultType ="net.chetong.order.model.MyWorkResponseModel" >
+			SELECT 
+				o.deal_stat as dealStat,
+				o.order_no as orderNo,
+				o.case_no as caseNo,
+				o.buyer_user_id as buyerId,
+				o.buyer_user_name as buyerName,
+				o.order_type as orderType,
+				o.send_time as getTime,
+				o.final_time as finishTime,
+				o.link_man as linkMan,
+				o.work_address as accidentAddress,
+				o.ct_address	as ctAddress,
+				o.car_no as carNo,
+			    concat(IFNULL(u.lastname,''),IFNULL(u.firstname,'')) as sellerName,
+				u.sex as sellerSex,
+				u.mobile as sellerMobile,
+				<if test="userType == 0">
+				IFNULL(d.service_money, 0) AS serviceMoney
+				</if>
+				<if test="userType == 2">
+				 (IFNULL(d.group_money, 0)+IFNULL(d.service_money,0)) AS serviceMoney
+				 </if>
+			FROM
+				fm_order o,
+				fm_order_case_cx c,
+				ct_user u,
+				fm_order_cost d
+			<where>
+					o.case_id = c.id
+				AND u.id = o.seller_user_id
+				AND d.order_id = o.id
+				<if test="userType == 0">
+					 AND o.seller_user_id = #{userId}
+				</if>
+				<if test="userType == 2">
+					 AND o.group_user_id = #{userId}
+				</if>
+				 <if test="orderTypeList!=null and orderTypeList!=''">
+				 	AND o.order_type in 
+				 	<foreach collection="orderTypeList" item="orderTypeItem" open="(" separator="," close=")">
+				 		#{orderTypeItem}
+				 	</foreach>
+			 	</if>
+				<if test="dealStatList!=null and dealStatList!=''">
+				 	AND o.deal_stat in 
+				 	<foreach collection="dealStatList" item="dealStatItem" open="(" separator="," close=")">
+				 		#{dealStatItem}
+				 	</foreach>
+				 </if>
+				 <if test="sendTimeBegin!=null and sendTimeBegin!=''">
+				 	<![CDATA[ AND o.send_time>=CONCAT(#{sendTimeBegin},' 00:00:00') ]]> 
+				 </if>
+				 <if test="sendTimeEnd!=null and sendTimeEnd!=''">
+				 	<![CDATA[	AND o.send_time<=CONCAT(#{sendTimeEnd},' 23:59:59') ]]> 
+				 </if>
+				 <if test="fuzzySearch!=null and fuzzySearch!=''">
+				 	AND CONCAT(ifnull(o.order_no,''),'|',ifnull(o.car_no,''),'|',ifnull(c.case_no,''),
+				 	'|',ifnull(o.buyer_user_name,''),'|',ifnull(o.seller_user_name,''),'|',ifnull(c.accident_address,''),
+				 	'|',ifnull(DATE_FORMAT( o.send_time,'%Y-%m-%d %H:%i:%s'),'')) LIKE CONCAT('%',#{fuzzySearch },'%')
+				 </if>
+		            and o.import_type!='1'
+		            and o.order_type!='51'
+	  		</where>
+	  		ORDER BY 
+	  			<if test="isCaseNo==1">
+	  			c.id DESC, 
+	  			</if>
+	  			o.id DESC
+	</select>
+	
+	<!-- 导出我的委托 不分页, (已弃用 2016-10-27)-->
+	<select id="queryMyEntrustToExcelExport" parameterType="java.util.Map" resultType ="net.chetong.order.model.MyEntrustResponseModel" >
+		SELECT 
+			o.id as id,
+			o.deal_stat as dealStat,
+			o.order_no as orderNo,
+			o.case_id as caseId,
+			o.case_no as caseNo,
+			o.buyer_user_id as buyerId,
+			o.seller_user_id as sellerId,
+			o.order_type as orderType,
+			o.send_time as getTime,
+			o.final_time as finishTime,
+			o.link_man as buyerName,
+			AES_DECRYPT(UNHEX(o.link_Tel),'CHEtong@20161102') as linkTel,
+			o.work_address as accidentAddress,
+			o.ct_address	as ctAddress,
+			o.car_no as carNo,
+			o.ext4 as orderInoutType,
+			(SELECT u.login_name FROM ct_user u WHERE u.id=o.buyer_user_id) as buyerLoginName,
+			(SELECT g.org_name FROM ct_group g WHERE g.user_id=o.group_user_id) as buyerOrgName,
+			(SELECT CONCAT(IFNULL(u.lastname,''),IFNULL(u.firstname,'')) FROM ct_user u WHERE u.id=o.seller_user_id) as sellerName,
+			(SELECT u.sex FROM ct_user u WHERE u.id=o.seller_user_id) as sellerSex,
+			(SELECT a.audit_name FROM fm_order_audit a WHERE a.order_id=o.id ORDER BY a.id DESC LIMIT 1) as auditName,
+			IFNULL(d.base_fee, 0) AS baseMoney,
+			IFNULL(d.remote_fee, 0) AS travelMoney,
+			IFNULL(d.add_fee, 0) AS extraMoney,
+			IFNULL(d.bonus_fee, 0) AS rewardMoney,
+			IFNULL(d.scheduling_fee, 0) AS sendMoney,
+			IFNULL(d.audit_fee, 0) AS auditMoney,
+			IFNULL(d.base_invoice_fee, 0) AS baseMoneyTdk,
+			IFNULL(d.travel_invoice_fee, 0) AS travelMoneyTdk,
+			IFNULL(d.add_invoice_fee, 0) AS extraMoneyTdk,
+			IFNULL(d.bonus_invoice_fee, 0) AS rewardMoneyTdk 
+		FROM 
+			fm_order o,
+			fm_order_cost_detail_temp d,
+			fm_order_case_cx c
+		<where>
+				d.order_id = o.id
+			AND c.case_no=o.case_no
+			AND o.service_id = 1
+			<if test="orderTypeList!=null and orderTypeList!=''">
+				 	AND o.order_type in 
+				 	<foreach collection="orderTypeList" item="orderTypeItem" open="(" separator="," close=")">
+				 		#{orderTypeItem}
+				 	</foreach>
+			 	</if>
+				<if test="dealStatList!=null and dealStatList!=''">
+				 	AND o.deal_stat in 
+				 	<foreach collection="dealStatList" item="dealStatItem" open="(" separator="," close=")">
+				 		#{dealStatItem}
+				 	</foreach>
+				 </if>
+				 <if test="sendTimeBegin!=null and sendTimeBegin!=''">
+				 	<![CDATA[ AND o.send_time>=CONCAT(#{sendTimeBegin},' 00:00:00') ]]> 
+				 </if>
+				 <if test="sendTimeEnd!=null and sendTimeEnd!=''">
+				 	<![CDATA[	AND o.send_time<=CONCAT(#{sendTimeEnd},' 23:59:59') ]]> 
+				 </if>
+				 <if test="fuzzySearch!=null and fuzzySearch!=''">
+				 	AND CONCAT(ifnull(o.order_no,''),'|',ifnull(o.car_no,''),'|',ifnull(c.case_no,''),
+				 	'|',ifnull(o.buyer_user_name,''),'|',ifnull(o.seller_user_name,''),'|',ifnull(c.accident_address,''),
+				 	'|',ifnull(DATE_FORMAT( o.send_time,'%Y-%m-%d %H:%i:%s'),'')) LIKE CONCAT('%',#{fuzzySearch },'%')
+				 </if>
+	            AND o.import_type!='1'
+	            AND o.order_type!='51'
+		        <if test="isPid == 0">
+		 			<if test="areas != null and areas.size()>0">
+			 			AND o.ext1 IN 
+			 			<foreach collection="areas" item="area" open="(" separator="," close=")">
+		 					#{area}
+		 				</foreach>
+					</if>
+					<if test="caseNo != null and caseNo != '' ">
+						AND o.case_no like "%"#{caseNo}"%"
+					</if>
+		 		</if>
+	            <choose>
+			 		<when test="showEntrust == 1">
+			 			<trim prefix="AND(" suffix=")" prefixOverrides="OR" >
+					 	<if test="helpAudit == 1">
+					 		OR o.buyer_user_id IN(
+								SELECT DISTINCT t.grant_id_c FROM ct_third_apply_info t WHERE t.grant_type = '2' AND t.status = '2' AND t.service_id = '1' 
+								AND (t.apply_id_a = #{userPid} OR t.middle_id_b = #{userPid})
+								)
+					 	</if>
+					 	<if test="beSended == 1 and isPid == 0">
+					 		OR (o.buyer_user_id = #{userPid} and o.ext7 != #{userId})
+					 	</if>
+					 	<if test="helpSend == 1 and isPid == 0">
+					 		OR (o.buyer_user_id != #{userPid} and o.ext7 = #{userId})
+					 	</if>
+					 	<if test="beSended == 1 and isPid == 1">
+					 		OR (o.buyer_user_id = #{userPid} and o.send_id != #{userPid})
+					 	</if>
+					 	<if test="helpSend == 1 and isPid == 1">
+					 		OR (o.buyer_user_id != #{userPid} and o.send_id = #{userPid})
+					 	</if>
+					 	</trim>
+			 		</when>
+			 		<otherwise>
+			 			AND o.buyer_user_id = #{userPid}
+			 		</otherwise>
+			 	</choose>
+	  		</where>
+  		ORDER BY
+  		<if test="isCaseNo==1">
+	  			c.id DESC, 
+	  	</if>
+  			o.id DESC
+	</select>
+	
+		<update id="updateByKeyNotNull">
+		UPDATE ct_user 
+		  <trim prefix="SET" suffixOverrides=",">  
+					<if test="pid!= null">
+		   			pid = #{pid},
+		   			</if>  
+					<if test="userType!= null">
+		   			user_type = #{userType},
+		   			</if>  
+					<if test="isSub!= null">
+		   			is_sub = #{isSub},
+		   			</if>  
+					<if test="chkStat!= null">
+		   			chk_stat = #{chkStat},
+		   			</if>  
+					<if test="stat!= null">
+		   			stat = #{stat},
+		   			</if>  
+					<if test="acStat!= null">
+		   			ac_stat = #{acStat},
+		   			</if>  
+					<if test="bankChkStat!= null">
+		   			bank_chk_stat = #{bankChkStat},
+		   			</if>  
+					<if test="serviceStat!= null">
+		   			service_stat = #{serviceStat},
+		   			</if>  
+					<if test="origin!= null">
+		   			origin = #{origin},
+		   			</if>  
+					<if test="loginName!= null">
+		   			login_name = #{loginName},
+		   			</if>  
+					<if test="loginPwd!= null">
+		   			login_pwd = #{loginPwd},
+		   			</if>  
+					<if test="payPwd!= null">
+		   			pay_pwd = #{payPwd},
+		   			</if>  
+					<if test="email!= null">
+		   			email = #{email},
+		   			</if>  
+					<if test="lastname!= null">
+		   			lastname = #{lastname},
+		   			</if>  
+					<if test="firstname!= null">
+		   			firstname = #{firstname},
+		   			</if>  
+					<if test="department!= null">
+		   			department = #{department},
+		   			</if>  
+					<if test="pin!= null">
+		   			pin = #{pin},
+		   			</if>  
+					<if test="birthday!= null">
+		   			birthday = #{birthday},
+		   			</if>  
+					<if test="sex!= null">
+		   			sex = #{sex},
+		   			</if>  
+					<if test="bank!= null">
+		   			bank = #{bank},
+		   			</if>  
+					<if test="branch!= null">
+		   			branch = #{branch},
+		   			</if>  
+					<if test="bankNo!= null">
+		   			bank_no = #{bankNo},
+		   			</if>  
+					<if test="linkBank!= null">
+		   			link_bank = #{linkBank},
+		   			</if>  
+					<if test="mobile!= null">
+		   			mobile = #{mobile},
+		   			</if>  
+					<if test="tel!= null">
+		   			tel = #{tel},
+		   			</if>  
+					<if test="regTime!= null">
+		   			reg_time = #{regTime},
+		   			</if>  
+					<if test="lastTime!= null">
+		   			last_time = #{lastTime},
+		   			</if>  
+					<if test="lastIp!= null">
+		   			last_ip = #{lastIp},
+		   			</if>  
+					<if test="visitCount!= null">
+		   			visit_count = #{visitCount},
+		   			</if>  
+					<if test="welcome!= null">
+		   			welcome = #{welcome},
+		   			</if>  
+					<if test="payableBondMoney!= null">
+		   			payable_bond_money = #{payableBondMoney},
+		   			</if>  
+					<if test="userMoney!= null">
+		   			user_money = #{userMoney},
+		   			</if>  
+					<if test="bondMoney!= null">
+		   			bond_money = #{bondMoney},
+		   			</if>  
+					<if test="frozenMoney!= null">
+		   			frozen_money = #{frozenMoney},
+		   			</if>  
+					<if test="availableMoney!= null">
+		   			available_money = #{availableMoney},
+		   			</if>  
+					<if test="creditMoney!= null">
+		   			credit_money = #{creditMoney},
+		   			</if>  
+					<if test="totalMoney!= null">
+		   			total_money = #{totalMoney},
+		   			</if>  
+					<if test="operId!= null">
+		   			oper_id = #{operId},
+		   			</if>  
+					<if test="chkAppTime!= null">
+		   			chk_app_time = #{chkAppTime},
+		   			</if>  
+					<if test="chkAuditTime!= null">
+		   			chk_audit_time = #{chkAuditTime},
+		   			</if>  
+					<if test="chkOperAuditId!= null">
+		   			chk_oper_audit_id = #{chkOperAuditId},
+		   			</if>  
+					<if test="chkAuditReason!= null">
+		   			chk_audit_reason = #{chkAuditReason},
+		   			</if>  
+					<if test="bankChkAuditTime!= null">
+		   			bank_chk_audit_time = #{bankChkAuditTime},
+		   			</if>  
+					<if test="bankChkOperAuditId!= null">
+		   			bank_chk_oper_audit_id = #{bankChkOperAuditId},
+		   			</if>  
+					<if test="bankChkAuditReason!= null">
+		   			bank_chk_audit_reason = #{bankChkAuditReason},
+		   			</if>  
+					<if test="mailProvCode!= null">
+		   			mail_prov_code = #{mailProvCode},
+		   			</if>  
+					<if test="mailCityCode!= null">
+		   			mail_city_code = #{mailCityCode},
+		   			</if>  
+					<if test="mailAreaCode!= null">
+		   			mail_area_code = #{mailAreaCode},
+		   			</if>  
+					<if test="mailProvDesc!= null">
+		   			mail_prov_desc = #{mailProvDesc},
+		   			</if>  
+					<if test="mailCityDesc!= null">
+		   			mail_city_desc = #{mailCityDesc},
+		   			</if>  
+					<if test="mailAreaDesc!= null">
+		   			mail_area_desc = #{mailAreaDesc},
+		   			</if>  
+					<if test="mailAddress!= null">
+		   			mail_address = #{mailAddress},
+		   			</if>  
+					<if test="myCredit!= null">
+		   			my_credit = #{myCredit},
+		   			</if>  
+					<if test="isFanhua!= null">
+		   			is_fanhua = #{isFanhua},
+		   			</if>  
+					<if test="sound!= null">
+		   			sound = #{sound},
+		   			</if>  
+					<if test="orgName!= null">
+		   			org_name = #{orgName},
+		   			</if>  
+					<if test="orgShortName!= null">
+		   			org_short_name = #{orgShortName},
+		   			</if>  
+					<if test="signRescue!= null">
+		   			sign_rescue = #{signRescue},
+		   			</if>  
+					<if test="ext1!= null">
+		   			ext1 = #{ext1},
+		   			</if>  
+					<if test="ext2!= null">
+		   			ext2 = #{ext2},
+		   			</if>  
+					<if test="ext3!= null">
+		   			ext3 = #{ext3},
+		   			</if>  
+					<if test="ext4!= null">
+		   			ext4 = #{ext4},
+		   			</if>  
+					<if test="ext5!= null">
+		   			ext5 = #{ext5},
+		   			</if>  
+					<if test="isMgr!= null">
+		   			is_mgr = #{isMgr},
+		   			</if>
+		   			<if test="showPrice!= null">
+                    show_price = #{showPrice},
+                    </if>  
+		   			<if test="bondMoneyHy != null">
+                    bond_money_hy = #{bondMoneyHy},
+                    </if>  
+		  </trim>
+		  <where>	   
+				    and id = #{id}
+		 </where>
+	</update>
+	
+	<!-- 查询货运险派单车童列表信息 -->
+	<select id="queryHyUserListWithSend" parameterType="java.util.Map" resultType="net.chetong.order.model.MyEntrustQueryPeopleVO">
+	SELECT
+			u.id AS userId,
+			u.lastname AS lastName,
+			u.firstname AS firstName,
+			u.sex AS sex,
+			s.review_rank AS reviewRank,
+			s.ext1 AS reviewScore,
+			s.ext2 AS serviceYear,
+			p.longitude AS personLongitude,
+			p.dimension AS personLatitude,
+			p.is_busy AS isBusy,
+			IF (30 > TIMESTAMPDIFF(MINUTE,p.last_notify_time,now()) AND p.ext1 = '1','1','0') AS isOnLine,
+		    u.is_seed_person AS isSeedPerson,
+		    (SELECT GROUP_CONCAT(cps.service_id) FROM ct_person_service cps WHERE cps.user_id = u.id) AS serviceId,
+		    (SELECT a.att_url FROM ct_attachment a WHERE u.id=a.user_id AND att_code='icon') AS iconImgPath,
+			(SELECT count(1) FROM hy_order o WHERE o.seller_user_id = u.id and o.deal_stat = '09') AS finishOrderCount,
+			IFNULL((SELECT 1 FROM ct_buyer_collection bc WHERE bc.seller_id = u.id AND bc.ext2 = #{buyerId} AND bc. STATUS = '2' AND bc.service_id = #{serviceId}),'0') AS isCollect
+		FROM
+			ct_user u,              <!-- 用户表 -->
+			ct_person_stat p,		<!-- 用户状态表 -->
+			ct_person_service s     <!-- 用户加盟服务表 -->
+		WHERE
+		 u.id = s.user_id
+		AND u.id = p.user_id
+		AND u.user_type = '0'
+		AND s.is_service = '1'
+		AND s.service_id = #{serviceId}
+		AND s.audit_stat = '0'
+		<if test="exceptChetong != null and exceptChetong.size() > 0">
+		AND u.id not in 
+			<foreach collection="exceptChetong" item="exCtUser" open="(" separator="," close=")">
+		 		#{exCtUser.userId}
+		 	</foreach>
+		</if>
+		<if test="isBusy == 0">
+	    	and p.is_busy = '0'
+	    </if>
+		<if test="isOnLine==1">       <!--是否要求在线-->
+		AND 30 > TIMESTAMPDIFF(MINUTE,p.last_notify_time,now())
+		AND p.ext1 = '1'
+		</if>
+		AND NOT EXISTS (     <!-- 没有拉黑 -->
+			SELECT
+				1
+			FROM
+				ct_buyer_pullblack bpb
+			WHERE
+				bpb. STATUS = '2'
+			AND u.id = bpb.seller_id
+			AND bpb.ext2 =#{buyerId}
+		)
+		<if test="isCollect == 1">
+		AND EXISTS (     <!-- 买家收藏车童 -->
+				SELECT
+					1
+				FROM
+					ct_buyer_collection bc
+				WHERE
+					bc.seller_id = u.id
+				AND bc.ext2 = #{buyerId}
+				AND bc. STATUS = '2'
+				AND bc.service_id = #{serviceId}
+			)
+		</if>
+		<if test="longitudeSubt !='' and longitudePlus !='' ">
+	     	and p.longitude BETWEEN #{longitudeSubt} and #{longitudePlus}
+	    </if>
+	    <if test="latitudeSubt !='' and latitudePlus !='' ">
+	     	and p.dimension BETWEEN #{latitudeSubt} and #{latitudePlus}
+	     </if>
+		<if test="queryKey !='' and queryKey != null">       <!-- 关键字查询 -->
+	     	and (CONCAT(u.lastname,u.firstname)= #{queryKey} or u.login_name= #{queryKey} or u.mobile= #{queryKey})
+	    </if>
+	    GROUP BY userId
+		<if test="distanceOrder !=0">
+			ORDER BY
+				isOnLine DESC,
+				getDistance (p.longitude,p.dimension,#{longitude},#{latitude}) ASC
+		</if>
+		LIMIT #{num}
+	</select>
+	
+	<!-- 更新用户金额 -->
+	<update id="updateUserMoneyByUserId" parameterType="map">
+		UPDATE ct_user
+			 SET user_money = IFNULL(user_money,0) + #{changeMoney},
+			 available_money = IFNULL(available_money,0) + #{changeMoney}
+		WHERE
+			id = #{userId}
+	</update>
+	
+	<!--  货运险导出我的作业不分页-->
+	<select id="queryMyEntrustToExcelExportHY" parameterType="java.util.Map" resultType ="net.chetong.order.model.HyMyEntrustModel" >
+		SELECT 
+			o.id as id,
+			o.deal_stat as dealStat,
+			o.order_no as orderNo,
+			o.case_no as caseNo,
+			o.buyer_user_id as buyerId,
+			o.buyer_user_name as buyerName,
+			o.buyer_tel as buyerMobile,
+			o.seller_user_id as sellerId,
+			o.seller_user_name as sellerName,
+			o.seller_tel as sellerMobile,
+			o.entrust_user_id as entrustUserId,
+			o.entrust_user_name as entrustName,
+			o.entrust_tel as entrustMobile,
+			o.send_time as getTime,
+			o.final_time as finishTime,
+			o.send_address as accidentAddress,
+			o.grab_address	as ctAddress,			
+			u.sex as sellerSex,
+			u1.login_name as buyerLoginName,
+			g.org_name as buyerOrgName,
+			aa.audit_name as auditName,
+			IFNULL(d.buyer_money, 0) AS buyerMoney,
+			IFNULL(d.seller_money, 0) AS sellerMoney,
+			IFNULL(d.group_money, 0) AS groupMoney
+		FROM 
+			hy_order o LEFT JOIN
+			hy_cost d ON d.order_no = o.order_no
+			left join ct_user u on u.id = o.seller_user_id
+			left join ct_user u1 on u1.id = o.buyer_user_id
+			left join ct_group g on g.user_id = o.buyer_user_id
+			left join (select a.order_id,a.audit_name FROM fm_order_audit a where a.stat='0' and a.audit_id_type='0' )aa on aa.order_id = o.id
+			,hy_order_task t,hy_order_case c 
+		<where>
+			o.service_id = 5 AND o.order_no = t.order_no AND  o.case_no = c.case_no
+			<if test="userType == 0">
+					 AND o.seller_user_id = #{userId}
+				</if>
+				<if test="userType == 2">
+					 AND o.group_user_id = #{userId}
+				</if>
+		    <if test="dealStatList!=null and dealStatList.size() > 0">
+			 	AND o.deal_stat in 
+			 	<foreach collection="dealStatList" item="dealStatItem" open="(" separator="," close=")">
+			 		#{dealStatItem}
+			 	</foreach>
+			 </if>
+			 <if test="sendTimeBegin!=null">
+			<![CDATA[ AND o.send_time>=CONCAT(#{sendTimeBegin},' 00:00:00') ]]> 
+			 </if>
+			 <if test="sendTimeEnd!=null">
+			 <![CDATA[	AND o.send_time<=CONCAT(#{sendTimeEnd},' 23:59:59') ]]> 
+			 </if>
+			 <if test="finalTimeBegin!=null and finalTimeBegin!=''">
+				<![CDATA[ AND o.final_time>=CONCAT(#{finalTimeBegin},' 00:00:00') ]]> 
+			 </if>
+			 <if test="finalTimeEnd!=null and finalTimeEnd!=''">
+			 	<![CDATA[	AND o.final_time<=CONCAT(#{finalTimeEnd},' 23:59:59') ]]> 
+			 </if>
+			 <if test="fuzzySearch!=null">
+			 	AND CONCAT(ifnull(o.order_no,''),'|',ifnull(o.case_no,''),'|',ifnull(t.case_linkman,''),'|',ifnull(o.buyer_user_name,''),'|'
+			 	,ifnull(o.seller_user_name,''),'|',ifnull(t.accident_address,''),'|'
+			 	,ifnull(DATE_FORMAT( o.send_time,'%Y-%m-%d %H:%i:%s'),'')) LIKE CONCAT('%',#{fuzzySearch },'%')
+			 </if>
+  		</where>
+  		ORDER BY c.case_no DESC , o.id DESC 
+	</select>
+	
+	<!--  货运险导出我的委托不分页-->
+	<select id="queryMyEntrustToExcelExportHYForGroup" parameterType="java.util.Map" resultType ="net.chetong.order.model.HyMyEntrustModel" >
+		SELECT 
+			o.id as id,
+			o.deal_stat as dealStat,
+			o.order_no as orderNo,
+			o.case_no as caseNo,
+			o.buyer_user_id as buyerId,
+			o.buyer_user_name as buyerName,
+			o.buyer_tel as buyerMobile,
+			o.seller_user_id as sellerId,
+			o.seller_user_name as sellerName,
+			o.seller_tel as sellerMobile,
+			o.entrust_user_id as entrustUserId,
+			o.entrust_user_name as entrustName,
+			o.entrust_tel as entrustMobile,
+			o.send_time as getTime,
+			o.final_time as finishTime,
+			o.send_address as accidentAddress,
+			o.grab_address	as ctAddress,			
+			u.sex as sellerSex,
+			u1.login_name as buyerLoginName,
+			g.org_name as buyerOrgName,
+			aa.audit_name as auditName,
+			IFNULL(d.buyer_money, 0) AS buyerMoney,
+			IFNULL(d.seller_money, 0) AS sellerMoney,
+			IFNULL(d.group_money, 0) AS groupMoney
+		FROM hy_order o LEFT JOIN
+			hy_cost d ON d.order_no = o.order_no
+			left join ct_user u on u.id = o.seller_user_id
+			left join ct_user u1 on u1.id = o.buyer_user_id
+			left join ct_group g on g.user_id = o.buyer_user_id
+			left join (select a.order_id,a.audit_name FROM fm_order_audit a where a.stat='0' and a.audit_id_type='0' )aa on aa.order_id = o.id
+			,hy_order_task t,hy_order_case c
+		<where>
+			o.service_id = 5 and o.order_no = t.order_no and o.case_no = c.case_no
+			
+			  <if test="userType == 1">
+			 	<choose>
+			 		<when test="showEntrust == 1">
+			 			<trim prefix="AND(" suffix=")" prefixOverrides="OR" >
+					 	<if test="helpAudit == 1">
+					 		OR o.buyer_user_id IN(
+								SELECT DISTINCT t.grant_id_c FROM ct_third_apply_info t WHERE t.grant_type = '2' AND t.status = '2' AND t.service_id = '5' 
+								AND (t.apply_id_a = #{userId} OR t.middle_id_b = #{userId})
+								)
+					 	</if>
+					 	<if test="beSended == 1">
+					 		OR (o.buyer_user_id = #{userId} and o.send_user_id != #{userId})
+					 	</if>
+					 	<if test="helpSend == 1">
+					 		OR (o.buyer_user_id != #{userId} and o.send_user_id = #{userId})
+					 	</if>
+					 	</trim>
+			 		</when>
+			 		<otherwise>
+			 			AND o.buyer_user_id = #{userId}
+			 		</otherwise>
+			 	</choose>
+			 </if>
+		    <if test="dealStatList!=null and dealStatList.size() > 0">
+			 	AND o.deal_stat in 
+			 	<foreach collection="dealStatList" item="dealStatItem" open="(" separator="," close=")">
+			 		#{dealStatItem}
+			 	</foreach>
+			 </if>
+			 <if test="sendTimeBegin!=null">
+				<![CDATA[ AND o.send_time>=CONCAT(#{sendTimeBegin},' 00:00:00') ]]> 
+			 </if>
+			 <if test="sendTimeEnd!=null">
+				<![CDATA[	AND o.send_time<=CONCAT(#{sendTimeEnd},' 23:59:59') ]]> 
+			 </if>
+			 <if test="finalTimeBegin!=null and finalTimeBegin!=''">
+				<![CDATA[ AND o.final_time>=CONCAT(#{finalTimeBegin},' 00:00:00') ]]> 
+			 </if>
+			 <if test="finalTimeEnd!=null and finalTimeEnd!=''">
+			 	<![CDATA[	AND o.final_time<=CONCAT(#{finalTimeEnd},' 23:59:59') ]]> 
+			 </if>
+			 <if test="fuzzySearch!=null">
+			 	AND CONCAT(ifnull(o.order_no,''),'|',ifnull(o.case_no,''),'|',ifnull(t.case_linkman,''),'|',ifnull(o.buyer_user_name,''),'|'
+			 	,ifnull(o.seller_user_name,''),'|',ifnull(t.accident_address,''),'|'
+			 	,ifnull(DATE_FORMAT( o.send_time,'%Y-%m-%d %H:%i:%s'),'')) LIKE CONCAT('%',#{fuzzySearch },'%')
+			 </if>
+  		</where>
+  		ORDER BY c.case_no DESC , o.id DESC 
+	</select>
+	
+	<!-- 我的作业 导出列表 不分页只有车险有简易流程-->
+	<select id="queryMyWorkFmAndRsToExcelExportIsSimple" parameterType="java.util.Map" resultType ="net.chetong.order.model.MyWorkResponseModel">
+		SELECT
+		    o.case_no AS caseNo,
+			o.order_no AS orderNo,
+			(SELECT g.org_name FROM ct_group g WHERE g.user_id=o.insuer_user_id) AS insurerName,
+			o.buyer_user_name AS buyerName,
+			o.link_man AS linkMan,
+			o.car_no AS carNo,
+			o.seller_user_name AS sellerName,
+			u.mobile AS sellerTel,
+			o.service_id AS serviceId,
+			o.order_type AS orderType,
+			o.deal_stat AS dealStat,
+			c.accident_time AS accidentTime,
+			o.work_address AS workAddress,
+			o.ct_address AS getAddress,
+			o.mileage AS mileage,
+			d.base_fee-d.base_team_fee AS ctBaseFee,
+			d.remote_fee-d.travel_team_fee AS ctRemoteFee,
+			d.add_fee-d.add_team_fee AS ctOverFee,
+			d.bonus_fee AS extraReward,
+			o.is_simple AS isSimple,
+			o.is_fast AS isFast,
+			o.get_time AS getTime,
+			(SELECT CASE fwo.withdraw_type 
+				WHEN '1' THEN '未勘销案'
+				WHEN '2' THEN '需改派他人处理'
+				WHEN '3' THEN '订单派错'
+				WHEN '4' THEN fwo.withdraw_reason
+				ELSE '其他'END AS withdraw_reason FROM fm_withdraw_order fwo WHERE fwo.order_no = o.order_no ORDER BY fwo.id desc LIMIT 1) AS withdrawReason,
+			(SELECT date_format(fwo.withdraw_time,'%Y-%m-%d') FROM fm_withdraw_order fwo WHERE fwo.order_no = o.order_no ORDER BY fwo.id desc LIMIT 1) AS withdrawTime
+		FROM
+			fm_order o
+		INNER JOIN fm_order_case_cx c ON o.case_id = c.id
+		INNER JOIN ct_user u ON u.id = o.seller_user_id
+		LEFT JOIN fm_order_cost_detail_temp d ON d.order_id = o.id
+		<where>
+			<if test="userType == 0">
+				 AND o.seller_user_id = #{userId}
+			</if>
+			<if test="userType == 2">
+				 AND o.group_user_id = #{userId}
+			</if>
+			<if test="userType == 1 and groupUserIds.size>0">
+				 AND o.group_user_id in
+				 <foreach collection="groupUserIds" item="item" open="(" separator="," close=")">
+				 	#{item}
+				 </foreach>
+			</if>
+			 <if test="orderTypeList!=null and orderTypeList!=''">
+			 	AND o.order_type in 
+			 	<foreach collection="orderTypeList" item="orderTypeItem" open="(" separator="," close=")">
+			 		#{orderTypeItem}
+			 	</foreach>
+		 	</if>
+			<if test="dealStatList!=null and dealStatList!=''">
+			 	AND o.deal_stat in 
+			 	<foreach collection="dealStatList" item="dealStatItem" open="(" separator="," close=")">
+			 		#{dealStatItem}
+			 	</foreach>
+			 </if>
+			 <if test="sendTimeBegin!=null and sendTimeBegin!=''">
+			 	<![CDATA[ AND o.send_time>=CONCAT(#{sendTimeBegin},' 00:00:00') ]]> 
+			 </if>
+			 <if test="finalTimeBegin!=null and finalTimeBegin!=''">
+				<![CDATA[ AND o.final_time>=CONCAT(#{finalTimeBegin},' 00:00:00') ]]> 
+			 </if>
+			 <if test="finalTimeEnd!=null and finalTimeEnd!=''">
+			 	<![CDATA[	AND o.final_time<=CONCAT(#{finalTimeEnd},' 23:59:59') ]]> 
+			 </if>
+			 <if test="sendTimeEnd!=null and sendTimeEnd!=''">
+			 	<![CDATA[	AND o.send_time<=CONCAT(#{sendTimeEnd},' 23:59:59') ]]> 
+			 </if>
+			 <if test="fuzzySearch!=null and fuzzySearch!=''">
+			 	AND CONCAT(ifnull(o.order_no,''),'|',ifnull(o.car_no,''),'|',ifnull(c.case_no,''),
+			 	'|',ifnull(o.seller_user_name,''),'|',IFNULL(o.buyer_user_name,''),'|',ifnull(c.accident_address,'')) LIKE CONCAT('%',#{fuzzySearch },'%')
+			 </if>
+	            and o.import_type!='1'
+	            and o.order_type!='51'
+	         <if test="isSimple != null and isSimple != ''">
+				 <choose>
+				 	<when test="isSimple=='1'.toString()">
+				 		AND (o.is_simple = '1' or o.is_simple = '2')
+				 	</when>
+				 	<otherwise>
+				 		AND o.is_simple = '0'
+				 	</otherwise>
+				 </choose>
+			</if>
+			 <if test="isFast != null">
+			 	<choose>
+			 		<when test="isFast == '1'.toString()">
+				 		AND o.is_fast = '1'
+			 		</when>
+			 		<otherwise>
+				 		AND o.is_fast = '0'
+			 		</otherwise>
+			 	</choose>
+			 </if>
+  		</where>
+	</select>
+	
+	<!-- 我的作业 导出列表 不分页(包含车险和车险人伤)-->
+	<select id="queryMyWorkFmAndRsToExcelExport" parameterType="java.util.Map" resultType="net.chetong.order.model.MyWorkResponseModel">
+		select t.*
+		from (
+				(
+					SELECT
+						c.id AS caseId,
+					    o.case_no AS caseNo,
+						o.order_no AS orderNo,
+						(SELECT g.org_name FROM ct_group g WHERE g.user_id=o.insuer_user_id) AS insurerName,
+						o.buyer_user_name AS buyerName,
+						o.link_man AS linkMan,
+						o.car_no AS carNo,
+						o.seller_user_name AS sellerName,
+						u.mobile AS sellerTel,
+						o.service_id AS serviceId,
+						o.order_type AS orderType,
+						o.deal_stat AS dealStat,
+						c.accident_time AS accidentTime,
+						o.work_address AS workAddress,
+						o.ct_address AS getAddress,
+						o.mileage AS mileage,
+						d.base_fee-d.base_team_fee AS ctBaseFee,
+						d.remote_fee-d.travel_team_fee AS ctRemoteFee,
+						d.add_fee-d.add_team_fee AS ctOverFee,
+						d.bonus_fee AS extraReward,
+						NULL AS ctServiceFee,
+						d.base_team_fee+d.travel_team_fee+d.add_team_fee AS groupManageFee,
+						o.is_simple AS isSimple,
+						o.is_fast AS isFast,
+						o.get_time AS getTime,
+						(SELECT CASE fwo.withdraw_type 
+							WHEN '1' THEN '未勘销案'
+							WHEN '2' THEN '需改派他人处理'
+							WHEN '3' THEN '订单派错'
+							WHEN '4' THEN fwo.withdraw_reason
+							ELSE '其他'END AS withdraw_reason FROM fm_withdraw_order fwo WHERE fwo.order_no = o.order_no ORDER BY fwo.id desc LIMIT 1) AS withdrawReason,
+						(SELECT date_format(fwo.withdraw_time,'%Y-%m-%d') FROM fm_withdraw_order fwo WHERE fwo.order_no = o.order_no ORDER BY fwo.id desc LIMIT 1) AS withdrawTime
+					FROM
+						fm_order o
+					INNER JOIN fm_order_case_cx c ON o.case_id = c.id
+					INNER JOIN ct_user u ON u.id = o.seller_user_id
+					LEFT JOIN fm_order_cost_detail_temp d ON d.order_id = o.id
+					<where>
+						<if test="userType == 0">
+							 AND o.seller_user_id = #{userId}
+						</if>
+						<if test="userType == 2">
+							 AND o.group_user_id = #{userId}
+						</if>
+						<if test="userType == 1 and groupUserIds.size>0">
+							 AND o.group_user_id in
+							 <foreach collection="groupUserIds" item="item" open="(" separator="," close=")">
+							 	#{item}
+							 </foreach>
+						</if>
+						 <if test="orderTypeList!=null and orderTypeList!=''">
+						 	AND o.order_type in 
+						 	<foreach collection="orderTypeList" item="orderTypeItem" open="(" separator="," close=")">
+						 		#{orderTypeItem}
+						 	</foreach>
+					 	</if>
+						<if test="dealStatList!=null and dealStatList!=''">
+						 	AND o.deal_stat in 
+						 	<foreach collection="dealStatList" item="dealStatItem" open="(" separator="," close=")">
+						 		#{dealStatItem}
+						 	</foreach>
+						 </if>
+						 <if test="sendTimeBegin!=null and sendTimeBegin!=''">
+						 	<![CDATA[ AND o.send_time>=CONCAT(#{sendTimeBegin},' 00:00:00') ]]> 
+						 </if>
+						 <if test="finalTimeBegin!=null and finalTimeBegin!=''">
+							<![CDATA[ AND o.final_time>=CONCAT(#{finalTimeBegin},' 00:00:00') ]]> 
+						 </if>
+						 <if test="finalTimeEnd!=null and finalTimeEnd!=''">
+						 	<![CDATA[	AND o.final_time<=CONCAT(#{finalTimeEnd},' 23:59:59') ]]> 
+						 </if>
+						 <if test="sendTimeEnd!=null and sendTimeEnd!=''">
+						 	<![CDATA[	AND o.send_time<=CONCAT(#{sendTimeEnd},' 23:59:59') ]]> 
+						 </if>
+						 <if test="fuzzySearch!=null and fuzzySearch!=''">
+						 	AND CONCAT(ifnull(o.order_no,''),'|',ifnull(o.car_no,''),'|',ifnull(c.case_no,''),
+						 	'|',ifnull(o.seller_user_name,''),'|',IFNULL(o.buyer_user_name,''),'|',ifnull(c.accident_address,'')) LIKE CONCAT('%',#{fuzzySearch },'%')
+						 </if>
+				            and o.import_type!='1'
+				            and o.order_type!='51'
+				         <if test="isSimple != null and isSimple != ''">
+							 <choose>
+							 	<when test="isSimple=='1'.toString()">
+							 		AND (o.is_simple = '1' or o.is_simple = '2')
+							 	</when>
+							 	<otherwise>
+							 		AND o.is_simple = '1'
+							 	</otherwise>
+							 </choose>
+						</if>
+						 <if test="isFast != null">
+						 	<choose>
+						 		<when test="isFast == '1'.toString()">
+							 		AND o.is_fast = '1'
+						 		</when>
+						 		<otherwise>
+							 		AND o.is_fast = '0'
+						 		</otherwise>
+						 	</choose>
+						 </if>
+			  		</where>
+				)
+				UNION ALL
+				(
+					select
+						c.id AS caseId,
+						o.case_no as caseNo,
+						o.order_no as orderNo,
+						"-" as insurerName,
+						o.buyer_user_name as buyerName,
+						d.accident_linkman as linkMan,
+						d.car_no as carNo,
+						o.seller_user_name AS sellerName,
+						u.mobile AS sellerTel,
+						"7" as serviceId,
+						o.subject_id as orderType,
+						o.deal_stat as dealStat,
+						c.accident_time as accidentTime,
+						o.work_address as workAddress,
+						"-" as getAddress,
+						o.mileage as mileage,
+						"" as ctBaseFee,
+						"" as ctRemoteFee,
+						"" as ctOverFee,
+						"" as extraReward,
+						co.service_money as ctServiceFee,
+						co.group_money as groupManageFee,
+						'' as isSimple,
+						'0' AS isFast,
+						send_time as getTime,
+						(SELECT CASE fwo.withdraw_type 
+							WHEN '1' THEN '未勘销案'
+							WHEN '2' THEN '需改派他人处理'
+							WHEN '3' THEN '订单派错'
+							WHEN '4' THEN fwo.withdraw_reason
+							ELSE '其他'END AS withdraw_reason FROM fm_withdraw_order fwo WHERE fwo.order_no = o.order_no ORDER BY fwo.id desc LIMIT 1) AS withdrawReason,
+						(SELECT date_format(fwo.withdraw_time,'%Y-%m-%d') FROM fm_withdraw_order fwo WHERE fwo.order_no = o.order_no ORDER BY fwo.id desc LIMIT 1) AS withdrawTime
+					from rs_order as o 
+						left join rs_task_info_detail as d on o.task_detail_id = d.id 
+						left join rs_order_cost as co on o.order_no = co.order_no
+						left join ct_user as u on o.seller_user_id = u.id
+						left join fm_order_case_cx as c on o.case_no = c.case_no
+					<where>
+						o.is_resend = '0'
+						<if test="userType == 0">
+							 AND o.seller_user_id = #{userId}
+						</if>
+						<if test="userType == 2">
+							 AND o.group_user_id = #{userId}
+						</if>
+						<if test="userType == 1 and groupUserIds.size>0">
+							 AND o.group_user_id in
+							 <foreach collection="groupUserIds" item="item" open="(" separator="," close=")">
+							 	#{item}
+							 </foreach>
+						</if>
+						 <if test="orderTypeList!=null and orderTypeList!=''">
+						 	AND o.subject_id in 
+						 	<foreach collection="orderTypeList" item="orderTypeItem" open="(" separator="," close=")">
+						 		#{orderTypeItem}
+						 	</foreach>
+						</if>
+						<if test="dealStatList!=null and dealStatList!=''">
+						 	AND o.deal_stat in 
+						 	<foreach collection="dealStatList" item="dealStatItem" open="(" separator="," close=")">
+						 		#{dealStatItem}
+						 	</foreach>
+						 </if>
+						 <if test="sendTimeBegin!=null and sendTimeBegin!=''">
+						 	<![CDATA[ AND o.send_time>=CONCAT(#{sendTimeBegin},' 00:00:00') ]]> 
+						 </if>
+						 <if test="sendTimeEnd!=null and sendTimeEnd!=''">
+						 	<![CDATA[	AND o.send_time<=CONCAT(#{sendTimeEnd},' 23:59:59') ]]> 
+						 </if>
+						 <if test="finalTimeBegin!=null and finalTimeBegin!=''">
+							<![CDATA[ AND o.audit_time>=CONCAT(#{finalTimeBegin},' 00:00:00') ]]> 
+						 </if>
+						 <if test="finalTimeEnd!=null and finalTimeEnd!=''">
+						 	<![CDATA[	AND o.audit_time<=CONCAT(#{finalTimeEnd},' 23:59:59') ]]> 
+						 </if>
+						 <if test="fuzzySearch!=null and fuzzySearch!=''">
+						 	AND CONCAT(ifnull(o.order_no,''),'|',ifnull(d.car_no,''),'|',ifnull(o.case_no,''),'|',ifnull(o.seller_user_name,''),'|',IFNULL(o.buyer_user_name,''),'|',ifnull(o.work_address,'')) LIKE CONCAT('%',#{fuzzySearch },'%')
+						 </if>
+					</where>
+				)
+			) AS t
+			ORDER BY 
+  			<if test="isCaseNo==1">
+  				t.caseId DESC, 
+  			</if>
+  			 t.getTime DESC
+	</select>
+	
+	<update id="updateUserAmount" parameterType="java.util.Map">
+		update ct_user u
+		set u.user_money=IFNULL(u.user_money,0)+#{amount},
+		    u.available_money=IFNULL(u.available_money,0)+#{amount}
+		where u.id=#{userId}
+	</update>
+	
+	<!-- 导出我的委托 不分页只有车险有简易流程-->
+	<select id="queryMyFmAndRsEntrustToExcelExportIsSimple" parameterType="java.util.Map" resultType="net.chetong.order.model.HyMyEntrustModel" >
+		SELECT 
+			o.id as id,
+			o.deal_stat as dealStat,
+			o.order_no as orderNo,
+			o.case_id as caseId,
+			o.case_no as caseNo,
+			o.buyer_user_id as buyerId,
+			o.seller_user_id as sellerId,
+			o.order_type as orderType,
+			o.send_time as getTime,
+			o.final_time as finishTime,
+			o.link_man as buyerName,
+			AES_DECRYPT(UNHEX(o.link_Tel),'CHEtong@20161102') as linkTel,
+			o.work_address as accidentAddress,
+			o.ct_address	as ctAddress,
+			o.car_no as carNo,
+			o.is_simple as isSimple,
+			o.is_fast as isFast,
+			o.ext4 as orderInoutType,
+			o.price_type as priceType,
+			o.is_remote as isRemote,
+			(SELECT u.login_name FROM ct_user u WHERE u.id=o.buyer_user_id) as buyerLoginName,
+			o.buyer_user_name as buyerOrgName,
+			(SELECT CONCAT(IFNULL(u.lastname,''),IFNULL(u.firstname,'')) FROM ct_user u WHERE u.id=o.seller_user_id) as sellerName,
+			(SELECT u.sex FROM ct_user u WHERE u.id=o.seller_user_id) as sellerSex,
+			(SELECT a.audit_name FROM fm_order_audit a WHERE a.order_id=o.id ORDER BY a.id DESC LIMIT 1) as auditName,
+			IFNULL(d.base_fee, 0) AS baseMoney,
+			IFNULL(d.remote_fee, 0) AS travelMoney,
+			IFNULL(d.add_fee, 0) AS extraMoney,
+			IFNULL(d.bonus_fee, 0) AS rewardMoney,
+			IFNULL(d.scheduling_fee, 0) AS sendMoney,
+			IFNULL(d.audit_fee, 0) AS auditMoney,
+			IFNULL(d.base_invoice_fee, 0) AS baseMoneyTdk,
+			IFNULL(d.travel_invoice_fee, 0) AS travelMoneyTdk,
+			IFNULL(d.add_invoice_fee, 0) AS extraMoneyTdk,
+			IFNULL(d.bonus_invoice_fee, 0) AS rewardMoneyTdk,
+			IFNULL(d.guide_base_fee, 0) AS guideBaseFee,
+			IFNULL(d.guide_add_fee, 0) AS guideAddFee,
+			IFNULL(d.guide_base_invoice_fee, 0) AS guideBaseInvoiceFee,
+			IFNULL(d.guide_add_invoice_fee, 0) AS guideAddInvoiceFee,
+			(SELECT CASE fwo.withdraw_type 
+				WHEN '1' THEN '未勘销案'
+				WHEN '2' THEN '需改派他人处理'
+				WHEN '3' THEN '订单派错'
+				WHEN '4' THEN fwo.withdraw_reason
+				ELSE '其他'END AS withdraw_reason FROM fm_withdraw_order fwo WHERE fwo.order_no = o.order_no ORDER BY fwo.id desc LIMIT 1) AS withdrawReason,
+			(SELECT date_format(fwo.withdraw_time,'%Y-%m-%d') FROM fm_withdraw_order fwo WHERE fwo.order_no = o.order_no ORDER BY fwo.id desc LIMIT 1) AS withdrawTime
+		FROM 
+			fm_order o
+		INNER JOIN fm_order_case_cx c ON c.case_no=o.case_no
+		LEFT JOIN fm_order_cost_detail_temp d ON d.order_id = o.id
+		<where>
+			 o.service_id = 1
+			<if test="orderTypeList!=null and orderTypeList!=''">
+				 	AND o.order_type in 
+				 	<foreach collection="orderTypeList" item="orderTypeItem" open="(" separator="," close=")">
+				 		#{orderTypeItem}
+				 	</foreach>
+			 	</if>
+				<if test="dealStatList!=null and dealStatList!=''">
+				 	AND o.deal_stat in 
+				 	<foreach collection="dealStatList" item="dealStatItem" open="(" separator="," close=")">
+				 		#{dealStatItem}
+				 	</foreach>
+				 </if>
+				 <if test="sendTimeBegin!=null and sendTimeBegin!=''">
+				 	<![CDATA[ AND o.send_time>=CONCAT(#{sendTimeBegin},' 00:00:00') ]]> 
+				 </if>
+				 <if test="sendTimeEnd!=null and sendTimeEnd!=''">
+				 	<![CDATA[	AND o.send_time<=CONCAT(#{sendTimeEnd},' 23:59:59') ]]> 
+				 </if>
+				 <if test="finalTimeBegin!=null and finalTimeBegin!=''">
+					<![CDATA[ AND o.final_time>=CONCAT(#{finalTimeBegin},' 00:00:00') ]]> 
+				 </if>
+				 <if test="finalTimeEnd!=null and finalTimeEnd!=''">
+				 	<![CDATA[	AND o.final_time<=CONCAT(#{finalTimeEnd},' 23:59:59') ]]> 
+				 </if>
+				 <if test="fuzzySearch!=null and fuzzySearch!=''">
+				 	AND CONCAT(ifnull(o.order_no,''),'|',ifnull(o.car_no,''),'|',ifnull(c.case_no,''),
+				 	'|',ifnull(o.seller_user_name,''),'|',IFNULL(o.buyer_user_name,''),'|',ifnull(c.accident_address,'')) LIKE CONCAT('%',#{fuzzySearch },'%')
+				 </if>
+	            AND o.import_type!='1'
+	            AND o.order_type!='51'
+	              <if test="isPid == 0">
+		 			<if test="areas != null and areas.size()>0">
+			 			AND o.ext1 IN 
+			 			<foreach collection="areas" item="area" open="(" separator="," close=")">
+		 					#{area}
+		 				</foreach>
+					</if>
+					<if test="caseNo != null and caseNo != '' ">
+						AND LOCATE(#{caseNo},o.case_no) > 0
+					</if>
+		 		</if>
+	            <choose>
+			 		<when test="showEntrust == 1">
+			 			<trim prefix="AND(" suffix=")" prefixOverrides="OR" >
+					 	<if test="helpAudit == 1">
+					 		OR o.buyer_user_id IN(
+								SELECT DISTINCT t.grant_id_c FROM ct_third_apply_info t WHERE t.grant_type = '2' AND t.status = '2' AND t.service_id = '1' 
+								AND (t.apply_id_a = #{userPid} OR t.middle_id_b = #{userPid})
+								)
+					 	</if>
+					 	<if test="beSended == 1 and isPid == 0">
+					 		OR (o.buyer_user_id = #{userPid} and o.ext7 != #{userPid})
+					 	</if>
+					 	<if test="helpSend == 1 and isPid == 0">
+					 		OR (o.buyer_user_id != #{userPid} and o.ext7 = #{userPid})
+					 	</if>
+					 	<if test="beSended == 1 and isPid == 1">
+					 		OR (o.buyer_user_id = #{userPid} and o.send_id != #{userPid})
+					 	</if>
+					 	<if test="helpSend == 1 and isPid == 1">
+					 		OR (o.buyer_user_id != #{userPid} and o.send_id = #{userPid})
+					 	</if>
+					 	</trim>
+			 		</when>
+			 		<otherwise>
+			 			AND o.buyer_user_id = #{userPid}
+			 		</otherwise>
+			 	</choose>
+			 	<if test="isSimple != null and isSimple != ''">
+					 <choose>
+					 	<when test="isSimple=='1'.toString()">
+					 		AND o.is_simple = '1'
+					 	</when>
+					 	<otherwise>
+					 		AND o.is_simple != '1'
+					 	</otherwise>
+					 </choose>
+				</if>
+				<if test="isFast != null">
+				 	<choose>
+				 		<when test="isFast == '1'.toString()">
+					 		AND o.is_fast = '1'
+				 		</when>
+				 		<otherwise>
+					 		AND o.is_fast = '0'
+				 		</otherwise>
+				 	</choose>
+				 </if>
+	  		</where>
+	</select>
+	
+	<!-- 导出我的委托 不分页(包含车险和车险人伤)-->
+	<select id="queryMyFmAndRsEntrustToExcelExport" parameterType="java.util.Map" resultType ="net.chetong.order.model.MyEntrustResponseModel" >
+		select t.*
+		 from (
+			 	(
+			 		SELECT 
+					o.id as id,
+					o.deal_stat as dealStat,
+					o.order_no as orderNo,
+					o.case_id as caseId,
+					o.case_no as caseNo,
+					o.buyer_user_id as buyerId,
+					o.seller_user_id as sellerId,
+					o.order_type as orderType,
+					o.send_time as getTime,
+					o.final_time as finishTime,
+					o.link_man as buyerName,
+					AES_DECRYPT(UNHEX(o.link_Tel),'CHEtong@20161102') as linkTel,
+					o.work_address as accidentAddress,
+					o.ct_address	as ctAddress,
+					o.car_no as carNo,
+					o.is_simple as isSimple,
+					o.is_fast as isFast,
+					o.ext4 as orderInoutType,
+					o.price_type as priceType,
+					o.is_remote as isRemote,
+					(SELECT u.login_name FROM ct_user u WHERE u.id=o.buyer_user_id) as buyerLoginName,
+					o.buyer_user_name as buyerOrgName,
+					(SELECT CONCAT(IFNULL(u.lastname,''),IFNULL(u.firstname,'')) FROM ct_user u WHERE u.id=o.seller_user_id) as sellerName,
+					(SELECT u.sex FROM ct_user u WHERE u.id=o.seller_user_id) as sellerSex,
+					(SELECT a.audit_name FROM fm_order_audit a WHERE a.order_id=o.id ORDER BY a.id DESC LIMIT 1) as auditName,
+					IFNULL(d.base_fee, 0) AS baseMoney,
+					IFNULL(d.remote_fee, 0) AS travelMoney,
+					IFNULL(d.add_fee, 0) AS extraMoney,
+					IFNULL(d.bonus_fee, 0) AS rewardMoney,
+					IFNULL(d.scheduling_fee, 0) AS sendMoney,
+					IFNULL(d.audit_fee, 0) AS auditMoney,
+					IFNULL(d.base_invoice_fee, 0) AS baseMoneyTdk,
+					IFNULL(d.travel_invoice_fee, 0) AS travelMoneyTdk,
+					IFNULL(d.add_invoice_fee, 0) AS extraMoneyTdk,
+					IFNULL(d.bonus_invoice_fee, 0) AS rewardMoneyTdk,
+					IFNULL(d.guide_base_fee, 0) AS guideBaseFee,
+					IFNULL(d.guide_add_fee, 0) AS guideAddFee,
+					IFNULL(d.guide_base_invoice_fee, 0) AS guideBaseInvoiceFee,
+					IFNULL(d.guide_add_invoice_fee, 0) AS guideAddInvoiceFee,
+					(SELECT CASE fwo.withdraw_type 
+						WHEN '1' THEN '未勘销案'
+						WHEN '2' THEN '需改派他人处理'
+						WHEN '3' THEN '订单派错'
+						WHEN '4' THEN fwo.withdraw_reason
+						ELSE '其他'END AS withdraw_reason FROM fm_withdraw_order fwo WHERE fwo.order_no = o.order_no ORDER BY fwo.id desc LIMIT 1) AS withdrawReason,
+					(SELECT date_format(fwo.withdraw_time,'%Y-%m-%d') FROM fm_withdraw_order fwo WHERE fwo.order_no = o.order_no ORDER BY fwo.id desc LIMIT 1) AS withdrawTime
+				FROM 
+					fm_order o
+				INNER JOIN fm_order_case_cx c ON c.case_no=o.case_no
+				LEFT JOIN fm_order_cost_detail_temp d ON d.order_id = o.id
+				<where>
+					 o.service_id = 1
+					<if test="orderTypeList!=null and orderTypeList!=''">
+						 	AND o.order_type in 
+						 	<foreach collection="orderTypeList" item="orderTypeItem" open="(" separator="," close=")">
+						 		#{orderTypeItem}
+						 	</foreach>
+					 	</if>
+						<if test="dealStatList!=null and dealStatList!=''">
+						 	AND o.deal_stat in 
+						 	<foreach collection="dealStatList" item="dealStatItem" open="(" separator="," close=")">
+						 		#{dealStatItem}
+						 	</foreach>
+						 </if>
+						 <if test="sendTimeBegin!=null and sendTimeBegin!=''">
+						 	<![CDATA[ AND o.send_time>=CONCAT(#{sendTimeBegin},' 00:00:00') ]]> 
+						 </if>
+						 <if test="sendTimeEnd!=null and sendTimeEnd!=''">
+						 	<![CDATA[	AND o.send_time<=CONCAT(#{sendTimeEnd},' 23:59:59') ]]> 
+						 </if>
+						 <if test="finalTimeBegin!=null and finalTimeBegin!=''">
+							<![CDATA[ AND o.final_time>=CONCAT(#{finalTimeBegin},' 00:00:00') ]]> 
+						 </if>
+						 <if test="finalTimeEnd!=null and finalTimeEnd!=''">
+						 	<![CDATA[	AND o.final_time<=CONCAT(#{finalTimeEnd},' 23:59:59') ]]> 
+						 </if>
+						 <if test="fuzzySearch!=null and fuzzySearch!=''">
+						 	AND CONCAT(ifnull(o.order_no,''),'|',ifnull(o.car_no,''),'|',ifnull(c.case_no,''),
+						 	'|',ifnull(o.seller_user_name,''),'|',IFNULL(o.buyer_user_name,''),'|',ifnull(c.accident_address,'')) LIKE CONCAT('%',#{fuzzySearch },'%')
+						 </if>
+			            AND o.import_type!='1'
+			            AND o.order_type!='51'
+			              <if test="isPid == 0">
+				 			<if test="areas != null and areas.size()>0">
+					 			AND o.ext1 IN 
+					 			<foreach collection="areas" item="area" open="(" separator="," close=")">
+				 					#{area}
+				 				</foreach>
+							</if>
+							<if test="caseNo != null and caseNo != '' ">
+								AND LOCATE(#{caseNo},o.case_no) > 0
+							</if>
+				 		</if>
+			            <choose>
+					 		<when test="showEntrust == 1">
+					 			<trim prefix="AND(" suffix=")" prefixOverrides="OR" >
+							 	<if test="helpAudit == 1">
+							 		OR o.buyer_user_id IN(
+										SELECT DISTINCT t.grant_id_c FROM ct_third_apply_info t WHERE t.grant_type = '2' AND t.status = '2' AND t.service_id = '1' 
+										AND (t.apply_id_a = #{userPid} OR t.middle_id_b = #{userPid})
+										)
+							 	</if>
+							 	<if test="beSended == 1 and isPid == 0">
+							 		OR (o.buyer_user_id = #{userPid} and o.ext7 != #{userPid})
+							 	</if>
+							 	<if test="helpSend == 1 and isPid == 0">
+							 		OR (o.buyer_user_id != #{userPid} and o.ext7 = #{userPid})
+							 	</if>
+							 	<if test="beSended == 1 and isPid == 1">
+							 		OR (o.buyer_user_id = #{userPid} and o.send_id != #{userPid})
+							 	</if>
+							 	<if test="helpSend == 1 and isPid == 1">
+							 		OR (o.buyer_user_id != #{userPid} and o.send_id = #{userPid})
+							 	</if>
+							 	</trim>
+					 		</when>
+					 		<otherwise>
+					 			AND o.buyer_user_id = #{userPid}
+					 		</otherwise>
+					 	</choose>
+					 	<if test="isSimple != null and isSimple != ''">
+							 <choose>
+							 	<when test="isSimple=='1'.toString()">
+							 		AND (o.is_simple = '1' or o.is_simple = '2')
+							 	</when>
+							 	<otherwise>
+							 		AND o.is_simple = '0'
+							 	</otherwise>
+							 </choose>
+						</if>
+						<if test="isFast != null">
+				 	<choose>
+				 		<when test="isFast == '1'.toString()">
+					 		AND o.is_fast = '1'
+				 		</when>
+				 		<otherwise>
+					 		AND o.is_fast = '0'
+				 		</otherwise>
+				 	</choose>
+				 </if>
+			  		</where>
+			 	)
+		 	UNION ALL
+			 	(
+					select o.id as id,
+						   o.deal_stat as dealStat,
+						   o.order_no as orderNo,
+						   c.id as caseId,
+						   o.case_no as caseNo,
+						   o.buyer_user_id as buyerId,
+						   o.seller_user_id as sellerId,
+						   o.subject_id as orderType,
+						   o.send_time as getTime,
+						   o.audit_time as finishTime,
+						   d.accident_linkman as buyerName,
+						   d.accident_linktel as linkTel,
+						   o.work_address as accidentAddress,
+						   d.hospital_address as ctAddress,
+						   d.car_no as carNo,
+						   '' as isSimple,
+						   '0' as isFast,
+						   2 as orderInoutType,
+						   '0' as priceType,
+						   '0' as isRemote,
+						   (SELECT u.login_name FROM ct_user u WHERE u.id=o.buyer_user_id) as buyerLoginName,
+						   o.buyer_user_name as buyerOrgName,
+						   (SELECT CONCAT(IFNULL(u.lastname,''),IFNULL(u.firstname,'')) FROM ct_user u WHERE u.id=o.seller_user_id) as sellerName,
+							(SELECT u.sex FROM ct_user u WHERE u.id=o.seller_user_id) as sellerSex,
+							o.audit_user_name as auditName,
+							0 AS baseMoney,
+							0 AS travelMoney,
+							0 AS extraMoney,
+							0 AS rewardMoney,
+							0 AS sendMoney,
+							0 AS auditMoney,
+							0 AS baseMoneyTdk,
+							0 AS travelMoneyTdk,
+							0 AS extraMoneyTdk,
+							0 AS rewardMoneyTdk,
+							0 AS guideBaseFee,
+							0 AS guideAddFee,
+							0 AS guideBaseInvoiceFee,
+							0 AS guideAddInvoiceFee,
+							(SELECT CASE fwo.withdraw_type 
+								WHEN '1' THEN '未勘销案'
+								WHEN '2' THEN '需改派他人处理'
+								WHEN '3' THEN '订单派错'
+								WHEN '4' THEN fwo.withdraw_reason
+								ELSE '其他'END AS withdraw_reason FROM fm_withdraw_order fwo WHERE fwo.order_no = o.order_no ORDER BY fwo.id desc LIMIT 1) AS withdrawReason,
+							(SELECT date_format(fwo.withdraw_time,'%Y-%m-%d') FROM fm_withdraw_order fwo WHERE fwo.order_no = o.order_no ORDER BY fwo.id desc LIMIT 1) AS withdrawTime
+					from rs_order as o left join rs_task_info_detail as d on o.task_detail_id = d.id left join fm_order_case_cx as c on d.case_no=c.case_no
+					<where>
+					 o.is_resend = '0' 
+						<if test="orderTypeList!=null and orderTypeList!=''">
+						 	AND o.subject_id in 
+						 	<foreach collection="orderTypeList" item="orderTypeItem" open="(" separator="," close=")">
+						 		#{orderTypeItem}
+						 	</foreach>
+					 	</if>
+					 	<if test="dealStatList!=null and dealStatList!=''">
+						 	AND o.deal_stat in 
+						 	<foreach collection="dealStatList" item="dealStatItem" open="(" separator="," close=")">
+						 		#{dealStatItem}
+						 	</foreach>
+						</if>
+						<if test="sendTimeBegin!=null and sendTimeBegin!=''">
+						 	<![CDATA[ AND o.send_time>=CONCAT(#{sendTimeBegin},' 00:00:00') ]]> 
+						 </if>
+						 <if test="sendTimeEnd!=null and sendTimeEnd!=''">
+						 	<![CDATA[	AND o.send_time<=CONCAT(#{sendTimeEnd},' 23:59:59') ]]> 
+						 </if>
+						 <if test="finalTimeBegin!=null and finalTimeBegin!=''">
+							<![CDATA[ AND o.audit_time>=CONCAT(#{finalTimeBegin},' 00:00:00') ]]> 
+						 </if>
+						 <if test="finalTimeEnd!=null and finalTimeEnd!=''">
+						 	<![CDATA[	AND o.audit_time<=CONCAT(#{finalTimeEnd},' 23:59:59') ]]> 
+						 </if>
+						 <if test="fuzzySearch!=null and fuzzySearch!=''">
+						 	AND CONCAT(ifnull(o.order_no,''),'|',ifnull(d.car_no,''),'|',ifnull(o.case_no,''),'|',ifnull(o.seller_user_name,''),'|',IFNULL(o.buyer_user_name,''),'|',ifnull(o.work_address,'')) LIKE CONCAT('%',#{fuzzySearch },'%')
+						 </if>
+						 <if test="isPid == 0">
+				 			<if test="areas != null and areas.size()>0">
+					 			AND o.prov_code IN 
+					 			<foreach collection="areas" item="area" open="(" separator="," close=")">
+				 					#{area}
+				 				</foreach>
+							</if>
+							<if test="caseNo != null and caseNo != '' ">
+								AND LOCATE(#{caseNo},o.case_no) > 0
+							</if>
+				 		</if>
+						 <choose>
+					 		<when test="showEntrust == 1">
+					 			<trim prefix="AND(" suffix=")" prefixOverrides="OR" >
+							 	<if test="helpAudit == 1">
+							 		OR o.buyer_user_id IN(
+										SELECT DISTINCT t.grant_id_c FROM ct_third_apply_info t WHERE t.grant_type = '2' AND t.status = '2' AND t.service_id = '7' 
+										AND (t.apply_id_a = #{userPid} OR t.middle_id_b = #{userPid})
+										)
+							 	</if>
+							 	<if test="beSended == 1">
+					 				OR (o.buyer_user_id = #{userPid} and o.send_user_id != #{userPid})
+					 			</if>
+							 	<if test="helpSend == 1">
+							 		OR (o.buyer_user_id != #{userPid} and o.send_user_id = #{userPid})
+							 	</if>
+							 	</trim>
+					 		</when>
+					 		<otherwise>
+					 			AND o.buyer_user_id = #{userPid}
+					 		</otherwise>
+					  	</choose>
+					</where>
+			 	)
+		 
+		 ) as t
+		 	ORDER BY
+			<if test="isCaseNo==1">
+					t.caseId DESC, 
+			</if>
+		        t.getTime DESC
+	</select>
+	
+	
+	<select id="querySubUserId" parameterType="String" resultType="String">
+		select 
+		u.id 
+		from ct_user u
+		<where>
+			u.pid = #{userPid}
+		</where>
+	</select>
+	
+	<!-- 查询用户按ids，派单使用 -->
+	<select id="querySellerHasCargo" resultType="java.util.Map">
+		SELECT
+			s.user_id as userId,
+			1 hasCargo
+		FROM
+			ct_person_service s
+		<where>
+			s.user_id IN 
+			<foreach collection="list" item="item" open="(" separator="," close=")"> 
+            	#{item.id}
+        	</foreach> 
+			AND s.audit_stat = '0'
+			AND s.service_id = '5'
+		</where>
+	</select>
+	
+	<select id="queryUserHeaderUrl" parameterType="com.ctweb.model.user.CtAttachment" resultType="com.ctweb.model.user.CtAttachment">
+	    SELECT
+			id AS id,
+			user_id AS userId,
+			att_code AS attCode,
+			att_name AS attName,
+			att_url AS attUrl,
+			ext1 AS ext1,
+			ext2 AS ext2,
+			ext3 AS ext3
+		FROM
+			ct_attachment a
+		WHERE
+			a.att_code = 'icon'
+		AND a.user_id = #{userId}
+	</select>
+	    
+	<select id="getUserIdByLoginName" parameterType="String" resultType="Long">
+		select 
+		u.id 
+		from ct_user u
+		<where>
+			u.login_name = #{loginName}
+		</where>
+	</select>
+	
+	<select id="queryUserNameAndMobile" parameterType="String" resultType="Map">
+		SELECT 
+		 IF(CONCAT(IFNULL(cu.lastname,''),IFNULL(cu.firstname,''))='',cu.login_name,CONCAT(IFNULL(cu.lastname,''),IFNULL(cu.firstname,''))) AS userName,
+		 cu.mobile AS mobile
+		FROM ct_user cu WHERE cu.id = #{userId}
+	</select>
+	
+	<select id="queryGroupNameAndloginName" parameterType="String" resultType="Map">
+		SELECT
+			u.login_name AS loginName,
+			g.org_name AS orgName
+		FROM
+			ct_user u
+		INNER JOIN ct_group g ON u.id = g.user_id
+		WHERE u.id = #{userId}
+	</select>
+	
+	<select id="verifyUserDataAuthority" parameterType="map" resultType="Long">
+		SELECT fn_verify_user_authority(#{userId},#{orderNo}) FROM DUAL
+	</select>
+	
+	<select id="queryCtTeamOrgByUserId" parameterType="object" resultType="Long">
+		SELECT
+			(SELECT user_id FROM ct_group g WHERE g.id=team_id) AS teamId
+		FROM
+			ct_team_organization o,
+			ct_group org
+		WHERE
+			o.org_id = org.id
+		AND org.user_id = #{orgId}
+	</select>
+	
+	<select id="verifyCompany2GroupDataAuthority" parameterType="java.util.Map" resultType="java.lang.Integer">
+		select count(1) as cnt
+		from ct_group g, ct_team_organization t , fm_order o, ct_group g2
+		where g.id = t.org_id
+		and t.team_id = g2.id
+		and g2.user_id = o.group_user_id
+		and g.user_id = #{userId}
+		and o.order_no = #{orderNo}
+	</select>
+	
+	<!-- 查询地区的车童 -->
+	<select id="queryUserByAreasAndQueryKey" parameterType="map" resultType="net.chetong.order.model.TransGetUserVO">
+		SELECT
+			u.id AS userId,
+			u.lastname AS lastName,
+			u.firstname AS firstName,
+			p.longitude AS personLongitude,
+			p.dimension AS personLatitude,
+			u.mobile AS mobile,
+			IF (30 > TIMESTAMPDIFF(MINUTE,p.last_notify_time,now()) AND p.ext1 = '1','1','0') AS isOnLine,
+			(SELECT p.group_id FROM ct_person_group p WHERE p.user_id=u.id AND p.stat = '1') AS groupId
+		FROM
+			ct_user u,
+			ct_person_service s,
+			ct_person_stat p
+		WHERE
+			u.id = s.user_id
+		AND u.id = p.user_id
+		AND s.is_service = '1'
+		AND s.service_id = '1'
+		AND s.stat = '1'
+		AND s.audit_stat = '0'
+		<if test="provCodes != null and provCodes.size() >0">
+			AND s.prov_code IN
+			<foreach collection="provCodes" item="item" open="(" close=")" separator=",">
+				 #{item}
+			</foreach>
+			<if test="cityCodes != null and cityCodes.size() >0">
+				AND s.city_code IN
+				<foreach collection="cityCodes" item="item" open="(" close=")" separator=",">
+					 #{item}
+				</foreach>
+			</if>
+		</if>
+		<if test="queryKey != null and queryKey != ''">
+			AND (
+				CONCAT(u.lastname,u.firstname) LIKE CONCAT('%',#{queryKey},'%') 
+				OR u.mobile LIKE CONCAT('%',#{queryKey},'%')
+				<if test="startCode != null and startCode != ''">
+					OR CONV(HEX(LEFT(CONVERT(u.lastname USING gbk),1)),16,10) BETWEEN #{startCode} AND #{endCode} 
+				</if>
+				)
+		</if>
+		AND u.id!=#{oldSelllerId}
+	</select>
+	
+	<!-- 查询地区的车童 (特殊市区处理) -->
+	<select id="specialQueryUserByAreasAndQueryKey" parameterType="map" resultType="net.chetong.order.model.TransGetUserVO">
+		SELECT
+			u.id AS userId,
+			u.lastname AS lastName,
+			u.firstname AS firstName,
+			p.longitude AS personLongitude,
+			p.dimension AS personLatitude,
+			u.mobile AS mobile,
+			IF (30 > TIMESTAMPDIFF(MINUTE,p.last_notify_time,now()) AND p.ext1 = '1','1','0') AS isOnLine,
+			(SELECT p.group_id FROM ct_person_group p WHERE p.user_id=u.id AND p.stat = '1') AS groupId
+		FROM
+			ct_user u,
+			ct_person_service s,
+			ct_person_stat p
+		WHERE
+			u.id = s.user_id
+		AND u.id = p.user_id
+		AND s.is_service = '1'
+		AND s.service_id = '1'
+		AND s.stat = '1'
+		AND s.audit_stat = '0'
+		<if test="specialCityCodes != null and specialCityCodes.size() >0">
+			AND s.city_code IN
+			<foreach collection="specialCityCodes" item="item" open="(" close=")" separator=",">
+				 #{item}
+			</foreach>
+		</if>
+		<if test="queryKey != null and queryKey != ''">
+			AND (
+				CONCAT(u.lastname,u.firstname) LIKE concat('%',#{queryKey},'%'} 
+				OR u.mobile LIKE concat('%',#{queryKey},'%')
+				<if test="startCode != null and startCode != ''">
+					OR CONV(HEX(LEFT(CONVERT(u.lastname USING gbk),1)),16,10) BETWEEN #{startCode} AND #{endCode} 
+				</if>
+				)
+		</if>
+		AND u.id!=#{oldSelllerId}
+	</select>
+	
+	<!-- 查询保险公司信息 -->
+	<select id="queryEntrustUserList" parameterType="java.util.Map" resultType="net.chetong.order.model.EntrustUserInfoModel">
+		SELECT fo.cbs_id as entrustId, fo.cbs_name as entrustName FROM fm_order_loss_data_mapping fo WHERE TYPE=6 
+	    <if test="grantEntrustUserName != null and grantEntrustUserName != '' ">
+	    	and fo.cbs_name like concat('%',#{grantEntrustUserName},'%')
+	    </if>
+	</select>
+</mapper>

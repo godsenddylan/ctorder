@@ -1,0 +1,225 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="para_key_value">
+
+	<select id="queryCountParaKeyValue" parameterType="net.chetong.order.model.ParaKeyValue" resultType="java.lang.Long" >
+		SELECT 
+			count(*)
+		FROM para_key_value 
+		<where>
+			<if test="id!= null">
+				and id=#{id}
+			</if>
+			<if test="paraType!= null">
+				and para_type=#{paraType}
+			</if>
+			<if test="paraKey!= null">
+				and para_key=#{paraKey}
+			</if>
+			<if test="paraRelationship!= null">
+				and para_relationship=#{paraRelationship}
+			</if>
+			<if test="paraValue!= null">
+				and para_value=#{paraValue}
+			</if>
+			<if test="paraValue2!= null">
+				and para_value2=#{paraValue2}
+			</if>
+			<if test="paraNote!= null">
+				and para_note=#{paraNote}
+			</if>
+			<if test="enableFlag!= null">
+				and enable_flag=#{enableFlag}
+			</if>
+			<if test="createBy!= null">
+				and create_by=#{createBy}
+			</if>
+			<if test="createTime!= null">
+				and create_time=#{createTime}
+			</if>
+		</where> 
+	</select>
+	
+	<select id="queryParaKeyValue" parameterType="net.chetong.order.model.ParaKeyValue" resultType ="net.chetong.order.model.ParaKeyValue" >
+		SELECT 
+			id as id,
+			para_type as paraType,
+			para_key as paraKey,
+			para_relationship as paraRelationship,
+			para_value as paraValue,
+			para_value2 as paraValue2,
+			para_note as paraNote,
+			enable_flag as enableFlag,
+			create_by as createBy,
+			create_time as createTime
+		FROM para_key_value 
+		 <where>
+		    <if test="id!= null">
+                  and id=#{id}
+            </if>
+		    <if test="paraType!= null">
+                  and para_type=#{paraType}
+            </if>
+		    <if test="paraKey!= null">
+                  and para_key=#{paraKey}
+            </if>
+		    <if test="paraRelationship!= null">
+                  and para_relationship=#{paraRelationship}
+            </if>
+		    <if test="paraValue!= null">
+                  and para_value=#{paraValue}
+            </if>
+		    <if test="paraValue2!= null">
+                  and para_value2=#{paraValue2}
+            </if>
+		    <if test="paraNote!= null">
+                  and para_note=#{paraNote}
+            </if>
+		    <if test="enableFlag!= null">
+                  and enable_flag=#{enableFlag}
+            </if>
+		    <if test="createBy!= null">
+                  and create_by=#{createBy}
+            </if>
+		    <if test="createTime!= null">
+                  and create_time=#{createTime}
+            </if>
+  		</where>
+	</select>
+	
+		<insert id="insertNotNull" parameterType="net.chetong.order.model.ParaKeyValue" useGeneratedKeys="true" keyProperty="id">
+			INSERT INTO para_key_value   
+			(
+				<trim suffix="" suffixOverrides=",">
+					<if test="id!= null">
+		                   id,
+		            </if>
+					<if test="paraType!= null">
+		                   para_type,
+		            </if>
+					<if test="paraKey!= null">
+		                   para_key,
+		            </if>
+					<if test="paraRelationship!= null">
+		                   para_relationship,
+		            </if>
+					<if test="paraValue!= null">
+		                   para_value,
+		            </if>
+					<if test="paraValue2!= null">
+		                   para_value2,
+		            </if>
+					<if test="paraNote!= null">
+		                   para_note,
+		            </if>
+					<if test="enableFlag!= null">
+		                   enable_flag,
+		            </if>
+					<if test="createBy!= null">
+		                   create_by,
+		            </if>
+					<if test="createTime!= null">
+		                   create_time,
+		            </if>
+	            </trim>
+			)
+			VALUES
+	   		(
+	   			<trim suffix="" suffixOverrides=",">
+		   			<if test="id!= null">
+		   			#{id},
+		   			</if>
+		   			<if test="paraType!= null">
+		   			#{paraType},
+		   			</if>
+		   			<if test="paraKey!= null">
+		   			#{paraKey},
+		   			</if>
+		   			<if test="paraRelationship!= null">
+		   			#{paraRelationship},
+		   			</if>
+		   			<if test="paraValue!= null">
+		   			#{paraValue},
+		   			</if>
+		   			<if test="paraValue2!= null">
+		   			#{paraValue2},
+		   			</if>
+		   			<if test="paraNote!= null">
+		   			#{paraNote},
+		   			</if>
+		   			<if test="enableFlag!= null">
+		   			#{enableFlag},
+		   			</if>
+		   			<if test="createBy!= null">
+		   			#{createBy},
+		   			</if>
+		   			<if test="createTime!= null">
+		   			#{createTime},
+		   			</if>
+	   			</trim>
+			)
+		</insert>
+
+	<select id="queryByKey" resultType="net.chetong.order.model.ParaKeyValue">
+		SELECT 
+			id as id, 
+			para_type as paraType, 
+			para_key as paraKey, 
+			para_relationship as paraRelationship, 
+			para_value as paraValue, 
+			para_value2 as paraValue2, 
+			para_note as paraNote, 
+			enable_flag as enableFlag, 
+			create_by as createBy, 
+			create_time as createTime 
+		FROM
+			para_key_value
+	    <where>		   
+		    	 and id = #{id}
+		</where>
+	</select>
+	
+	<delete id="deleteByKey">
+		DELETE FROM 
+			para_key_value 
+		<where>		   
+		    	 and id = #{id}
+		</where>
+	</delete>
+	
+	<update id="updateByKeyNotNull">
+		UPDATE para_key_value 
+		  <trim prefix="SET" suffixOverrides=",">  
+					<if test="paraType!= null">
+		   			para_type = #{paraType},
+		   			</if>  
+					<if test="paraKey!= null">
+		   			para_key = #{paraKey},
+		   			</if>  
+					<if test="paraRelationship!= null">
+		   			para_relationship = #{paraRelationship},
+		   			</if>  
+					<if test="paraValue!= null">
+		   			para_value = #{paraValue},
+		   			</if>  
+					<if test="paraValue2!= null">
+		   			para_value2 = #{paraValue2},
+		   			</if>  
+					<if test="paraNote!= null">
+		   			para_note = #{paraNote},
+		   			</if>  
+					<if test="enableFlag!= null">
+		   			enable_flag = #{enableFlag},
+		   			</if>  
+					<if test="createBy!= null">
+		   			create_by = #{createBy},
+		   			</if>  
+					<if test="createTime!= null">
+		   			create_time = #{createTime},
+		   			</if>  
+		  </trim>
+		  <where>	   
+				    and id = #{id}
+		 </where>
+	</update>
+</mapper>

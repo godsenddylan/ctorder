@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="sqlmap_fh_car_model">
+
+	<!-- 查询车辆-->
+    <select id="queryCarModelList" parameterType="map" resultType="net.chetong.order.model.FhCarModelVO">
+        select 
+			id as id,
+			carmark as carmark,
+			drivername as drivername,
+			driverphone as driverphone,
+			guid as guid,
+			is_main as isMain,
+			order_code as orderCode,
+			remark as remark,
+			insert_time as insertTime,
+			last_time as lastTime
+		 from fh_car_model where guid=#{guid} and is_main=#{isMain} order by id
+    </select>
+    
+    <update id="updateCarByGuid">
+		UPDATE fh_car_model 
+		  <trim prefix="SET" suffixOverrides=",">  
+					<if test="carmark!= null">
+		   			carmark = #{carmark},
+		   			</if>  
+					<if test="drivername!= null">
+		   			drivername = #{drivername},
+		   			</if>  
+					<if test="driverphone!= null">
+		   			driverphone = #{driverphone},
+		   			</if>  
+					<if test="isMain!= null">
+		   			is_main = #{isMain},
+		   			</if>  
+					<if test="orderCode!= null">
+		   			order_code = #{orderCode},
+		   			</if>  
+					<if test="remark!= null">
+		   			remark = #{remark},
+		   			</if>  
+					<if test="insertTime!= null">
+		   			insert_time = #{insertTime},
+		   			</if>  
+					<if test="lastTime!= null">
+		   			last_time = #{lastTime},
+		   			</if>  
+		  </trim>
+		  <where>	   
+				    and guid = #{guid}
+		 </where>
+	</update>
+	
+	 <update id="updateThreeCar" parameterType="java.util.Map">
+        update fh_car_model set order_code=#{orderCode},last_time=#{lastTime} where carmark=#{carMark}
+    </update>
+	
+	<insert id="insertNotNull" parameterType="net.chetong.order.model.FhCarModelVO" useGeneratedKeys="true" keyProperty="id">
+			INSERT INTO fh_car_model   
+			(
+				<trim suffix="" suffixOverrides=",">
+					<if test="carmark!= null">
+		                   carmark,
+		            </if>
+					<if test="drivername!= null">
+		                   drivername,
+		            </if>
+					<if test="driverphone!= null">
+		                   driverphone,
+		            </if>
+					<if test="guid!= null">
+		                   guid,
+		            </if>
+					<if test="isMain!= null">
+		                   is_main,
+		            </if>
+					<if test="orderCode!= null">
+		                   order_code,
+		            </if>
+					<if test="remark!= null">
+		                   remark,
+		            </if>
+					<if test="insertTime!= null">
+		                   insert_time,
+		            </if>
+					<if test="lastTime!= null">
+		                   last_time,
+		            </if>
+	            </trim>
+			)
+			VALUES
+	   		(
+	   			<trim suffix="" suffixOverrides=",">
+		   			<if test="carmark!= null">
+		   			#{carmark},
+		   			</if>
+		   			<if test="drivername!= null">
+		   			#{drivername},
+		   			</if>
+		   			<if test="driverphone!= null">
+		   			#{driverphone},
+		   			</if>
+		   			<if test="guid!= null">
+		   			#{guid},
+		   			</if>
+		   			<if test="isMain!= null">
+		   			#{isMain},
+		   			</if>
+		   			<if test="orderCode!= null">
+		   			#{orderCode},
+		   			</if>
+		   			<if test="remark!= null">
+		   			#{remark},
+		   			</if>
+		   			<if test="insertTime!= null">
+		   			#{insertTime},
+		   			</if>
+		   			<if test="lastTime!= null">
+		   			#{lastTime},
+		   			</if>
+	   			</trim>
+			)
+	</insert>
+	
+	<!-- 删除指定案件下的车辆 -->
+	<delete id="delCarByGuid" parameterType="java.lang.String">
+		delete from fh_car_model where guid=#{guid}
+	</delete>
+	
+</mapper>

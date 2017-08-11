@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="sqlmap_pr_guide_price_detail" >
+  <resultMap id="BaseResultMap" type="net.chetong.order.model.PrGuidePriceDetailVO" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="guide_id" property="guideId" jdbcType="BIGINT" />
+    <result column="price_type" property="priceType" jdbcType="VARCHAR" />
+    <result column="price_money" property="priceMoney" jdbcType="DECIMAL" />
+    <result column="price_mode" property="priceMode" jdbcType="VARCHAR" />
+    <result column="start_val" property="startVal" jdbcType="DECIMAL" />
+    <result column="end_val" property="endVal" jdbcType="DECIMAL" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, guide_id, price_type, price_money, price_mode, start_val, end_val
+  </sql>
+  
+  <select id="selectByGuideId" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from pr_guide_price_detail
+    where guide_id = #{guideId,jdbcType=BIGINT}
+  </select>
+  
+  
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from pr_guide_price_detail
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="net.chetong.order.model.PrGuidePriceDetailVO" >
+    insert into pr_guide_price_detail (id, guide_id, price_type, 
+      price_money, price_mode, start_val, 
+      end_val)
+    values (#{id,jdbcType=BIGINT}, #{guideId,jdbcType=BIGINT}, #{priceType,jdbcType=VARCHAR}, 
+      #{priceMoney,jdbcType=DECIMAL}, #{priceMode,jdbcType=VARCHAR}, #{startVal,jdbcType=DECIMAL}, 
+      #{endVal,jdbcType=DECIMAL})
+  </insert>
+  <insert id="insertSelective" parameterType="net.chetong.order.model.PrGuidePriceDetailVO" >
+    insert into pr_guide_price_detail
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="guideId != null" >
+        guide_id,
+      </if>
+      <if test="priceType != null" >
+        price_type,
+      </if>
+      <if test="priceMoney != null" >
+        price_money,
+      </if>
+      <if test="priceMode != null" >
+        price_mode,
+      </if>
+      <if test="startVal != null" >
+        start_val,
+      </if>
+      <if test="endVal != null" >
+        end_val,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="guideId != null" >
+        #{guideId,jdbcType=BIGINT},
+      </if>
+      <if test="priceType != null" >
+        #{priceType,jdbcType=VARCHAR},
+      </if>
+      <if test="priceMoney != null" >
+        #{priceMoney,jdbcType=DECIMAL},
+      </if>
+      <if test="priceMode != null" >
+        #{priceMode,jdbcType=VARCHAR},
+      </if>
+      <if test="startVal != null" >
+        #{startVal,jdbcType=DECIMAL},
+      </if>
+      <if test="endVal != null" >
+        #{endVal,jdbcType=DECIMAL},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="net.chetong.order.model.PrGuidePriceDetailVO" >
+    update pr_guide_price_detail
+    <set >
+      <if test="guideId != null" >
+        guide_id = #{guideId,jdbcType=BIGINT},
+      </if>
+      <if test="priceType != null" >
+        price_type = #{priceType,jdbcType=VARCHAR},
+      </if>
+      <if test="priceMoney != null" >
+        price_money = #{priceMoney,jdbcType=DECIMAL},
+      </if>
+      <if test="priceMode != null" >
+        price_mode = #{priceMode,jdbcType=VARCHAR},
+      </if>
+      <if test="startVal != null" >
+        start_val = #{startVal,jdbcType=DECIMAL},
+      </if>
+      <if test="endVal != null" >
+        end_val = #{endVal,jdbcType=DECIMAL},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="net.chetong.order.model.PrGuidePriceDetailVO" >
+    update pr_guide_price_detail
+    set guide_id = #{guideId,jdbcType=BIGINT},
+      price_type = #{priceType,jdbcType=VARCHAR},
+      price_money = #{priceMoney,jdbcType=DECIMAL},
+      price_mode = #{priceMode,jdbcType=VARCHAR},
+      start_val = #{startVal,jdbcType=DECIMAL},
+      end_val = #{endVal,jdbcType=DECIMAL}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

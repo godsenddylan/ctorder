@@ -1,0 +1,206 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ct_promotion_one_money">
+	<insert id="addOneMoneyPromotion" parameterType="CtPromotionOneMoneyVO" keyProperty="id" useGeneratedKeys="true">
+		INSERT INTO ct_promotion_one_money (
+		  created_by,
+		  created_date,
+		  updated_by,
+		  updated_date,
+		  <if test="id !=null and id != ''">
+		  id,
+		  </if>
+		  login_name,
+		  consignor,
+		  order_type,
+		  order_category,
+		  start_time,
+		  end_time,
+		  money,
+		  order_number,
+		  state) 
+		VALUES
+		  (#{created_by},
+		  SYSDATE(),
+		  #{updated_by},
+		  SYSDATE(),
+		  <if test="id !=null and id != ''">
+		  #{id},
+		  </if>
+		  #{login_name},
+		  #{consignor},
+		  #{order_type},
+		  #{order_category},
+		  str_to_date(#{start_time},'%Y-%m-%d %H:%i:%s'),
+		  str_to_date(#{end_time},'%Y-%m-%d %H:%i:%s'),
+		  #{money},
+		  #{order_number},
+		  #{state})
+	</insert>
+	
+	<select id="validateLoginName" parameterType="java.util.Map" resultType="java.lang.String">
+		SELECT CAST(cu.id AS CHAR) id 
+		FROM ct_user cu,ct_group cg 
+		WHERE cu.id=cg.user_id AND cu.login_name=#{consignor_login_name} 
+		AND cg.org_name=#{consignor} 
+	</select>
+	
+	<update id="updateOneMoneyPromotion" parameterType="CtPromotionOneMoneyVO">
+		update ct_promotion_one_money set 
+					<if test="login_name != null and login_name != ''">
+						login_name=#{login_name},
+					</if>
+					<if test="consignor != null and consignor != ''">
+						consignor=#{consignor},
+					</if>
+					<if test="order_type != null and order_type != ''">
+						order_type=#{order_type},
+					</if>
+					<if test="order_category != null and order_category != ''">
+						order_category=#{order_category},
+					</if>
+					<if test="start_time != null and start_time != ''">
+						<![CDATA[start_time=str_to_date(#{start_time},'%Y-%m-%d %H:%i:%s'),]]>
+					</if>
+					<if test="end_time != null and end_time != ''">
+						<![CDATA[end_time=str_to_date(#{end_time},'%Y-%m-%d %H:%i:%s'),]]>
+					</if>
+					<if test="money != null and money != ''">
+						money=#{money},
+					</if>
+					<if test="order_number != null and order_number != ''">
+						order_number=#{order_number},
+					</if>
+					<if test="state != null and state != ''">
+						state=#{state},
+					</if>
+					updated_by=#{updated_by},
+					updated_date=SYSDATE()
+					where id=#{id}
+	</update>
+	
+	<select id="queryOneMoneyPromotion" parameterType="java.util.Map" resultType="CtPromotionOneMoneyVO">
+		select 
+		 created_by,
+		  created_date,
+		  updated_by,
+		  updated_date,
+		  id,
+		  login_name,
+		  consignor,
+		  order_type,
+		  order_category,
+		  DATE_FORMAT(start_time,'%Y-%m-%d %H:%i:%s') as start_time,
+		  DATE_FORMAT(end_time,'%Y-%m-%d %H:%i:%s') as end_time,
+		  CAST(money AS UNSIGNED INT) AS money,
+		  order_number,
+		  state 
+		from ct_promotion_one_money 
+		<where>
+					<if test="id != null and id != ''">
+						and id=#{id}
+					</if>
+					<if test="login_name != null and login_name != ''">
+						and login_name=#{login_name}
+					</if>
+					<if test="consignor != null and consignor != ''">
+						and consignor=#{consignor}
+					</if>
+					<if test="order_type != null and order_type != ''">
+						and order_type=#{order_type}
+					</if>
+					<if test="order_category != null and order_category != ''">
+						and order_category=#{order_category}
+					</if>
+					<if test="money != null and money != ''">
+						and money=#{money}
+					</if>
+					<if test="order_number != null and order_number != ''">
+						and order_number=#{order_number}
+					</if>
+					<if test="state != null and state != ''">
+						and state=#{state}
+					</if>
+					<if test="nostate != null and nostate != ''">
+						and state<![CDATA[<>]]>#{nostate}
+					</if>
+					
+					<if test="start_time != null and start_time != '' and end_time != null and end_time != ''">
+							and ((start_time<![CDATA[<=]]>STR_TO_DATE(#{start_time},'%Y-%m-%d %H:%i:%s') and end_time<![CDATA[>=]]>STR_TO_DATE(#{start_time},'%Y-%m-%d %H:%i:%s'))
+							     or (start_time<![CDATA[>=]]>STR_TO_DATE(#{end_time},'%Y-%m-%d %H:%i:%s') and end_time<![CDATA[<=]]>STR_TO_DATE(#{end_time},'%Y-%m-%d %H:%i:%s')))
+					</if>
+					<if test="start_time != null and start_time != ''">
+						<if test="end_time == null and end_time == ''">
+								and start_time<![CDATA[<=]]>STR_TO_DATE(#{start_time},'%Y-%m-%d %H:%i:%s') and end_time<![CDATA[>=]]>STR_TO_DATE(#{start_time},'%Y-%m-%d %H:%i:%s')
+						</if>
+					</if>
+					<if test="end_time != null and end_time != ''">
+						<if test="start_time == null and start_time == ''">
+								and start_time<![CDATA[>=]]>STR_TO_DATE(#{end_time},'%Y-%m-%d %H:%i:%s') and end_time<![CDATA[<=]]>STR_TO_DATE(#{end_time},'%Y-%m-%d %H:%i:%s')
+						</if>
+					</if>
+		</where>
+	</select>
+	<!-- 获取订单与活动关系信息 -->	
+	<select id="queryPromotionOrderRelation" parameterType="java.util.Map" resultType="CtPromotionOrderRelationVO">
+		SELECT 
+			por.created_by,
+			por.created_date,
+			por.updated_by,
+			por.updated_date,
+			por.id,
+			por.order_id,
+			por.order_no,
+			por.promotion_id,
+			por.promotion_type
+		FROM ct_promotion_order_relation por
+		<where>
+			<if test="id!=null and id!=''">
+				and por.id=#{id}
+			</if>
+			<if test="order_id!=null and order_id!=''">
+				and por.order_id=#{order_id}
+			</if>
+			<if test="order_no!=null and order_no!=''">
+				and por.order_no=#{order_no}
+			</if>
+			<if test="promotion_id != null and promotion_id != ''">
+				and por.promotion_id=#{promotion_id}
+			</if>
+			<if test="promotion_type!=null and promotion_type!=''">
+				and por.promotion_type=#{promotion_type}
+			</if>
+		</where>
+	</select>
+	<!-- 添加订单与活动关系信息 -->
+	<insert id="addPromotionOrderRelation" parameterType="CtPromotionOrderRelationVO" keyProperty="id" useGeneratedKeys="true">
+		INSERT INTO ct_promotion_order_relation (
+			 created_by,
+			 created_date,
+			 updated_by,
+			 updated_date,
+			 <if test="id !=null and id != ''">
+			 id,
+			 </if>
+			 promotion_id,
+			 promotion_type,
+			 order_id,
+			 order_no
+			)VALUES(
+				#{created_by},
+			 	SYSDATE(),
+			 	#{updated_by},
+			 	SYSDATE(),
+			 	<if test="id !=null and id != ''">
+				  #{id},
+				 </if>
+			 	#{promotion_id},
+			 	#{promotion_type},
+			 	#{order_id},
+				#{order_no}
+			)
+	</insert>
+	<select id="getPromOrderRelaCountByPromotionId" parameterType="java.util.Map" resultType="java.lang.Long">
+		select count(1) from ct_promotion_order_relation  por where por.promotion_id=#{promotion_id} and por.promotion_type=#{promotion_type}
+	</select>
+</mapper>

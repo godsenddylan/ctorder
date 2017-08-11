@@ -1,0 +1,235 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ct_person_group">
+
+	<select id="queryCountCtPersonGroup" parameterType="net.chetong.order.model.CtPersonGroupVO" resultType="java.lang.Long" >
+		SELECT 
+			count(*)
+		FROM ct_person_group 
+		<where>
+			<if test="id!= null">
+				and id=#{id}
+			</if>
+			<if test="userId!= null">
+				and user_id=#{userId}
+			</if>
+			<if test="groupId!= null">
+				and group_id=#{groupId}
+			</if>
+			<if test="stat!= null">
+				and stat=#{stat}
+			</if>
+			<if test="applyTime!= null">
+				and apply_time=#{applyTime}
+			</if>
+			<if test="auditTime!= null">
+				and audit_time=#{auditTime}
+			</if>
+			<if test="auditUserId!= null">
+				and audit_user_id=#{auditUserId}
+			</if>
+			<if test="ext1!= null">
+				and ext1=#{ext1}
+			</if>
+			<if test="ext2!= null">
+				and ext2=#{ext2}
+			</if>
+			<if test="ext3!= null">
+				and ext3=#{ext3}
+			</if>
+		</where> 
+	</select>
+	
+	<select id="queryCtPersonGroup" parameterType="net.chetong.order.model.CtPersonGroupVO" resultType ="net.chetong.order.model.CtPersonGroupVO" >
+		SELECT 
+			id as id,
+			user_id as userId,
+			group_id as groupId,
+			stat as stat,
+			apply_time as applyTime,
+			audit_time as auditTime,
+			audit_user_id as auditUserId,
+			ext1 as ext1,
+			ext2 as ext2,
+			ext3 as ext3
+		FROM ct_person_group 
+		 <where>
+		    <if test="id!= null">
+                  and id=#{id}
+            </if>
+		    <if test="userId!= null">
+                  and user_id=#{userId}
+            </if>
+		    <if test="groupId!= null">
+                  and group_id=#{groupId}
+            </if>
+		    <if test="stat!= null">
+                  and stat=#{stat}
+            </if>
+		    <if test="applyTime!= null">
+                  and apply_time=#{applyTime}
+            </if>
+		    <if test="auditTime!= null">
+                  and audit_time=#{auditTime}
+            </if>
+		    <if test="auditUserId!= null">
+                  and audit_user_id=#{auditUserId}
+            </if>
+		    <if test="ext1!= null">
+                  and ext1=#{ext1}
+            </if>
+		    <if test="ext2!= null">
+                  and ext2=#{ext2}
+            </if>
+		    <if test="ext3!= null">
+                  and ext3=#{ext3}
+            </if>
+  		</where>
+		  		ORDER BY id DESC
+	</select>
+	
+		<insert id="insertNotNull" parameterType="net.chetong.order.model.CtPersonGroupVO" useGeneratedKeys="true" keyProperty="id">
+			INSERT INTO ct_person_group   
+			(
+				<trim suffix="" suffixOverrides=",">
+					<if test="id!= null">
+		                   id,
+		            </if>
+					<if test="userId!= null">
+		                   user_id,
+		            </if>
+					<if test="groupId!= null">
+		                   group_id,
+		            </if>
+					<if test="stat!= null">
+		                   stat,
+		            </if>
+					<if test="applyTime!= null">
+		                   apply_time,
+		            </if>
+					<if test="auditTime!= null">
+		                   audit_time,
+		            </if>
+					<if test="auditUserId!= null">
+		                   audit_user_id,
+		            </if>
+		            <if test="serviceId != null">
+		            	service_id,
+		            </if>
+					<if test="ext1!= null">
+		                   ext1,
+		            </if>
+					<if test="ext2!= null">
+		                   ext2,
+		            </if>
+					<if test="ext3!= null">
+		                   ext3,
+		            </if>
+	            </trim>
+			)
+			VALUES
+	   		(
+	   			<trim suffix="" suffixOverrides=",">
+		   			<if test="id!= null">
+		   			#{id},
+		   			</if>
+		   			<if test="userId!= null">
+		   			#{userId},
+		   			</if>
+		   			<if test="groupId!= null">
+		   			#{groupId},
+		   			</if>
+		   			<if test="stat!= null">
+		   			#{stat},
+		   			</if>
+		   			<if test="applyTime!= null">
+		   			#{applyTime},
+		   			</if>
+		   			<if test="auditTime!= null">
+		   			#{auditTime},
+		   			</if>
+		   			<if test="auditUserId!= null">
+		   			#{auditUserId},
+		   			</if>
+		   			<if test="serviceId != null">
+		   			#{serviceId},
+		   			</if>
+		   			<if test="ext1!= null">
+		   			#{ext1},
+		   			</if>
+		   			<if test="ext2!= null">
+		   			#{ext2},
+		   			</if>
+		   			<if test="ext3!= null">
+		   			#{ext3},
+		   			</if>
+	   			</trim>
+			)
+		</insert>
+
+	<select id="queryByKey" resultType="net.chetong.order.model.CtPersonGroupVO">
+		SELECT 
+			id as id, 
+			user_id as userId, 
+			group_id as groupId, 
+			stat as stat, 
+			apply_time as applyTime, 
+			audit_time as auditTime, 
+			audit_user_id as auditUserId, 
+			ext1 as ext1, 
+			ext2 as ext2, 
+			ext3 as ext3 
+		FROM
+			ct_person_group
+	    <where>		   
+		    	 and id = #{id}
+		</where>
+	</select>
+	
+	<delete id="deleteByKey">
+		DELETE FROM 
+			ct_person_group 
+		<where>		   
+		    	 and id = #{id}
+		</where>
+	</delete>
+	
+	<update id="updateByKeyNotNull">
+		UPDATE ct_person_group 
+		  <trim prefix="SET" suffixOverrides=",">  
+					<if test="userId!= null">
+		   			user_id = #{userId},
+		   			</if>  
+					<if test="groupId!= null">
+		   			group_id = #{groupId},
+		   			</if>  
+					<if test="stat!= null">
+		   			stat = #{stat},
+		   			</if>  
+					<if test="applyTime!= null">
+		   			apply_time = #{applyTime},
+		   			</if>  
+					<if test="auditTime!= null">
+		   			audit_time = #{auditTime},
+		   			</if>  
+					<if test="auditUserId!= null">
+		   			audit_user_id = #{auditUserId},
+		   			</if>  
+					<if test="ext1!= null">
+		   			ext1 = #{ext1},
+		   			</if>  
+					<if test="ext2!= null">
+		   			ext2 = #{ext2},
+		   			</if>  
+					<if test="ext3!= null">
+		   			ext3 = #{ext3},
+		   			</if>  
+		  </trim>
+		  <where>	   
+				    and id = #{id}
+		 </where>
+	</update>
+	
+
+	
+</mapper>

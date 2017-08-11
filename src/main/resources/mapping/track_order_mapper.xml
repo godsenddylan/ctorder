@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="track_order_mapper">
+
+	<!--实体映射-->
+	<resultMap id="yyTrackConfigResultMap" type="com.chetong.aic.entity.track.YyTrackConfig">
+		<id property="id" column="id" />		<!---->
+		<result property="userId" column="user_id" />		<!--配置该记录机构id-->
+		<result property="entrustUserId" column="entrust_user_id" />		<!--委托人id，多个使用,分隔-->
+		<result property="entrustUsername" column="entrust_username" />		<!--委托人机构名称，多个使用,相隔-->
+		<result property="serviceId" column="service_id" />		<!--车险-1，货运险-5，医健险-7-->
+		<result property="orderType" column="order_type" />		<!--订单类型：0-查勘（可授权定损） 1- 定损（标的） 2 - 定损（三者） 3 - 物损'-->
+		<result property="useScope" column="use_scope" />		<!--适用范围：是否简易流程、是否快赔-->
+		<result property="recordTrack" column="record_track" />		<!--是否记录车童轨迹：1-是，0-否-->
+		<result property="viewTrack" column="view_track" />		<!--车主是否能查看车童轨迹：1-是，0-否-->
+		<result property="arriveScope" column="arrive_scope" />		<!--车童到达范围阈值(单位：米)-->
+		<result property="trackRemindTime" column="track_remind_time" />		<!--app未到达提醒时间-->
+		<result property="trackOvertime" column="track_overtime" />		<!--轨迹超时有效期（单位：小时）-->
+		<result property="teamId" column="team_id" />		<!--团队Id-->
+		<result property="orgId" column="org_id" />		<!--机构id-->
+		<result property="operatorId" column="operator_id" />		<!--后台管理员id-->
+		<result property="createTime" column="create_time" />		<!--创建时间-->
+		<result property="updateTime" column="update_time" />		<!--更新时间-->
+	</resultMap>
+	
+	<!-- 通用查询结果列-->
+	<sql id="Base_Column_List">
+		id,
+		user_id,
+		entrust_user_id,
+		entrust_username,
+		service_id,
+		order_type,
+		use_scope,
+		record_track,
+		view_track,
+		arrive_scope,
+		track_remind_time,
+		track_overtime,
+		team_id,
+		org_id,
+		operator_id,
+		create_time,
+		update_time
+
+	</sql>
+	
+	<!--实体映射-->
+	<resultMap id="yyTrackRecordResultMap" type="com.chetong.aic.entity.track.YyTrackRecord">
+		<id property="id" column="id" />		<!---->
+		<result property="orderNo" column="order_no" />		<!--订单号-->
+		<result property="userId" column="user_id" />		<!--车童id，也就是鹰眼地entity_name-->
+		<result property="startTime" column="start_time" />		<!--轨迹记录开始时间戳-->
+		<result property="endTime" column="end_time" />		<!--轨迹截止时间戳-->
+		<result property="trackMileage" column="track_mileage" />		<!--轨迹里程-->
+		<result property="fromApp" column="from_app" />		<!--是否APP接单：1-是，0-否-->
+		<result property="trackState" column="track_state" />		<!--轨迹状态：0-正常、1-异常、2-超时。-->
+		<result property="arrivalTime" column="arrival_time" />		<!--到达时间-->
+		<result property="createTime" column="create_time" />		<!--创建时间-->
+		<result property="updateTime" column="update_time" />		<!--更新时间-->
+	</resultMap>
+
+
+	<!-- 通用查询结果列-->
+	<sql id="TrackRecord_Column_List">
+		id,
+		order_no,
+		user_id,
+		start_time,
+		end_time,
+		track_mileage,
+		from_app,
+		track_state,
+		arrival_time,
+		create_time,
+		update_time
+
+	</sql>
+
+	<select id="getHaveTrackOrderList" parameterType="net.chetong.order.model.TrackOrderVO" resultType="net.chetong.order.model.TrackOrderVO">
+		SELECT
+			tc.arrive_scope AS arriveScope,
+			tc.track_remind_time AS trackRemindTime,
+			tc.track_overtime AS trackOvertime,
+		    A.caseNo,
+		    A.orderNo,
+			A.buyerUserId,
+			A.payerUserId,
+			A.latitude,
+			A.longitude,
+			A.getTime,
+			A.sellerUserId,
+			A.workAddress,
+			'1' AS serviceId,
+		    '' as supportLinkman,
+			'' as supportLinktel,
+            '' as limitTime
+		FROM
+			yy_track_config tc LEFT JOIN
+			(
+				SELECT
+					o.case_no AS caseNo,
+					o.buyer_user_id AS buyerUserId,
+					o.payer_user_id AS payerUserId,
+					o.latitude AS latitude,
+					o.longtitude AS longitude,
+					o.order_no AS orderNo,
+					DATE_FORMAT(
+						o.get_time,
+						'%Y-%m-%d %H:%m:%S'
+					) AS getTime,
+					o.seller_user_id AS sellerUserId,
+					o.work_address AS workAddress
+				FROM
+					fm_order o,
+					yy_track_record tr
+				WHERE
+					o.order_no = tr.order_no
+				AND o.deal_stat = '04'
+				AND tr.track_state = 3
+				AND o.seller_user_id = tr.user_id
+			) AS A ON tc.user_id = A.payerUserId
+		<where>
+				tc.entrust_user_id LIKE CONCAT('%',A.buyerUserId,'%')
+			<if test="userId != null and userId != ''">
+				AND A.sellerUserId = #{userId}
+			</if>
+		</where>
+	</select>
+	
+	<!-- 根据买家与支付机构获取轨迹配置信息 -->
+	<select id="getTrackConfig" parameterType="java.util.Map" resultMap="yyTrackConfigResultMap">
+		SELECT
+			<include refid="Base_Column_List"/>
+		FROM
+			yy_track_config tc
+		<where>
+		tc.user_id = #{payerUserId}
+		AND tc.record_track = #{recordTrack}
+		AND tc.entrust_user_id LIKE CONCAT('%', #{buyerUserId}, '%')
+		AND tc.use_scope REGEXP CONCAT('[',#{useScope},']')
+		
+		</where>
+	</select>
+	
+	<select id="getTrackRecord" parameterType="java.util.Map" resultMap="yyTrackRecordResultMap">
+		SELECT
+			<include refid="TrackRecord_Column_List"/>
+		FROM
+			yy_track_record tr
+		<where>
+			<if test="orderNo != null and orderNo != ''">
+				AND tr.order_no = #{orderNo}
+			</if>
+			<if test="sellerUserId != null and sellerUserId != ''">
+				AND tr.user_id = #{sellerUserId}
+			</if>
+		</where>
+	</select>
+	
+	<select id="getTrackAddressList" resultType="com.chetong.aic.entity.track.TrackAddress">
+		SELECT
+			prov_code AS provCode,
+			city_code AS cityCode,
+			area_code AS areaCode
+		FROM
+			yy_track_address_config
+		WHERE
+			track_config_id = #{id}
+	</select>
+	
+	<select id="getFmOrderDealStat" parameterType="java.util.Map" resultType="java.lang.String">
+		SELECT
+			deal_stat AS dealStat
+		FROM
+			fm_order
+		WHERE
+			order_no = #{orderNo}
+		AND seller_user_id = #{userId}
+	</select>
+
+</mapper>

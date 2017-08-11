@@ -1,0 +1,294 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="sqlmap_red_packet">
+
+	<insert id="insertNotNull" parameterType="net.chetong.order.model.RedPacketVO" useGeneratedKeys="true" keyProperty="id">
+		INSERT INTO ct_red_envelope_record   
+		(
+			<trim suffix="" suffixOverrides=",">
+				<if test="userId!= null">
+	                   ct_userid,
+	            </if>
+				<if test="amount!= null">
+	                   amount,
+	            </if>
+				<if test="getTime!= null">
+	                   get_time,
+	            </if>
+				<if test="configId!= null">
+	                   config_id,
+	            </if>
+				<if test="isSuccess!= null">
+	                   is_success,
+	            </if>
+	            <if test="configType!= null">
+	                   config_type,
+	            </if>
+	             <if test="orderId!= null">
+	                   order_id,
+	            </if>
+	             <if test="configBatch!= null">
+	                   config_batch,
+	            </if>
+            </trim>
+		)
+		VALUES
+   		(
+   			<trim suffix="" suffixOverrides=",">
+	   			<if test="userId!= null">
+	   				#{userId},
+	   			</if>
+	   			<if test="amount!= null">
+	   				#{amount},
+	   			</if>
+	   			<if test="getTime!= null">
+	   				#{getTime},
+	   			</if>
+	   			<if test="configId!= null">
+	   				#{configId},
+	   			</if>
+	   			<if test="isSuccess!= null">
+	                   #{isSuccess},
+	            </if>
+	   			<if test="configType!= null">
+	                   #{configType},
+	            </if>
+	            <if test="orderId!= null">
+	                   #{orderId},
+	            </if>
+	            <if test="configBatch!= null">
+	                   #{configBatch},
+	            </if>
+   			</trim>
+		)
+	</insert>
+	
+    <!-- 夜间红包 -->
+    <select id="queryMidnightConfig" resultType="net.chetong.order.model.RedPacketConfigVO">
+		SELECT
+			c.id as id,
+			c.ct_type as ctType,
+			a.area_code as areaCode,
+			c.type as type,
+			c.amount as amount,
+			c.last_amount as lastAmount,
+			c.batch as batch
+		FROM
+			ct_red_envelope_config c,
+			ct_red_envelope_area a,
+			ct_red_envelope_midnight m 
+		WHERE
+			a.batch = c.batch and a.area_code=m.area_code 
+		AND c.type='3' AND c.deal_stat='2' AND c.is_active='1' AND 
+		IF(a.area_code IN ('440300','330200','210200'),
+				m.area_code = a.area_code,
+				SUBSTR(a.area_code,1,2) = SUBSTR(m.area_code,1,2)
+			)
+		AND m.flag='1'
+		AND TO_DAYS(NOW()) BETWEEN TO_DAYS(c.send_time) AND TO_DAYS(c.fail_time)
+		<![CDATA[
+		AND	IF(m.midnight_begin<m.midnight_end,  
+				CURRENT_TIME() BETWEEN m.midnight_begin AND m.midnight_end,
+				CURRENT_TIME() BETWEEN m.midnight_begin AND STR_TO_DATE('23:59:59','%H:%i:%s') 
+					OR CURRENT_TIME() BETWEEN STR_TO_DATE('00:00:00','%H:%i:%s') AND m.midnight_end)
+		]]>
+	 </select>
+	
+	<!-- 节假日红包 -->
+    <select id="queryHolidayConfig" resultType="net.chetong.order.model.RedPacketConfigVO" parameterType="java.util.Map">
+		SELECT
+			c.id as id,
+			c.ct_type as ctType,
+		    c.type as type,
+		    c.amount as amount,
+		    c.last_amount as lastAmount,
+		    a.area_code as areaCode,
+		    c.batch as batch
+		FROM
+			ct_red_envelope_config c,
+			ct_red_envelope_area a
+		WHERE
+			a.batch = c.batch
+		AND TO_DAYS(NOW()) BETWEEN TO_DAYS(c.send_time) AND TO_DAYS(c.fail_time)
+		AND c.type='4' AND c.deal_stat='2' AND c.is_active='1'
+	 </select>
+	 
+	<select id="queryAdjustPriceByUserId" parameterType="java.lang.Long" resultType="java.lang.Long">
+		select 
+			count(1)
+		from 
+		ct_adjust_price p
+		where p.user_id=#{userId}
+	</select>
+	
+	<!-- 根据orderid查询夜间和节假日红包 -->
+	<select id="queryRPByOrderId" resultType="net.chetong.order.model.RedPacketVO">
+		SELECT 
+		  rer.id as id,
+		  rer.ct_userid as userId,
+		  rer.amount as amount,
+		  rer.get_time as getTime,
+		  rer.config_id as configId,
+		  rer.is_success as isSuccess,
+		  rer.config_type as configType,
+		  rer.order_id as orderId,
+		  conf.is_active AS configIsActive
+		FROM
+			ct_red_envelope_record rer,
+			ct_red_envelope_config conf
+	    where
+		    rer.order_id=#{orderId}
+		    and (rer.config_type='3' or rer.config_type='4') 
+        	and rer.is_success='0'
+        	and rer.config_id=conf.id
+     	GROUP BY rer.config_id
+	</select>
+	
+	
+		<!-- 根据userid和订单id查询夜间和节假日红包 -->
+	<select id="queryRPByUserIdAndOrderId" resultType="net.chetong.order.model.RedPacketVO">
+		SELECT 
+		  rer.id as id,
+		  rer.ct_userid as userId,
+		  rer.amount as amount,
+		  rer.get_time as getTime,
+		  rer.config_id as configId,
+		  rer.is_success as isSuccess,
+		  rer.config_type as configType,
+		  rer.order_id as orderId,
+		  rer.config_batch AS configBatch,
+		  c.is_active as configIsActive
+		FROM
+			ct_red_envelope_record rer,ct_red_envelope_config c
+	    <where>	
+	        and rer.config_id = c.id
+		    and rer.ct_userid = #{userId}
+		    and rer.order_id=#{orderId}
+		    and (rer.config_type='3' or rer.config_type='4')
+		</where>
+	</select>
+	
+	<!--  更新配置剩余金额，根据配置id -->
+	<update id="updateRedPacketLastAmount">
+		update ct_red_envelope_config conf
+		set conf.last_amount=conf.last_amount+#{amount}
+		where conf.id=#{configId}
+	</update>
+	
+	<select id="queryCtPersonService" parameterType="java.lang.Long" resultType ="net.chetong.order.model.CtPersonServiceVO" >
+		SELECT 
+			id as id,
+			user_id as userId,
+			service_id as serviceId,
+			audit_stat as auditStat,
+			stat as stat,
+			is_service as isService,
+			is_exam as isExam,
+			max_exam_id as maxExamId,
+			prov_code as provCode,
+			city_code as cityCode,
+			area_code as areaCode,
+			prov_desc as provDesc,
+			city_desc as cityDesc,
+			area_desc as areaDesc,
+			service_rank as serviceRank,
+			review_rank as reviewRank,
+			ability as ability,
+			service_count as serviceCount,
+			apply_time as applyTime,
+			audit_time as auditTime,
+			start_time as startTime,
+			mod_time as modTime,
+			oper_id as operId,
+			recommend_name as recommendName,
+			recommend_mobile as recommendMobile,
+			ext1 as ext1,
+			ext2 as ext2,
+			ext3 as ext3,
+			good_professional as goodProfessional,
+			is_mgr as isMgr
+		FROM ct_person_service 
+		WHERE user_id=#{userId} AND service_id='1'
+	</select>
+	
+	<!-- 根据orderid和configid查询红包记录-->
+	<select id="queryRedPacketExist" resultType="net.chetong.order.model.RedPacketVO">
+		SELECT
+			r.config_id AS configId,
+			r.amount AS amount
+		FROM
+			ct_red_envelope_record r
+		WHERE
+			r.config_id = #{configId}
+		AND r.order_id = #{orderId}
+		AND r.ct_userid = #{userId}
+	</select>
+	
+	<!-- 查询某地区是否可以自主报价-->
+	<select id="queryIsAdjustArea" resultType="java.lang.Long" parameterType="java.util.Map">
+		SELECT
+			COUNT(1)
+		FROM
+			ct_adjust_price_area a
+		WHERE
+			a.prov_code = #{orderWorkProvCode}
+		AND a.city_code = #{orderWorkCityCode}
+	</select>
+	
+	<!-- 查询账户金额 -->
+	<select id="queryUserAmount" resultType="java.math.BigDecimal" >
+		SELECT u.user_money FROM ct_user u WHERE u.id=#{userId};
+	</select>
+	
+	<!-- 更新账户金额 -->
+	<update id="updateUserAmount" parameterType="java.util.Map">
+		update ct_user u
+		set u.user_money=IFNULL(u.user_money,0)+#{amount},
+		    u.available_money=IFNULL(u.available_money,0)+#{amount}
+		where u.id=#{userId}
+	</update>
+	
+	
+	<!-- 将红包作废，去除用户id，表示没人，状态改为3 -->
+	<update id="setRecordState">
+		UPDATE ct_red_envelope_record
+		SET ct_userid = #{userId},
+		 is_success = #{state}
+		WHERE
+			order_id = #{orderId}
+	</update>
+	<!-- 将指定红包记录更新状态（同一订单重派给同一车童时使用） -->
+	<update id="updateRecordState">
+		UPDATE ct_red_envelope_record
+		SET is_success = #{state}
+		WHERE
+			order_id = #{orderId}
+			AND ct_userid = #{userId}
+			AND config_id = #{configId}
+	</update>
+	
+	<select id="queryRedPacketByOrderNo" resultType="net.chetong.order.model.RedPacketVO" >
+		SELECT 
+			r.id id,
+			r.ct_userid userId,
+			r.amount amount,
+			r.get_time getTime,
+			r.config_id configId,
+			r.is_success isSuccess,
+			r.config_type configType,
+			r.order_id att_url,
+			o.id orderId,
+			r.config_batch configBatch
+        FROM ct_red_envelope_record r,fm_order o 
+        WHERE r.order_id=o.id AND r.ct_userid=o.seller_user_id AND o.order_no=#{orderNo}
+	</select>
+	
+	
+	
+	<update id="updateRPSuccess" parameterType="java.lang.Long">
+		update ct_red_envelope_record r
+		set r.is_success='1'
+		where r.id=#{id}
+	</update>
+	
+</mapper>

@@ -1,0 +1,374 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="yy_track_record_mapper">
+
+	<!--实体映射-->
+	<resultMap id="yyTrackRecordResultMap" type="com.chetong.aic.entity.track.YyTrackRecord">
+		<id property="id" column="id" />		<!---->
+		<result property="orderNo" column="order_no" />		<!--订单号-->
+		<result property="trackConfigId" column="track_config_id" />		<!--订单号-->
+		<result property="userId" column="user_id" />		<!--车童id，也就是鹰眼地entity_name-->
+		<result property="startTime" column="start_time" />		<!--轨迹记录开始时间戳-->
+		<result property="endTime" column="end_time" />		<!--轨迹截止时间戳-->
+		<result property="trackMileage" column="track_mileage" />		<!--轨迹里程-->
+		<result property="fromApp" column="from_app" />		<!--是否APP接单：1-是，0-否-->
+		<result property="trackState" column="track_state" />		<!--轨迹状态：0-正常、1-异常、2-超时。-->
+		<result property="arrivalTime" column="arrival_time" />		<!--到达时间-->
+		<result property="createTime" column="create_time" />		<!--创建时间-->
+		<result property="updateTime" column="update_time" />		<!--更新时间-->
+	</resultMap>
+
+
+	<!-- 通用查询结果列-->
+	<sql id="Base_Column_List">
+		order_no,
+		track_config_id,
+		user_id,
+		start_time,
+		end_time,
+		track_mileage,
+		from_app,
+		track_state,
+		arrival_time,
+		create_time,
+		update_time
+
+	</sql>
+
+	<!-- 查询（根据主键ID查询） -->
+	<select id="queryYyTrackRecord" resultMap="yyTrackRecordResultMap" parameterType="java.lang.String">
+		 SELECT
+		 <include refid="Base_Column_List" />
+		 FROM yy_track_record
+		 WHERE id = #{id}
+	</select>
+
+	<!--删除：根据主键ID删除-->
+	<delete id="deleteYyTrackRecord" parameterType="java.lang.String">
+		 DELETE FROM yy_track_record
+		 WHERE id = #{id}
+	</delete>
+
+	<!-- 添加 -->
+	<insert id="insertYyTrackRecord" parameterType="com.chetong.aic.entity.track.YyTrackRecord" useGeneratedKeys="true" keyProperty="id">
+		 INSERT INTO yy_track_record
+ 		(order_no,user_id,start_time,end_time,track_mileage,from_app,track_state,arrival_time,create_time,update_time) 
+		 VALUES 
+ 		(#{orderNo},#{userId},#{startTime},#{endTime},#{trackMileage},#{fromApp},#{trackState},#{arrivalTime},#{createTime},#{updateTime}) 
+	</insert>
+
+	<!-- 添加 （匹配有值的字段）-->
+	<insert id="insertYyTrackRecordNotNull" parameterType="com.chetong.aic.entity.track.YyTrackRecord" useGeneratedKeys="true" keyProperty="id">
+		 INSERT INTO yy_track_record
+		 <trim prefix="(" suffix=")" suffixOverrides="," >
+			<if test="orderNo != null">
+				 order_no,
+			</if>
+			<if test="trackConfigId != null">
+				 track_config_id,
+			</if>
+			<if test="userId != null">
+				 user_id,
+			</if>
+			<if test="startTime != null">
+				 start_time,
+			</if>
+			<if test="endTime != null">
+				 end_time,
+			</if>
+			<if test="trackMileage != null">
+				 track_mileage,
+			</if>
+			<if test="fromApp != null">
+				 from_app,
+			</if>
+			<if test="trackState != null">
+				 track_state,
+			</if>
+			<if test="arrivalTime != null">
+				 arrival_time,
+			</if>
+				 create_time,
+				 update_time,
+		 </trim>
+		 <trim prefix="values (" suffix=")" suffixOverrides="," >
+			<if test="orderNo!=null">
+				 #{orderNo},
+			</if>
+			<if test="trackConfigId != null">
+				 #{trackConfigId},
+			</if>
+			<if test="userId!=null">
+				 #{userId},
+			</if>
+			<if test="startTime!=null">
+				 #{startTime},
+			</if>
+			<if test="endTime!=null">
+				 #{endTime},
+			</if>
+			<if test="trackMileage!=null">
+				 #{trackMileage},
+			</if>
+			<if test="fromApp!=null">
+				 #{fromApp},
+			</if>
+			<if test="trackState!=null">
+				 #{trackState},
+			</if>
+			<if test="arrivalTime!=null">
+				 #{arrivalTime},
+			</if>
+				 NOW(),
+				 NOW(),
+		 </trim>
+	</insert>
+
+	<!-- 修 改-->
+	<update id="updateYyTrackRecordNotNull" parameterType="com.chetong.aic.entity.track.YyTrackRecord">
+		 UPDATE yy_track_record
+ 		 <set> 
+			<if test="orderNo != null">
+				 order_no = #{orderNo},
+			</if>
+			<if test="trackConfigId != null">
+				 track_config_id = #{trackConfigId},
+			</if>
+			<if test="userId != null">
+				 user_id = #{userId},
+			</if>
+			<if test="startTime != null">
+				 start_time = #{startTime},
+			</if>
+			<if test="endTime != null">
+				 end_time = #{endTime},
+			</if>
+			<if test="trackMileage != null">
+				 track_mileage = #{trackMileage},
+			</if>
+			<if test="fromApp != null">
+				 from_app = #{fromApp},
+			</if>
+			<if test="trackState != null">
+				 track_state = #{trackState},
+			</if>
+			<if test="arrivalTime != null">
+				 arrival_time = #{arrivalTime},
+			</if>
+			<if test="createTime != null">
+				 create_time = #{createTime},
+			</if>
+				 update_time = NOW(),
+ 		 </set>
+		 WHERE id = #{id}
+	</update>
+
+	<!-- 修 改-->
+	<update id="updateYyTrackRecord" parameterType="com.chetong.aic.entity.track.YyTrackRecord">
+		 UPDATE yy_track_record
+		 SET 
+			 order_no = #{orderNo},
+			 user_id = #{userId},
+			 start_time = #{startTime},
+			 end_time = #{endTime},
+			 track_mileage = #{trackMileage},
+			 from_app = #{fromApp},
+			 track_state = #{trackState},
+			 arrival_time = #{arrivalTime},
+			 create_time = #{createTime},
+			 update_time = #{updateTime}
+		 WHERE id = #{id}
+	</update>
+	
+	<select id="countTrackRecord" parameterType="java.util.Map" resultMap="yyTrackRecordResultMap">
+		SELECT
+			<include refid="Base_Column_List" />
+		FROM
+			yy_track_record
+		WHERE
+			order_no = #{orderNo}
+		AND user_id = #{userId}
+	</select>
+	
+	<update id="updateTrackRecord" parameterType="com.chetong.aic.entity.track.YyTrackRecord">
+			UPDATE yy_track_record
+	 		 <set> 
+				<if test="orderNo != null">
+					 order_no = #{orderNo},
+				</if>
+				<if test="trackConfigId != null">
+					 track_config_id = #{trackConfigId},
+				</if>
+				<if test="userId != null">
+					 user_id = #{userId},
+				</if>
+				<if test="startTime != null">
+					 start_time = #{startTime},
+				</if>
+				<if test="endTime != null">
+					 end_time = #{endTime},
+				</if>
+				<if test="trackMileage != null">
+					 track_mileage = #{trackMileage},
+				</if>
+				<if test="fromApp != null">
+					 from_app = #{fromApp},
+				</if>
+				<if test="trackState != null">
+					 track_state = #{trackState},
+				</if>
+				<if test="arrivalTime != null">
+					 arrival_time = #{arrivalTime},
+				</if>
+				<if test="createTime != null">
+					 create_time = #{createTime},
+				</if>
+					 update_time = NOW(),
+	 		 </set>
+			 WHERE order_no = #{orderNo}
+			 AND user_id = #{userId}
+	</update>
+	
+	<!-- 获取需要推送轨迹提醒订单列表 -->
+	<select id="getTrackRemindPushList" parameterType="java.util.Map" resultMap="yyTrackRecordResultMap">
+		SELECT
+			tr.order_no,
+			tr.track_config_id,
+			tr.user_id,
+			tr.start_time,
+			tr.end_time,
+			tr.track_mileage,
+			tr.from_app,
+			tr.track_state,
+			tr.arrival_time,
+			tr.create_time,
+			tr.update_time
+		FROM
+			yy_track_record tr,
+			yy_track_config tc,
+			fm_order o
+		WHERE
+			tr.track_config_id = tc.id
+		AND tr.order_no = o.order_no AND o.deal_stat = #{dealStat}
+		AND tr.track_state = #{trackState}
+		<![CDATA[   
+		AND (SELECT TIMESTAMPDIFF(SECOND,DATE_ADD(FROM_UNIXTIME(tr.start_time),INTERVAL tc.track_remind_time MINUTE),NOW())) < #{delaySecond}
+		AND (SELECT TIMESTAMPDIFF(SECOND,DATE_ADD(FROM_UNIXTIME(tr.start_time),INTERVAL tc.track_remind_time MINUTE),NOW())) >= 0
+		
+		]]>
+	</select>
+	
+	<!-- 获取需要超时轨迹订单列表 -->
+	<select id="getTrackOverTimeList" parameterType="java.util.Map" resultMap="yyTrackRecordResultMap">
+		SELECT
+			tr.order_no,
+			tr.track_config_id,
+			tr.user_id,
+			tr.start_time,
+			tr.end_time,
+			tr.track_mileage,
+			tr.from_app,
+			tr.track_state,
+			tr.arrival_time,
+			tr.create_time,
+			tr.update_time
+		FROM
+			yy_track_record tr,
+			yy_track_config tc,
+			fm_order o
+		WHERE
+			tr.track_config_id = tc.id
+		AND tr.order_no = o.order_no AND o.deal_stat = #{dealStat}
+		AND tr.track_state = #{trackState}
+		<![CDATA[   
+		AND (SELECT TIMESTAMPDIFF(SECOND,DATE_ADD(FROM_UNIXTIME(tr.start_time),INTERVAL tc.track_overtime MINUTE),NOW())) < #{delaySecond}
+		AND (SELECT TIMESTAMPDIFF(SECOND,DATE_ADD(FROM_UNIXTIME(tr.start_time),INTERVAL tc.track_overtime MINUTE),NOW())) >= 0
+		
+		]]>
+	</select>
+	
+	<select id="isExistTrack" parameterType="java.util.Map">
+		SELECT
+			COUNT(*)
+		FROM
+			yy_track_record
+		WHERE
+			order_no = #{orderNo}
+		AND user_id = #{userId}
+	</select>
+	
+	<select id="getViewTrackInfo" resultType="net.chetong.order.model.ViewTrackInfo" parameterType="java.lang.String">
+		SELECT
+			tr.id AS id,
+			u.id AS userId,
+			CONCAT(o.longtitude,',',o.latitude) AS accidentPoint,
+			CONCAT(u.lastname,u.firstname) AS userName,
+			u.mobile AS phone,
+			tr.driver_point AS driverPoint,
+			tr.track_state AS state,
+			tr.start_time AS startTime,
+		  	tr.end_time AS endTime,
+		 	(SELECT a.att_url FROM ct_attachment a WHERE a.user_id = tr.user_id AND a.att_code = 'icon') AS header
+		FROM
+			yy_track_record tr,
+		    ct_user u,
+			fm_order o
+		WHERE
+			tr.order_no = o.order_no
+		AND tr.user_id = u.id
+		AND tr.order_no = #{orderNo}
+	</select>
+	
+	<update id="updateDriverPoint" parameterType="java.util.Map">
+		UPDATE 
+			yy_track_record
+		SET 
+			driver_point = #{driverPoint}
+		WHERE order_no = #{orderNo}
+	</update>
+	
+	<select id="getPersonLocation" parameterType="java.lang.String" resultType="java.util.Map">
+		SELECT
+			longitude,
+			dimension AS latitude
+		FROM
+			ct_person_stat
+		WHERE
+			user_id = #{userId}
+	</select>
+	
+	<select id="getNeedStoptrackList" parameterType="java.util.Map" resultType="com.chetong.aic.entity.track.YyTrackRecord">
+		SELECT
+			tr.order_no as orderNo,
+			tr.user_id AS userId
+		FROM
+			yy_track_record tr
+		INNER JOIN fm_order o ON tr.order_no = o.order_no
+		<where>
+			<if test="dealStatList != null">
+				o.deal_stat IN
+				<foreach collection="dealStatList" open="(" separator="," close=")" item="item" index="index">
+					#{item}
+				</foreach>
+			</if>
+		AND tr.track_state = #{trackState}
+		AND tr.end_time IS NULL
+		</where>
+	</select>
+	
+	<update id="updateTrackState" parameterType="com.chetong.aic.entity.track.YyTrackRecord">
+		UPDATE yy_track_record
+ 		 <set> 
+			<if test="endTime != null">
+				 end_time = #{endTime},
+			</if>
+			<if test="trackState != null">
+				 track_state = #{trackState},
+			</if>
+				 update_time = NOW()
+ 		 </set>
+		 WHERE order_no = #{orderNo}
+	</update>
+	
+</mapper>

@@ -1,0 +1,257 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="sqlmap_fh_survey_info">
+	
+	<sql id="surveyInfoSql">
+			created_by as createdBy,
+			created_date as createdDate,
+			updated_by as updatedBy,
+			updated_date as updatedDate,
+			id AS id,
+			accident_cause_big AS accidentCauseBig,
+			accident_cause_small AS accidentCauseSmall,
+			accident_subcause AS accidentSubcause,
+			accident_area AS accidentArea,
+			dispose_dept AS disposeDept,
+			road_type AS roadType,
+			accident_duty AS accidentDuty,
+			duty_percent AS dutyPercent,
+			is_injured AS isInjured,
+			is_loss AS isLoss,
+			accident_address AS accidentAddress,
+			accident_province AS accidentProvince,
+			accident_city AS accidentCity,
+			accident_county AS accidentCounty,
+			accident_street AS accidentStreet,
+			claim_action AS claimAction,
+			is_cali AS isCali,
+			accident_course AS accidentCourse,
+			user_code AS userCode,
+			DATE_FORMAT(survey_time,'%Y-%m-%d %H:%i:%s') AS surveyTime,
+			survey_place AS surveyPlace,
+			place_type AS placeType,
+			survey_conclusion AS surveyConclusion,
+			report_no as reportNo,
+			order_no as orderNo,
+			beijing_flag as beijingFlag,
+			devolve_flag as devolveFlag,
+			big_flag as bigFlag,
+			payInfo_flag as payInfoFlag,
+			estimate_loss_amount as estimateLossAmount,
+			insurmedtel as insurmedtel
+	</sql>
+	
+	
+	<select id="querySurveyInfo" parameterType="map" resultType ="FhSurveyInfoVO" >
+		SELECT 
+			<include refid="surveyInfoSql"></include>
+		FROM fh_survey_info 
+		 <where>
+		    <if test="id!= null and id!=''">
+                  and id=#{id}
+            </if>
+            <if test="surveyId!= null and surveyId!=''">
+                  and id=#{surveyId}
+            </if>
+		    <if test="reportNo!= null and reportNo!=''">
+                  and report_no=#{reportNo}
+            </if>
+		    <if test="orderNo!= null and orderNo!=''">
+                  and order_no=#{orderNo}
+            </if>
+  		</where>
+		  		ORDER BY id DESC
+	</select>
+	
+	<insert id="insertSurveyInfo" parameterType="FhSurveyInfoVO" useGeneratedKeys="true" keyProperty="id">
+			INSERT INTO fh_survey_info   
+			(
+				created_by,
+				created_date,
+				updated_by,
+				updated_date,
+				accident_cause_big,
+				accident_cause_small,
+				accident_subcause,
+				accident_area,
+				dispose_dept,
+				road_type,
+				accident_duty,
+				duty_percent,
+				is_injured,
+				is_loss,
+				accident_address,
+				accident_province,
+				accident_city,
+				accident_county,
+				accident_street,
+				claim_action,
+				is_cali,
+				accident_course,
+				user_code,
+				survey_time,
+				survey_place,
+				place_type,
+				survey_conclusion,
+				report_no,
+				order_no,
+				beijing_flag,
+				devolve_flag,
+				big_flag,
+				payInfo_flag,
+				insurmedtel,
+				estimate_loss_amount
+			)
+			VALUES
+	   		(
+	   			#{createdBy},
+				SYSDATE(),
+				#{updatedBy},
+				SYSDATE(),
+				#{accidentCauseBig},
+				#{accidentCauseSmall},
+				#{accidentSubcause},
+				#{accidentArea},
+				#{disposeDept},
+				#{roadType},
+				#{accidentDuty},
+				<choose>
+	   				<when test='dutyPercent!=null and dutyPercent!=""'>#{dutyPercent},</when>
+	   				<otherwise>null,</otherwise>
+	   			</choose>
+				#{isInjured},
+				#{isLoss},
+				#{accidentAddress},
+				#{accidentProvince},
+				#{accidentCity},
+				#{accidentCounty},
+				#{accidentStreet},
+				#{claimAction},
+				#{isCali},
+				#{accidentCourse},
+				#{userCode},
+				#{surveyTime},
+				#{surveyPlace},
+				#{placeType},
+				#{surveyConclusion},
+				#{reportNo},
+				#{orderNo},
+				#{beijingFlag},
+				#{devolveFlag},
+				#{bigFlag},
+				#{payInfoFlag},
+				#{insurmedtel},
+				<choose>
+	   				<when test='estimateLossAmount!=null and estimateLossAmount!=""'>#{estimateLossAmount}</when>
+	   				<otherwise>null</otherwise>
+	   			</choose>
+			)
+	</insert>
+
+	<update id="updateSurveyInfo" parameterType="FhSurveyInfoVO">
+		UPDATE fh_survey_info set
+					<if test="accidentCauseBig!= null">
+		   			accident_cause_big = #{accidentCauseBig},
+		   			</if>  
+					<if test="accidentCauseSmall!= null">
+		   			accident_cause_small = #{accidentCauseSmall},
+		   			</if>  
+					<if test="accidentSubcause!= null">
+		   			accident_subcause = #{accidentSubcause},
+		   			</if>  
+					<if test="accidentArea!= null">
+		   			accident_area = #{accidentArea},
+		   			</if>  
+					<if test="disposeDept!= null">
+		   			dispose_dept = #{disposeDept},
+		   			</if>  
+					<if test="roadType!= null">
+		   			road_type = #{roadType},
+		   			</if>  
+					<if test="accidentDuty!= null">
+		   			accident_duty = #{accidentDuty},
+		   			</if>  
+					<if test="dutyPercent!= null">
+						<choose>
+						<when test='dutyPercent!=""'>duty_percent = #{dutyPercent},</when>
+						<otherwise>duty_percent = null,</otherwise>
+						</choose>
+		   			</if>  
+					<if test="isInjured!= null">
+		   			is_injured = #{isInjured},
+		   			</if>  
+					<if test="isLoss!= null">
+		   			is_loss = #{isLoss},
+		   			</if>  
+					<if test="accidentAddress!= null">
+		   			accident_address = #{accidentAddress},
+		   			</if>  
+					<if test="accidentProvince!= null">
+		   			accident_province = #{accidentProvince},
+		   			</if>  
+					<if test="accidentCity!= null">
+		   			accident_city = #{accidentCity},
+		   			</if>  
+					<if test="accidentCounty!= null">
+		   			accident_county = #{accidentCounty},
+		   			</if>  
+					<if test="accidentStreet!= null">
+		   			accident_street = #{accidentStreet},
+		   			</if>  
+					<if test="claimAction!= null">
+		   			claim_action = #{claimAction},
+		   			</if>  
+					<if test="isCali!= null">
+		   			is_cali = #{isCali},
+		   			</if>  
+					<if test="accidentCourse!= null">
+		   			accident_course = #{accidentCourse},
+		   			</if>  
+					<if test="userCode!= null">
+		   			user_code = #{userCode},
+		   			</if>  
+					<if test="surveyTime!= null">
+		   			survey_time = #{surveyTime},
+		   			</if>  
+					<if test="surveyPlace!= null">
+		   			survey_place = #{surveyPlace},
+		   			</if>  
+		   			<if test="placeType!= null">
+		   			place_type = #{placeType},
+		   			</if>  
+					<if test="surveyConclusion!= null">
+		   			survey_conclusion = #{surveyConclusion},
+		   			</if>  
+					<if test="reportNo!= null">
+		   			report_no = #{reportNo},
+		   			</if>  
+					<if test="orderNo!= null">
+		   			order_no = #{orderNo},
+		   			</if>  
+		   			<if test="beijingFlag!= null">
+		   			beijing_flag = #{beijingFlag},
+		   			</if> 
+		   			<if test="devolveFlag!= null">
+		   			devolve_flag = #{devolveFlag},
+		   			</if> 
+		   			<if test="bigFlag!= null">
+		   			big_flag = #{bigFlag},
+		   			</if> 
+		   			<if test="payInfoFlag!= null">
+		   			payInfo_flag = #{payInfoFlag},
+		   			</if> 
+		   			<if test="estimateLossAmount!= null">
+		   			<choose>
+						<when test='estimateLossAmount!=""'>estimate_loss_amount = #{estimateLossAmount},</when>
+						<otherwise>estimate_loss_amount = null,</otherwise>
+						</choose>
+		   			</if> 
+					<if test="insurmedtel!= null">
+		   			insurmedtel = #{insurmedtel},
+		   			</if> 
+		  		updated_by =#{updatedBy},
+		  		updated_date = SYSDATE()
+		  where	 id = #{id}
+		 
+	</update>
+</mapper>

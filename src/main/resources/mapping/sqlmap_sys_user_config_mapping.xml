@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="sqlmap_sys_user_config">
+	
+	<select id="getUserConfigInfo" parameterType="java.util.Map" resultType="SysUserConfigVO">
+		select 
+			id as id ,
+			company_code as companyCode,
+			user_code as userCode,
+			user_name as userName,
+			dept_code as deptCode,
+			dept_name as deptName,
+			relevance_code as relevanceCode
+		from sys_user_config
+		<where>
+			<if test="companyCode!= null">
+				and company_code=#{companyCode}
+			</if>
+			<if test="userCode!= null">
+				and user_code=#{userCode}
+			</if>
+		</where>
+	</select>	
+</mapper>

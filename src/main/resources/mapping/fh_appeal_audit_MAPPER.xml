@@ -1,0 +1,293 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="fh_appeal_audit">
+
+	<select id="queryCountFhAppealAudit" parameterType="net.chetong.order.model.FhAppealAudit" resultType="java.lang.Long" >
+		SELECT 
+			count(*)
+		FROM fh_appeal_audit 
+		<where>
+			<if test="id!= null">
+				and id=#{id}
+			</if>
+			<if test="fhAuditModelId!= null">
+				and fh_audit_model_id=#{fhAuditModelId}
+			</if>
+			<if test="orderCode!= null">
+				and order_code=#{orderCode}
+			</if>
+			<if test="appealTime!= null">
+				and appeal_time=#{appealTime}
+			</if>
+			<if test="appealType!= null">
+				and appeal_type=#{appealType}
+			</if>
+			<if test="appealOpinion!= null">
+				and appeal_opinion=#{appealOpinion}
+			</if>
+			<if test="appealPicsUrl!= null">
+				and appeal_pics_url=#{appealPicsUrl}
+			</if>
+			<if test="appealStat!= null">
+				and appeal_stat=#{appealStat}
+			</if>
+			<if test="auditUserId!= null">
+				and audit_user_id=#{auditUserId}
+			</if>
+			<if test="buyerUserId!= null">
+				and buyer_user_id=#{buyerUserId}
+			</if>
+			<if test="sellerUserId!= null">
+				and seller_user_id=#{sellerUserId}
+			</if>
+			<if test="checkUserId!= null">
+				and check_user_id=#{checkUserId}
+			</if>
+			<if test="checkOpinion!= null">
+				and check_opinion=#{checkOpinion}
+			</if>
+			<if test="checkTime!= null">
+				and check_time=#{checkTime}
+			</if>
+		</where> 
+	</select>
+	
+	<select id="queryFhAppealAudit" parameterType="net.chetong.order.model.FhAppealAudit" resultType ="net.chetong.order.model.FhAppealAudit" >
+		SELECT 
+			id as id,
+			fh_audit_model_id as fhAuditModelId,
+			order_code as orderCode,
+			appeal_time as appealTime,
+			appeal_type as appealType,
+			appeal_opinion as appealOpinion,
+			appeal_pics_url as appealPicsUrl,
+			appeal_stat as appealStat,
+			audit_user_id as auditUserId,
+			buyer_user_id as buyerUserId,
+			seller_user_id as sellerUserId,
+			check_user_id as checkUserId,
+			check_opinion as checkOpinion,
+			check_time as checkTime
+		FROM fh_appeal_audit 
+		 <where>
+		    <if test="id!= null">
+                  and id=#{id}
+            </if>
+		    <if test="fhAuditModelId!= null">
+                  and fh_audit_model_id=#{fhAuditModelId}
+            </if>
+		    <if test="orderCode!= null">
+                  and order_code=#{orderCode}
+            </if>
+		    <if test="appealTime!= null">
+                  and appeal_time=#{appealTime}
+            </if>
+		    <if test="appealType!= null">
+                  and appeal_type=#{appealType}
+            </if>
+		    <if test="appealOpinion!= null">
+                  and appeal_opinion=#{appealOpinion}
+            </if>
+		    <if test="appealPicsUrl!= null">
+                  and appeal_pics_url=#{appealPicsUrl}
+            </if>
+		    <if test="appealStat!= null">
+                  and appeal_stat=#{appealStat}
+            </if>
+		    <if test="auditUserId!= null">
+                  and audit_user_id=#{auditUserId}
+            </if>
+		    <if test="buyerUserId!= null">
+                  and buyer_user_id=#{buyerUserId}
+            </if>
+		    <if test="sellerUserId!= null">
+                  and seller_user_id=#{sellerUserId}
+            </if>
+		    <if test="checkUserId!= null">
+                  and check_user_id=#{checkUserId}
+            </if>
+		    <if test="checkOpinion!= null">
+                  and check_opinion=#{checkOpinion}
+            </if>
+		    <if test="checkTime!= null">
+                  and check_time=#{checkTime}
+            </if>
+  		</where>
+	</select>
+	
+		<insert id="insertNotNull" parameterType="net.chetong.order.model.FhAppealAudit" useGeneratedKeys="true" keyProperty="id">
+			INSERT INTO fh_appeal_audit   
+			(
+				<trim suffix="" suffixOverrides=",">
+					<if test="id!= null">
+		                   id,
+		            </if>
+					<if test="fhAuditModelId!= null">
+		                   fh_audit_model_id,
+		            </if>
+					<if test="orderCode!= null">
+		                   order_code,
+		            </if>
+					<if test="appealTime!= null">
+		                   appeal_time,
+		            </if>
+					<if test="appealType!= null">
+		                   appeal_type,
+		            </if>
+					<if test="appealOpinion!= null">
+		                   appeal_opinion,
+		            </if>
+					<if test="appealPicsUrl!= null">
+		                   appeal_pics_url,
+		            </if>
+					<if test="appealStat!= null">
+		                   appeal_stat,
+		            </if>
+					<if test="auditUserId!= null">
+		                   audit_user_id,
+		            </if>
+					<if test="buyerUserId!= null">
+		                   buyer_user_id,
+		            </if>
+					<if test="sellerUserId!= null">
+		                   seller_user_id,
+		            </if>
+					<if test="checkUserId!= null">
+		                   check_user_id,
+		            </if>
+					<if test="checkOpinion!= null">
+		                   check_opinion,
+		            </if>
+					<if test="checkTime!= null">
+		                   check_time,
+		            </if>
+	            </trim>
+			)
+			VALUES
+	   		(
+	   			<trim suffix="" suffixOverrides=",">
+		   			<if test="id!= null">
+		   			#{id},
+		   			</if>
+		   			<if test="fhAuditModelId!= null">
+		   			#{fhAuditModelId},
+		   			</if>
+		   			<if test="orderCode!= null">
+		   			#{orderCode},
+		   			</if>
+		   			<if test="appealTime!= null">
+		   			#{appealTime},
+		   			</if>
+		   			<if test="appealType!= null">
+		   			#{appealType},
+		   			</if>
+		   			<if test="appealOpinion!= null">
+		   			#{appealOpinion},
+		   			</if>
+		   			<if test="appealPicsUrl!= null">
+		   			#{appealPicsUrl},
+		   			</if>
+		   			<if test="appealStat!= null">
+		   			#{appealStat},
+		   			</if>
+		   			<if test="auditUserId!= null">
+		   			#{auditUserId},
+		   			</if>
+		   			<if test="buyerUserId!= null">
+		   			#{buyerUserId},
+		   			</if>
+		   			<if test="sellerUserId!= null">
+		   			#{sellerUserId},
+		   			</if>
+		   			<if test="checkUserId!= null">
+		   			#{checkUserId},
+		   			</if>
+		   			<if test="checkOpinion!= null">
+		   			#{checkOpinion},
+		   			</if>
+		   			<if test="checkTime!= null">
+		   			#{checkTime},
+		   			</if>
+	   			</trim>
+			)
+		</insert>
+
+	<select id="queryByKey" resultType="net.chetong.order.model.FhAppealAudit">
+		SELECT 
+			id as id, 
+			fh_audit_model_id as fhAuditModelId, 
+			order_code as orderCode, 
+			appeal_time as appealTime, 
+			appeal_type as appealType, 
+			appeal_opinion as appealOpinion, 
+			appeal_pics_url as appealPicsUrl, 
+			appeal_stat as appealStat, 
+			audit_user_id as auditUserId, 
+			buyer_user_id as buyerUserId, 
+			seller_user_id as sellerUserId, 
+			check_user_id as checkUserId, 
+			check_opinion as checkOpinion, 
+			check_time as checkTime 
+		FROM
+			fh_appeal_audit
+	    <where>		   
+		    	 and id = #{id}
+		</where>
+	</select>
+	
+	<delete id="deleteByKey">
+		DELETE FROM 
+			fh_appeal_audit 
+		<where>		   
+		    	 and id = #{id}
+		</where>
+	</delete>
+	
+	<update id="updateByKeyNotNull">
+		UPDATE fh_appeal_audit 
+		  <trim prefix="SET" suffixOverrides=",">  
+					<if test="fhAuditModelId!= null">
+		   			fh_audit_model_id = #{fhAuditModelId},
+		   			</if>  
+					<if test="orderCode!= null">
+		   			order_code = #{orderCode},
+		   			</if>  
+					<if test="appealTime!= null">
+		   			appeal_time = #{appealTime},
+		   			</if>  
+					<if test="appealType!= null">
+		   			appeal_type = #{appealType},
+		   			</if>  
+					<if test="appealOpinion!= null">
+		   			appeal_opinion = #{appealOpinion},
+		   			</if>  
+					<if test="appealPicsUrl!= null">
+		   			appeal_pics_url = #{appealPicsUrl},
+		   			</if>  
+					<if test="appealStat!= null">
+		   			appeal_stat = #{appealStat},
+		   			</if>  
+					<if test="auditUserId!= null">
+		   			audit_user_id = #{auditUserId},
+		   			</if>  
+					<if test="buyerUserId!= null">
+		   			buyer_user_id = #{buyerUserId},
+		   			</if>  
+					<if test="sellerUserId!= null">
+		   			seller_user_id = #{sellerUserId},
+		   			</if>  
+					<if test="checkUserId!= null">
+		   			check_user_id = #{checkUserId},
+		   			</if>  
+					<if test="checkOpinion!= null">
+		   			check_opinion = #{checkOpinion},
+		   			</if>  
+					<if test="checkTime!= null">
+		   			check_time = #{checkTime},
+		   			</if>  
+		  </trim>
+		  <where>	   
+				    and id = #{id}
+		 </where>
+	</update>
+</mapper>

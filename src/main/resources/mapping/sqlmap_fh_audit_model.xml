@@ -1,0 +1,328 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="sqlmap_fh_audit_model">
+  <resultMap id="auditMap" type="net.chetong.order.model.FhAuditModelVO" >
+   <id column="id" property="id" jdbcType="BIGINT" />
+   <result column="order_code" property="orderCode" jdbcType="VARCHAR" />
+   <result column="audit_time" property="auditTime" jdbcType="VARCHAR" />
+   <result column="audit_opinion" property="auditOpinion" jdbcType="VARCHAR" />
+   <result column="audit_result" property="auditResult" jdbcType="VARCHAR" />
+   <result column="task_id" property="taskId" jdbcType="INTEGER" />
+   <result column="audit_type" property="auditType" jdbcType="VARCHAR" />
+   <result column="extra_reward" property="extraReward" jdbcType="VARCHAR" />
+   <result column="evaluate_opinion" property="evaluateOpinion" jdbcType="VARCHAR" />
+   <result column="service_evaluation" property="serviceEvaluation" jdbcType="VARCHAR" />
+   <result column="reply" property="reply" jdbcType="VARCHAR" />
+   <result column="audit_no_reason" property="auditNoReason" jdbcType="VARCHAR" />
+   <result column="creator_id" property="creatorId" jdbcType="BIGINT" />
+   <result column="creator_name" property="creatorName" jdbcType="VARCHAR" />
+   <result column="extra_type" property="extraType" jdbcType="VARCHAR" />
+   <result column="extra_reason" property="extraReason" jdbcType="VARCHAR" />
+   <result column="extra_explain" property="extraExplain" jdbcType="VARCHAR" />
+   <result column="ct_deduct_money" property="ctDeductMoney" jdbcType="BIGINT" />
+   <result column="team_deduct_money" property="teamDeductMoney" jdbcType="VARCHAR" />
+   <result column="assessment_fee" property="assessmentFee" jdbcType="VARCHAR" />
+  </resultMap>
+  
+  <sql id="Base_Column_List" >
+    id, order_code, audit_time, audit_opinion, audit_result, task_id, audit_type, extra_reward, 
+    evaluate_opinion, service_evaluation, reply, audit_no_reason,creator_id,creator_name,extra_type,extra_reason,extra_explain,ct_deduct_money,team_deduct_money
+  </sql>
+  
+  <!-- 查询审核信息通过订单号-->
+   <select id="queryAuditMessageByOrderNo" parameterType="java.lang.String" resultMap="auditMap">
+       select 
+		<include refid="Base_Column_List"></include>
+	 from fh_audit_model where order_code=#{orderNo} ORDER BY id ASC
+   </select>
+  <!-- 订单流程查询审核信息-->
+   <select id="queryAuditMessageByOrderNoForOrderFlow" parameterType="java.util.Map" resultMap="auditMap">
+       select 
+		<include refid="Base_Column_List"></include>
+	 from fh_audit_model where order_code=#{orderNo} 
+	 <choose>
+	 	<when test="auditResult !=null and auditResult == '2'.toString()">
+			 AND audit_result='2'
+	 	</when>
+	 	<otherwise>
+			 AND (audit_result='0' OR audit_result='1') 
+	 	</otherwise>
+	 </choose>
+	 ORDER BY id ASC
+   </select>
+   <!-- 查询是否有审核不通过的记录 -->
+   <select id="queryAuditNoPassNum" parameterType="java.lang.String" resultType="java.lang.Integer">
+       select 
+		count(1)
+	 from fh_audit_model where order_code=#{orderNo} and audit_result = '0'
+   </select>
+   
+   
+   <select id="queryFhAuditModel" parameterType="net.chetong.order.model.FhAuditModelVO" resultType ="net.chetong.order.model.FhAuditModelVO" >
+		SELECT 
+			id as id,
+			order_code as orderCode,
+			audit_time as auditTime,
+			audit_opinion as auditOpinion,
+			audit_result as auditResult,
+			task_id as taskId,
+			audit_type as auditType,
+			extra_reward as extraReward,
+			evaluate_opinion as evaluateOpinion,
+			service_evaluation as serviceEvaluation,
+			reply as reply,
+			audit_no_reason as auditNoReason,
+			creator_id as creatorId,
+			creator_name as creatorName,
+			extra_type as extraType,
+			extra_reason as extraReason,
+			extra_explain as extraExplain,
+			ct_deduct_money as ctDeductMoney,
+			team_deduct_money as teamDeductMoney
+		FROM fh_audit_model 
+		 <where>
+		    <if test="id!= null">
+                  and id=#{id}
+            </if>
+		    <if test="orderCode!= null">
+                  and order_code=#{orderCode}
+            </if>
+		    <if test="auditTime!= null">
+                  and audit_time=#{auditTime}
+            </if>
+		    <if test="auditOpinion!= null">
+                  and audit_opinion=#{auditOpinion}
+            </if>
+		    <if test="auditResult!= null">
+                  and audit_result=#{auditResult}
+            </if>
+		    <if test="taskId!= null">
+                  and task_id=#{taskId}
+            </if>
+		    <if test="auditType!= null">
+                  and audit_type=#{auditType}
+            </if>
+		    <if test="extraReward!= null">
+                  and extra_reward=#{extraReward}
+            </if>
+		    <if test="evaluateOpinion!= null">
+                  and evaluate_opinion=#{evaluateOpinion}
+            </if>
+		    <if test="serviceEvaluation!= null">
+                  and service_evaluation=#{serviceEvaluation}
+            </if>
+		    <if test="reply!= null">
+                  and reply=#{reply}
+            </if>
+		    <if test="auditNoReason!= null">
+                  and audit_no_reason=#{auditNoReason}
+            </if>
+		    <if test="creatorId!= null">
+                  and creator_id=#{creatorId}
+            </if>
+		    <if test="creatorName!= null">
+                  and creator_name=#{creatorName}
+            </if>
+  		</where>
+	</select>
+   
+   
+  
+  <insert id="insertAuditModelInfo" parameterType="FhAuditModelVO" useGeneratedKeys="true" keyProperty="id">
+			INSERT INTO fh_audit_model   
+			(
+				<trim suffix="" suffixOverrides=",">
+						audit_time,
+					<if test="id!= null">
+		                   id,
+		            </if>
+					<if test="orderCode!= null">
+		                   order_code,
+		            </if>
+					<if test="auditOpinion!= null">
+		                   audit_opinion,
+		            </if>
+					<if test="auditResult!= null">
+		                   audit_result,
+		            </if>
+					<if test="taskId!= null">
+		                   task_id,
+		            </if>
+					<if test="auditType!= null">
+		                   audit_type,
+		            </if>
+					<if test="extraReward!= null">
+		                   extra_reward,
+		            </if>
+					<if test="evaluateOpinion!= null">
+		                   evaluate_opinion,
+		            </if>
+					<if test="serviceEvaluation!= null">
+		                   service_evaluation,
+		            </if>
+					<if test="reply!= null">
+		                   reply,
+		            </if>
+		            <if test="auditNoReason!= null">
+		                   audit_no_reason,
+		            </if>
+		            <if test="creatorId!= null">
+		                   creator_id,
+		            </if>
+		            <if test="creatorName!= null">
+		                   creator_name,
+		            </if>
+		            <if test="extraType!= null">
+		                   extra_type,
+		            </if>
+		            <if test="extraReason!= null">
+		                   extra_reason,
+		            </if>
+		            <if test="extraExplain!= null">
+		                   extra_explain,
+		            </if>
+		            <if test="ctDeductMoney!= null">
+		                   ct_deduct_money,
+		            </if>
+		            <if test="teamDeductMoney!= null">
+		                   team_deduct_money,
+		            </if>
+				</trim>
+			)
+			VALUES
+	   		(
+	   			<trim suffix="" suffixOverrides=",">
+	   				SYSDATE(),
+		   			<if test="id!= null">
+		   			#{id},
+		   			</if>
+		   			<if test="orderCode!= null">
+		   			#{orderCode},
+		   			</if>
+		   			<if test="auditOpinion!= null">
+		   			#{auditOpinion},
+		   			</if>
+		   			<if test="auditResult!= null">
+		   			#{auditResult},
+		   			</if>
+		   			<if test="taskId!= null">
+		   			#{taskId},
+		   			</if>
+		   			<if test="auditType!= null">
+		   			#{auditType},
+		   			</if>
+		   			<if test="extraReward!= null">
+		   			#{extraReward},
+		   			</if>
+		   			<if test="evaluateOpinion!= null">
+		   			#{evaluateOpinion},
+		   			</if>
+		   			<if test="serviceEvaluation!= null">
+		   			#{serviceEvaluation},
+		   			</if>
+		   			<if test="reply!= null">
+		   			#{reply},
+		   			</if>
+ 					<if test="auditNoReason!= null">
+		            #{auditNoReason},
+		            </if>
+		            <if test="creatorId!= null">
+		            #{creatorId},
+		            </if>
+		            <if test="creatorName!= null">
+		            #{creatorName},
+		            </if>
+		            <if test="extraType!= null">
+		            #{extraType},
+		            </if>
+		            <if test="extraReason!= null">
+		            #{extraReason},
+		            </if>
+		            <if test="extraExplain!= null">
+		            #{extraExplain},
+		            </if>
+		            <if test="ctDeductMoney!= null">
+		            #{ctDeductMoney},
+		            </if>
+		            <if test="teamDeductMoney!= null">
+		            #{teamDeductMoney},
+		            </if> 
+	   			</trim>
+			)
+		</insert>
+	
+	<!-- 查询审核信息通过订单号list-->
+   <select id="queryAuditMessageByOrderNos" parameterType="java.util.List" resultMap="auditMap">
+       select 
+		<include refid="Base_Column_List"></include>
+	 from fh_audit_model where order_code in
+	 <foreach collection="list" item="orderCode" open="(" separator="," close=")">
+         #{orderCode}
+     </foreach>
+   </select>
+   
+   <update id="orderAuditReply">
+   		UPDATE fh_audit_model
+		SET reply = #{reply}
+		WHERE
+			id = #{id}
+   </update>
+   <update id="updateByKeyNotNull">
+		UPDATE fh_audit_model 
+		  <trim prefix="SET" suffixOverrides=",">  
+					<if test="orderCode!= null">
+		   			order_code = #{orderCode},
+		   			</if>  
+					<if test="auditTime!= null">
+		   			audit_time = #{auditTime},
+		   			</if>  
+					<if test="auditOpinion!= null">
+		   			audit_opinion = #{auditOpinion},
+		   			</if>  
+					<if test="auditResult!= null">
+		   			audit_result = #{auditResult},
+		   			</if>  
+					<if test="taskId!= null">
+		   			task_id = #{taskId},
+		   			</if>  
+					<if test="auditType!= null">
+		   			audit_type = #{auditType},
+		   			</if>  
+					<if test="extraReward!= null">
+		   			extra_reward = #{extraReward},
+		   			</if>  
+					<if test="evaluateOpinion!= null">
+		   			evaluate_opinion = #{evaluateOpinion},
+		   			</if>  
+					<if test="serviceEvaluation!= null">
+		   			service_evaluation = #{serviceEvaluation},
+		   			</if>
+					<if test="auditNoReason!= null">
+		   			audit_no_reason = #{auditNoReason},
+		   			</if>
+					<if test="reply!= null">
+		   			reply = #{reply},
+		   			</if>  
+		  </trim>
+		  <where>	   
+				    and id = #{id}
+		 </where>
+	</update>
+	
+	<!-- 查询审核信息通过订单号list-->
+   <select id="queryAuditModelByOrderNos" parameterType="net.chetong.order.model.MyWorkResponseModel" resultMap="auditMap">
+     select 
+		<include refid="Base_Column_List"></include>
+	 from fh_audit_model where order_code in
+	 <foreach collection="list" item="item" open="(" separator="," close=")">
+         #{item.orderNo}
+     </foreach>
+     ORDER BY id
+   </select>
+   
+    <!-- 查询公估费-->
+   <select id="queryAuditFeeByOrderNo" parameterType="java.lang.String" resultMap="auditMap">
+       select 
+		assessment_fee from hy_cost where order_no=#{orderNo} ORDER BY id desc
+   </select>
+</mapper>

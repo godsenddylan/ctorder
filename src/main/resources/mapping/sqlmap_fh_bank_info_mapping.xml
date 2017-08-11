@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="sqlmap_fh_bank_info">
+
+	<sql id="sqlBankInfo">
+		created_by as createdBy,
+		created_date as createdDate,
+		updated_by as updatedBy,
+		updated_date as updatedDate,
+		id as id,
+		report_no as reportNo,
+		insured_man as insuredMan,
+		client_name as clientName,
+		client_type as clientType,
+		account as account,
+		payment_obj as paymentObj,
+		purpose as purpose,
+		card_type as cardType,
+		bank_type_code as bankTypeCode,
+		bank_type_name as bankTypeName,
+		bank_region_code as bankRegionCode,
+		bank_region_name as bankRegionName,
+		bank_name as bankName,
+		bank_code as bankCode,
+		bank_location_code as bankLocationCode,
+		bank_location_name as bankLocationName,
+		user_phone as userPhone,
+		remark as remark
+	</sql>
+	<select id="queryBankInfo" resultType="FhBankInfoVO" parameterType="map">
+		select <include refid="sqlBankInfo" /> 
+		from fh_bank_info
+		where 1=1
+		<if test='id!=null and id!=""'>
+			and id=#{id}
+		</if>
+		<if test='reportNo!=null and reportNo!=""'>
+			and	report_no = #{reportNo} 
+		</if>
+	</select>
+	<insert id="insertBankInfo" parameterType="FhBankInfoVO" useGeneratedKeys="true" keyProperty="id">
+		insert into fh_bank_info (
+			created_by,
+			created_date,
+			updated_by,
+			updated_date,
+			id,
+			report_no,
+			insured_man,
+			client_name,
+			client_type,
+			account,
+			payment_obj,
+			purpose,
+			card_type,
+			bank_type_code,
+			bank_type_name,
+			bank_region_code,
+			bank_region_name,
+			bank_name,
+			bank_code,
+			bank_location_code,
+			bank_location_name,
+			user_phone,
+			remark
+		)values( 
+			#{createdBy},
+			SYSDATE(),
+			#{updatedBy},
+			SYSDATE(),
+			#{id},
+			#{reportNo},
+			#{insuredMan},
+			#{clientName},
+			#{clientType},
+			#{account},
+			#{paymentObj},
+			#{purpose},
+			#{cardType},
+			#{bankTypeCode},
+			#{bankTypeName},
+			#{bankRegionCode},
+			#{bankRegionName},
+			#{bankName},
+			#{bankCode},
+			#{bankLocationCode},
+			#{bankLocationName},
+			#{userPhone},
+			#{remark}
+		)
+	</insert>
+	<update id="updateBankInfo" parameterType="FhBankInfoVO">
+		update fh_bank_info set
+			<if test='reportNo!=null'>
+				report_no = #{reportNo} ,
+			</if>
+			<if test='insuredMan!=null'>
+				insured_man = #{insuredMan} ,
+			</if>
+			<if test='clientName!=null'>
+				client_name = #{clientName} ,
+			</if>
+			<if test='clientType!=null'>
+				client_type = #{clientType} ,
+			</if>
+			<if test='account!=null'>
+				account = #{account} ,
+			</if>
+			<if test='paymentObj!=null'>
+				payment_obj = #{paymentObj} ,
+			</if>
+			<if test='purpose!=null'>
+				purpose = #{purpose} ,
+			</if>
+			<if test='cardType!=null'>
+				card_type = #{cardType} ,
+			</if>
+			<if test='bankTypeCode!=null'>
+				bank_type_code = #{bankTypeCode} ,
+			</if>
+			<if test='bankTypeName!=null'>
+				bank_type_name = #{bankTypeName} ,
+			</if>
+			<if test='bankRegionCode!=null'>
+				bank_region_code = #{bankRegionCode} ,
+			</if>
+			<if test='bankRegionName!=null'>
+				bank_region_name = #{bankRegionName} ,
+			</if>
+			<if test='bankName!=null'>
+				bank_name = #{bankName} ,
+			</if>
+			<if test='bankCode!=null'>
+				bank_code = #{bankCode} ,
+			</if>
+			<if test='bankLocationCode!=null'>
+				bank_location_code = #{bankLocationCode} ,
+			</if>
+			<if test='bankLocationName!=null'>
+				bank_location_name = #{bankLocationName} ,
+			</if>
+			<if test='userPhone!=null'>
+				user_phone = #{userPhone} ,
+			</if>
+			<if test='remark!=null'>
+				remark = #{remark} ,
+			</if>
+			updated_by = #{updatedBy} ,
+			updated_date = SYSDATE()
+		where id=#{id}
+	</update>
+	<delete id="deleteBankInfo">
+		delete from fh_bank_info where report_no=#{reportNo}
+	</delete>
+</mapper>

@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="sqlmap_fh_work_send_log">
+  
+	<insert id="insertWorkSendLog" parameterType="FhWorkSendLogVO" useGeneratedKeys="true" keyProperty="id">
+		insert into fh_work_send_log(created_by,created_date,updated_by,updated_date,task_id,
+		content,send_date,send_state,back_result,remark)
+		values(#{createdBy},SYSDATE(),#{updatedBy},SYSDATE(),#{taskId},
+		#{content},SYSDATE(),#{sendState},#{backResult},#{remark})
+	</insert>
+	
+	<insert id="insertGetTaskLog" parameterType="FhGetTaskLogVO" useGeneratedKeys="true" keyProperty="id">
+		insert into fh_get_task_log(created_by,created_date,updated_by,updated_date,insert_date,
+		parameters,result,remark)
+		values(#{createdBy},SYSDATE(),#{updatedBy},SYSDATE(),SYSDATE(),
+		#{parameters},#{result},#{remark})
+	</insert>
+	
+	<select id="querySendDateByRltId" parameterType="map" resultType="FhSendDataInfoVO">
+		select 
+			report_no as reportNo,
+			relation_id as relationId,
+			relation_type as relationType,
+			content as content,
+			send_date as sendDate,
+			send_state as sendState,
+			back_result as backResult,
+			remark as remark,
+			id as id
+		 from fh_send_data_info  
+		 where relation_id=#{relationId} 
+		 and relation_type=#{relationType}
+	
+	</select>
+	
+	<insert id="insertSendDataInfo" parameterType="FhSendDataInfoVO" useGeneratedKeys="true" keyProperty="id">
+		insert into fh_send_data_info(created_by,created_date,updated_by,updated_date,
+		report_no,relation_id,relation_type,content,send_date,send_state,back_result,remark)
+		values(#{createdBy},SYSDATE(),#{updatedBy},SYSDATE(),
+		#{reportNo},#{relationId},#{relationType},#{content},SYSDATE(),#{sendState},#{backResult},#{remark})
+	</insert>
+	
+	
+	<update id="updateSendDataInfo" parameterType="FhSendDataInfoVO">
+		update fh_send_data_info set
+		  updated_by =#{updatedBy},
+		  updated_date=SYSDATE(),
+		  content=#{content},
+		  send_date=SYSDATE(),
+		  send_state=#{sendState},
+		  back_result=#{backResult},
+		  remark=#{remark}
+		 where id =#{id}
+	</update>
+	
+	<select id="querySendDateErrorList" parameterType="map" resultType="FhSendDataInfoVO">
+		select 
+			report_no as reportNo,
+			relation_id as relationId,
+			relation_type as relationType,
+			content as content,
+			send_date as sendDate,
+			send_state as sendState,
+			back_result as backResult,
+			remark as remark,
+			id as id
+		 from fh_send_data_info  
+		 where send_state=#{sendState}
+		 and relation_type=#{relationType}
+	</select>
+	
+	
+</mapper>

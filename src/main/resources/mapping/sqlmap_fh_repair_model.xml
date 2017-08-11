@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="sqlmap_fh_repair_model">
+    <!-- 根据任务ID和GUID进行查询 -->
+    <select id="queryRepairByIdAndGuid" parameterType="java.util.Map" resultType="net.chetong.order.model.FhRepairModelVO">
+        select 
+			id as id,
+			repair_name as repairName,
+			repair_amount as repairAmount,
+			insert_time as insertTime,
+			guid as guid,
+			loss_id as lossId,
+			repair_type as repairType,
+			repair_code as repairCode,
+			repair_whour as repairWhour,
+			refer_amount as referAmount,
+			remark as remark,
+			remark2 as remark2,
+			repair_id as repairId,
+			is_manual as isManual,
+			audit_price as auditPrice
+		 from fh_repair_model where loss_id=#{taskId} and guid=#{guid}
+    </select>
+    
+    <select id="queryRepairPriceByOrderNo" parameterType="java.util.Map" resultType="net.chetong.order.model.FhRepairModelVO">
+        SELECT
+			r.repair_amount AS repairAmount
+		FROM
+			fh_repair_model r,
+			fh_loss_model l
+		WHERE
+			r.guid = l.guid
+		AND l.order_code=""
+		GROUP BY r.id
+    </select>
+    
+    <insert id="insertNotNull" parameterType="net.chetong.order.model.FhRepairModelVO" useGeneratedKeys="true" keyProperty="id">
+			INSERT INTO fh_repair_model   
+			(
+				<trim suffix="" suffixOverrides=",">
+					<if test="repairName!= null">
+		                   repair_name,
+		            </if>
+					<if test="repairAmount!= null">
+		                   repair_amount,
+		            </if>
+					<if test="insertTime!= null">
+		                   insert_time,
+		            </if>
+					<if test="guid!= null">
+		                   guid,
+		            </if>
+					<if test="lossId!= null">
+		                   loss_id,
+		            </if>
+					<if test="repairType!= null">
+		                   repair_type,
+		            </if>
+					<if test="repairCode!= null">
+		                   repair_code,
+		            </if>
+					<if test="repairWhour!= null">
+		                   repair_whour,
+		            </if>
+					<if test="referAmount!= null">
+		                   refer_amount,
+		            </if>
+					<if test="remark!= null">
+		                   remark,
+		            </if>
+					<if test="remark2!= null">
+		                   remark2,
+		            </if>
+					<if test="repairId!= null">
+		                   repair_id,
+		            </if>
+					<if test="isManual!= null">
+		                   is_manual,
+		            </if>
+					<if test="auditPrice!= null">
+		                   audit_price,
+		            </if>
+	            </trim>
+			)
+			VALUES
+	   		(
+	   			<trim suffix="" suffixOverrides=",">
+		   			<if test="repairName!= null">
+		   			#{repairName},
+		   			</if>
+		   			<if test="repairAmount!= null">
+		   			#{repairAmount},
+		   			</if>
+		   			<if test="insertTime!= null">
+		   			#{insertTime},
+		   			</if>
+		   			<if test="guid!= null">
+		   			#{guid},
+		   			</if>
+		   			<if test="lossId!= null">
+		   			#{lossId},
+		   			</if>
+		   			<if test="repairType!= null">
+		   			#{repairType},
+		   			</if>
+		   			<if test="repairCode!= null">
+		   			#{repairCode},
+		   			</if>
+		   			<if test="repairWhour!= null">
+		   			#{repairWhour},
+		   			</if>
+		   			<if test="referAmount!= null">
+		   			#{referAmount},
+		   			</if>
+		   			<if test="remark!= null">
+		   			#{remark},
+		   			</if>
+		   			<if test="remark2!= null">
+		   			#{remark2},
+		   			</if>
+		   			<if test="repairId!= null">
+		   			#{repairId},
+		   			</if>
+		   			<if test="isManual!= null">
+		   			#{isManual},
+		   			</if>
+		   			<if test="auditPrice!= null">
+		   			#{auditPrice},
+		   			</if>
+	   			</trim>
+			)
+		</insert>
+	<!-- 清空指定任务配件项目 -->
+	<delete id="delRepairByTaskIDAndGuid" parameterType="java.util.Map">
+		delete from fh_repair_model where loss_id=#{taskId} and guid=#{guid}
+	</delete>
+		<!-- 修改审核价格 -->
+	<update id="updateRepairAuditPrice" parameterType="net.chetong.order.model.FhRepairModelVO">
+		update fh_repair_model set audit_price =#{auditPrice},remark2=#{remark2} where id=#{id}
+	</update>
+	
+	<!-- 查询订单定损金额 -->
+  <select id="selectCXOrderRepairPrice" resultType="map" parameterType="net.chetong.order.model.MyWorkResponseModel">
+  	SELECT
+		l.order_code orderNo,
+		SUM(m.audit_price) auditPrice,
+		SUM(m.repair_amount) lossAmount
+	FROM
+		fh_repair_model m,
+		fh_loss_model l
+	WHERE
+		m.loss_id=l.id
+		AND l.order_code IN 
+		<foreach collection="list" item="item" separator="," open="(" close=")">
+			#{item.orderNo}
+		 </foreach>
+	GROUP BY l.order_code
+  </select>
+</mapper>

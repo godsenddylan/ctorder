@@ -1,0 +1,521 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="sqlmap_user_price">
+
+
+	<!-- 查询团队议价信息 -->
+    <select id="queryWorkTeamNegoPriceList" parameterType="java.util.Map" resultType="java.lang.Long">
+		select
+			i.id as id
+		  from pr_nego_price_info i, pr_nego_price_area a
+		  where i.id = a.nego_id
+		  	and i.status = '1'
+		  	and i.subject_type = #{subjectType}
+		    and a.prov_code = #{provCode}
+		    and a.city_code = #{cityCode}
+		    <if test="groupUserId != null and groupUserId != '' ">
+		    	and i.team_user_id=#{groupUserId}
+		    </if>
+		    <if test="countyCode != null and countyCode != '' ">
+		    	and a.county_code = #{countyCode}
+		    </if>
+		    <if test="buyerUserId != null and buyerUserId != '' ">
+		    	and i.buyer_user_id = #{buyerUserId}
+		    </if>
+		    <if test="isDefault != null and isDefault != '' ">
+		    	and i.is_default = #{isDefault}
+		    </if>
+	</select>
+	
+	<!-- 查询议价详细信息 -->
+	<select id="queryPrNegoPriceDetail" parameterType="net.chetong.order.model.PrNegoPriceDetailVO" resultType ="net.chetong.order.model.PrNegoPriceDetailVO" >
+		SELECT 
+			id as id,
+			nego_id as negoId,
+			price_type as priceType,
+			price_money as priceMoney,
+			price_mode as priceMode,
+			start_val as startVal,
+			end_val as endVal
+		FROM pr_nego_price_detail 
+		WHERE nego_id=#{negoId}
+              and price_type=#{priceType}
+		  	ORDER BY id DESC
+	</select>
+	
+	<!-- 查询车童自主调价 -->
+	<select id="queryCtAdjustPrice" parameterType="net.chetong.order.model.CtAdjustPriceVO" resultType ="net.chetong.order.model.CtAdjustPriceVO" >
+		SELECT 
+			id as id,
+			order_type as orderType,
+			cost_type as costType,
+			user_id as userId,
+			base_cost as baseCost,
+			add_base_cost as addBaseCost,
+			night_cost as nightCost,
+			night_start_time as nightStartTime,
+			night_end_time as nightEndTime,
+			weekend_cost as weekendCost,
+			holiday_cost as holidayCost,
+			spring_cost as springCost,
+			ext1 as ext1,
+			ext2 as ext2,
+			ext3 as ext3
+		FROM ct_adjust_price 
+		 <where>
+		    <if test="id!= null">
+                  and id=#{id}
+            </if>
+		    <if test="orderType!= null">
+                  and order_type=#{orderType}
+            </if>
+		    <if test="costType!= null">
+                  and cost_type=#{costType}
+            </if>
+		    <if test="userId!= null">
+                  and user_id=#{userId}
+            </if>
+		    <if test="baseCost!= null">
+                  and base_cost=#{baseCost}
+            </if>
+		    <if test="addBaseCost!= null">
+                  and add_base_cost=#{addBaseCost}
+            </if>
+		    <if test="nightCost!= null">
+                  and night_cost=#{nightCost}
+            </if>
+		    <if test="nightStartTime!= null">
+                  and night_start_time=#{nightStartTime}
+            </if>
+		    <if test="nightEndTime!= null">
+                  and night_end_time=#{nightEndTime}
+            </if>
+		    <if test="weekendCost!= null">
+                  and weekend_cost=#{weekendCost}
+            </if>
+		    <if test="holidayCost!= null">
+                  and holiday_cost=#{holidayCost}
+            </if>
+		    <if test="springCost!= null">
+                  and spring_cost=#{springCost}
+            </if>
+		    <if test="ext1!= null">
+                  and ext1=#{ext1}
+            </if>
+		    <if test="ext2!= null">
+                  and ext2=#{ext2}
+            </if>
+		    <if test="ext3!= null">
+                  and ext3=#{ext3}
+            </if>
+  		</where>
+		  		ORDER BY id DESC
+	</select>
+	
+	<!-- 查询车童自主调价详细信息 -->
+	<select id="queryCtAdjustPriceDetail" parameterType="net.chetong.order.model.CtAdjustPriceDetailVO" resultType ="net.chetong.order.model.CtAdjustPriceDetailVO" >
+		SELECT 
+			id as id,
+			adjust_id as adjustId,
+			cost_type as costType,
+			money as money,
+			cost_mode as costMode,
+			start_val as startVal,
+			end_val as endVal
+		FROM ct_adjust_price_detail 
+		 <where>
+		    <if test="id!= null">
+                  and id=#{id}
+            </if>
+		    <if test="adjustId!= null">
+                  and adjust_id=#{adjustId}
+            </if>
+		    <if test="costType!= null">
+                  and cost_type=#{costType}
+            </if>
+		    <if test="money!= null">
+                  and money=#{money}
+            </if>
+		    <if test="costMode!= null">
+                  and cost_mode=#{costMode}
+            </if>
+		    <if test="startVal!= null">
+                  and start_val=#{startVal}
+            </if>
+		    <if test="endVal!= null">
+                  and end_val=#{endVal}
+            </if>
+  		</where>
+		  		ORDER BY id DESC
+	</select>
+	
+	<!-- 查询地区指导价规则 -->
+	<select id="queryRulePriceInfo" parameterType="java.util.Map" resultType="net.chetong.order.model.PrRuleInfoVO">
+		select
+			i.id as id,
+			i.rule_name as ruleName,
+			i.service_id as serviceId,
+			i.subject_id as subjectId,
+			i.ext1 as ext1,
+			i.ext2 as ext2,
+			i.ext3 as ext3
+		  from pr_rule_info i, pr_rule_area a
+		  where i.id = a.rule_id
+		    and i.service_id = 1
+		    and i.subject_id = #{subjectId}
+		    and a.prov_code = #{proveCode}
+		    <if test="cityCode!= null and cityCode!=''">
+               and a.city_code = #{cityCode}
+            </if>	
+	</select>
+	
+	<!-- 查询指导价详细信息 -->
+	<select id="queryPrRuleDetail" parameterType="net.chetong.order.model.PrRuleDetailVO" resultType ="net.chetong.order.model.PrRuleDetailVO" >
+		SELECT 
+			id as id,
+			rule_id as ruleId,
+			cost_type as costType,
+			val_type as valType,
+			money as money,
+			start_value as startValue,
+			start_sign as startSign,
+			end_value as endValue,
+			end_sign as endSign,
+			base_cost as baseCost,
+			add_base_cost as addBaseCost,
+			night_cost as nightCost,
+			night_start as nightStart,
+			night_end as nightEnd,
+			weekend_cost as weekendCost,
+			holiday_cost as holidayCost,
+			spring_cost as springCost,
+			base_max_cost as baseMaxCost,
+			add_base_max_cost as addBaseMaxCost,
+			night_max_cost as nightMaxCost,
+			weekend_max_cost as weekendMaxCost,
+			holiday_max_cost as holidayMaxCost,
+			spring_max_cost as springMaxCost,
+			base_stat as baseStat,
+			add_base_stat as addBaseStat,
+			night_stat as nightStat,
+			weekend_stat as weekendStat,
+			holiday_stat as holidayStat,
+			spring_stat as springStat
+		FROM pr_rule_detail 
+		WHERE
+            rule_id=#{ruleId}
+            and cost_type=#{costType}
+ 		ORDER BY id DESC
+	</select>
+	
+	<!-- 查询开票费率 -->
+	<select id="queryPrInvoiceArea" parameterType="net.chetong.order.model.PrInvoiceAreaVO" resultType ="net.chetong.order.model.PrInvoiceAreaVO" >
+		SELECT 
+			id as id,
+			prov_code as provCode,
+			prov_name as provName,
+			city_code as cityCode,
+			city_name as cityName,
+			county_code as countyCode,
+			county_name as countyName,
+			invoice_rate as invoiceRate,
+			is_default as isDefault
+		FROM pr_invoice_area 
+		 <where>
+                  and prov_code=#{provCode}
+                  and city_code=#{cityCode}
+                  and service_id=#{serviceId}
+		    <if test="countyCode!= null">
+                  and county_code=#{countyCode}
+            </if>
+		    <if test="isDefault!= null">
+                  and is_default=#{isDefault}
+            </if>
+  		</where>
+		  		ORDER BY id DESC
+	</select>
+	
+	<!-- 查询通道费设置 -->
+	<select id="queryPdServiceChannelTaxVO" parameterType="net.chetong.order.model.PdServiceChannelTaxVO" resultType ="net.chetong.order.model.PdServiceChannelTaxVO" >
+		SELECT 
+			id as id,
+			cost_type as costType,
+			cost_name as costName,
+			prov_code as provCode,
+			prov_desc as provDesc,
+			city_code as cityCode,
+			city_desc as cityDesc,
+			crt_time as crtTime,
+			oper_id as operId,
+			tax_ratio as taxRatio,
+			channel as channel,
+			channel_mode as channelMode,
+			ext1 as ext1,
+			ext2 as ext2,
+			ext3 as ext3,
+			ext4 as ext4,
+			ext5 as ext5,
+			ext6 as ext6
+		FROM pd_service_channel_tax 
+		 <where>
+		    <if test="id!= null">
+                  and id=#{id}
+            </if>
+		    <if test="costType!= null">
+                  and cost_type=#{costType}
+            </if>
+		    <if test="costName!= null">
+                  and cost_name=#{costName}
+            </if>
+		    <if test="provCode!= null">
+                  and prov_code=#{provCode}
+            </if>
+		    <if test="provDesc!= null">
+                  and prov_desc=#{provDesc}
+            </if>
+		    <if test="cityCode!= null">
+                  and city_code=#{cityCode}
+            </if>
+		    <if test="cityDesc!= null">
+                  and city_desc=#{cityDesc}
+            </if>
+		    <if test="crtTime!= null">
+                  and crt_time=#{crtTime}
+            </if>
+		    <if test="operId!= null">
+                  and oper_id=#{operId}
+            </if>
+		    <if test="taxRatio!= null">
+                  and tax_ratio=#{taxRatio}
+            </if>
+		    <if test="channel!= null">
+                  and channel=#{channel}
+            </if>
+		    <if test="channelMode!= null">
+                  and channel_mode=#{channelMode}
+            </if>
+		    <if test="ext1!= null">
+                  and ext1=#{ext1}
+            </if>
+		    <if test="ext2!= null">
+                  and ext2=#{ext2}
+            </if>
+		    <if test="ext3!= null">
+                  and ext3=#{ext3}
+            </if>
+		    <if test="ext4!= null">
+                  and ext4=#{ext4}
+            </if>
+		    <if test="ext5!= null">
+                  and ext5=#{ext5}
+            </if>
+		    <if test="ext6!= null">
+                  and ext6=#{ext6}
+            </if>
+            <if test="serviceId!= null">
+                  and service_id=#{serviceId}
+            </if>
+  		</where>
+		  		ORDER BY id DESC
+	</select>
+	
+	<!-- 查询费用设置 -->
+	<select id="queryPrSetting" parameterType="net.chetong.order.model.PrSettingVO" resultType ="net.chetong.order.model.PrSettingVO" >
+		SELECT 
+			id as id,
+			setting_type as settingType,
+			setting_name as settingName,
+			setting_value as settingValue
+		FROM pr_setting 
+		 <where>
+		    <if test="id!= null">
+                  and id=#{id}
+            </if>
+		    <if test="settingType!= null">
+                  and setting_type=#{settingType}
+            </if>
+		    <if test="settingName!= null">
+                  and setting_name=#{settingName}
+            </if>
+		    <if test="settingValue!= null">
+                  and setting_value=#{settingValue}
+            </if>
+  		</where>
+		  		ORDER BY id DESC
+	</select>
+	
+	<!-- 查询团队管理费 -->
+	<select id="queryCtGroupManageFee" parameterType="net.chetong.order.model.CtGroupManageFeeVO" resultType ="net.chetong.order.model.CtGroupManageFeeVO" >
+		SELECT
+			id AS id,
+			user_id AS userId,
+			rule_name AS ruleName,
+			order_type AS orderType,
+			base_commission AS baseCommission,
+			travel_commission AS travelCommission,
+			extra_commission AS extraCommission,
+			reward_commission AS rewardCommission,
+			cargo_commission AS cargoCommission,
+			ext1 AS ext1,
+			ext2 AS ext2,
+			ext3 AS ext3,
+			ext4 AS ext4,
+			ext5 AS ext5
+		FROM
+			ct_group_manage_fee
+		 <where>
+		    <if test="id!= null">
+                  and id=#{id}
+            </if>
+		    <if test="userId!= null">
+                  and user_id=#{userId}
+            </if>
+		    <if test="ruleName!= null">
+                  and rule_name=#{ruleName}
+            </if>
+		    <if test="orderType!= null">
+                  and order_type=#{orderType}
+            </if>
+		    <if test="baseCommission!= null">
+                  and base_commission=#{baseCommission}
+            </if>
+		    <if test="travelCommission!= null">
+                  and travel_commission=#{travelCommission}
+            </if>
+		    <if test="extraCommission!= null">
+                  and extra_commission=#{extraCommission}
+            </if>
+		    <if test="rewardCommission!= null">
+                  and reward_commission=#{rewardCommission}
+            </if>
+		    <if test="ext1!= null">
+                  and ext1=#{ext1}
+            </if>
+		    <if test="ext2!= null">
+                  and ext2=#{ext2}
+            </if>
+		    <if test="ext3!= null">
+                  and ext3=#{ext3}
+            </if>
+		    <if test="ext4!= null">
+                  and ext4=#{ext4}
+            </if>
+		    <if test="ext5!= null">
+                  and ext5=#{ext5}
+            </if>
+  		</where>
+		  		ORDER BY id DESC
+	</select>
+	
+	<!-- 查询团队管理费 -->
+	<select id="queryCtGroupManageFeeByKey" parameterType="Long" resultType ="net.chetong.order.model.CtGroupManageFeeVO" >
+		SELECT
+			id AS id,
+			user_id AS userId,
+			rule_name AS ruleName,
+			order_type AS orderType,
+			base_commission AS baseCommission,
+			travel_commission AS travelCommission,
+			extra_commission AS extraCommission,
+			reward_commission AS rewardCommission,
+			cargo_commission AS cargoCommission,
+			ext1 AS ext1,
+			ext2 AS ext2,
+			ext3 AS ext3,
+			ext4 AS ext4,
+			ext5 AS ext5
+		FROM
+			ct_group_manage_fee
+		 WHERE
+             id=#{id}
+	</select>
+	
+	<!-- 查询有指定机构指定车童团队管理费配置 非默认和和车童关联的管理费 -->
+	<select id="queryCtGroupManageFeeByUserIdAndBuyUserId" parameterType="java.util.Map" resultType ="net.chetong.order.model.CtGroupManageFeeVO" >
+		SELECT
+			f.id AS id,
+			f.user_id AS userId,
+			f.rule_name AS ruleName,
+			f.order_type AS orderType,
+			f.base_commission AS baseCommission,
+			f.travel_commission AS travelCommission,
+			f.extra_commission AS extraCommission,
+			f.reward_commission AS rewardCommission,
+			f.cargo_commission AS cargoCommission,
+			f.ext1 AS ext1,
+			f.ext2 AS ext2,
+			f.ext3 AS ext3,
+			f.ext4 AS ext4,
+			f.ext5 AS ext5
+		FROM
+			ct_group_manage_fee f,
+			ct_user_managefee m,
+			ct_user_group_managefee um
+		WHERE
+			f.id = m.manage_id
+		AND f.id = um.manage_id
+		AND f.user_id = #{sellerGroupUserId}
+		AND m.user_id = #{userId}
+		AND um.user_id = #{buyerUserId}
+		AND m.ext1=#{serviceId}
+		AND f.ext1='0'        <!-- 非默认 -->
+		AND f.order_type='2'  <!-- 只有内部订单 -->
+		AND f.state=1		  <!-- 状态为正常的 -->
+	</select>
+	
+	<!-- 查询团队管理费 非默认和和车童关联的管理费 -->
+	<select id="queryCtGroupManageFeeByUserId" parameterType="java.util.Map" resultType ="net.chetong.order.model.CtGroupManageFeeVO" >
+		SELECT
+			f.id AS id,
+			f.user_id AS userId,
+			f.rule_name AS ruleName,
+			f.order_type AS orderType,
+			f.base_commission AS baseCommission,
+			f.travel_commission AS travelCommission,
+			f.extra_commission AS extraCommission,
+			f.reward_commission AS rewardCommission,
+			f.cargo_commission AS cargoCommission,
+			f.ext1 AS ext1,
+			f.ext2 AS ext2,
+			f.ext3 AS ext3,
+			f.ext4 AS ext4,
+			f.ext5 AS ext5
+		FROM
+			ct_group_manage_fee f,
+			ct_user_managefee m
+		WHERE
+			f.id = m.manage_id
+		AND f.user_id = #{sellerGroupUserId}
+		AND f.id NOT IN (SELECT gm.manage_id FROM ct_user_group_managefee gm WHERE gm.service_id = '1')
+		AND m.user_id = #{userId}
+		AND m.ext1=#{serviceId}
+		AND f.ext1='0'        <!-- 非默认 -->
+		AND f.order_type='2'  <!-- 只有内部订单 -->
+		AND f.state=1<!-- 状态为正常的 -->
+	</select>
+	
+	<!-- 查询允许自主调价的地区 -->
+	<select id="queryCtAdjustPriceArea" parameterType="net.chetong.order.model.CtAdjustPriceAreaVO" resultType ="net.chetong.order.model.CtAdjustPriceAreaVO" >
+		SELECT 
+			id as id,
+			prov_code as provCode,
+			city_code as cityCode,
+			area_code as areaCode
+		FROM ct_adjust_price_area 
+		 <where>
+		    <if test="id!= null">
+                  and id=#{id}
+            </if>
+		    <if test="provCode!= null">
+                  and prov_code=#{provCode}
+            </if>
+		    <if test="cityCode!= null">
+                  and city_code=#{cityCode}
+            </if>
+		    <if test="areaCode!= null">
+                  and area_code=#{areaCode}
+            </if>
+  		</where>
+		  		ORDER BY id DESC
+	</select>
+</mapper>

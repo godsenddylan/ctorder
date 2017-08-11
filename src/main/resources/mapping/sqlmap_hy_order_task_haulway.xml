@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="sqlmap_hy_order_task_haulway">
+	<select id="queryHaulwayByTaskId" parameterType="long" resultType="net.chetong.order.model.HyOrderTaskHaulwayVO">
+		SELECT
+			h.id AS id,
+		  	h.task_id AS taskId,
+		  	h.start_address AS startAddress,
+		  	h.end_address AS endAddress
+		FROM
+			hy_order_task_haulway h
+		WHERE
+			h.task_id = #{taskId}
+	</select>
+	
+	<insert id="insertSelective" parameterType="net.chetong.order.model.HyOrderTaskHaulwayVO">
+		INSERT INTO hy_order_task_haulway (
+			task_id,
+			start_address,
+			end_address
+		)
+		VALUES
+			(
+				#{taskId},
+				#{startAddress},
+				#{endAddress}
+			)
+	</insert>
+	
+	<update id="updateByPrimaryKeySelective" parameterType="net.chetong.order.model.HyOrderTaskHaulwayVO">
+		UPDATE hy_order_task_haulway
+		SET start_address = #{startAddress},
+		 end_address = #{endAddress}
+		WHERE
+			id = #{id}
+	</update>
+	
+	<delete id="deleteByTaskId" parameterType="Long">
+		delete from hy_order_task_haulway
+		<where>
+			task_id = #{taskId}
+		</where>
+	</delete>
+</mapper>

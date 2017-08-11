@@ -1,0 +1,767 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="renshang_sqlmap_rs_order">
+
+	<!--实体映射-->
+	<resultMap id="rsOrderResultMap" type="net.chetong.order.model.RsOrder">
+		<!--订单id-->
+		<id property="id" column="id" />
+		<!--订单号-->
+		<result property="orderNo" column="order_no" />
+		<!--任务明细id-->
+		<result property="taskDetailId" column="task_detail_id" />
+		<!--订单状态-->
+		<result property="dealStat" column="deal_stat" />
+		<!--是否重派:0:否，1：是-->
+		<result property="isResend" column="is_resend" />
+		<!--服务类型-->
+		<result property="serviceId" column="service_id" />
+		<!--服务类别-->
+		<result property="subjectId" column="subject_id" />
+		<!--报案号-->
+		<result property="caseNo" column="case_no" /> 
+		<!--买家id-->
+		<result property="buyerUserId" column="buyer_user_id" />
+		<!--买家名称-->
+		<result property="buyerUserName" column="buyer_user_name" />
+		<!--买家类型-->
+		<result property="buyerUserType" column="buyer_user_type" />
+		<!--是否委托派单-->
+		<result property="isEntrustBy" column="is_entrust_by" />
+		<!--派单人id-->
+		<result property="sendUserId" column="send_user_id" />
+		<!--派单人名称-->
+		<result property="sendUserName" column="send_user_name" />
+		<!--派单时间-->
+		<result property="sendTime" column="send_time" />
+		<!--是否代支付-->
+		<result property="isPayBy" column="is_pay_by" />
+		<!--支付人id-->
+		<result property="payUserId" column="pay_user_id" />
+		<!--支付人名称-->
+		<result property="payUserName" column="pay_user_name" />
+		<!--终审人id-->
+		<result property="auditUserId" column="audit_user_id" />
+		<!--终审人名称-->
+		<result property="auditUserName" column="audit_user_name" />
+		<!--终审时间-->
+		<result property="auditTime" column="audit_time" />
+		<!--团队id-->
+		<result property="groupUserId" column="group_user_id" />
+		<!--团队名称-->
+		<result property="groupUserName" column="group_user_name" />
+		<!--卖家id-->
+		<result property="sellerUserId" column="seller_user_id" />
+		<!--卖家名称-->
+		<result property="sellerUserName" column="seller_user_name" />
+		<!--卖家类型-->
+		<result property="sellerUserType" column="seller_user_type" />
+		<!--作业里程-->
+		<result property="mileage" column="mileage" />
+		<!--作业地址-->
+		<result property="workAddress" column="work_address" />
+		<!--作业地址经度-->
+		<result property="longitude" column="longitude" />
+		<!--作业地址维度-->
+		<result property="latitude" column="latitude" />
+		<!--作业地址省编码-->
+		<result property="provCode" column="prov_code" />
+		<!--作业地址市编码-->
+		<result property="cityCode" column="city_code" />
+		<!--作业地址区编码-->
+		<result property="areaCode" column="area_code" />
+	</resultMap>
+
+
+	<!-- 通用查询结果列-->
+	<sql id="Base_Column_List">
+		 id,	order_no,	task_detail_id,	deal_stat,	is_resend,	service_id,	subject_id,	case_no,	buyer_user_id,	buyer_user_name,	
+		 buyer_user_type,	is_entrust_by,	send_user_id,	send_user_name,	send_time,	is_pay_by,	pay_user_id,	
+		 pay_user_name,	audit_user_id,	audit_user_name,	audit_time,	group_user_id,	group_user_name,	
+		 seller_user_id,	seller_user_name,	seller_user_type,	mileage,	work_address,	longitude,	latitude,
+		 prov_code	,	city_code	,	area_code 
+	</sql>
+
+	<!-- 查询（根据主键ID查询） -->
+	<select id="selectByPrimaryKey" resultMap="rsOrderResultMap" parameterType="java.lang.Long">
+		 SELECT
+		 <include refid="Base_Column_List" />
+		 FROM rs_order
+		 WHERE id = #{id}
+	</select>
+
+	<!--删除：根据主键ID删除-->
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+		 DELETE FROM rs_order
+		 WHERE id = #{id}
+	</delete>
+
+	<!-- 添加 -->
+	<insert id="insert" parameterType="net.chetong.order.model.RsOrder">
+		 INSERT INTO rs_order
+ 		(id,order_no,task_detail_id,deal_stat,is_resend,service_id,subject_id,case_no,buyer_user_id,buyer_user_name,buyer_user_type,is_entrust_by,send_user_id,send_user_name,send_time,is_pay_by,pay_user_id,pay_user_name,audit_user_id,audit_user_name,audit_time,group_user_id,group_user_name,seller_user_id,seller_user_name,seller_user_type,mileage,work_address,longitude,latitude,prov_code,city_code,area_code) 
+		 VALUES 
+ 		(#{id},#{orderNo},#{taskDetailId},#{dealStat},#{isResend},#{serviceId},#{subjectId},#{caseNo},#{buyerUserId},#{buyerUserName},#{buyerUserType},#{isEntrustBy},#{sendUserId},#{sendUserName},#{sendTime},#{isPayBy},#{payUserId},#{payUserName},#{auditUserId},#{auditUserName},#{auditTime},#{groupUserId},#{groupUserName},#{sellerUserId},#{sellerUserName},#{sellerUserType},#{mileage},#{workAddress},#{longitude},#{latitude},#{provCode},#{cityCode},#{areaCode}) 
+	</insert>
+
+	<!-- 添加 （匹配有值的字段）-->
+	<insert id="insertSelective" parameterType="net.chetong.order.model.RsOrder" useGeneratedKeys="true" keyColumn="id" keyProperty="id">
+		 INSERT INTO rs_order
+		 <trim prefix="(" suffix=")" suffixOverrides="," >
+			<if test="id != null">
+				 id,
+			</if>
+			<if test="orderNo != null">
+				 order_no,
+			</if>
+			<if test="taskDetailId != null">
+				 task_detail_id,
+			</if>
+			<if test="dealStat != null">
+				 deal_stat,
+			</if>
+			<if test="isResend != null">
+				 is_resend,
+			</if>
+			<if test="serviceId != null">
+				 service_id,
+			</if>
+			<if test="subjectId != null">
+				 subject_id,
+			</if>
+			<if test="caseNo != null">
+				 case_no,
+			</if>
+			<if test="buyerUserId != null">
+				 buyer_user_id,
+			</if>
+			<if test="buyerUserName != null">
+				 buyer_user_name,
+			</if>
+			<if test="buyerUserType != null">
+				 buyer_user_type,
+			</if>
+			<if test="isEntrustBy != null">
+				 is_entrust_by,
+			</if>
+			<if test="sendUserId != null">
+				 send_user_id,
+			</if>
+			<if test="sendUserName != null">
+				 send_user_name,
+			</if>
+			<if test="sendTime != null">
+				 send_time,
+			</if>
+			<if test="isPayBy != null">
+				 is_pay_by,
+			</if>
+			<if test="payUserId != null">
+				 pay_user_id,
+			</if>
+			<if test="payUserName != null">
+				 pay_user_name,
+			</if>
+			<if test="auditUserId != null">
+				 audit_user_id,
+			</if>
+			<if test="auditUserName != null">
+				 audit_user_name,
+			</if>
+			<if test="auditTime != null">
+				 audit_time,
+			</if>
+			<if test="groupUserId != null">
+				 group_user_id,
+			</if>
+			<if test="groupUserName != null">
+				 group_user_name,
+			</if>
+			<if test="sellerUserId != null">
+				 seller_user_id,
+			</if>
+			<if test="sellerUserName != null">
+				 seller_user_name,
+			</if>
+			<if test="sellerUserType != null">
+				 seller_user_type,
+			</if>
+			<if test="mileage != null">
+				 mileage,
+			</if>
+			<if test="workAddress != null">
+				 work_address,
+			</if>
+			<if test="longitude != null">
+				 longitude,
+			</if>
+			<if test="latitude != null">
+				 latitude,
+			</if>
+			<if test="provCode != null">
+				prov_code,
+			</if>
+			<if test="cityCode != null">
+				city_code,
+			</if>
+			<if test="areaCode != null">
+				area_code,
+			</if>
+		 </trim>
+		 <trim prefix="values (" suffix=")" suffixOverrides="," >
+			<if test="id!=null">
+				 #{id},
+			</if>
+			<if test="orderNo!=null">
+				 #{orderNo},
+			</if>
+			<if test="taskDetailId!=null">
+				 #{taskDetailId},
+			</if>
+			<if test="dealStat!=null">
+				 #{dealStat},
+			</if>
+			<if test="isResend!=null">
+				 #{isResend},
+			</if>
+			<if test="serviceId!=null">
+				 #{serviceId},
+			</if>
+			<if test="subjectId!=null">
+				 #{subjectId},
+			</if>
+			<if test="caseNo!=null">
+				 #{caseNo},
+			</if>
+			<if test="buyerUserId!=null">
+				 #{buyerUserId},
+			</if>
+			<if test="buyerUserName!=null">
+				 #{buyerUserName},
+			</if>
+			<if test="buyerUserType!=null">
+				 #{buyerUserType},
+			</if>
+			<if test="isEntrustBy!=null">
+				 #{isEntrustBy},
+			</if>
+			<if test="sendUserId!=null">
+				 #{sendUserId},
+			</if>
+			<if test="sendUserName!=null">
+				 #{sendUserName},
+			</if>
+			<if test="sendTime!=null">
+				 #{sendTime},
+			</if>
+			<if test="isPayBy!=null">
+				 #{isPayBy},
+			</if>
+			<if test="payUserId!=null">
+				 #{payUserId},
+			</if>
+			<if test="payUserName!=null">
+				 #{payUserName},
+			</if>
+			<if test="auditUserId!=null">
+				 #{auditUserId},
+			</if>
+			<if test="auditUserName!=null">
+				 #{auditUserName},
+			</if>
+			<if test="auditTime!=null">
+				 #{auditTime},
+			</if>
+			<if test="groupUserId!=null">
+				 #{groupUserId},
+			</if>
+			<if test="groupUserName!=null">
+				 #{groupUserName},
+			</if>
+			<if test="sellerUserId!=null">
+				 #{sellerUserId},
+			</if>
+			<if test="sellerUserName!=null">
+				 #{sellerUserName},
+			</if>
+			<if test="sellerUserType!=null">
+				 #{sellerUserType},
+			</if>
+			<if test="mileage!=null">
+				 #{mileage},
+			</if>
+			<if test="workAddress!=null">
+				 #{workAddress},
+			</if>
+			<if test="longitude!=null">
+				 #{longitude},
+			</if>
+			<if test="latitude!=null">
+				 #{latitude},
+			</if>
+			<if test="provCode != null">
+				#{provCode},
+			</if>
+			<if test="cityCode != null">
+				#{cityCode},
+			</if>
+			<if test="areaCode != null">
+				#{areaCode},
+			</if>
+		 </trim>
+	</insert>
+
+	<!-- 修 改-->
+	<update id="updateByPrimaryKeySelective" parameterType="net.chetong.order.model.RsOrder">
+		 UPDATE rs_order
+ 		 <set> 
+			<if test="orderNo != null">
+				 order_no = #{orderNo},
+			</if>
+			<if test="taskDetailId != null">
+				 task_detail_id = #{taskDetailId},
+			</if>
+			<if test="dealStat != null">
+				 deal_stat = #{dealStat},
+			</if>
+			<if test="isResend != null">
+				 is_resend = #{isResend},
+			</if>
+			<if test="serviceId != null">
+				 service_id = #{serviceId},
+			</if>
+			<if test="subjectId != null">
+				 subject_id = #{subjectId},
+			</if>
+			<if test="caseNo != null">
+				 case_no = #{caseNo},
+			</if>
+			<if test="buyerUserId != null">
+				 buyer_user_id = #{buyerUserId},
+			</if>
+			<if test="buyerUserName != null">
+				 buyer_user_name = #{buyerUserName},
+			</if>
+			<if test="buyerUserType != null">
+				 buyer_user_type = #{buyerUserType},
+			</if>
+			<if test="isEntrustBy != null">
+				 is_entrust_by = #{isEntrustBy},
+			</if>
+			<if test="sendUserId != null">
+				 send_user_id = #{sendUserId},
+			</if>
+			<if test="sendUserName != null">
+				 send_user_name = #{sendUserName},
+			</if>
+			<if test="sendTime != null">
+				 send_time = #{sendTime},
+			</if>
+			<if test="isPayBy != null">
+				 is_pay_by = #{isPayBy},
+			</if>
+			<if test="payUserId != null">
+				 pay_user_id = #{payUserId},
+			</if>
+			<if test="payUserName != null">
+				 pay_user_name = #{payUserName},
+			</if>
+			<if test="auditUserId != null">
+				 audit_user_id = #{auditUserId},
+			</if>
+			<if test="auditUserName != null">
+				 audit_user_name = #{auditUserName},
+			</if>
+			<if test="auditTime != null">
+				 audit_time = #{auditTime},
+			</if>
+			<if test="groupUserId != null">
+				 group_user_id = #{groupUserId},
+			</if>
+			<if test="groupUserName != null">
+				 group_user_name = #{groupUserName},
+			</if>
+			<if test="sellerUserId != null">
+				 seller_user_id = #{sellerUserId},
+			</if>
+			<if test="sellerUserName != null">
+				 seller_user_name = #{sellerUserName},
+			</if>
+			<if test="sellerUserType != null">
+				 seller_user_type = #{sellerUserType},
+			</if>
+			<if test="mileage != null">
+				 mileage = #{mileage},
+			</if>
+			<if test="workAddress != null">
+				 work_address = #{workAddress},
+			</if>
+			<if test="longitude != null">
+				 longitude = #{longitude},
+			</if>
+			<if test="latitude != null">
+				 latitude = #{latitude},
+			</if>
+			<if test="provCode != null">
+				prov_code = #{provCode},
+			</if>
+			<if test="cityCode != null">
+				city_code = #{cityCode},
+			</if>
+			<if test="areaCode != null">
+				area_code = #{areaCode},
+			</if>
+ 		 </set>
+		 WHERE id = #{id}
+	</update>
+	
+	<!-- 修 改-->
+	<update id="updateByPrimaryKey" parameterType="net.chetong.order.model.RsOrder">
+		 UPDATE rs_order
+		 SET 
+			 order_no = #{orderNo},
+			 task_detail_id = #{taskDetailId},
+			 deal_stat = #{dealStat},
+			 is_resend = #{isResend},
+			 service_id = #{serviceId},
+			 subject_id = #{subjectId},
+			 case_no = #{caseNo},
+			 buyer_user_id = #{buyerUserId},
+			 buyer_user_name = #{buyerUserName},
+			 buyer_user_type = #{buyerUserType},
+			 is_entrust_by = #{isEntrustBy},
+			 send_user_id = #{sendUserId},
+			 send_user_name = #{sendUserName},
+			 send_time = #{sendTime},
+			 is_pay_by = #{isPayBy},
+			 pay_user_id = #{payUserId},
+			 pay_user_name = #{payUserName},
+			 audit_user_id = #{auditUserId},
+			 audit_user_name = #{auditUserName},
+			 audit_time = #{auditTime},
+			 group_user_id = #{groupUserId},
+			 group_user_name = #{groupUserName},
+			 seller_user_id = #{sellerUserId},
+			 seller_user_name = #{sellerUserName},
+			 seller_user_type = #{sellerUserType},
+			 mileage = #{mileage},
+			 work_address = #{workAddress},
+			 longitude = #{longitude},
+			 latitude = #{latitude},
+			 porv_code = #{provCode},
+			 city_code = #{cityCode},
+			 area_code = #{areaCode}
+			 
+		 WHERE id = #{id}
+	</update>
+	<update id="updateOrderInfo" parameterType="net.chetong.order.model.RsOrder">
+		 UPDATE rs_order
+ 		 <set>
+ 		 	<if test="taskDetailId != null">
+				 task_detail_id = #{taskDetailId},
+			</if> 
+			<if test="dealStat != null">
+				 deal_stat = #{dealStat},
+			</if>
+			<if test="isResend != null">
+				 is_resend = #{isResend},
+			</if>
+			<if test="serviceId != null">
+				 service_id = #{serviceId},
+			</if>
+			<if test="subjectId != null">
+				 subject_id = #{subjectId},
+			</if>
+			<if test="caseNo != null">
+				 case_no = #{caseNo},
+			</if>
+			<if test="buyerUserId != null">
+				 buyer_user_id = #{buyerUserId},
+			</if>
+			<if test="buyerUserName != null">
+				 buyer_user_name = #{buyerUserName},
+			</if>
+			<if test="buyerUserType != null">
+				 buyer_user_type = #{buyerUserType},
+			</if>
+			<if test="isEntrustBy != null">
+				 is_entrust_by = #{isEntrustBy},
+			</if>
+			<if test="sendUserId != null">
+				 send_user_id = #{sendUserId},
+			</if>
+			<if test="sendUserName != null">
+				 send_user_name = #{sendUserName},
+			</if>
+			<if test="sendTime != null">
+				 send_time = #{sendTime},
+			</if>
+			<if test="isPayBy != null">
+				 is_pay_by = #{isPayBy},
+			</if>
+			<if test="payUserId != null">
+				 pay_user_id = #{payUserId},
+			</if>
+			<if test="payUserName != null">
+				 pay_user_name = #{payUserName},
+			</if>
+			<if test="auditUserId != null">
+				 audit_user_id = #{auditUserId},
+			</if>
+			<if test="auditUserName != null">
+				 audit_user_name = #{auditUserName},
+			</if>
+			<if test="auditTime != null">
+				 audit_time = #{auditTime},
+			</if>
+			<if test="groupUserId != null">
+				 group_user_id = #{groupUserId},
+			</if>
+			<if test="groupUserName != null">
+				 group_user_name = #{groupUserName},
+			</if>
+			<if test="sellerUserId != null">
+				 seller_user_id = #{sellerUserId},
+			</if>
+			<if test="sellerUserName != null">
+				 seller_user_name = #{sellerUserName},
+			</if>
+			<if test="sellerUserType != null">
+				 seller_user_type = #{sellerUserType},
+			</if>
+			<if test="mileage != null">
+				 mileage = #{mileage},
+			</if>
+			<if test="workAddress != null">
+				 work_address = #{workAddress},
+			</if>
+			<if test="longitude != null">
+				 longitude = #{longitude},
+			</if>
+			<if test="latitude != null">
+				 latitude = #{latitude},
+			</if>
+			<if test="provCode != null">
+				prov_code = #{provCode},
+			</if>
+			<if test="cityCode != null">
+				city_code = #{cityCode},
+			</if>
+			<if test="areaCode != null">
+				area_code = #{areaCode},
+			</if>
+ 		 </set>
+ 		 <where>
+ 		 	<if test="id != null">
+ 		 		AND id = #{id}
+ 		 	</if>
+ 		 	<if test="orderNo != null">
+ 		 		AND order_no = #{orderNo}
+ 		 	</if>
+ 		 </where>
+	</update>
+	
+	<!-- 查询订单信息 -->
+	<select id="getOrderInfo" parameterType="java.util.Map" resultMap="rsOrderResultMap">
+		 SELECT
+		 <include refid="Base_Column_List" />
+		 FROM rs_order
+		 <where>
+			 <if test="orderNo != null">
+				AND order_no = #{orderNo}
+			 </if>
+			 <if test="caseNo != null">
+				 AND case_no = #{caseNo}
+			</if>
+		 </where>
+	</select>
+	
+	<select id="queryOrderByStatAndSendTime" parameterType="Map" resultMap="rsOrderResultMap">
+		SELECT 
+		<include refid="Base_Column_List" /> 
+		FROM rs_order
+		<where>
+			<if test="dealStat != null">
+				AND deal_stat = #{dealStat}
+			</if>
+			<if test="sendTime != null">
+				<![CDATA[AND send_time <= #{sendTime} ]]>
+			</if>
+		</where>
+	</select>
+	
+	
+	<update id="updateCtArriveInfo" parameterType="java.util.Map">
+		UPDATE rs_order
+		SET arrive_info = #{arriveCode}
+		WHERE
+			order_no = #{orderNo}
+	</update>
+	
+	<select id="getAllOrderByCaseNo" parameterType="String" resultType="Map">
+		SELECT
+			 o.case_no AS caseNo,
+			 o.order_no AS orderNo,
+			 o.subject_id AS subjectId,
+			 d.injured_id AS injuredId,
+			 d.injured_name AS injuredName
+		FROM rs_order AS o INNER JOIN rs_task_info_detail AS d ON o.task_detail_id = d.id 
+		WHERE o.case_no = #{caseNo} AND o.is_resend = '0'
+	</select>
+	
+	<select id="getMediaImageOfOrder" parameterType="Map" resultType="Map">
+		SELECT image_url AS imageUrl,file_name AS fileName,tag_id AS tagId,tag_name AS tagName
+		FROM rs_media_image 
+		WHERE order_no =#{orderNo} AND case_no =#{caseNo}
+	</select>
+	
+	<select id="getImagePathTagName" parameterType="int" resultType="String">
+		SELECT CONCAT(a.tag_name,'/',b.tag_name) AS tagName
+		FROM rs_media_type AS a INNER JOIN rs_media_type AS b ON a.id = b.pid
+		WHERE b.id = #{tagId}
+	</select>
+	
+	<select id="getAuditOrderByCaseNo" parameterType="String" resultMap="rsOrderResultMap">
+		SELECT
+		 <include refid="Base_Column_List" />
+		 FROM rs_order
+		 WHERE case_no = #{caseNo} AND deal_stat = '09' AND is_resend = '0'
+	</select>
+
+	<select id="getHelpAuditIds" parameterType="Map" resultType="java.lang.Long">
+		SELECT DISTINCT t.grant_id_c
+		FROM ct_third_apply_info AS t
+		WHERE t.grant_type = '2' AND t.status = '2' AND t.service_id = #{serviceId}
+		AND (t.apply_id_a = #{userPid} OR t.middle_id_b = #{userPid})
+	</select>
+
+	<select id="getSubIdList" parameterType="java.lang.Long" resultType="java.lang.Long">
+		SELECT id FROM ct_user
+		WHERE pid = #{userPid} AND user_type = '1'
+	</select>
+	
+	<!-- 查询人伤图片 -->
+	<select id="queryRsPhotoNodeList" parameterType="string" resultType="net.chetong.order.model.PhotoNode">
+   		SELECT
+			i.id nodeId,
+			i.file_name name,
+			i.tag_id parentId,
+			i.image_url imageUrl,
+			i.upload_time uploadTime,
+			i.takephoto_time takephotoTime,
+			i.order_no as orderNo,
+			i.case_no as caseNo
+		FROM
+			rs_media_image i
+		WHERE
+			i.order_no = #{orderNo}
+   </select>
+   
+   <delete id="delRsImageBatch" parameterType="map">
+	  	delete from rs_media_image where id in
+	  	<foreach collection="idsList" item="item" open="(" separator="," close=")">
+	  		#{item}
+	  	</foreach>
+	  	and order_no=#{orderNo}
+	 </delete>
+	 
+	 <!-- 查询订单是否可作业 -->
+	 <select id="queryRsOrderCountNoAuidted" parameterType="map" resultType="long">
+   		SELECT
+			COUNT(1)
+		FROM
+			rs_order o
+		WHERE
+			o.order_no = #{orderNo}
+			AND o.seller_user_id = #{userId}
+			AND o.deal_stat!='09'
+   </select>
+   
+   <select id="queryLinksByIds" parameterType="list" resultType="string">
+   		SELECT i.image_url FROM rs_media_image i WHERE i.id in
+	  	<foreach collection="list" item="item" open="(" separator="," close=")">
+	  		#{item}
+	  	</foreach>
+  	</select>
+  	
+  	 <insert id="insertRsImage" parameterType="net.chetong.order.model.RsImageVO" useGeneratedKeys="true" keyColumn="id" keyProperty="id">
+	    insert into rs_media_image
+	    <trim prefix="(" suffix=")" suffixOverrides="," >
+	      <if test="id != null" >
+	        id,
+	      </if>
+	      <if test="workId != null" >
+	        work_id,
+	      </if>
+	      <if test="orderNo != null" >
+	        order_no,
+	      </if>
+	      <if test="caseNo != null" >
+	        case_no,
+	      </if>
+	      <if test="tagId != null" >
+	        tag_id,
+	      </if>
+	      <if test="tagName != null" >
+	        tag_name,
+	      </if>
+	      <if test="imageUrl != null" >
+	        image_url,
+	      </if>
+	      <if test="fileName != null" >
+	        file_name,
+	      </if>
+	      <if test="fileSize != null" >
+	        file_size,
+	      </if>
+	      <if test="takephotoTime != null" >
+	        takephoto_time,
+	      </if>
+	      <if test="uploadTime != null" >
+	        upload_time,
+	      </if>
+	      <if test="uploadType != null" >
+	        upload_type,
+	      </if>
+	    </trim>
+	    <trim prefix="values (" suffix=")" suffixOverrides="," >
+	      <if test="id != null" >
+	        #{id},
+	      </if>
+	      <if test="workId != null" >
+	        #{workId},
+	      </if>
+	      <if test="orderNo != null" >
+	        #{orderNo},
+	      </if>
+	      <if test="caseNo != null" >
+	        #{caseNo},
+	      </if>
+	      <if test="tagId != null" >
+	        #{tagId},
+	      </if>
+	      <if test="tagName != null" >
+	        #{tagName},
+	      </if>
+	      <if test="imageUrl != null" >
+	        #{imageUrl},
+	      </if>
+	      <if test="fileName != null" >
+	        #{fileName},
+	      </if>
+	      <if test="fileSize != null" >
+	        #{fileSize},
+	      </if>
+	      <if test="takephotoTime != null" >
+	        #{takephotoTime},
+	      </if>
+	      <if test="uploadTime != null" >
+	        #{uploadTime},
+	      </if>
+	      <if test="uploadType != null" >
+	        #{uploadType},
+	      </if>
+	    </trim>
+	  </insert>
+</mapper>

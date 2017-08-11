@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="sqlmap_fh_repair_item">
+	
+	<sql id="repairItemSql">
+		created_by as createdBy,
+		created_date as createdDate,
+		updated_by as updatedBy,
+		updated_date as updatedDate,
+		id as id,
+		loss_id as lossId,
+		insure_code as insureCode,
+		repair_name as repairName,
+		repair_amount as repairAmount,
+		audit_price as auditPrice,
+		first_amount as firstAmount
+	</sql>
+	<select id="queryRepairItemInfo" resultType="FhRepairItemVO">
+		select <include refid="repairItemSql" /> 
+		from fh_repair_item 
+		where 1=1
+		<if test="id!=null">
+			and id=#{id}
+		</if>
+		<if test="lossId!=null">
+			and loss_id =#{lossId}
+		</if>
+	</select>
+	
+	<insert id="insertRepairItemInfo" parameterType="FhRepairItemVO" useGeneratedKeys="true" keyProperty="id">
+		insert into fh_repair_item(
+			 created_by,
+			 created_date,
+			 updated_by,
+			 updated_date,
+			 loss_id,
+			 insure_code,
+			 repair_name,
+			 repair_amount,
+			 audit_price,
+			 first_amount)
+		 values(
+		 	#{createdBy},SYSDATE(),#{updatedBy},SYSDATE(),
+		 	#{lossId},#{insureCode},#{repairName},#{repairAmount},#{auditPrice},#{firstAmount}
+		 )
+	
+	</insert>
+	<update id="updateRepairItemInfo" parameterType="FhRepairItemVO">
+		update fh_repair_item set 
+			<if test="insureCode!=null">
+				insure_code=#{insureCode},
+			</if>
+			<if test="repairName!=null">
+				repair_name=#{repairName},
+			</if>
+			<if test="repairAmount!=null">
+				repair_amount=#{repairAmount},
+			</if>
+			<if test="auditPrice!=null">
+				audit_price=#{auditPrice},
+			</if>
+			<if test="firstAmount!=null">
+				first_amount=#{firstAmount},
+			</if>
+			updated_by=#{updatedBy},
+			updated_date = SYSDATE()
+		where id=#{id}
+			<if test='lossId!=null and lossId!="" '>
+				and loss_id=#{lossId}
+			</if>
+	</update>
+	
+	<delete id="deleteRepairItemInfo">
+		delete from fh_repair_item where id=#{id}
+	</delete>
+	
+</mapper>

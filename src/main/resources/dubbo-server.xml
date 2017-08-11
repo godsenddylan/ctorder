@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"  
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"  
+    xmlns:dubbo="http://code.alibabatech.com/schema/dubbo"  
+    xsi:schemaLocation="http://www.springframework.org/schema/beans          
+    http://www.springframework.org/schema/beans/spring-beans.xsd          
+    http://code.alibabatech.com/schema/dubbo          
+    http://code.alibabatech.com/schema/dubbo/dubbo.xsd">
+    
+    <dubbo:application name="dubbo-ctorder" />
+    <dubbo:registry address="zookeeper://${zookeeper.address}"  timeout="100000"/>
+    <dubbo:protocol name="dubbo" port="-1" /> <!-- 每台服务器的端口要不一样吧. -->
+    
+    <dubbo:service interface="net.chetong.order.service.order.OrderInterfaceService" ref="orderInterfaceService" retries="0" timeout="10000"   loadbalance="random" protocol="dubbo" group="${dubbo.group}"/><!-- 和本地bean一样实现服务 -->
+	<dubbo:service interface="net.chetong.aic.order.move.api.remote.OrderMoveAicService" ref="orderMoveService" retries="0" timeout="10000" version="1.0.0" group="${dubbo.group}"/>
+	<dubbo:service interface="net.chetong.order.service.order.WorkingService" ref="workingService" retries="0" timeout="10000"   loadbalance="random" protocol="dubbo" group="${dubbo.group}"/>
+	<dubbo:service interface="net.chetong.order.service.remind.MoneyRemindService" ref="moneyRemindService" retries="0" loadbalance="random" protocol="dubbo" group="${dubbo.group}"/>
+	<dubbo:service interface="com.chetong.aic.api.remoting.track.TrackRemoteService" ref="trackRemoteService" retries="0" loadbalance="random" protocol="dubbo" group="${dubbo.group}"/>
+</beans>

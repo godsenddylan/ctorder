@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="sqlmap_call_procedure">
+	<select id="calcuUserMoney" parameterType="map" statementType="CALLABLE" resultType="map">
+	{call pro_calcu_user_money (
+	#{costMoney,mode=IN,jdbcType=BIGINT},
+	#{userId,mode=IN,jdbcType=BIGINT},
+	#{orderId,mode=IN,jdbcType=BIGINT},
+	#{tradeType,mode=IN,jdbcType=VARCHAR},
+	#{balanceType,mode=IN,jdbcType=VARCHAR},
+	#{note,mode=IN,jdbcType=VARCHAR},
+	#{isBond,mode=IN,jdbcType=VARCHAR},
+	#{_t,mode=IN,jdbcType=BIGINT},
+	#{result,mode=OUT,jdbcType=VARCHAR}
+	)}
+	
+	</select>
+</mapper>

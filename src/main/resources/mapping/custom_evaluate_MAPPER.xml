@@ -1,0 +1,365 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="custom_evaluate">
+
+	<select id="queryParaKeyValueByKeys" parameterType="java.util.Map"
+		resultType="net.chetong.order.model.ParaKeyValue">
+		SELECT
+		id as id,
+		para_value as paraValue
+		FROM
+		para_key_value
+		<where>
+			and id in (${ids})
+		</where>
+	</select>
+
+	<update id="giveUpAppealAudit">
+		UPDATE fh_appeal_audit
+		<trim prefix="SET" suffixOverrides=",">
+			<if test="appealStat!= null">
+				appeal_stat = #{appealStat},
+			</if>
+			<if test="checkUserId!= null">
+				check_user_id = #{checkUserId},
+			</if>
+			<if test="checkTime!= null">
+				check_time = #{checkTime},
+			</if>
+		</trim>
+		<where>
+			<if test="id!= null">
+				and id = #{id}
+			</if>
+			<if test="orderCode!= null">
+				order_code = #{orderCode}
+			</if>
+			<if test="appealStat!= null">
+				and appeal_stat = '0'
+			</if>
+		</where>
+	</update>
+
+	<select id="sellerReadyEvaluateBuyerCount" parameterType="java.util.Map"
+		resultType="java.lang.Integer">
+		SELECT
+			count(1)
+		FROM
+			fm_order o
+		WHERE
+			o.seller_user_id = #{userId}
+		AND o.service_id = 1
+		AND o.is_remote = '1'
+		AND o.deal_stat = '09'
+		AND o.import_type = '0'
+		AND o.is_simple = '0'
+		<![CDATA[
+		AND TIMESTAMPDIFF(SECOND, o.final_time, now()) * 1000 < ${SELLER_EVALUATE_BUYER_TIME_OF_VALIDITY}
+		]]>
+		AND NOT EXISTS (
+			SELECT DISTINCT
+				epd.order_no
+			FROM
+				ev_point_detail epd
+			WHERE
+				epd.order_no = o.order_no
+			AND epd.ev_user_type = '1'
+			AND epd.user_type = '2'
+		)
+		AND EXISTS (
+			SELECT DISTINCT
+				epd.order_no
+			FROM
+				ev_point_detail epd
+			WHERE
+				epd.order_no = o.order_no
+			AND epd.ev_user_type = '2'
+			AND epd.user_type = '1'
+		)
+	</select>
+
+	<select id="sellerReadyEvaluateBuyer" parameterType="java.util.Map"
+		resultType="net.chetong.order.model.FmOrderVO">
+		SELECT
+			o.id AS id,
+			o.buyer_user_name AS buyerUserName,
+			o.subject_name AS subjectName,
+			o.case_no AS caseNo,
+			o.service_id AS serviceId,
+			o.order_no AS orderNo,
+			o.order_type AS orderType,
+			o.car_no AS carNo,
+			o.buyer_user_id AS buyerUserId,
+			o.link_man AS linkMan,
+			o.deal_stat AS dealStat,
+			o.send_time AS sendTime,
+			o.final_time AS finalTime,
+			o.is_simple AS isSimple
+		FROM
+			fm_order o
+		WHERE
+			o.seller_user_id = #{userId}
+		AND o.service_id = 1
+		AND o.is_remote = '1'
+		AND o.deal_stat = '09'
+		AND o.import_type = '0'
+		AND o.is_simple = '0'
+		<![CDATA[
+		AND TIMESTAMPDIFF(SECOND, o.final_time, now()) * 1000 < ${SELLER_EVALUATE_BUYER_TIME_OF_VALIDITY}
+		]]>
+		AND NOT EXISTS (
+			SELECT DISTINCT
+				epd.order_no
+			FROM
+				ev_point_detail epd
+			WHERE
+				epd.order_no = o.order_no
+			AND epd.ev_user_type = '1'
+			AND epd.user_type = '2'
+		)
+		AND EXISTS (
+			SELECT DISTINCT
+				epd.order_no
+			FROM
+				ev_point_detail epd
+			WHERE
+				epd.order_no = o.order_no
+			AND epd.ev_user_type = '2'
+			AND epd.user_type = '1'
+		)
+	</select>
+	
+	<select id="querySellerHaveNotEvaluateBuyer" parameterType="java.util.Map" resultType="com.chetong.aic.evaluate.entity.EvPointDetail">
+		SELECT
+		d.id AS id, d.user_id AS userId, d.service_id AS serviceId, d.order_no AS orderNo, 
+		d.point AS point, d.notes AS notes, d.ev_type AS evType, d.ev_from AS evFrom, 
+		d.ev_user_type AS evUserType, d.ev_user_id AS evUserId, d.ev_user_mobile AS evUserMobile, 
+		d.ev_operater_id AS evOperaterId, d.relevance_note AS relevanceNote, d.valid AS valid, 
+		d.create_date AS createDate
+		FROM
+			ev_point_detail d
+		WHERE
+			d.service_id = 1
+		AND d.valid = '1'
+		AND d.ev_type = 'C0'
+		AND d.ev_user_type = '2'
+		AND d.user_type = '1'
+		<![CDATA[
+		AND TIMESTAMPDIFF(SECOND, d.create_date, now()) * 1000 > ${AUTO_SELLER_EVALUATE_BUYER_OF_OVER_TIME}
+		]]>
+		AND NOT EXISTS (
+			SELECT
+				1
+			FROM
+				ev_point_detail p
+			WHERE
+				p.service_id = '1'
+			AND p.valid = '1'
+			AND p.ev_type = 'C0'
+			AND p.ev_user_type = '1'
+			AND p.user_type = '2'
+			AND p.order_no = d.order_no
+		)
+	    
+	</select>
+	
+	<select id="autoSellerEvaluateBuyer" parameterType="java.util.Map"
+		resultType="net.chetong.order.model.FmOrderVO">
+		SELECT
+			o.id AS id,
+			o.order_no AS orderNo,
+			o.deal_stat AS dealStat,
+			a.apply_id_a AS sendId,
+			o.buyer_user_id AS buyerUserId,
+			o.seller_user_id AS sellerUserId,
+			o.service_id AS serviceId,
+			o.order_type AS orderType,
+			o.car_no AS carNo,
+			<!-- AES_DECRYPT(UNHEX(o.link_tel),'CHEtong@20161102') AS linkTel, -->
+			o.send_time AS sendTime,
+			o.finish_time AS finishTime,
+			o.final_time AS finalTime
+		FROM
+			fm_order o
+		LEFT JOIN ct_third_apply_info a ON a.service_id = 1
+		AND a.grant_type = 2
+		AND a.`status` = '2'
+		AND a.`level` = '1'
+		AND a.grant_id_c = o.buyer_user_id
+		WHERE
+			o.service_id = 1
+		AND o.is_remote = '1'
+		AND o.deal_stat = '09'
+		AND o.import_type = '0'
+		AND NOT EXISTS ( SELECT 1 FROM fm_task_info t WHERE t.report_no = o.case_no AND t.source = '1')
+		<![CDATA[
+		AND TIMESTAMPDIFF(SECOND, o.final_time, now()) * 1000 > ${AUTO_SELLER_EVALUATE_BUYER_OF_OVER_TIME}
+		AND o.final_time > #{EVALUATE_SYSTEM_PUBLISH_TIME}
+		]]>
+		AND NOT EXISTS (
+			SELECT DISTINCT
+				epd.order_no
+			FROM
+				ev_point_detail epd
+			WHERE
+				epd.order_no = o.order_no
+			AND epd.ev_user_id = o.seller_user_id
+		)
+		<!-- AND TIMESTAMPDIFF(DAY, o.final_time, now()) > 15 -->
+	</select>
+	
+	<select id="sellersCommentOrderCount" parameterType="java.util.Map"
+		resultType="java.lang.Long">
+		SELECT
+			count(1)
+		FROM
+			fm_order o
+		WHERE
+			o.service_id = 1
+		AND o.is_remote = '1'
+		AND o.deal_stat = '09'
+		AND o.import_type = '0'
+		AND NOT EXISTS ( SELECT 1 FROM fm_task_info t WHERE t.report_no = o.case_no AND t.source = '1')
+		<![CDATA[
+		AND TIMESTAMPDIFF(DAY, o.final_time, now()) < 180
+		]]>
+		<choose>
+		    <when test="userType == 1">
+				AND o.seller_user_id = #{userId}
+		    </when>
+		    <when test="userType == 2">
+		        AND o.buyer_user_id = #{userId}
+		    </when>
+		    <when test="userType == 5">
+				AND (o.buyer_user_id = #{userId}
+					OR o.seller_user_id in ( select u.id from ct_user u, ct_person_group pg, ct_group g where g.id = pg.group_id and pg.user_id = u.id and pg.stat = '1' and g.user_id = #{userId})
+				)
+			</when>
+		    <otherwise>		        
+		        AND o.seller_user_id = #{userId}
+		    </otherwise>
+		</choose>		
+	</select>
+	
+	<update id="updateVisitFailCount" parameterType="java.util.Map">
+	    UPDATE dd_driver_evaluate_info SET visit_fail_count = visit_fail_count + 1 WHERE order_no = #{orderNo}
+	</update>
+	
+	<update id="updateVisitSuccess" parameterType="java.util.Map">
+	    UPDATE dd_driver_evaluate_info SET visit_time = #{visitTime} WHERE order_no = #{orderNo}
+	</update>
+	
+	<update id="updateEvaluateSuccess" parameterType="java.util.Map">
+	    UPDATE dd_driver_evaluate_info SET ev_time = #{evTime}, ev_point = #{point} WHERE order_no = #{orderNo}
+	</update>
+
+	<select id="fixAllRelevanceNote" parameterType="java.lang.String" resultType="java.lang.String">
+		select GROUP_CONCAT(d.relevance_note) as notes from ev_point_detail d where d.user_id = #{userId} and d.ev_user_type = '4'
+	</select>
+	
+	<update id="updateAuditPrice4FhPartModel" parameterType="java.util.Map">
+		update fh_part_model set audit_price = complex_price where loss_id in ( select id from fh_loss_model where order_code = #{orderCode} )
+	</update>
+	
+	<update id="updateAuditPrice4FhRepairModel" parameterType="java.util.Map">
+		update fh_repair_model set audit_price = repair_amount where loss_id in ( select id from fh_loss_model where order_code = #{orderCode} )
+	</update>
+	
+	<update id="updateAuditPrice4FhDamageModel" parameterType="java.util.Map">
+		update fh_damage_model set audit_price = subtotal where guid in ( select guid from fh_loss_model where order_code = #{orderCode} )
+	</update>
+	
+	<select id="queryFhAppealAudit" parameterType="net.chetong.order.model.FhAppealAudit" resultType ="net.chetong.order.model.FhAppealAudit" >
+		SELECT 
+			id as id,
+			fh_audit_model_id as fhAuditModelId,
+			order_code as orderCode,
+			appeal_time as appealTime,
+			appeal_type as appealType,
+			appeal_opinion as appealOpinion,
+			appeal_pics_url as appealPicsUrl,
+			appeal_stat as appealStat,
+			audit_user_id as auditUserId,
+			buyer_user_id as buyerUserId,
+			seller_user_id as sellerUserId,
+			check_user_id as checkUserId,
+			check_opinion as checkOpinion,
+			check_time as checkTime
+		FROM fh_appeal_audit 
+		 <where>
+		    <if test="id!= null">
+                  and id=#{id}
+            </if>
+		    <if test="fhAuditModelId!= null">
+                  and fh_audit_model_id=#{fhAuditModelId}
+            </if>
+		    <if test="orderCode!= null">
+                  and order_code=#{orderCode}
+            </if>
+		    <if test="appealTime!= null">
+                  and appeal_time=#{appealTime}
+            </if>
+		    <if test="appealType!= null">
+                  and appeal_type=#{appealType}
+            </if>
+		    <if test="appealOpinion!= null">
+                  and appeal_opinion=#{appealOpinion}
+            </if>
+		    <if test="appealPicsUrl!= null">
+                  and appeal_pics_url=#{appealPicsUrl}
+            </if>
+		    <if test="appealStat!= null">
+                  and appeal_stat=#{appealStat}
+            </if>
+		    <if test="auditUserId!= null">
+                  and audit_user_id=#{auditUserId}
+            </if>
+		    <if test="buyerUserId!= null">
+                  and buyer_user_id=#{buyerUserId}
+            </if>
+		    <if test="sellerUserId!= null">
+                  and seller_user_id=#{sellerUserId}
+            </if>
+		    <if test="checkUserId!= null">
+                  and check_user_id=#{checkUserId}
+            </if>
+		    <if test="checkOpinion!= null">
+                  and check_opinion=#{checkOpinion}
+            </if>
+		    <if test="checkTime!= null">
+                  and check_time=#{checkTime}
+            </if>
+  		</where>
+		limit 1  		
+	</select>
+	
+	<!-- 获取某车童对所有委托人、某委托人对所有车童的评价总数 -->
+	<select id="selectCommentedCount" resultType="java.lang.Long"
+		parameterType="com.chetong.aic.evaluate.entity.EvPointDetail">
+		SELECT
+		count(*)
+		FROM
+		ev_point_detail d
+		left join fm_order o on d.order_no = o.order_no
+		<where>
+			<if test="evUserId != null and evUserId != ''">
+				 and (d.ev_user_id = #{evUserId,jdbcType=BIGINT} or o.buyer_user_id = #{evUserId,jdbcType=BIGINT})
+			</if>
+			<if test="evUserType != null and evUserType != ''">
+				and d.ev_user_type = #{evUserType,jdbcType=VARCHAR}
+			</if>
+			<if test="queryFromTime != null and queryFromTime != ''">
+				and d.create_date <![CDATA[ >= ]]>
+				STR_TO_DATE(#{queryFromTime,jdbcType=VARCHAR},'%Y-%m-%d')
+			</if>
+			<if test="queryToTime != null and queryToTime != ''">
+				and d.create_date <![CDATA[ < ]]>
+				DATE_ADD(STR_TO_DATE(#{queryToTime,jdbcType=VARCHAR},'%Y-%m-%d'),INTERVAL
+				1 DAY)
+			</if>
+			<if test="valid != null and valid != ''">
+				and d.valid = #{valid,jdbcType=VARCHAR}
+			</if>
+		</where>
+	</select>
+</mapper>

@@ -1,0 +1,214 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="fm_handout">	
+<insert id="insertNotNull" parameterType="FmHandoutVO" useGeneratedKeys="true" keyProperty="id">
+	INSERT INTO fm_handout   
+	(   
+		id,order_id,stat,buyer_user_id,buyer_user_type,seller_user_id,seller_user_type,group_user_id,mod_time,work_distance,
+		base_money,travel_money,base_channel_money,remote_channel_money,base_invoi_money,remote_invoi_money,
+		base_manage_money,remote_manage_money,insurance_money,finance_money,
+		is_nego,nego_id,commi_id,guide_base_money			
+	)
+	VALUES
+  	(
+		#{id},#{orderId},#{stat},#{buyerUserId},#{buyerUserType},#{sellerUserId},#{sellerUserType},#{groupUserId},#{modTime},#{workDistance},
+		#{baseMoney},#{travelMoney},#{baseChannelMoney},#{remoteChannelMoney},#{baseInvoiMoney},#{remoteInvoiMoney},
+		#{baseGroupManageMoney},#{remoteGroupManageMoney},#{insuranceMoney},#{financeMoney},
+		#{isNego},#{negoId},#{commiId},#{guideBaseMoney}	
+	)
+</insert>
+
+<select id="queryFmHandout" parameterType="FmHandoutVO" resultType ="FmHandoutVO" >
+		SELECT 
+			id as id,
+			order_id as orderId,
+			stat as stat,
+			buyer_user_id as buyerUserId,
+			buyer_user_type as buyerUserType,
+			seller_user_id as sellerUserId,
+			seller_user_type as sellerUserType,
+			mod_time as modTime,
+			work_distance as workDistance,
+			base_money as baseMoney,
+			travel_money as travelMoney,
+			ext1 as ext1,
+			ext2 as ext2,
+			ext3 as ext3,
+			arrival_hours as arrivalHours,
+			arrival_time as arrivalTime,
+			is_nego as isNego,
+			nego_id as negoId,
+			commi_id as commiId,
+			base_channel_money as baseChannelMoney,
+			remote_channel_money as remoteChannelMoney,
+			base_invoi_money as baseInvoiMoney,
+			remote_invoi_money as remoteInvoiMoney
+		FROM fm_handout 
+		 <where>
+		    <if test="id!= null">
+                  and id=#{id}
+            </if>
+		    <if test="orderId!= null">
+                  and order_id=#{orderId}
+            </if>
+		    <if test="stat!= null">
+                  and stat=#{stat}
+            </if>
+		    <if test="buyerUserId!= null">
+                  and buyer_user_id=#{buyerUserId}
+            </if>
+		    <if test="buyerUserType!= null">
+                  and buyer_user_type=#{buyerUserType}
+            </if>
+		    <if test="sellerUserId!= null">
+                  and seller_user_id=#{sellerUserId}
+            </if>
+		    <if test="sellerUserType!= null">
+                  and seller_user_type=#{sellerUserType}
+            </if>
+		    <if test="modTime!= null">
+                  and mod_time=#{modTime}
+            </if>
+		    <if test="workDistance!= null">
+                  and work_distance=#{workDistance}
+            </if>
+		    <if test="baseMoney!= null">
+                  and base_money=#{baseMoney}
+            </if>
+		    <if test="travelMoney!= null">
+                  and travel_money=#{travelMoney}
+            </if>
+		    <if test="ext1!= null">
+                  and ext1=#{ext1}
+            </if>
+		    <if test="ext2!= null">
+                  and ext2=#{ext2}
+            </if>
+		    <if test="ext3!= null">
+                  and ext3=#{ext3}
+            </if>
+		    <if test="arrivalHours!= null">
+                  and arrival_hours=#{arrivalHours}
+            </if>
+		    <if test="arrivalTime!= null">
+                  and arrival_time=#{arrivalTime}
+            </if>
+		    <if test="isNego!= null">
+                  and is_nego=#{isNego}
+            </if>
+		    <if test="negoId!= null">
+                  and nego_id=#{negoId}
+            </if>
+		    <if test="commiId!= null">
+                  and commi_id=#{commiId}
+            </if>
+		    <if test="baseChannelMoney!= null">
+                  and base_channel_money=#{baseChannelMoney}
+            </if>
+		    <if test="remoteChannelMoney!= null">
+                  and remote_channel_money=#{remoteChannelMoney}
+            </if>
+		    <if test="baseInvoiMoney!= null">
+                  and base_invoi_money=#{baseInvoiMoney}
+            </if>
+		    <if test="remoteInvoiMoney!= null">
+                  and remote_invoi_money=#{remoteInvoiMoney}
+            </if>
+  		</where>
+		  		ORDER BY id DESC
+	</select>
+	
+	<update id="updateByKeyNotNull">
+		UPDATE fm_handout 
+		  <trim prefix="SET" suffixOverrides=",">  
+					<if test="orderId!= null">
+		   			order_id = #{orderId},
+		   			</if>  
+					<if test="stat!= null">
+		   			stat = #{stat},
+		   			</if>  
+					<if test="buyerUserId!= null">
+		   			buyer_user_id = #{buyerUserId},
+		   			</if>  
+					<if test="buyerUserType!= null">
+		   			buyer_user_type = #{buyerUserType},
+		   			</if>  
+					<if test="sellerUserId!= null">
+		   			seller_user_id = #{sellerUserId},
+		   			</if>  
+					<if test="sellerUserType!= null">
+		   			seller_user_type = #{sellerUserType},
+		   			</if>  
+					<if test="modTime!= null">
+		   			mod_time = #{modTime},
+		   			</if>  
+					<if test="workDistance!= null">
+		   			work_distance = #{workDistance},
+		   			</if>  
+					<if test="baseMoney!= null">
+		   			base_money = #{baseMoney},
+		   			</if>  
+					<if test="travelMoney!= null">
+		   			travel_money = #{travelMoney},
+		   			</if>  
+					<if test="ext1!= null">
+		   			ext1 = #{ext1},
+		   			</if>  
+					<if test="ext2!= null">
+		   			ext2 = #{ext2},
+		   			</if>  
+					<if test="ext3!= null">
+		   			ext3 = #{ext3},
+		   			</if>  
+					<if test="arrivalHours!= null">
+		   			arrival_hours = #{arrivalHours},
+		   			</if>  
+					<if test="arrivalTime!= null">
+		   			arrival_time = #{arrivalTime},
+		   			</if>  
+					<if test="isNego!= null">
+		   			is_nego = #{isNego},
+		   			</if>  
+					<if test="negoId!= null">
+		   			nego_id = #{negoId},
+		   			</if>  
+					<if test="commiId!= null">
+		   			commi_id = #{commiId},
+		   			</if>  
+					<if test="baseChannelMoney!= null">
+		   			base_channel_money = #{baseChannelMoney},
+		   			</if>  
+					<if test="remoteChannelMoney!= null">
+		   			remote_channel_money = #{remoteChannelMoney},
+		   			</if>  
+					<if test="baseInvoiMoney!= null">
+		   			base_invoi_money = #{baseInvoiMoney},
+		   			</if>  
+					<if test="remoteInvoiMoney!= null">
+		   			remote_invoi_money = #{remoteInvoiMoney},
+		   			</if>  
+		  </trim>
+		  <where>	   
+				    and id = #{id}
+		 </where>
+	</update>
+
+	<!-- 清除团队信息 -->
+	<update id="cleanGroupInfoByOrderId" parameterType="Long">
+		UPDATE fm_handout
+		SET group_user_id = NULL,
+			commi_id = NULL,
+			base_manage_money = 0,
+			remote_manage_money = 0
+		WHERE
+			order_id = #{orderId}
+	</update>
+	
+	<delete id="deletefmHandoutbyOrderId">
+		DELETE FROM 
+			fm_handout 
+		<where>		   
+		    	 and order_id = #{orderId} and stat = '0'
+		</where>
+	</delete>
+</mapper>

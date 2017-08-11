@@ -1,0 +1,485 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- 价格计算- 仅用于追加订单使用 -->
+<mapper namespace="append_order_price_info">	
+	<select id="queryPrNegoPriceInfo" parameterType="PrNegoPriceInfoVO" resultType ="PrNegoPriceInfoVO" >
+		SELECT 
+			id as id,
+			buyer_user_id as buyerUserId,
+			buyer_name as buyerName,
+			team_user_id as teamUserId,
+			team_name as teamName,
+			subject_type as subjectType,
+			status as status,
+			create_time as createTime,
+			is_default as isDefault,
+			link_id as linkId
+		FROM pr_nego_price_info 
+		 <where>
+		    <if test="id!= null">
+                  and id=#{id}
+            </if>
+		    <if test="buyerUserId!= null">
+                  and buyer_user_id=#{buyerUserId}
+            </if>
+		    <if test="buyerName!= null">
+                  and buyer_name=#{buyerName}
+            </if>
+		    <if test="teamUserId!= null">
+                  and team_user_id=#{teamUserId}
+            </if>
+		    <if test="teamName!= null">
+                  and team_name=#{teamName}
+            </if>
+		    <if test="subjectType!= null">
+                  and subject_type=#{subjectType}
+            </if>
+		    <if test="status!= null">
+                  and status=#{status}
+            </if>
+		    <if test="createTime!= null">
+                  and create_time=#{createTime}
+            </if>
+		    <if test="isDefault!= null">
+                  and is_default=#{isDefault}
+            </if>
+		    <if test="linkId!= null">
+                  and link_id=#{linkId}
+            </if>
+  		</where>
+	</select>
+	
+	<select id="queryPrNegoPriceDetail" parameterType="PrNegoPriceDetailVO" resultType ="PrNegoPriceDetailVO" >
+		SELECT 
+			id as id,
+			nego_id as negoId,
+			price_type as priceType,
+			price_money as priceMoney,
+			price_mode as priceMode,
+			start_val as startVal,
+			end_val as endVal
+		FROM pr_nego_price_detail 
+		 <where>
+		    <if test="id!= null">
+                  and id=#{id}
+            </if>
+		    <if test="negoId!= null">
+                  and nego_id=#{negoId}
+            </if>
+		    <if test="priceType!= null">
+                  and price_type=#{priceType}
+            </if>
+		    <if test="priceMoney!= null">
+                  and price_money=#{priceMoney}
+            </if>
+		    <if test="priceMode!= null">
+                  and price_mode=#{priceMode}
+            </if>
+		    <if test="startVal!= null">
+                  and start_val=#{startVal}
+            </if>
+		    <if test="endVal!= null">
+                  and end_val=#{endVal}
+            </if>
+  		</where>
+	</select>
+	
+	<select id="queryCtAdjustPriceArea" parameterType="CtAdjustPriceAreaVO" resultType ="CtAdjustPriceAreaVO" >
+		SELECT 
+			id as id,
+			prov_code as provCode,
+			city_code as cityCode,
+			area_code as areaCode
+		FROM ct_adjust_price_area 
+		 <where>
+		    <if test="id!= null">
+                  and id=#{id}
+            </if>
+		    <if test="provCode!= null">
+                  and prov_code=#{provCode}
+            </if>
+		    <if test="cityCode!= null">
+                  and city_code=#{cityCode}
+            </if>
+		    <if test="areaCode!= null">
+                  and area_code=#{areaCode}
+            </if>
+  		</where>
+	</select>
+	
+	<select id="queryCtAdjustPrice" parameterType="CtAdjustPriceVO" resultType ="CtAdjustPriceVO" >
+		SELECT 
+			id as id,
+			order_type as orderType,
+			cost_type as costType,
+			user_id as userId,
+			base_cost as baseCost,
+			add_base_cost as addBaseCost,
+			night_cost as nightCost,
+			night_start_time as nightStartTime,
+			night_end_time as nightEndTime,
+			weekend_cost as weekendCost,
+			holiday_cost as holidayCost,
+			spring_cost as springCost,
+			ext1 as ext1,
+			ext2 as ext2,
+			ext3 as ext3
+		FROM ct_adjust_price 
+		 <where>
+		    <if test="id!= null">
+                  and id=#{id}
+            </if>
+		    <if test="orderType!= null">
+                  and order_type=#{orderType}
+            </if>
+		    <if test="costType!= null">
+                  and cost_type=#{costType}
+            </if>
+		    <if test="userId!= null">
+                  and user_id=#{userId}
+            </if>
+		    <if test="baseCost!= null">
+                  and base_cost=#{baseCost}
+            </if>
+		    <if test="addBaseCost!= null">
+                  and add_base_cost=#{addBaseCost}
+            </if>
+		    <if test="nightCost!= null">
+                  and night_cost=#{nightCost}
+            </if>
+		    <if test="nightStartTime!= null">
+                  and night_start_time=#{nightStartTime}
+            </if>
+		    <if test="nightEndTime!= null">
+                  and night_end_time=#{nightEndTime}
+            </if>
+		    <if test="weekendCost!= null">
+                  and weekend_cost=#{weekendCost}
+            </if>
+		    <if test="holidayCost!= null">
+                  and holiday_cost=#{holidayCost}
+            </if>
+		    <if test="springCost!= null">
+                  and spring_cost=#{springCost}
+            </if>
+		    <if test="ext1!= null">
+                  and ext1=#{ext1}
+            </if>
+		    <if test="ext2!= null">
+                  and ext2=#{ext2}
+            </if>
+		    <if test="ext3!= null">
+                  and ext3=#{ext3}
+            </if>
+  		</where>
+	</select>
+	
+		<select id="queryRulePriceInfo" parameterType="java.util.Map" resultType="PrRuleInfoVO">
+	
+		select
+			i.id as id,
+			i.rule_name as ruleName,
+			i.service_id as serviceId,
+			i.subject_id as subjectId,
+			i.ext1 as ext1,
+			i.ext2 as ext2,
+			i.ext3 as ext3
+		  from pr_rule_info i, pr_rule_area a
+		  where i.id = a.rule_id
+		    and i.service_id = 1
+		    and i.subject_id = #{subjectId}
+		    and a.prov_code = #{proveCode}
+		    <if test="cityCode!= null and cityCode!=''">
+               and a.city_code = #{cityCode}
+            </if>		    	
+	</select>
+	
+	
+	<select id="queryPrRuleDetail" parameterType="PrRuleDetailVO" resultType ="PrRuleDetailVO" >
+		SELECT 
+			id as id,
+			rule_id as ruleId,
+			cost_type as costType,
+			val_type as valType,
+			money as money,
+			start_value as startValue,
+			start_sign as startSign,
+			end_value as endValue,
+			end_sign as endSign,
+			base_cost as baseCost,
+			add_base_cost as addBaseCost,
+			night_cost as nightCost,
+			night_start as nightStart,
+			night_end as nightEnd,
+			weekend_cost as weekendCost,
+			holiday_cost as holidayCost,
+			spring_cost as springCost,
+			base_max_cost as baseMaxCost,
+			add_base_max_cost as addBaseMaxCost,
+			night_max_cost as nightMaxCost,
+			weekend_max_cost as weekendMaxCost,
+			holiday_max_cost as holidayMaxCost,
+			spring_max_cost as springMaxCost,
+			base_stat as baseStat,
+			add_base_stat as addBaseStat,
+			night_stat as nightStat,
+			weekend_stat as weekendStat,
+			holiday_stat as holidayStat,
+			spring_stat as springStat
+		FROM pr_rule_detail 
+		 <where>
+		    <if test="id!= null">
+                  and id=#{id}
+            </if>
+		    <if test="ruleId!= null">
+                  and rule_id=#{ruleId}
+            </if>
+		    <if test="costType!= null">
+                  and cost_type=#{costType}
+            </if>
+		    <if test="valType!= null">
+                  and val_type=#{valType}
+            </if>
+		    <if test="money!= null">
+                  and money=#{money}
+            </if>
+		    <if test="startValue!= null">
+                  and start_value=#{startValue}
+            </if>
+		    <if test="startSign!= null">
+                  and start_sign=#{startSign}
+            </if>
+		    <if test="endValue!= null">
+                  and end_value=#{endValue}
+            </if>
+		    <if test="endSign!= null">
+                  and end_sign=#{endSign}
+            </if>
+		    <if test="baseCost!= null">
+                  and base_cost=#{baseCost}
+            </if>
+		    <if test="addBaseCost!= null">
+                  and add_base_cost=#{addBaseCost}
+            </if>
+		    <if test="nightCost!= null">
+                  and night_cost=#{nightCost}
+            </if>
+		    <if test="nightStart!= null">
+                  and night_start=#{nightStart}
+            </if>
+		    <if test="nightEnd!= null">
+                  and night_end=#{nightEnd}
+            </if>
+		    <if test="weekendCost!= null">
+                  and weekend_cost=#{weekendCost}
+            </if>
+		    <if test="holidayCost!= null">
+                  and holiday_cost=#{holidayCost}
+            </if>
+		    <if test="springCost!= null">
+                  and spring_cost=#{springCost}
+            </if>
+		    <if test="baseMaxCost!= null">
+                  and base_max_cost=#{baseMaxCost}
+            </if>
+		    <if test="addBaseMaxCost!= null">
+                  and add_base_max_cost=#{addBaseMaxCost}
+            </if>
+		    <if test="nightMaxCost!= null">
+                  and night_max_cost=#{nightMaxCost}
+            </if>
+		    <if test="weekendMaxCost!= null">
+                  and weekend_max_cost=#{weekendMaxCost}
+            </if>
+		    <if test="holidayMaxCost!= null">
+                  and holiday_max_cost=#{holidayMaxCost}
+            </if>
+		    <if test="springMaxCost!= null">
+                  and spring_max_cost=#{springMaxCost}
+            </if>
+		    <if test="baseStat!= null">
+                  and base_stat=#{baseStat}
+            </if>
+		    <if test="addBaseStat!= null">
+                  and add_base_stat=#{addBaseStat}
+            </if>
+		    <if test="nightStat!= null">
+                  and night_stat=#{nightStat}
+            </if>
+		    <if test="weekendStat!= null">
+                  and weekend_stat=#{weekendStat}
+            </if>
+		    <if test="holidayStat!= null">
+                  and holiday_stat=#{holidayStat}
+            </if>
+		    <if test="springStat!= null">
+                  and spring_stat=#{springStat}
+            </if>
+  		</where>
+	</select>
+	
+	<select id="queryPdServiceChannelTax" parameterType="PdServiceChannelTaxVO" resultType ="PdServiceChannelTaxVO" >
+		SELECT 
+			id as id,
+			cost_type as costType,
+			cost_name as costName,
+			prov_code as provCode,
+			prov_desc as provDesc,
+			city_code as cityCode,
+			city_desc as cityDesc,
+			crt_time as crtTime,
+			oper_id as operId,
+			tax_ratio as taxRatio,
+			channel as channel,
+			channel_mode as channelMode,
+			service_id as serviceId,
+			ext1 as ext1,
+			ext2 as ext2,
+			ext3 as ext3,
+			ext4 as ext4,
+			ext5 as ext5,
+			ext6 as ext6
+		FROM pd_service_channel_tax 
+		 <where>
+		    <if test="id!= null">
+                  and id=#{id}
+            </if>
+		    <if test="costType!= null">
+                  and cost_type=#{costType}
+            </if>
+		    <if test="costName!= null">
+                  and cost_name=#{costName}
+            </if>
+		    <if test="provCode!= null">
+                  and prov_code=#{provCode}
+            </if>
+		    <if test="provDesc!= null">
+                  and prov_desc=#{provDesc}
+            </if>
+		    <if test="cityCode!= null">
+                  and city_code=#{cityCode}
+            </if>
+		    <if test="cityDesc!= null">
+                  and city_desc=#{cityDesc}
+            </if>
+		    <if test="crtTime!= null">
+                  and crt_time=#{crtTime}
+            </if>
+		    <if test="operId!= null">
+                  and oper_id=#{operId}
+            </if>
+		    <if test="taxRatio!= null">
+                  and tax_ratio=#{taxRatio}
+            </if>
+		    <if test="channel!= null">
+                  and channel=#{channel}
+            </if>
+		    <if test="channelMode!= null">
+                  and channel_mode=#{channelMode}
+            </if>
+		    <if test="serviceId!= null">
+                  and service_id=#{serviceId}
+            </if>
+		    <if test="ext1!= null">
+                  and ext1=#{ext1}
+            </if>
+		    <if test="ext2!= null">
+                  and ext2=#{ext2}
+            </if>
+		    <if test="ext3!= null">
+                  and ext3=#{ext3}
+            </if>
+		    <if test="ext4!= null">
+                  and ext4=#{ext4}
+            </if>
+		    <if test="ext5!= null">
+                  and ext5=#{ext5}
+            </if>
+		    <if test="ext6!= null">
+                  and ext6=#{ext6}
+            </if>
+  		</where>
+	</select>
+	
+	<select id="queryPrInvoiceArea" parameterType="PrInvoiceAreaVO" resultType ="PrInvoiceAreaVO" >
+		SELECT 
+			id as id,
+			prov_code as provCode,
+			prov_name as provName,
+			city_code as cityCode,
+			city_name as cityName,
+			county_code as countyCode,
+			county_name as countyName,
+			invoice_rate as invoiceRate,
+			is_default as isDefault
+		FROM pr_invoice_area 
+		 <where>
+		    <if test="id!= null">
+                  and id=#{id}
+            </if>
+		    <if test="provCode!= null">
+                  and prov_code=#{provCode}
+            </if>
+		    <if test="provName!= null">
+                  and prov_name=#{provName}
+            </if>
+		    <if test="cityCode!= null">
+                  and city_code=#{cityCode}
+            </if>
+		    <if test="cityName!= null">
+                  and city_name=#{cityName}
+            </if>
+		    <if test="countyCode!= null">
+                  and county_code=#{countyCode}
+            </if>
+		    <if test="countyName!= null">
+                  and county_name=#{countyName}
+            </if>
+		    <if test="invoiceRate!= null">
+                  and invoice_rate=#{invoiceRate}
+            </if>
+		    <if test="isDefault!= null">
+                  and is_default=#{isDefault}
+            </if>
+  		</where>
+	</select>
+	
+	<select id="queryPdOrderPayInfo" parameterType="PdOrderPayInfoVO" resultType ="PdOrderPayInfoVO" >
+		SELECT 
+			id as id,
+			order_type as orderType,
+			base_ratio as baseRatio,
+			travel_ratio as travelRatio,
+			extra_ratio as extraRatio,
+			reward_ratio as rewardRatio,
+			is_default as isDefault,
+			buyer_id as buyerId
+		FROM pd_order_pay_info 
+		 <where>
+		    <if test="id!= null">
+                  and id=#{id}
+            </if>
+		    <if test="orderType!= null">
+                  and order_type=#{orderType}
+            </if>
+		    <if test="baseRatio!= null">
+                  and base_ratio=#{baseRatio}
+            </if>
+		    <if test="travelRatio!= null">
+                  and travel_ratio=#{travelRatio}
+            </if>
+		    <if test="extraRatio!= null">
+                  and extra_ratio=#{extraRatio}
+            </if>
+		    <if test="rewardRatio!= null">
+                  and reward_ratio=#{rewardRatio}
+            </if>
+		    <if test="isDefault!= null">
+                  and is_default=#{isDefault}
+            </if>
+		    <if test="buyerId!= null">
+                  and buyer_id=#{buyerId}
+            </if>		 
+  		</where>
+	</select>	
+</mapper>

@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="sqlmap_fm_task_order_work_relation" >
+  <resultMap id="BaseResultMap" type="net.chetong.order.model.FmTaskOrderWorkRelationVO" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="created_by" property="createdBy" jdbcType="VARCHAR" />
+    <result column="created_date" property="createdDate" jdbcType="TIMESTAMP" />
+    <result column="updated_by" property="updatedBy" jdbcType="VARCHAR" />
+    <result column="updated_date" property="updatedDate" jdbcType="TIMESTAMP" />
+    <result column="task_id" property="taskId" jdbcType="VARCHAR" />
+    <result column="order_no" property="orderNo" jdbcType="VARCHAR" />
+    <result column="work_id" property="workId" jdbcType="BIGINT" />
+    <result column="work_type" property="workType" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, created_by, created_date, updated_by, updated_date, task_id, order_no, work_id, 
+    work_type
+  </sql>
+  
+   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from fm_task_order_work_relation
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from fm_task_order_work_relation
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="net.chetong.order.model.FmTaskOrderWorkRelationVO" >
+    insert into fm_task_order_work_relation (id, created_by, created_date, 
+      updated_by, updated_date, task_id, 
+      order_no, work_id, work_type
+      )
+    values (#{id,jdbcType=BIGINT}, #{createdBy,jdbcType=VARCHAR}, #{createdDate,jdbcType=TIMESTAMP}, 
+      #{updatedBy,jdbcType=VARCHAR}, #{updatedDate,jdbcType=TIMESTAMP}, #{taskId,jdbcType=VARCHAR}, 
+      #{orderNo,jdbcType=VARCHAR}, #{workId,jdbcType=BIGINT}, #{workType,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="net.chetong.order.model.FmTaskOrderWorkRelationVO" >
+    insert into fm_task_order_work_relation
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="createdBy != null" >
+        created_by,
+      </if>
+      <if test="updatedBy != null" >
+        updated_by,
+      </if>
+      <if test="taskId != null" >
+        task_id,
+      </if>
+      <if test="orderNo != null" >
+        order_no,
+      </if>
+      <if test="workId != null" >
+        work_id,
+      </if>
+      <if test="workType != null" >
+        work_type,
+      </if>
+        created_date,
+        updated_date,
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="createdBy != null" >
+        #{createdBy,jdbcType=VARCHAR},
+      </if>
+      <if test="updatedBy != null" >
+        #{updatedBy,jdbcType=VARCHAR},
+      </if>
+      <if test="taskId != null" >
+        #{taskId,jdbcType=VARCHAR},
+      </if>
+      <if test="orderNo != null" >
+        #{orderNo,jdbcType=VARCHAR},
+      </if>
+      <if test="workId != null" >
+        #{workId,jdbcType=BIGINT},
+      </if>
+      <if test="workType != null" >
+        #{workType,jdbcType=VARCHAR},
+      </if>
+      SYSDATE(),
+      SYSDATE()
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="net.chetong.order.model.FmTaskOrderWorkRelationVO" >
+    update fm_task_order_work_relation
+    <set >
+      <if test="createdBy != null" >
+        created_by = #{createdBy,jdbcType=VARCHAR},
+      </if>
+      <if test="createdDate != null" >
+        created_date = #{createdDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatedBy != null" >
+        updated_by = #{updatedBy,jdbcType=VARCHAR},
+      </if>
+      <if test="updatedDate != null" >
+        updated_date = #{updatedDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="taskId != null" >
+        task_id = #{taskId,jdbcType=VARCHAR},
+      </if>
+      <if test="orderNo != null" >
+        order_no = #{orderNo,jdbcType=VARCHAR},
+      </if>
+      <if test="workId != null" >
+        work_id = #{workId,jdbcType=BIGINT},
+      </if>
+      <if test="workType != null" >
+        work_type = #{workType,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="net.chetong.order.model.FmTaskOrderWorkRelationVO" >
+    update fm_task_order_work_relation
+    set created_by = #{createdBy,jdbcType=VARCHAR},
+      created_date = #{createdDate,jdbcType=TIMESTAMP},
+      updated_by = #{updatedBy,jdbcType=VARCHAR},
+      updated_date = #{updatedDate,jdbcType=TIMESTAMP},
+      task_id = #{taskId,jdbcType=VARCHAR},
+      order_no = #{orderNo,jdbcType=VARCHAR},
+      work_id = #{workId,jdbcType=BIGINT},
+      work_type = #{workType,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  
+  <select id="queryTaskOrderRelationByOrderNo" parameterType="map" resultType="FmTaskOrderWorkRelationVO">
+	   	select 
+		    created_by as createdBy, 
+		    created_date as createdDate, 
+		    updated_by as updatedBy, 
+		    updated_date as updatedDate, 
+		    id, 
+		    task_id as taskId, 
+		    order_no as orderNo, 
+		    work_id as workId, 
+	    	work_type as workType
+	    from fm_task_order_work_relation
+	    where order_no =#{orderNo}
+  </select>
+  <!-- 查询订单状态为待审核的 -->
+    <select id="queryTaskOrderRelationByTaskId" parameterType="String" resultType="FmTaskOrderWorkRelationVO">
+	   	select 
+		    r.created_by as createdBy, 
+		    r.created_date as createdDate, 
+		    r.updated_by as updatedBy, 
+		    r.updated_date as updatedDate, 
+		    r.id, 
+		    r.task_id as taskId, 
+		    r.order_no as orderNo, 
+		    r.work_id as workId, 
+	    	r.work_type as workType
+	    from fm_task_order_work_relation r
+	    where task_id =#{taskId}
+	    AND EXISTS (SELECT 1 FROM fm_order o WHERE o.order_no=r.order_no AND o.deal_stat='07')
+  </select>
+  
+  <select id="queryTaskOrderByOrderNo" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from fm_task_order_work_relation
+    where order_no = #{orderNo}
+  </select>
+</mapper>

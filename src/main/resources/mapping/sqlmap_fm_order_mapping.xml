@@ -1,0 +1,2886 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="fm_order">
+	<select id="queryOrderInfo" parameterType="map" resultType="FmOrderVO">
+		SELECT 
+			id as id,
+			deal_stat as dealStat,
+			order_source as orderSource,
+			order_type as orderType,
+			order_no as orderNo,
+			case_id as caseId,
+			case_no as caseNo,
+			car_no as carNo,
+			buyer_user_id as buyerUserId,
+			buyer_user_type as buyerUserType,
+			payer_user_id as payerUserId,
+			seller_user_id as sellerUserId,
+			seller_user_type as sellerUserType,
+			service_id as serviceId,
+			service_name as serviceName,
+			subject_id as subjectId,
+			subject_name as subjectName,
+			response_time as responseTime,
+			is_alow as isAlow,
+			alow_money as alowMoney,
+			delegate_momey as delegateMomey,
+			delegate_desc as delegateDesc,
+			work_address as workAddress,
+			longtitude as longtitude,
+			latitude as latitude,
+			link_man as linkMan,
+			AES_DECRYPT(UNHEX(link_tel),'CHEtong@20161102') as linkTel,
+			mileage as mileage,
+			get_time as getTime,
+			finish_time as finishTime,
+			send_time as sendTime,
+			preliminary_time as preliminaryTime,
+			preliminary_desc as preliminaryDesc,
+			final_time as finalTime,
+			final_desc as finalDesc,
+			send_id as sendId,
+			send_id_type as sendIdType,
+			review_class as reviewClass,
+			review_time as reviewTime,
+			review_name as reviewName,
+			review_type as reviewType,
+			ext1 as ext1,
+			ext2 as ext2,
+			ext3 as ext3,
+			ext4 as ext4,
+			ext5 as ext5,
+			ext6 as ext6,
+			ext7 as ext7,
+			ext8 as ext8,
+			group_user_id as groupUserId,
+			buyer_user_name as buyerUserName,
+			seller_user_name as sellerUserName,
+			buyer_mobile as buyerMobile,
+			ct_address as ctAddress,
+			ct_latitude as ctLatitude,
+			ct_longtitude as ctLongtitude,
+			arrival_hours as arrivalHours,
+			ext9 as ext9,
+			ext10 as ext10,
+			ext11 as ext11,
+			ext12 as ext12,
+			ext13 as ext13,
+			arrival_time as arrivalTime,
+			is_nego as isNego,
+			nego_id as negoId,
+			commi_id as commiId,
+			ext14 as ext14,
+			ext15 as ext15,
+			ext16 as ext16,
+			ext17 as ext17,
+			ext18 as ext18,
+			import_type as importType,
+			price_type as priceType,
+			is_remote as isRemote,
+            org_payer_user_id as orgPayerUserId,
+            insuer_user_id as insuerUserId,
+            is_simple as isSimple,
+            is_fast as isFast,
+            is_move as isMove,
+            create_time as createTime
+		FROM fm_order 
+		where 1=1
+		 <if test="id!= null">
+                  and id=#{id}
+         </if>
+         <if test="caseId!= null">
+                  and case_id=#{caseId}
+         </if>
+          <if test="caseNo!=null">
+	 	          and case_no=#{caseNo}
+	     </if> 
+         <if test="orderNo!= null">
+                  and order_no=#{orderNo}
+         </if>    
+          <if test="orderType!= null">
+                  and order_type=#{orderType}
+         </if> 
+         <if test="isCommonOrder != null">
+                  and deal_stat not in('02','10')
+         </if> 
+         <if test="sellerUserId != null and sellerUserId != ''">
+                  and seller_user_id = #{sellerUserId}
+         </if> 
+         <if test="dealStat != null and dealStat != ''">
+                  and deal_stat = #{dealStat}
+         </if> 
+	</select>
+	<sql id="SqlQueryOrderInfoList">
+		SELECT 
+		o.id AS id,
+		o.buyer_user_id AS buyerUserId,
+		o.buyer_user_name AS buyerUserName,	
+		o.order_no AS orderNo,
+		o.service_id AS serviceId,
+		o.order_type orderType,
+		o.car_no AS carNo,
+		o.case_no AS caseNo,
+		o.link_man AS linkMan,
+		CAST(AES_DECRYPT(UNHEX(o.link_tel),'CHEtong@20161102') AS CHAR) AS linkTel,
+		o.seller_user_id AS sellerUserId,
+		o.seller_user_name AS sellerUserName,
+		u.mobile AS sellerUserTel,
+		<!--2016/2/1 修改成查询派单地址 记得提醒前端更改取值参数 -->
+		<!-- o.work_address AS workAddress, -->
+		o.work_address AS accidentAddress,
+		o.send_time AS sendTime,
+		o.deal_stat AS dealStat,
+		o.final_time AS finalTime,
+		o.import_type AS importType,
+		o.is_remote AS isRemote,
+		o.is_simple AS isSimple,
+		(SELECT t.send_state FROM fm_task_order_work_relation r,fm_task_info t WHERE r.task_id=t.id AND r.order_no=o.order_no and t.report_no=o.case_no) as sendState,
+		(SELECT t.task_type FROM fm_task_order_work_relation r,fm_task_info t WHERE r.task_id=t.id AND r.order_no=o.order_no and t.report_no=o.case_no) as taskType,
+        IF((SELECT count(1) from fm_task_info t1 where t1.source = '1' and t1.report_no = o.case_no)>0,'1','0') AS isYcFlag,
+        o.is_fast AS isFast,
+        #{isAnBang} AS isAnBang,
+        IF((SELECT COUNT(*) FROM yy_track_record tr WHERE tr.order_no = o.order_no) > 0, '1', '0') AS isRecordTrack,
+        (SELECT tr.track_state FROM yy_track_record tr WHERE tr.order_no = o.order_no) AS trackState,
+        func_auto_audit_warnning(o.id) AS autoAuditTime,
+		IF(func_auto_audit_warnning(o.id)=8640000,'N','Y') AS auditFlag,
+		<choose>
+			<when test="userType == 0">
+				c.service_money+c.reward_money  AS orderMoney
+			</when>
+			<when test="userType == 1">
+				c.pay_money AS orderMoney
+			</when>
+			<otherwise>
+				c.group_money+c.service_money+c.reward_money AS orderMoney
+			</otherwise>
+		</choose>
+	 FROM fm_order o INNER JOIN fm_order_case_cx foc ON o.case_id = foc.id 
+	 	LEFT  JOIN fm_order_cost AS c ON c.order_id = o.id 
+	 	LEFT JOIN ct_user AS u ON u.id= o.seller_user_id
+	 WHERE  o.service_id!='9'
+	 AND o.import_type = '0'
+	 <if test="orderTypeList!=null and orderTypeList.size()>0">
+	 	AND o.order_type in 
+	 	<foreach collection="orderTypeList" item="orderTypeItem" open="(" separator="," close=")">
+	 		#{orderTypeItem}
+	 	</foreach>
+	 </if>
+	<if test="dealStatList!=null and dealStatList.size()>0">
+	 	AND o.deal_stat in 
+	 	<foreach collection="dealStatList" item="dealStatItem" open="(" separator="," close=")">
+	 		#{dealStatItem}
+	 	</foreach>
+	 </if>
+	 <if test="sendTimeBegin!=null and sendTimeBegin!=''">
+	<![CDATA[ AND o.send_time>=#{sendTimeBegin} ]]> 
+	 </if>
+	 <if test="sendTimeEnd!=null and sendTimeEnd!=''">
+	 <![CDATA[	AND o.send_time<=#{sendTimeEnd} ]]> 
+	 </if>
+	 <if test="finalTimeBegin!=null and finalTimeBegin!=''">
+		<![CDATA[ AND o.final_time>=CONCAT(#{finalTimeBegin},' 00:00:00') ]]> 
+	 </if>
+	 <if test="finalTimeEnd!=null and finalTimeEnd!=''">
+	 	<![CDATA[	AND o.final_time<=CONCAT(#{finalTimeEnd},' 23:59:59') ]]> 
+	 </if>
+	 <if test="fuzzySearch!=null and fuzzySearch !=''">
+	 	AND CONCAT(ifnull(o.order_no,''),'|',ifnull(o.car_no,''),'|',ifnull(o.case_no,''),'|',ifnull(o.seller_user_name,''),'|',ifnull(o.buyer_user_name,''),'|',ifnull(foc.accident_address,'')) LIKE CONCAT('%',#{fuzzySearch },'%')
+	 </if>
+	 <if test="userType == 0">
+	    AND o.seller_user_id = #{userId}
+	 </if>
+	 <if test="userType == 1">
+	 	<if test="isPid == 0">
+ 			<if test="areas != null and areas.size()>0">
+	 			AND o.ext1 IN 
+	 			<foreach collection="areas" item="area" open="(" separator="," close=")">
+ 					#{area}
+ 				</foreach>
+			</if>
+			<if test="caseNo != null and caseNo != '' ">
+				AND LOCATE(#{caseNo},o.case_no) > 0 
+			</if>
+			<if test="buyerUserNames != null and buyerUserNames.size()>0 ">
+						AND o.buyer_user_name in
+				<foreach collection="buyerUserNames" item="buyerUserName" open="(" separator="," close=")">
+ 					#{buyerUserName}
+ 				</foreach>
+			</if>
+ 		</if>
+ 		<!-- 非安邦，正常情况 -->
+ 		<if test="isAnBang != 1">
+	 	<choose>
+	 		<when test="showEntrust == 1">
+	 			<trim prefix="AND(" suffix=")" prefixOverrides="OR" >
+			 	<if test="helpAudit == 1">
+			 	 OR o.buyer_user_id IN
+				   <foreach collection="cxAuditIdList" item="cxAuditId" open="(" separator="," close=")">
+					   #{cxAuditId}
+				   </foreach>
+			 	</if>
+			 	<if test="beSended == 1 and isPid == 0">
+			 		OR (o.buyer_user_id = #{userPid} and o.ext7 != #{userId})
+			 	</if>
+			 	<if test="helpSend == 1 and isPid == 0">
+			 		OR (o.buyer_user_id != #{userPid} and o.ext7 = #{userId})
+			 	</if>
+			 	<if test="beSended == 1 and isPid == 1">
+			 		OR (o.buyer_user_id = #{userPid} and o.send_id != #{userPid})
+			 	</if>
+			 	<if test="helpSend == 1 and isPid == 1">
+			 		OR (o.buyer_user_id != #{userPid} and o.send_id = #{userPid})
+			 	</if>
+			 	</trim>
+	 		</when>
+	 		<otherwise>
+	 			AND o.buyer_user_id = #{userPid}
+	 		</otherwise>
+	 	</choose>
+	 	</if>
+	 	<!-- 非安邦，正常情况 -->
+	 	<!-- 安邦特殊类型 -->
+		<if test="isAnBang == 1 and groupUserIds.size>0">
+			AND o.group_user_id in
+			<foreach collection="groupUserIds" item="item" open="(" separator="," close=")">
+			 	#{item}
+			</foreach>
+		</if>
+		<!-- 安邦特殊类型 -->
+	 </if>
+	 <if test="userType == 2">
+	    AND o.group_user_id = #{userId}
+	 </if>
+	 <if test="isSimple != null and isSimple != ''">
+		 <choose>
+		 	<when test="isSimple=='1'.toString()">
+		 		AND (o.is_simple = '1' OR o.is_simple = '2')
+		 	</when>
+		 	<otherwise>
+		 		AND o.is_simple = '0'
+		 	</otherwise>
+		 </choose>
+	 </if>
+	 <if test="isFast != null  and isFast != ''">
+	 	<choose>
+	 		<when test="isFast == '1'.toString()">
+		 		AND o.is_fast = '1'
+	 		</when>
+	 		<otherwise>
+		 		AND o.is_fast = '0'
+	 		</otherwise>
+	 	</choose>
+	 </if>
+	</sql>
+	<select id="queryOrderInfoList" parameterType="map" resultType="map">
+		<include refid="SqlQueryOrderInfoList"></include>
+		order by autoAuditTime,o.id desc
+	</select>
+	<sql id="SqlQueryRsOrderInfoList">
+	  SELECT 
+	   o.id AS id,
+       o.buyer_user_id AS buyerUserId,
+       o.buyer_user_name AS buyerUserName,
+       o.order_no AS orderNo,
+       o.service_id AS serviceId,
+       o.subject_id AS orderType,
+       tid.car_no AS carNo,
+       o.case_no AS caseNo,
+       tid.accident_linkman AS linkMan,
+       tid.accident_linktel AS linkTel,
+       o.seller_user_id AS sellerUserId,
+       o.seller_user_name AS sellerUserName,
+       u.mobile  AS sellerUserTel,
+       o.work_address AS accidentAddress,
+       o.send_time AS sendTime,
+       o.deal_stat AS dealStat,
+       o.audit_time AS finalTime,
+       "" AS importType,
+       "" AS isRemote,
+       '0' AS isSimple,
+       '' AS sendState,
+       '' AS taskType,
+       '0' AS isYcFlag,
+       '0' AS isFast,
+       '0' AS isAnBang,
+       '0' AS isRecordTrack,
+       '0' AS trackState,
+       8640000 AS autoAuditTime,
+	   'N' AS auditFlag,
+       <choose>
+       	<when test="userType == 0">
+       		roc.service_money AS orderMoney
+       	</when>
+       	<when test="userType == 1">
+       		roc.pay_money AS orderMoney
+       	</when>
+       	<otherwise>
+       		roc.group_money AS orderMoney
+       	</otherwise>
+       </choose>
+	   FROM rs_order AS o INNER JOIN rs_task_info_detail AS tid ON o.task_detail_id = tid.id 
+	   		LEFT JOIN rs_order_cost AS roc ON roc.order_no = o.order_no
+	   		LEFT JOIN  ct_user as u on u.id = o.seller_user_id
+	   WHERE o.is_resend = '0'
+	   		<if test="orderTypeList!=null">
+			 	AND o.subject_id in 
+			 	<foreach collection="orderTypeList" item="orderTypeItem" open="(" separator="," close=")">
+			 		#{orderTypeItem}
+			 	</foreach>
+			</if>
+			<if test="dealStatList!=null">
+			 	AND o.deal_stat in 
+			 	<foreach collection="dealStatList" item="dealStatItem" open="(" separator="," close=")">
+			 		#{dealStatItem}
+			 	</foreach>
+			 </if>
+			 <if test="sendTimeBegin!=null and sendTimeBegin!=''">
+				<![CDATA[ AND o.send_time>=#{sendTimeBegin} ]]> 
+			 </if>
+			 <if test="sendTimeEnd!=null and sendTimeEnd!=''">
+				 <![CDATA[	AND o.send_time<=#{sendTimeEnd} ]]> 
+			 </if>
+			 <if test="finalTimeBegin!=null and finalTimeBegin!=''">
+				<![CDATA[ AND o.audit_time>=CONCAT(#{finalTimeBegin},' 00:00:00') ]]> 
+			 </if>
+			 <if test="finalTimeEnd!=null and finalTimeEnd!=''">
+			 	<![CDATA[	AND o.audit_time<=CONCAT(#{finalTimeEnd},' 23:59:59') ]]> 
+			 </if>
+			  <if test="fuzzySearch!=null and fuzzySearch !=''">
+			 	AND CONCAT(ifnull(o.order_no,''),'|',ifnull(tid.car_no,''),'|',ifnull(o.case_no,''),'|',ifnull(o.seller_user_name,''),'|',ifnull(o.buyer_user_name,''),'|',ifnull(o.work_address,'')) LIKE CONCAT('%',#{fuzzySearch },'%')
+			 </if>
+			 <if test="userType == 0">
+			    AND o.seller_user_id = #{userPid}
+			 </if>
+			 <if test="userType == 1">
+			 	<if test="isPid == 0">
+		 			<if test="areas != null and areas.size()>0">
+			 			AND o.prov_code IN 
+			 			<foreach collection="areas" item="area" open="(" separator="," close=")">
+		 					#{area}
+		 				</foreach>
+					</if>
+					<if test="caseNo != null and caseNo != '' ">
+						AND LOCATE(#{caseNo},o.case_no) > 0
+					</if>
+					<!-- <if test="buyerUserName != null and buyerUserName != '' ">
+						AND LOCATE(#{buyerUserName},o.buyer_user_name) > 0
+					</if> -->
+					<if test="buyerUserNames != null and buyerUserNames.size()>0 ">
+							AND o.buyer_user_name in
+						<foreach collection="buyerUserNames" item="buyerUserName" open="(" separator="," close=")">
+ 							#{buyerUserName}
+ 						</foreach>
+			</if>
+ 				</if>
+			 	<choose>
+			 		<when test="showEntrust == 1">
+			 			<trim prefix="AND(" suffix=")" prefixOverrides="OR" >
+					 	<if test="helpAudit == 1">
+					 	    OR o.buyer_user_id IN
+							<foreach collection="rsAuditIdList" item="rsAuditId" open="(" separator="," close=")">
+								#{rsAuditId}
+							</foreach>
+					 	</if>
+					 	<if test="beSended == 1">
+			 				OR (o.buyer_user_id = #{userPid} and o.send_user_id != #{userPid})
+			 			</if>
+					 	<if test="helpSend == 1">
+							<choose>
+								<when test="isPid == 0">
+									OR (o.buyer_user_id != #{userPid} and o.send_user_id = #{userId})
+								</when>
+								<otherwise>
+									OR (o.buyer_user_id != #{userPid} and o.send_user_id IN
+										<foreach collection="subIdList" item="subId" open="(" separator="," close=")" >
+											#{subId}
+										</foreach>
+									)
+								</otherwise>
+							</choose>
+					 	</if>
+					 	</trim>
+			 		</when>
+			 		<otherwise>
+			 			AND o.buyer_user_id = #{userPid}
+			 		</otherwise>
+			  </choose>
+ 		 </if> 
+		 <if test="userType == 2">
+		    AND o.group_user_id = #{userPid}
+		 </if>
+	</sql>
+	<select id="queryRsOrderInfoList" parameterType="Map" resultType="Map">
+		<include refid="SqlQueryRsOrderInfoList"></include>
+		ORDER BY o.id DESC
+	</select>
+	
+	<select id="queryFmAndRsOrderInfoList" parameterType="Map" resultType="Map">
+		SELECT t.* FROM 
+		(
+			(<include refid="SqlQueryOrderInfoList"></include>)
+			UNION ALL
+			(<include refid="SqlQueryRsOrderInfoList"></include>)
+		) AS t
+		ORDER BY autoAuditTime,t.sendTime DESC
+	</select>
+	
+	
+	<update id="updateByKeyNotNull">
+		UPDATE fm_order 
+		  <trim prefix="SET" suffixOverrides=",">  
+					<if test="dealStat!= null">
+		   			deal_stat = #{dealStat},
+		   			</if>  
+					<if test="orderSource!= null">
+		   			order_source = #{orderSource},
+		   			</if>  
+					<if test="orderType!= null">
+		   			order_type = #{orderType},
+		   			</if>  
+					<if test="caseId!= null">
+		   			case_id = #{caseId},
+		   			</if>  
+					<if test="caseNo!= null">
+		   			case_no = #{caseNo},
+		   			</if>  
+					<if test="carNo!= null">
+		   			car_no = #{carNo},
+		   			</if>  
+					<if test="buyerUserId!= null">
+		   			buyer_user_id = #{buyerUserId},
+		   			</if>  
+					<if test="buyerUserType!= null">
+		   			buyer_user_type = #{buyerUserType},
+		   			</if>  
+					<if test="payerUserId!= null">
+		   			payer_user_id = #{payerUserId},
+		   			</if>  
+					<if test="sellerUserId!= null">
+		   			seller_user_id = #{sellerUserId},
+		   			</if>  
+					<if test="sellerUserType!= null">
+		   			seller_user_type = #{sellerUserType},
+		   			</if>  
+					<if test="serviceId!= null">
+		   			service_id = #{serviceId},
+		   			</if>  
+					<if test="serviceName!= null">
+		   			service_name = #{serviceName},
+		   			</if>  
+					<if test="subjectId!= null">
+		   			subject_id = #{subjectId},
+		   			</if>  
+					<if test="subjectName!= null">
+		   			subject_name = #{subjectName},
+		   			</if>  
+					<if test="responseTime!= null">
+		   			response_time = #{responseTime},
+		   			</if>  
+					<if test="isAlow!= null">
+		   			is_alow = #{isAlow},
+		   			</if>  
+					<if test="alowMoney!= null">
+		   			alow_money = #{alowMoney},
+		   			</if>  
+					<if test="delegateMomey!= null">
+		   			delegate_momey = #{delegateMomey},
+		   			</if>  
+					<if test="delegateDesc!= null">
+		   			delegate_desc = #{delegateDesc},
+		   			</if>  
+					<if test="workAddress!= null">
+		   			work_address = #{workAddress},
+		   			</if>  
+					<if test="longtitude!= null">
+		   			longtitude = #{longtitude},
+		   			</if>  
+					<if test="latitude!= null">
+		   			latitude = #{latitude},
+		   			</if>  
+					<if test="linkMan!= null">
+		   			link_man = #{linkMan},
+		   			</if>  
+					<if test="linkTel!= null">
+		   			link_tel = HEX(AES_ENCRYPT(#{linkTel},'CHEtong@20161102')),
+		   			</if>  
+					<if test="mileage!= null">
+		   			mileage = #{mileage},
+		   			</if>  
+					<if test="getTime!= null">
+		   			get_time = #{getTime},
+		   			</if>  
+					<if test="finishTime!= null">
+		   			finish_time = #{finishTime},
+		   			</if>  
+					<if test="sendTime!= null">
+		   			send_time = #{sendTime},
+		   			</if>  
+					<if test="preliminaryTime!= null">
+		   			preliminary_time = #{preliminaryTime},
+		   			</if>  
+					<if test="preliminaryDesc!= null">
+		   			preliminary_desc = #{preliminaryDesc},
+		   			</if>  
+					<if test="finalTime!= null">
+		   			final_time = #{finalTime},
+		   			</if>  
+					<if test="finalDesc!= null">
+		   			final_desc = #{finalDesc},
+		   			</if>  
+					<if test="sendId!= null">
+		   			send_id = #{sendId},
+		   			</if>  
+					<if test="sendIdType!= null">
+		   			send_id_type = #{sendIdType},
+		   			</if>  
+					<if test="reviewClass!= null">
+		   			review_class = #{reviewClass},
+		   			</if>  
+					<if test="reviewTime!= null">
+		   			review_time = #{reviewTime},
+		   			</if>  
+					<if test="reviewName!= null">
+		   			review_name = #{reviewName},
+		   			</if>  
+					<if test="reviewType!= null">
+		   			review_type = #{reviewType},
+		   			</if>  
+					<if test="ext1!= null">
+		   			ext1 = #{ext1},
+		   			</if>  
+					<if test="ext2!= null">
+		   			ext2 = #{ext2},
+		   			</if>  
+					<if test="ext3!= null">
+		   			ext3 = #{ext3},
+		   			</if>  
+					<if test="ext4!= null">
+		   			ext4 = #{ext4},
+		   			</if>  
+					<if test="ext5!= null">
+		   			ext5 = #{ext5},
+		   			</if>  
+					<if test="ext6!= null">
+		   			ext6 = #{ext6},
+		   			</if>  
+					<if test="ext7!= null">
+		   			ext7 = #{ext7},
+		   			</if>  
+					<if test="ext8!= null">
+		   			ext8 = #{ext8},
+		   			</if>  
+					<if test="groupUserId!= null">
+		   			group_user_id = #{groupUserId},
+		   			</if>  
+					<if test="buyerUserName!= null">
+		   			buyer_user_name = #{buyerUserName},
+		   			</if>  
+					<if test="sellerUserName!= null">
+		   			seller_user_name = #{sellerUserName},
+		   			</if>  
+					<if test="buyerMobile!= null">
+		   			buyer_mobile = #{buyerMobile},
+		   			</if>  
+					<if test="ctAddress!= null">
+		   			ct_address = #{ctAddress},
+		   			</if>  
+					<if test="ctLatitude!= null">
+		   			ct_latitude = #{ctLatitude},
+		   			</if>  
+					<if test="ctLongtitude!= null">
+		   			ct_longtitude = #{ctLongtitude},
+		   			</if>  
+					<if test="arrivalHours!= null">
+		   			arrival_hours = #{arrivalHours},
+		   			</if>  
+					<if test="ext9!= null">
+		   			ext9 = #{ext9},
+		   			</if>  
+					<if test="ext10!= null">
+		   			ext10 = #{ext10},
+		   			</if>  
+					<if test="ext11!= null">
+		   			ext11 = #{ext11},
+		   			</if>  
+					<if test="ext12!= null">
+		   			ext12 = #{ext12},
+		   			</if>  
+					<if test="ext13!= null">
+		   			ext13 = #{ext13},
+		   			</if>  
+					<if test="arrivalTime!= null">
+		   			arrival_time = #{arrivalTime},
+		   			</if>  
+					<if test="isNego!= null">
+		   			is_nego = #{isNego},
+		   			</if>  
+					<if test="negoId!= null">
+		   			nego_id = #{negoId},
+		   			</if>  
+					<if test="commiId!= null">
+		   			commi_id = #{commiId},
+		   			</if>  
+					<if test="ext14!= null">
+		   			ext14 = #{ext14},
+		   			</if>  
+					<if test="ext15!= null">
+		   			ext15 = #{ext15},
+		   			</if>  
+					<if test="ext16!= null">
+		   			ext16 = #{ext16},
+		   			</if>  
+					<if test="ext17!= null">
+		   			ext17 = #{ext17},
+		   			</if>  
+					<if test="ext18!= null">
+		   			ext18 = #{ext18},
+		   			</if>
+		   			<if test="importType!= null">
+                    import_type=#{importType},
+                    </if>
+                    <if test="priceType!= null">
+                    price_type=#{priceType},
+                    </if>
+                    <if test="isRemote!= null">
+                    is_remote=#{isRemote},
+                    </if>
+                    <if test="isAllowMediation != null">
+                    	is_allow_mediation = #{isAllowMediation},
+                    </if> 
+                    <if test="allowMediationMoney != null">
+                    	allow_mediation_money = #{allowMediationMoney},
+                    </if> 
+                    <if test="orgPayerUserId!= null">
+                    	org_payer_user_id = #{orgPayerUserId},
+                    </if>
+                    <if test="insuerUserId!= null">
+                    	insuer_user_id = #{insuerUserId},
+                    </if>      
+                    <if test="isSimple!= null">
+                    	is_simple = #{isSimple},
+                    </if>      
+                    <if test="isMove!= null">
+                    	is_move = #{isMove},
+                    </if>      
+		  </trim>
+		  <where>
+		  		<if test="orderNo!= null">
+                    and order_no=#{orderNo}
+                </if>
+                <if test="id!=null">
+                	and id = #{id}
+                </if>		 
+		 </where>
+	</update>
+	
+		<update id="updateByKeyNotNullWithMove">
+		UPDATE fm_order 
+		  <trim prefix="SET" suffixOverrides=",">  
+					<if test="dealStat!= null">
+		   			deal_stat = #{dealStat},
+		   			</if>  
+					<if test="orderSource!= null">
+		   			order_source = #{orderSource},
+		   			</if>  
+					<if test="orderType!= null">
+		   			order_type = #{orderType},
+		   			</if>  
+					<if test="caseId!= null">
+		   			case_id = #{caseId},
+		   			</if>  
+					<if test="caseNo!= null">
+		   			case_no = #{caseNo},
+		   			</if>  
+					<if test="carNo!= null">
+		   			car_no = #{carNo},
+		   			</if>  
+					<if test="buyerUserId!= null">
+		   			buyer_user_id = #{buyerUserId},
+		   			</if>  
+					<if test="buyerUserType!= null">
+		   			buyer_user_type = #{buyerUserType},
+		   			</if>  
+					<if test="payerUserId!= null">
+		   			payer_user_id = #{payerUserId},
+		   			</if>  
+					<if test="sellerUserId!= null">
+		   			seller_user_id = #{sellerUserId},
+		   			</if>  
+					<if test="sellerUserType!= null">
+		   			seller_user_type = #{sellerUserType},
+		   			</if>  
+					<if test="serviceId!= null">
+		   			service_id = #{serviceId},
+		   			</if>  
+					<if test="serviceName!= null">
+		   			service_name = #{serviceName},
+		   			</if>  
+					<if test="subjectId!= null">
+		   			subject_id = #{subjectId},
+		   			</if>  
+					<if test="subjectName!= null">
+		   			subject_name = #{subjectName},
+		   			</if>  
+					<if test="responseTime!= null">
+		   			response_time = #{responseTime},
+		   			</if>  
+					<if test="isAlow!= null">
+		   			is_alow = #{isAlow},
+		   			</if>  
+					<if test="alowMoney!= null">
+		   			alow_money = #{alowMoney},
+		   			</if>  
+					<if test="delegateMomey!= null">
+		   			delegate_momey = #{delegateMomey},
+		   			</if>  
+					<if test="delegateDesc!= null">
+		   			delegate_desc = #{delegateDesc},
+		   			</if>  
+					<if test="workAddress!= null">
+		   			work_address = #{workAddress},
+		   			</if>  
+					<if test="longtitude!= null">
+		   			longtitude = #{longtitude},
+		   			</if>  
+					<if test="latitude!= null">
+		   			latitude = #{latitude},
+		   			</if>  
+					<if test="linkMan!= null">
+		   			link_man = #{linkMan},
+		   			</if>  
+					<if test="linkTel!= null">
+		   			link_tel = HEX(AES_ENCRYPT(#{linkTel},'CHEtong@20161102')),
+		   			</if>  
+					<if test="mileage!= null">
+		   			mileage = #{mileage},
+		   			</if>  
+					<if test="getTime!= null">
+		   			get_time = #{getTime},
+		   			</if>  
+					<if test="finishTime!= null">
+		   			finish_time = #{finishTime},
+		   			</if>  
+					<if test="sendTime!= null">
+		   			send_time = #{sendTime},
+		   			</if>  
+					<if test="preliminaryTime!= null">
+		   			preliminary_time = #{preliminaryTime},
+		   			</if>  
+					<if test="preliminaryDesc!= null">
+		   			preliminary_desc = #{preliminaryDesc},
+		   			</if>  
+					<if test="finalTime!= null">
+		   			final_time = #{finalTime},
+		   			</if>  
+					<if test="finalDesc!= null">
+		   			final_desc = #{finalDesc},
+		   			</if>  
+					<if test="sendId!= null">
+		   			send_id = #{sendId},
+		   			</if>  
+					<if test="sendIdType!= null">
+		   			send_id_type = #{sendIdType},
+		   			</if>  
+					<if test="reviewClass!= null">
+		   			review_class = #{reviewClass},
+		   			</if>  
+					<if test="reviewTime!= null">
+		   			review_time = #{reviewTime},
+		   			</if>  
+					<if test="reviewName!= null">
+		   			review_name = #{reviewName},
+		   			</if>  
+					<if test="reviewType!= null">
+		   			review_type = #{reviewType},
+		   			</if>  
+					<if test="ext1!= null">
+		   			ext1 = #{ext1},
+		   			</if>  
+					<if test="ext2!= null">
+		   			ext2 = #{ext2},
+		   			</if>  
+					<if test="ext3!= null">
+		   			ext3 = #{ext3},
+		   			</if>  
+					<if test="ext4!= null">
+		   			ext4 = #{ext4},
+		   			</if>  
+					<if test="ext5!= null">
+		   			ext5 = #{ext5},
+		   			</if>  
+					<if test="ext6!= null">
+		   			ext6 = #{ext6},
+		   			</if>  
+					<if test="ext7!= null">
+		   			ext7 = #{ext7},
+		   			</if>  
+					<if test="ext8!= null">
+		   			ext8 = #{ext8},
+		   			</if>  
+					<if test="groupUserId!= null">
+		   			group_user_id = #{groupUserId},
+		   			</if>  
+					<if test="buyerUserName!= null">
+		   			buyer_user_name = #{buyerUserName},
+		   			</if>  
+					<if test="sellerUserName!= null">
+		   			seller_user_name = #{sellerUserName},
+		   			</if>  
+					<if test="buyerMobile!= null">
+		   			buyer_mobile = #{buyerMobile},
+		   			</if>  
+					<if test="ctAddress!= null">
+		   			ct_address = #{ctAddress},
+		   			</if>  
+					<if test="ctLatitude!= null">
+		   			ct_latitude = #{ctLatitude},
+		   			</if>  
+					<if test="ctLongtitude!= null">
+		   			ct_longtitude = #{ctLongtitude},
+		   			</if>  
+					<if test="arrivalHours!= null">
+		   			arrival_hours = #{arrivalHours},
+		   			</if>  
+					<if test="ext9!= null">
+		   			ext9 = #{ext9},
+		   			</if>  
+					<if test="ext10!= null">
+		   			ext10 = #{ext10},
+		   			</if>  
+					<if test="ext11!= null">
+		   			ext11 = #{ext11},
+		   			</if>  
+					<if test="ext12!= null">
+		   			ext12 = #{ext12},
+		   			</if>  
+					<if test="ext13!= null">
+		   			ext13 = #{ext13},
+		   			</if>  
+					<if test="arrivalTime!= null">
+		   			arrival_time = #{arrivalTime},
+		   			</if>  
+					<if test="isNego!= null">
+		   			is_nego = #{isNego},
+		   			</if>  
+					<if test="negoId!= null">
+		   			nego_id = #{negoId},
+		   			</if>  
+					<if test="commiId!= null">
+		   			commi_id = #{commiId},
+		   			</if>  
+					<if test="ext14!= null">
+		   			ext14 = #{ext14},
+		   			</if>  
+					<if test="ext15!= null">
+		   			ext15 = #{ext15},
+		   			</if>  
+					<if test="ext16!= null">
+		   			ext16 = #{ext16},
+		   			</if>  
+					<if test="ext17!= null">
+		   			ext17 = #{ext17},
+		   			</if>  
+					<if test="ext18!= null">
+		   			ext18 = #{ext18},
+		   			</if>
+		   			<if test="importType!= null">
+                    import_type=#{importType},
+                    </if>
+                    <if test="priceType!= null">
+                    price_type=#{priceType},
+                    </if>
+                    <if test="isRemote!= null">
+                    is_remote=#{isRemote},
+                    </if>
+                    <if test="isAllowMediation != null">
+                    	is_allow_mediation = #{isAllowMediation},
+                    </if> 
+                    <if test="allowMediationMoney != null">
+                    	allow_mediation_money = #{allowMediationMoney},
+                    </if> 
+                    <if test="orgPayerUserId!= null">
+                    	org_payer_user_id = #{orgPayerUserId},
+                    </if>
+                    	insuer_user_id = #{insuerUserId},
+                    <if test="isSimple!= null">
+                    	is_simple = #{isSimple},
+                    </if>      
+                    <if test="isMove!= null">
+                    	is_move = #{isMove},
+                    </if>      
+		  </trim>
+		  <where>
+		  		<if test="orderNo!= null">
+                    and order_no=#{orderNo}
+                </if>
+                <if test="id!=null">
+                	and id = #{id}
+                </if>		 
+		 </where>
+	</update>
+	
+	<insert id="insertNotNull" parameterType="FmOrderVO" useGeneratedKeys="true" keyProperty="id">
+			INSERT INTO fm_order   
+			(
+					id,deal_stat,order_source,order_type,order_no,service_id,service_name,subject_id,subject_name,response_time,
+					case_id,case_no,car_no,is_alow,alow_money,delegate_desc,work_address,longtitude,latitude,mileage,
+					is_nego,nego_id,commi_id,group_user_id,seller_user_id,seller_user_name,seller_user_type,
+					buyer_user_id,buyer_user_type,buyer_user_name,buyer_mobile,payer_user_id,send_id,send_id_type,send_time,link_man,link_tel,										
+					ext1,ext2,ext3,ext6,ext7,ext8,ext14,ext15,is_allow_mediation,allow_mediation_money,price_type,is_remote,org_payer_user_id,insuer_user_id,is_simple  
+			)
+			VALUES
+	   		(
+		   			#{id},#{dealStat},#{orderSource},#{orderType},#{orderNo},#{serviceId},#{serviceName},#{subjectId},#{subjectName},#{responseTime},
+		   			#{caseId},#{caseNo},#{carNo},#{isAlow},#{alowMoney},#{delegateDesc},#{workAddress},#{longtitude},#{latitude},#{mileage},
+		   			#{isNego},#{negoId},#{commiId},#{groupUserId},#{sellerUserId},#{sellerUserName},#{sellerUserType},
+		   			#{buyerUserId},#{buyerUserType},#{buyerUserName},#{buyerMobile},#{payerUserId},#{sendId},#{sendIdType},#{sendTime},#{linkMan},HEX(AES_ENCRYPT(#{linkTel},'CHEtong@20161102')),		   			
+		   			#{ext1},#{ext2},#{ext3},#{ext6},#{ext7},#{ext8},#{ext14},#{ext15},#{isAllowMediation},#{allowMediationMoney},#{priceType},#{isRemote},#{orgPayerUserId},#{insuerUserId},#{isSimple}                  
+			)
+	</insert>	
+	
+	<insert id="insertSelective" parameterType="FmOrderVO" useGeneratedKeys="true" keyProperty="id">
+		INSERT INTO fm_order
+		(
+		<trim suffix="" suffixOverrides=",">
+			<if test="id!= null">
+				id,
+			</if>
+			<if test="dealStat!= null">
+				deal_stat,
+			</if>
+			<if test="orderSource!= null">
+				order_source,
+			</if>
+			<if test="orderType!= null">
+				order_type,
+			</if>
+			<if test="orderNo!= null">
+				order_no,
+			</if>
+			<if test="caseId!= null">
+				case_id,
+			</if>
+			<if test="caseNo!= null">
+				case_no,
+			</if>
+			<if test="carNo!= null">
+				car_no,
+			</if>
+			<if test="buyerUserId!= null">
+				buyer_user_id,
+			</if>
+			<if test="buyerUserType!= null">
+				buyer_user_type,
+			</if>
+			<if test="payerUserId!= null">
+				payer_user_id,
+			</if>
+			<if test="sellerUserId!= null">
+				seller_user_id,
+			</if>
+			<if test="sellerUserType!= null">
+				seller_user_type,
+			</if>
+			<if test="serviceId!= null">
+				service_id,
+			</if>
+			<if test="serviceName!= null">
+				service_name,
+			</if>
+			<if test="subjectId!= null">
+				subject_id,
+			</if>
+			<if test="subjectName!= null">
+				subject_name,
+			</if>
+			<if test="responseTime!= null">
+				response_time,
+			</if>
+			<if test="isAlow!= null">
+				is_alow,
+			</if>
+			<if test="alowMoney!= null">
+				alow_money,
+			</if>
+			<if test="delegateMomey!= null">
+				delegate_momey,
+			</if>
+			<if test="delegateDesc!= null">
+				delegate_desc,
+			</if>
+			<if test="workAddress!= null">
+				work_address,
+			</if>
+			<if test="longtitude!= null">
+				longtitude,
+			</if>
+			<if test="latitude!= null">
+				latitude,
+			</if>
+			<if test="linkMan!= null">
+				link_man,
+			</if>
+			<if test="linkTel!= null">
+				link_tel,
+			</if>
+			<if test="mileage!= null">
+				mileage,
+			</if>
+			<if test="getTime!= null">
+				get_time,
+			</if>
+			<if test="finishTime!= null">
+				finish_time,
+			</if>
+			<if test="sendTime!= null">
+				send_time,
+			</if>
+			<if test="preliminaryTime!= null">
+				preliminary_time,
+			</if>
+			<if test="preliminaryDesc!= null">
+				preliminary_desc,
+			</if>
+			<if test="finalTime!= null">
+				final_time,
+			</if>
+			<if test="finalDesc!= null">
+				final_desc,
+			</if>
+			<if test="sendId!= null">
+				send_id,
+			</if>
+			<if test="sendIdType!= null">
+				send_id_type,
+			</if>
+			<if test="reviewClass!= null">
+				review_class,
+			</if>
+			<if test="reviewTime!= null">
+				review_time,
+			</if>
+			<if test="reviewName!= null">
+				review_name,
+			</if>
+			<if test="reviewType!= null">
+				review_type,
+			</if>
+			<if test="ext1!= null">
+				ext1,
+			</if>
+			<if test="ext2!= null">
+				ext2,
+			</if>
+			<if test="ext3!= null">
+				ext3,
+			</if>
+			<if test="ext4!= null">
+				ext4,
+			</if>
+			<if test="ext5!= null">
+				ext5,
+			</if>
+			<if test="ext6!= null">
+				ext6,
+			</if>
+			<if test="ext7!= null">
+				ext7,
+			</if>
+			<if test="ext8!= null">
+				ext8,
+			</if>
+			<if test="groupUserId!= null">
+				group_user_id,
+			</if>
+			<if test="buyerUserName!= null">
+				buyer_user_name,
+			</if>
+			<if test="sellerUserName!= null">
+				seller_user_name,
+			</if>
+			<if test="buyerMobile!= null">
+				buyer_mobile,
+			</if>
+			<if test="ctAddress!= null">
+				ct_address,
+			</if>
+			<if test="ctLatitude!= null">
+				ct_latitude,
+			</if>
+			<if test="ctLongtitude!= null">
+				ct_longtitude,
+			</if>
+			<if test="arrivalHours!= null">
+				arrival_hours,
+			</if>
+			<if test="ext9!= null">
+				ext9,
+			</if>
+			<if test="ext10!= null">
+				ext10,
+			</if>
+			<if test="ext11!= null">
+				ext11,
+			</if>
+			<if test="ext12!= null">
+				ext12,
+			</if>
+			<if test="ext13!= null">
+				ext13,
+			</if>
+			<if test="arrivalTime!= null">
+				arrival_time,
+			</if>
+			<if test="isNego!= null">
+				is_nego,
+			</if>
+			<if test="negoId!= null">
+				nego_id,
+			</if>
+			<if test="commiId!= null">
+				commi_id,
+			</if>
+			<if test="ext14!= null">
+				ext14,
+			</if>
+			<if test="ext15!= null">
+				ext15,
+			</if>
+			<if test="ext16!= null">
+				ext16,
+			</if>
+			<if test="ext17!= null">
+				ext17,
+			</if>
+			<if test="ext18!= null">
+				ext18,
+			</if>
+            <if test="importType!= null">
+                import_type,
+            </if>
+            <if test="priceType!= null">
+                price_type,
+            </if>
+            <if test="isRemote!= null">
+                is_remote,
+            </if>
+            <if test="orgPayerUserId!= null">
+                org_payer_user_id,
+            </if>
+            <if test="insuerUserId!= null">
+                insuer_user_id,
+            </if>    
+		</trim>
+		)
+		VALUES
+		(
+		<trim suffix="" suffixOverrides=",">
+			<if test="id!= null">
+				#{id},
+			</if>
+			<if test="dealStat!= null">
+				#{dealStat},
+			</if>
+			<if test="orderSource!= null">
+				#{orderSource},
+			</if>
+			<if test="orderType!= null">
+				#{orderType},
+			</if>
+			<if test="orderNo!= null">
+				#{orderNo},
+			</if>
+			<if test="caseId!= null">
+				#{caseId},
+			</if>
+			<if test="caseNo!= null">
+				#{caseNo},
+			</if>
+			<if test="carNo!= null">
+				#{carNo},
+			</if>
+			<if test="buyerUserId!= null">
+				#{buyerUserId},
+			</if>
+			<if test="buyerUserType!= null">
+				#{buyerUserType},
+			</if>
+			<if test="payerUserId!= null">
+				#{payerUserId},
+			</if>
+			<if test="sellerUserId!= null">
+				#{sellerUserId},
+			</if>
+			<if test="sellerUserType!= null">
+				#{sellerUserType},
+			</if>
+			<if test="serviceId!= null">
+				#{serviceId},
+			</if>
+			<if test="serviceName!= null">
+				#{serviceName},
+			</if>
+			<if test="subjectId!= null">
+				#{subjectId},
+			</if>
+			<if test="subjectName!= null">
+				#{subjectName},
+			</if>
+			<if test="responseTime!= null">
+				#{responseTime},
+			</if>
+			<if test="isAlow!= null">
+				#{isAlow},
+			</if>
+			<if test="alowMoney!= null">
+				#{alowMoney},
+			</if>
+			<if test="delegateMomey!= null">
+				#{delegateMomey},
+			</if>
+			<if test="delegateDesc!= null">
+				#{delegateDesc},
+			</if>
+			<if test="workAddress!= null">
+				#{workAddress},
+			</if>
+			<if test="longtitude!= null">
+				#{longtitude},
+			</if>
+			<if test="latitude!= null">
+				#{latitude},
+			</if>
+			<if test="linkMan!= null">
+				#{linkMan},
+			</if>
+			<if test="linkTel!= null">
+				HEX(AES_ENCRYPT(#{linkTel},'CHEtong@20161102')),
+			</if>
+			<if test="mileage!= null">
+				#{mileage},
+			</if>
+			<if test="getTime!= null">
+				#{getTime},
+			</if>
+			<if test="finishTime!= null">
+				#{finishTime},
+			</if>
+			<if test="sendTime!= null">
+				#{sendTime},
+			</if>
+			<if test="preliminaryTime!= null">
+				#{preliminaryTime},
+			</if>
+			<if test="preliminaryDesc!= null">
+				#{preliminaryDesc},
+			</if>
+			<if test="finalTime!= null">
+				#{finalTime},
+			</if>
+			<if test="finalDesc!= null">
+				#{finalDesc},
+			</if>
+			<if test="sendId!= null">
+				#{sendId},
+			</if>
+			<if test="sendIdType!= null">
+				#{sendIdType},
+			</if>
+			<if test="reviewClass!= null">
+				#{reviewClass},
+			</if>
+			<if test="reviewTime!= null">
+				#{reviewTime},
+			</if>
+			<if test="reviewName!= null">
+				#{reviewName},
+			</if>
+			<if test="reviewType!= null">
+				#{reviewType},
+			</if>
+			<if test="ext1!= null">
+				#{ext1},
+			</if>
+			<if test="ext2!= null">
+				#{ext2},
+			</if>
+			<if test="ext3!= null">
+				#{ext3},
+			</if>
+			<if test="ext4!= null">
+				#{ext4},
+			</if>
+			<if test="ext5!= null">
+				#{ext5},
+			</if>
+			<if test="ext6!= null">
+				#{ext6},
+			</if>
+			<if test="ext7!= null">
+				#{ext7},
+			</if>
+			<if test="ext8!= null">
+				#{ext8},
+			</if>
+			<if test="groupUserId!= null">
+				#{groupUserId},
+			</if>
+			<if test="buyerUserName!= null">
+				#{buyerUserName},
+			</if>
+			<if test="sellerUserName!= null">
+				#{sellerUserName},
+			</if>
+			<if test="buyerMobile!= null">
+				#{buyerMobile},
+			</if>
+			<if test="ctAddress!= null">
+				#{ctAddress},
+			</if>
+			<if test="ctLatitude!= null">
+				#{ctLatitude},
+			</if>
+			<if test="ctLongtitude!= null">
+				#{ctLongtitude},
+			</if>
+			<if test="arrivalHours!= null">
+				#{arrivalHours},
+			</if>
+			<if test="ext9!= null">
+				#{ext9},
+			</if>
+			<if test="ext10!= null">
+				#{ext10},
+			</if>
+			<if test="ext11!= null">
+				#{ext11},
+			</if>
+			<if test="ext12!= null">
+				#{ext12},
+			</if>
+			<if test="ext13!= null">
+				#{ext13},
+			</if>
+			<if test="arrivalTime!= null">
+				#{arrivalTime},
+			</if>
+			<if test="isNego!= null">
+				#{isNego},
+			</if>
+			<if test="negoId!= null">
+				#{negoId},
+			</if>
+			<if test="commiId!= null">
+				#{commiId},
+			</if>
+			<if test="ext14!= null">
+				#{ext14},
+			</if>
+			<if test="ext15!= null">
+				#{ext15},
+			</if>
+			<if test="ext16!= null">
+				#{ext16},
+			</if>
+			<if test="ext17!= null">
+				#{ext17},
+			</if>
+			<if test="ext18!= null">
+				#{ext18},
+			</if>
+   			<if test="importType!= null">
+                #{importType},
+            </if>
+            <if test="priceType!= null">
+                #{priceType},
+            </if>
+            <if test="isRemote!= null">
+                #{isRemote},
+            </if>
+            <if test="orgPayerUserId!= null">
+                #{orgPayerUserId},
+            </if>
+            <if test="insuerUserId!= null">
+                #{insuerUserId},
+            </if>    
+		</trim>
+		)
+	</insert>
+	
+	
+	<!-- 保存订单留言信息 -->
+	<insert id="saveLeave" parameterType="java.util.Map" useGeneratedKeys="true" keyProperty="id">
+			INSERT INTO fh_leave_model   
+			(
+				<trim suffix="" suffixOverrides=",">
+					<if test="name != null and name !=''">
+		                   name,
+		            </if>
+		             insert_time,
+					<if test="detail != null and detail !=''">
+		                   detail,
+		            </if>
+					<if test="orderCode != null and orderCode !=''">
+		                   reserved,
+		            </if>
+					<if test="userId != null and userId !=''">
+		                   user_id,
+		            </if>
+					<if test="leaveRole !=null and leaveRole !=''">
+		                   leave_role,
+		            </if>
+		            <if test="leaveType !=null and leaveType !=''">
+		                   leave_type,
+		            </if>
+		            creat_time,
+		            <if test="displayTime !=null and displayTime !=''">
+		                   display_time,
+		            </if>
+	            </trim>
+			)
+			VALUES
+	   		(
+	   			<trim suffix="" suffixOverrides=",">
+		   			<if test="name != null and name !=''">
+		   				#{name},
+		   			</if>
+		   			NOW(),
+		   			<if test="detail != null and detail !=''">
+		   				#{detail},
+		   			</if>
+		   			<if test="orderCode != null and orderCode !=''">
+		   				#{orderCode},
+		   			</if>
+		   			<if test="userId != null and userId !=''">
+		                   #{userId},
+		            </if>
+					<if test="leaveRole !=null and leaveRole !=''">
+		                   #{leaveRole},
+		            </if>
+		            <if test="leaveType !=null and leaveType !=''">
+		                   #{leaveType},
+		            </if>
+		            NOW(),
+		            <if test="displayTime !=null and displayTime !=''">
+		                   #{displayTime},
+		            </if>
+	   			</trim>
+			)
+		</insert>
+		
+	<!-- 根据订单号查询留言 -->
+    <select id="queryLeaveByOrderNo" parameterType="java.lang.String" resultType="Map">
+        SELECT 
+			f.name as name,
+			f.insert_time as insertTime,  
+			f.detail as detail,
+			f.user_id as userId,
+  			(SELECT a.att_url FROM ct_attachment a WHERE a.user_id=f.user_id AND a.att_code='icon') AS headImage
+		 FROM fh_leave_model f
+		 WHERE reserved=#{orderCode}
+    </select>
+    
+    <select id="queryAllOrderRelate" parameterType="String" resultType="String">
+    	select o.order_no from fm_order o
+    	<where>
+    	  o.case_no = (select o2.case_no from fm_order o2 where o2.order_no = #{orderNo}) and o.order_no != #{orderNo}
+    	</where>
+    	
+    	UNION ALL
+
+		SELECT
+			o.order_no
+		FROM
+			rs_order o
+		WHERE
+			o.case_no = (
+				SELECT
+					o2.case_no
+				FROM
+					rs_order o2
+				WHERE
+					o2.order_no = #{orderNo}
+			)
+		AND o.order_no != #{orderNo}
+    	
+    </select>    
+    
+    <!-- 查询周的统计数据 -->
+    <select id="orderStatisticalWithWeek" parameterType="map" resultType="map">
+    	SELECT * FROM
+			(
+				SELECT
+					COUNT(1) AS addCount,
+					CONCAT(year(o.send_time),'年第',WEEK(o.send_time),'周') AS StatisticalTime
+				FROM
+					fm_order o
+				WHERE
+					 YEAR(o.send_time)=#{year}
+				AND WEEK(o.send_time)=#{week}
+				<if test="role==0">
+					AND o.seller_user_id = #{userId}
+				</if>
+				<if test="role==1">
+					AND o.buyer_user_id = #{userId}
+				</if>
+				<if test="role==2">
+					AND o.group_user_id = #{userId}
+				</if>
+			) temp1
+			LEFT JOIN
+			(
+				SELECT
+					COUNT(1) AS finishCount,
+					CONCAT(year(o.final_time),'年第',WEEK(o.final_time),'周') AS finishWeek,
+					IFNULL(	((SELECT SUM(IFNULL(cost_money,0)) FROM fm_order_cost_detail d WHERE d.order_id = o.id AND (d.cost_type ='1' OR d.cost_type ='2' OR d.cost_type ='3' OR d.cost_type ='4'))
+						-(SELECT SUM(IFNULL(cost_money,0)) FROM fm_order_cost_detail d WHERE d.order_id = o.id AND (d.cost_type ='10' OR d.cost_type ='22' OR d.cost_type ='23' OR d.cost_type ='24' OR d.cost_type ='25'))
+					),0) AS amount
+				FROM
+					fm_order o
+				WHERE
+					 o.deal_stat = '09'
+				AND YEAR(o.final_time) = #{year}
+				AND WEEK(o.final_time) = #{week}
+				<if test="role==0">
+					AND o.seller_user_id = #{userId}
+				</if>
+				<if test="role==1">
+					AND o.buyer_user_id = #{userId}
+				</if>
+				<if test="role==2">
+					AND o.group_user_id = #{userId}
+				</if>
+			) temp2
+			ON temp1.StatisticalTime=temp2.finishWeek
+    </select>
+    
+    <!-- 查询月的统计数据 -->
+    <select id="orderStatisticalWithMonth" parameterType="map" resultType="map">
+    	SELECT * FROM
+			(
+				SELECT
+					COUNT(1) AS addCount,
+					CONCAT(year(o.send_time),'年',MONTH(o.send_time),'月') AS StatisticalTime
+				FROM
+					fm_order o
+				WHERE
+					 YEAR(o.send_time)=#{year}
+				AND MONTH(o.send_time)=#{month}
+				<if test="role==0">
+					AND o.seller_user_id = #{userId}
+				</if>
+				<if test="role==1">
+					AND o.buyer_user_id = #{userId}
+				</if>
+				<if test="role==2">
+					AND o.group_user_id = #{userId}
+				</if>
+			) temp1
+			LEFT JOIN
+			(
+				SELECT
+					COUNT(1) AS finishCount,
+					CONCAT(year(o.final_time),'年',MONTH(o.final_time),'月') AS finishMonth,
+					IFNULL(	((SELECT SUM(IFNULL(cost_money,0)) FROM fm_order_cost_detail d WHERE d.order_id = o.id AND (d.cost_type ='1' OR d.cost_type ='2' OR d.cost_type ='3' OR d.cost_type ='4'))
+						-(SELECT SUM(IFNULL(cost_money,0)) FROM fm_order_cost_detail d WHERE d.order_id = o.id AND (d.cost_type ='10' OR d.cost_type ='22' OR d.cost_type ='23' OR d.cost_type ='24' OR d.cost_type ='25'))
+					),0) AS amount
+				FROM
+					fm_order o
+				WHERE
+					 o.deal_stat = '09'
+				AND YEAR(o.final_time) = #{year}
+				AND MONTH(o.final_time) = #{month}
+				<if test="role==0">
+					AND o.seller_user_id = #{userId}
+				</if>
+				<if test="role==1">
+					AND o.buyer_user_id = #{userId}
+				</if>
+				<if test="role==2">
+					AND o.group_user_id = #{userId}
+				</if>
+			) temp2
+			ON temp1.StatisticalTime=temp2.finishMonth
+    </select>
+    
+    <select id="queryOrderRole" parameterType="java.lang.String" resultType="Map">
+  		select o.seller_user_id , o.buyer_user_id,o.group_user_id from fm_order o where o.order_no = #{orderNo}
+  		
+  		UNION ALL
+
+		SELECT
+			o.seller_user_id,
+			o.buyer_user_id,
+			o.group_user_id
+		FROM
+			rs_order o
+		WHERE
+			o.order_no = #{orderNo}
+    </select>
+    
+    <select id="queryOrderListRelate" parameterType="map" resultType="map">
+    SELECT * FROM
+    	(
+			SELECT 
+			   o.id as id,
+			   o.deal_stat as dealStat,
+			   o.seller_user_id AS sellerUserId,
+			   o.service_id AS serviceId,
+			   o.order_type as orderType,
+			   o.order_no as orderNo,
+			   o.car_no as carNo,
+			   o.link_man as linkMan,
+			   AES_DECRYPT(UNHEX(o.link_tel),'CHEtong@20161102') as linkTel,
+			   o.work_address AS workAddress,
+			   o.send_time AS sendTime,
+			   (select u.mobile from ct_user u where u.id = o.seller_user_id ) as ctMobile,
+			   (select concat(u.lastname,u.firstname) from ct_user u where u.id = o.seller_user_id ) as ctName,
+			   (SELECT t.send_state FROM fm_task_order_work_relation r,fm_task_info t WHERE r.task_id=t.id AND r.order_no=o.order_no and t.report_no=o.case_no) as sendState,
+			   (SELECT t.task_type FROM fm_task_order_work_relation r,fm_task_info t WHERE r.task_id=t.id AND r.order_no=o.order_no and t.report_no=o.case_no) as taskType,
+			   o.is_allow_mediation AS isAllowMediation,
+			   o.is_simple AS isSimple
+		    FROM
+			      fm_order o 
+		    WHERE o.case_no = #{caseNo}
+			     
+			UNION ALL
+			     
+			SELECT
+				o.id AS id,
+				o.deal_stat AS dealStat,
+				o.seller_user_id AS sellerUserId,
+				o.service_id AS serviceId,
+				o.subject_id AS orderType,
+				o.order_no AS orderNo,
+				t.car_no AS carNo,
+				t.accident_linkman AS linkMan,
+				t.accident_linktel AS linkTel,
+				o.work_address AS workAddress,
+				o.send_time AS sendTime,
+				(select u.mobile from ct_user u where u.id = o.seller_user_id ) as ctMobile,
+				(select concat(u.lastname,u.firstname) from ct_user u where u.id = o.seller_user_id ) as ctName,
+				'' as sendState,
+				'' as taskType,
+				t.is_allow AS isAllowMediation,
+				'0' AS isSimple
+			FROM
+				rs_order o,
+				rs_task_info_detail t
+			WHERE
+				o.case_no = #{caseNo}
+			AND o.task_detail_id = t.id
+			AND o.is_resend = '0'
+			
+	  ) temp ORDER BY temp.orderType ASC,temp.sendTime DESC
+       
+    </select>
+    
+    <select id="queryFmOrder" parameterType="net.chetong.order.model.FmOrderVO" resultType ="net.chetong.order.model.FmOrderVO" >
+		SELECT 
+			id as id,
+			deal_stat as dealStat,
+			order_source as orderSource,
+			order_type as orderType,
+			order_no as orderNo,
+			case_id as caseId,
+			case_no as caseNo,
+			car_no as carNo,
+			buyer_user_id as buyerUserId,
+			buyer_user_type as buyerUserType,
+			payer_user_id as payerUserId,
+			seller_user_id as sellerUserId,
+			seller_user_type as sellerUserType,
+			service_id as serviceId,
+			service_name as serviceName,
+			subject_id as subjectId,
+			subject_name as subjectName,
+			response_time as responseTime,
+			is_alow as isAlow,
+			alow_money as alowMoney,
+			delegate_momey as delegateMomey,
+			delegate_desc as delegateDesc,
+			work_address as workAddress,
+			longtitude as longtitude,
+			latitude as latitude,
+			link_man as linkMan,
+			<!-- AES_DECRYPT(UNHEX(link_tel),'CHEtong@20161102') as linkTel, -->
+			mileage as mileage,
+			get_time as getTime,
+			finish_time as finishTime,
+			send_time as sendTime,
+			preliminary_time as preliminaryTime,
+			preliminary_desc as preliminaryDesc,
+			final_time as finalTime,
+			final_desc as finalDesc,
+			send_id as sendId,
+			send_id_type as sendIdType,
+			review_class as reviewClass,
+			review_time as reviewTime,
+			review_name as reviewName,
+			review_type as reviewType,
+			ext1 as ext1,
+			ext2 as ext2,
+			ext3 as ext3,
+			ext4 as ext4,
+			ext5 as ext5,
+			ext6 as ext6,
+			ext7 as ext7,
+			ext8 as ext8,
+			group_user_id as groupUserId,
+			buyer_user_name as buyerUserName,
+			seller_user_name as sellerUserName,
+			buyer_mobile as buyerMobile,
+			ct_address as ctAddress,
+			ct_latitude as ctLatitude,
+			ct_longtitude as ctLongtitude,
+			arrival_hours as arrivalHours,
+			ext9 as ext9,
+			ext10 as ext10,
+			ext11 as ext11,
+			ext12 as ext12,
+			ext13 as ext13,
+			arrival_time as arrivalTime,
+			is_nego as isNego,
+			nego_id as negoId,
+			commi_id as commiId,
+			ext14 as ext14,
+			ext15 as ext15,
+			ext16 as ext16,
+			ext17 as ext17,
+			ext18 as ext18,
+			import_type as importType,
+			price_type as priceType,
+			is_remote as isRemote,
+            org_payer_user_id as orgPayerUserId,
+            insuer_user_id as insuerUserId
+		FROM fm_order 
+		 <where>
+		    <if test="id!= null">
+                  and id=#{id}
+            </if>
+		    <if test="dealStat!= null">
+                  and deal_stat=#{dealStat}
+            </if>
+		    <if test="orderSource!= null">
+                  and order_source=#{orderSource}
+            </if>
+		    <if test="orderType!= null">
+                  and order_type=#{orderType}
+            </if>
+		    <if test="orderNo!= null">
+                  and order_no=#{orderNo}
+            </if>
+		    <if test="caseId!= null">
+                  and case_id=#{caseId}
+            </if>
+		    <if test="caseNo!= null">
+                  and case_no=#{caseNo}
+            </if>
+		    <if test="carNo!= null">
+                  and car_no=#{carNo}
+            </if>
+		    <if test="buyerUserId!= null">
+                  and buyer_user_id=#{buyerUserId}
+            </if>
+		    <if test="buyerUserType!= null">
+                  and buyer_user_type=#{buyerUserType}
+            </if>
+		    <if test="payerUserId!= null">
+                  and payer_user_id=#{payerUserId}
+            </if>
+		    <if test="sellerUserId!= null">
+                  and seller_user_id=#{sellerUserId}
+            </if>
+		    <if test="sellerUserType!= null">
+                  and seller_user_type=#{sellerUserType}
+            </if>
+		    <if test="serviceId!= null">
+                  and service_id=#{serviceId}
+            </if>
+		    <if test="serviceName!= null">
+                  and service_name=#{serviceName}
+            </if>
+		    <if test="subjectId!= null">
+                  and subject_id=#{subjectId}
+            </if>
+		    <if test="subjectName!= null">
+                  and subject_name=#{subjectName}
+            </if>
+		    <if test="responseTime!= null">
+                  and response_time=#{responseTime}
+            </if>
+		    <if test="isAlow!= null">
+                  and is_alow=#{isAlow}
+            </if>
+		    <if test="alowMoney!= null">
+                  and alow_money=#{alowMoney}
+            </if>
+		    <if test="delegateMomey!= null">
+                  and delegate_momey=#{delegateMomey}
+            </if>
+		    <if test="delegateDesc!= null">
+                  and delegate_desc=#{delegateDesc}
+            </if>
+		    <if test="workAddress!= null">
+                  and work_address=#{workAddress}
+            </if>
+		    <if test="longtitude!= null">
+                  and longtitude=#{longtitude}
+            </if>
+		    <if test="latitude!= null">
+                  and latitude=#{latitude}
+            </if>
+		    <if test="linkMan!= null">
+                  and link_man=#{linkMan}
+            </if>
+		    <if test="linkTel!= null">
+                  and link_tel=HEX(AES_ENCRYPT(#{linkTel},'CHEtong@20161102'))
+            </if>
+		    <if test="mileage!= null">
+                  and mileage=#{mileage}
+            </if>
+		    <if test="getTime!= null">
+                  and get_time=#{getTime}
+            </if>
+		    <if test="finishTime!= null">
+                  and finish_time=#{finishTime}
+            </if>
+		    <if test="sendTime!= null">
+                  and send_time=#{sendTime}
+            </if>
+		    <if test="preliminaryTime!= null">
+                  and preliminary_time=#{preliminaryTime}
+            </if>
+		    <if test="preliminaryDesc!= null">
+                  and preliminary_desc=#{preliminaryDesc}
+            </if>
+		    <if test="finalTime!= null">
+                  and final_time=#{finalTime}
+            </if>
+		    <if test="finalDesc!= null">
+                  and final_desc=#{finalDesc}
+            </if>
+		    <if test="sendId!= null">
+                  and send_id=#{sendId}
+            </if>
+		    <if test="sendIdType!= null">
+                  and send_id_type=#{sendIdType}
+            </if>
+		    <if test="reviewClass!= null">
+                  and review_class=#{reviewClass}
+            </if>
+		    <if test="reviewTime!= null">
+                  and review_time=#{reviewTime}
+            </if>
+		    <if test="reviewName!= null">
+                  and review_name=#{reviewName}
+            </if>
+		    <if test="reviewType!= null">
+                  and review_type=#{reviewType}
+            </if>
+		    <if test="ext1!= null">
+                  and ext1=#{ext1}
+            </if>
+		    <if test="ext2!= null">
+                  and ext2=#{ext2}
+            </if>
+		    <if test="ext3!= null">
+                  and ext3=#{ext3}
+            </if>
+		    <if test="ext4!= null">
+                  and ext4=#{ext4}
+            </if>
+		    <if test="ext5!= null">
+                  and ext5=#{ext5}
+            </if>
+		    <if test="ext6!= null">
+                  and ext6=#{ext6}
+            </if>
+		    <if test="ext7!= null">
+                  and ext7=#{ext7}
+            </if>
+		    <if test="ext8!= null">
+                  and ext8=#{ext8}
+            </if>
+		    <if test="groupUserId!= null">
+                  and group_user_id=#{groupUserId}
+            </if>
+		    <if test="buyerUserName!= null">
+                  and buyer_user_name=#{buyerUserName}
+            </if>
+		    <if test="sellerUserName!= null">
+                  and seller_user_name=#{sellerUserName}
+            </if>
+		    <if test="buyerMobile!= null">
+                  and buyer_mobile=#{buyerMobile}
+            </if>
+		    <if test="ctAddress!= null">
+                  and ct_address=#{ctAddress}
+            </if>
+		    <if test="ctLatitude!= null">
+                  and ct_latitude=#{ctLatitude}
+            </if>
+		    <if test="ctLongtitude!= null">
+                  and ct_longtitude=#{ctLongtitude}
+            </if>
+		    <if test="arrivalHours!= null">
+                  and arrival_hours=#{arrivalHours}
+            </if>
+		    <if test="ext9!= null">
+                  and ext9=#{ext9}
+            </if>
+		    <if test="ext10!= null">
+                  and ext10=#{ext10}
+            </if>
+		    <if test="ext11!= null">
+                  and ext11=#{ext11}
+            </if>
+		    <if test="ext12!= null">
+                  and ext12=#{ext12}
+            </if>
+		    <if test="ext13!= null">
+                  and ext13=#{ext13}
+            </if>
+		    <if test="arrivalTime!= null">
+                  and arrival_time=#{arrivalTime}
+            </if>
+		    <if test="isNego!= null">
+                  and is_nego=#{isNego}
+            </if>
+		    <if test="negoId!= null">
+                  and nego_id=#{negoId}
+            </if>
+		    <if test="commiId!= null">
+                  and commi_id=#{commiId}
+            </if>
+		    <if test="ext14!= null">
+                  and ext14=#{ext14}
+            </if>
+		    <if test="ext15!= null">
+                  and ext15=#{ext15}
+            </if>
+		    <if test="ext16!= null">
+                  and ext16=#{ext16}
+            </if>
+		    <if test="ext17!= null">
+                  and ext17=#{ext17}
+            </if>
+		    <if test="ext18!= null">
+                  and ext18=#{ext18}
+            </if>
+            <if test="importType!= null">
+                  and import_type=#{importType}
+            </if>
+            <if test="priceType!= null">
+                  and price_type=#{priceType}
+            </if>
+            <if test="isRemote!= null">
+                  and is_remote=#{isRemote}
+            </if>
+            <if test="orgPayerUserId!= null">
+            	 and org_payer_user_id=#{orgPayerUserId}
+            </if>
+            <if test="insuerUserId!= null">
+                 and  insuer_user_id = #{insuerUserId}
+            </if>    
+  		</where>
+		  		ORDER BY id DESC
+	</select>
+	
+	<update id="updateOrderTimeoutById" parameterType="java.util.Map">
+	
+		update fm_order o
+		  set o.deal_stat = '01'
+		  where o.id = #{orderId}
+		    and o.deal_stat = '00'
+		
+	</update>
+	
+	<update id="updateCtArriveInfo" parameterType="map">
+	 	update fm_order set ct_arrive_info = #{ctArriveInfo} 
+	 	<where>
+	 		order_no = #{orderNo}
+	 	</where>
+    </update>
+    
+    <!-- 买家注销订单 -->
+    <update id="setOderCanceledByOrderNo">
+    	UPDATE fm_order
+			SET deal_stat = '02'
+		WHERE
+			order_no = #{orderNo}
+		AND deal_stat IN('01','03')
+    </update>
+    
+    <update id="updateByKeyNotNullForAudit">
+    	UPDATE fm_order 
+		  <trim prefix="SET" suffixOverrides=",">  
+					<if test="dealStat!= null">
+		   			deal_stat = #{dealStat},
+		   			</if>  
+					<if test="orderSource!= null">
+		   			order_source = #{orderSource},
+		   			</if>  
+					<if test="orderType!= null">
+		   			order_type = #{orderType},
+		   			</if>  
+					<if test="caseId!= null">
+		   			case_id = #{caseId},
+		   			</if>  
+					<if test="caseNo!= null">
+		   			case_no = #{caseNo},
+		   			</if>  
+					<if test="carNo!= null">
+		   			car_no = #{carNo},
+		   			</if>  
+					<if test="buyerUserId!= null">
+		   			buyer_user_id = #{buyerUserId},
+		   			</if>  
+					<if test="buyerUserType!= null">
+		   			buyer_user_type = #{buyerUserType},
+		   			</if>  
+					<if test="payerUserId!= null">
+		   			payer_user_id = #{payerUserId},
+		   			</if>  
+					<if test="sellerUserId!= null">
+		   			seller_user_id = #{sellerUserId},
+		   			</if>  
+					<if test="sellerUserType!= null">
+		   			seller_user_type = #{sellerUserType},
+		   			</if>  
+					<if test="serviceId!= null">
+		   			service_id = #{serviceId},
+		   			</if>  
+					<if test="serviceName!= null">
+		   			service_name = #{serviceName},
+		   			</if>  
+					<if test="subjectId!= null">
+		   			subject_id = #{subjectId},
+		   			</if>  
+					<if test="subjectName!= null">
+		   			subject_name = #{subjectName},
+		   			</if>  
+					<if test="responseTime!= null">
+		   			response_time = #{responseTime},
+		   			</if>  
+					<if test="isAlow!= null">
+		   			is_alow = #{isAlow},
+		   			</if>  
+					<if test="alowMoney!= null">
+		   			alow_money = #{alowMoney},
+		   			</if>  
+					<if test="delegateMomey!= null">
+		   			delegate_momey = #{delegateMomey},
+		   			</if>  
+					<if test="delegateDesc!= null">
+		   			delegate_desc = #{delegateDesc},
+		   			</if>  
+					<if test="workAddress!= null">
+		   			work_address = #{workAddress},
+		   			</if>  
+					<if test="longtitude!= null">
+		   			longtitude = #{longtitude},
+		   			</if>  
+					<if test="latitude!= null">
+		   			latitude = #{latitude},
+		   			</if>  
+					<if test="linkMan!= null">
+		   			link_man = #{linkMan},
+		   			</if>  
+					<if test="linkTel!= null">
+		   			link_tel = HEX(AES_ENCRYPT(#{linkTel},'CHEtong@20161102')),
+		   			</if>  
+					<if test="mileage!= null">
+		   			mileage = #{mileage},
+		   			</if>  
+					<if test="getTime!= null">
+		   			get_time = #{getTime},
+		   			</if>  
+					<if test="finishTime!= null">
+		   			finish_time = #{finishTime},
+		   			</if>  
+					<if test="sendTime!= null">
+		   			send_time = #{sendTime},
+		   			</if>  
+					<if test="preliminaryTime!= null">
+		   			preliminary_time = #{preliminaryTime},
+		   			</if>  
+					<if test="preliminaryDesc!= null">
+		   			preliminary_desc = #{preliminaryDesc},
+		   			</if>  
+					<if test="finalTime!= null">
+		   			final_time = #{finalTime},
+		   			</if>  
+					<if test="finalDesc!= null">
+		   			final_desc = #{finalDesc},
+		   			</if>  
+					<if test="sendId!= null">
+		   			send_id = #{sendId},
+		   			</if>  
+					<if test="sendIdType!= null">
+		   			send_id_type = #{sendIdType},
+		   			</if>  
+					<if test="reviewClass!= null">
+		   			review_class = #{reviewClass},
+		   			</if>  
+					<if test="reviewTime!= null">
+		   			review_time = #{reviewTime},
+		   			</if>  
+					<if test="reviewName!= null">
+		   			review_name = #{reviewName},
+		   			</if>  
+					<if test="reviewType!= null">
+		   			review_type = #{reviewType},
+		   			</if>  
+					<if test="ext1!= null">
+		   			ext1 = #{ext1},
+		   			</if>  
+					<if test="ext2!= null">
+		   			ext2 = #{ext2},
+		   			</if>  
+					<if test="ext3!= null">
+		   			ext3 = #{ext3},
+		   			</if>  
+					<if test="ext4!= null">
+		   			ext4 = #{ext4},
+		   			</if>  
+					<if test="ext5!= null">
+		   			ext5 = #{ext5},
+		   			</if>  
+					<if test="ext6!= null">
+		   			ext6 = #{ext6},
+		   			</if>  
+					<if test="ext7!= null">
+		   			ext7 = #{ext7},
+		   			</if>  
+					<if test="ext8!= null">
+		   			ext8 = #{ext8},
+		   			</if>  
+					<if test="groupUserId!= null">
+		   			group_user_id = #{groupUserId},
+		   			</if>  
+					<if test="buyerUserName!= null">
+		   			buyer_user_name = #{buyerUserName},
+		   			</if>  
+					<if test="sellerUserName!= null">
+		   			seller_user_name = #{sellerUserName},
+		   			</if>  
+					<if test="buyerMobile!= null">
+		   			buyer_mobile = #{buyerMobile},
+		   			</if>  
+					<if test="ctAddress!= null">
+		   			ct_address = #{ctAddress},
+		   			</if>  
+					<if test="ctLatitude!= null">
+		   			ct_latitude = #{ctLatitude},
+		   			</if>  
+					<if test="ctLongtitude!= null">
+		   			ct_longtitude = #{ctLongtitude},
+		   			</if>  
+					<if test="arrivalHours!= null">
+		   			arrival_hours = #{arrivalHours},
+		   			</if>  
+					<if test="ext9!= null">
+		   			ext9 = #{ext9},
+		   			</if>  
+					<if test="ext10!= null">
+		   			ext10 = #{ext10},
+		   			</if>  
+					<if test="ext11!= null">
+		   			ext11 = #{ext11},
+		   			</if>  
+					<if test="ext12!= null">
+		   			ext12 = #{ext12},
+		   			</if>  
+					<if test="ext13!= null">
+		   			ext13 = #{ext13},
+		   			</if>  
+					<if test="arrivalTime!= null">
+		   			arrival_time = #{arrivalTime},
+		   			</if>  
+					<if test="isNego!= null">
+		   			is_nego = #{isNego},
+		   			</if>  
+					<if test="negoId!= null">
+		   			nego_id = #{negoId},
+		   			</if>  
+					<if test="commiId!= null">
+		   			commi_id = #{commiId},
+		   			</if>  
+					<if test="ext14!= null">
+		   			ext14 = #{ext14},
+		   			</if>  
+					<if test="ext15!= null">
+		   			ext15 = #{ext15},
+		   			</if>  
+					<if test="ext16!= null">
+		   			ext16 = #{ext16},
+		   			</if>  
+					<if test="ext17!= null">
+		   			ext17 = #{ext17},
+		   			</if>  
+					<if test="ext18!= null">
+		   			ext18 = #{ext18},
+		   			</if>
+		   			<if test="importType!= null">
+                    import_type=#{importType},
+                    </if> 
+                    <if test="priceType!= null">
+                    price_type=#{priceType},
+                    </if>
+                    <if test="isRemote!= null">
+                    is_remote=#{isRemote},
+                    </if>   
+                    <if test="orgPayerUserId!= null">
+                    org_payer_user_id=#{orgPayerUserId},
+                    </if>
+                    <if test="insuerUserId!= null">
+                    	insuer_user_id = #{insuerUserId},
+                    </if>    
+		  </trim>
+		  <where>
+		  		<choose>
+		  			<when test="isSimple!=null and (isSimple == '1'.toString() or isSimple == '2'.toString())">
+				  		deal_stat = '04'
+		                and id = #{id}
+		  			</when>
+		  			<otherwise>
+		  		deal_stat = '07'
+                and id = #{id}
+		  			</otherwise>
+		  		</choose>
+		 </where>
+    
+    </update>
+    
+    <update id="updateByKeyNotNullForAuditByAdmin">
+    	UPDATE fm_order 
+		  <trim prefix="SET" suffixOverrides=",">  
+					<if test="dealStat!= null">
+		   			deal_stat = #{dealStat},
+		   			</if>  
+					<if test="orderSource!= null">
+		   			order_source = #{orderSource},
+		   			</if>  
+					<if test="orderType!= null">
+		   			order_type = #{orderType},
+		   			</if>  
+					<if test="caseId!= null">
+		   			case_id = #{caseId},
+		   			</if>  
+					<if test="caseNo!= null">
+		   			case_no = #{caseNo},
+		   			</if>  
+					<if test="carNo!= null">
+		   			car_no = #{carNo},
+		   			</if>  
+					<if test="buyerUserId!= null">
+		   			buyer_user_id = #{buyerUserId},
+		   			</if>  
+					<if test="buyerUserType!= null">
+		   			buyer_user_type = #{buyerUserType},
+		   			</if>  
+					<if test="payerUserId!= null">
+		   			payer_user_id = #{payerUserId},
+		   			</if>  
+					<if test="sellerUserId!= null">
+		   			seller_user_id = #{sellerUserId},
+		   			</if>  
+					<if test="sellerUserType!= null">
+		   			seller_user_type = #{sellerUserType},
+		   			</if>  
+					<if test="serviceId!= null">
+		   			service_id = #{serviceId},
+		   			</if>  
+					<if test="serviceName!= null">
+		   			service_name = #{serviceName},
+		   			</if>  
+					<if test="subjectId!= null">
+		   			subject_id = #{subjectId},
+		   			</if>  
+					<if test="subjectName!= null">
+		   			subject_name = #{subjectName},
+		   			</if>  
+					<if test="responseTime!= null">
+		   			response_time = #{responseTime},
+		   			</if>  
+					<if test="isAlow!= null">
+		   			is_alow = #{isAlow},
+		   			</if>  
+					<if test="alowMoney!= null">
+		   			alow_money = #{alowMoney},
+		   			</if>  
+					<if test="delegateMomey!= null">
+		   			delegate_momey = #{delegateMomey},
+		   			</if>  
+					<if test="delegateDesc!= null">
+		   			delegate_desc = #{delegateDesc},
+		   			</if>  
+					<if test="workAddress!= null">
+		   			work_address = #{workAddress},
+		   			</if>  
+					<if test="longtitude!= null">
+		   			longtitude = #{longtitude},
+		   			</if>  
+					<if test="latitude!= null">
+		   			latitude = #{latitude},
+		   			</if>  
+					<if test="linkMan!= null">
+		   			link_man = #{linkMan},
+		   			</if>  
+					<if test="linkTel!= null">
+		   			link_tel = HEX(AES_ENCRYPT(#{linkTel},'CHEtong@20161102')),
+		   			</if>  
+					<if test="mileage!= null">
+		   			mileage = #{mileage},
+		   			</if>  
+					<if test="getTime!= null">
+		   			get_time = #{getTime},
+		   			</if>  
+					<if test="finishTime!= null">
+		   			finish_time = #{finishTime},
+		   			</if>  
+					<if test="sendTime!= null">
+		   			send_time = #{sendTime},
+		   			</if>  
+					<if test="preliminaryTime!= null">
+		   			preliminary_time = #{preliminaryTime},
+		   			</if>  
+					<if test="preliminaryDesc!= null">
+		   			preliminary_desc = #{preliminaryDesc},
+		   			</if>  
+					<if test="finalTime!= null">
+		   			final_time = #{finalTime},
+		   			</if>  
+					<if test="finalDesc!= null">
+		   			final_desc = #{finalDesc},
+		   			</if>  
+					<if test="sendId!= null">
+		   			send_id = #{sendId},
+		   			</if>  
+					<if test="sendIdType!= null">
+		   			send_id_type = #{sendIdType},
+		   			</if>  
+					<if test="reviewClass!= null">
+		   			review_class = #{reviewClass},
+		   			</if>  
+					<if test="reviewTime!= null">
+		   			review_time = #{reviewTime},
+		   			</if>  
+					<if test="reviewName!= null">
+		   			review_name = #{reviewName},
+		   			</if>  
+					<if test="reviewType!= null">
+		   			review_type = #{reviewType},
+		   			</if>  
+					<if test="ext1!= null">
+		   			ext1 = #{ext1},
+		   			</if>  
+					<if test="ext2!= null">
+		   			ext2 = #{ext2},
+		   			</if>  
+					<if test="ext3!= null">
+		   			ext3 = #{ext3},
+		   			</if>  
+					<if test="ext4!= null">
+		   			ext4 = #{ext4},
+		   			</if>  
+					<if test="ext5!= null">
+		   			ext5 = #{ext5},
+		   			</if>  
+					<if test="ext6!= null">
+		   			ext6 = #{ext6},
+		   			</if>  
+					<if test="ext7!= null">
+		   			ext7 = #{ext7},
+		   			</if>  
+					<if test="ext8!= null">
+		   			ext8 = #{ext8},
+		   			</if>  
+					<if test="groupUserId!= null">
+		   			group_user_id = #{groupUserId},
+		   			</if>  
+					<if test="buyerUserName!= null">
+		   			buyer_user_name = #{buyerUserName},
+		   			</if>  
+					<if test="sellerUserName!= null">
+		   			seller_user_name = #{sellerUserName},
+		   			</if>  
+					<if test="buyerMobile!= null">
+		   			buyer_mobile = #{buyerMobile},
+		   			</if>  
+					<if test="ctAddress!= null">
+		   			ct_address = #{ctAddress},
+		   			</if>  
+					<if test="ctLatitude!= null">
+		   			ct_latitude = #{ctLatitude},
+		   			</if>  
+					<if test="ctLongtitude!= null">
+		   			ct_longtitude = #{ctLongtitude},
+		   			</if>  
+					<if test="arrivalHours!= null">
+		   			arrival_hours = #{arrivalHours},
+		   			</if>  
+					<if test="ext9!= null">
+		   			ext9 = #{ext9},
+		   			</if>  
+					<if test="ext10!= null">
+		   			ext10 = #{ext10},
+		   			</if>  
+					<if test="ext11!= null">
+		   			ext11 = #{ext11},
+		   			</if>  
+					<if test="ext12!= null">
+		   			ext12 = #{ext12},
+		   			</if>  
+					<if test="ext13!= null">
+		   			ext13 = #{ext13},
+		   			</if>  
+					<if test="arrivalTime!= null">
+		   			arrival_time = #{arrivalTime},
+		   			</if>  
+					<if test="isNego!= null">
+		   			is_nego = #{isNego},
+		   			</if>  
+					<if test="negoId!= null">
+		   			nego_id = #{negoId},
+		   			</if>  
+					<if test="commiId!= null">
+		   			commi_id = #{commiId},
+		   			</if>  
+					<if test="ext14!= null">
+		   			ext14 = #{ext14},
+		   			</if>  
+					<if test="ext15!= null">
+		   			ext15 = #{ext15},
+		   			</if>  
+					<if test="ext16!= null">
+		   			ext16 = #{ext16},
+		   			</if>  
+					<if test="ext17!= null">
+		   			ext17 = #{ext17},
+		   			</if>  
+					<if test="ext18!= null">
+		   			ext18 = #{ext18},
+		   			</if>
+		   			<if test="importType!= null">
+                    import_type=#{importType},
+                    </if> 
+                    <if test="priceType!= null">
+                    price_type=#{priceType},
+                    </if>
+                    <if test="isRemote!= null">
+                    is_remote=#{isRemote},
+                    </if>   
+                    <if test="orgPayerUserId!= null">
+                    org_payer_user_id=#{orgPayerUserId},
+                    </if>
+                    <if test="insuerUserId!= null">
+                    	insuer_user_id = #{insuerUserId},
+                    </if>    
+		  </trim>
+		  <where>
+		  		deal_stat in ('07','08')
+                and id = #{id}
+		 </where>
+    
+    </update>
+    
+    <select id="updateByKeyNotNullForResend" parameterType="net.chetong.order.model.FmOrderVO">
+    	UPDATE fm_order 
+		  <trim prefix="SET" suffixOverrides=",">  
+					<if test="dealStat!= null">
+		   			deal_stat = #{dealStat},
+		   			</if>  
+					<if test="orderSource!= null">
+		   			order_source = #{orderSource},
+		   			</if>  
+					<if test="orderType!= null">
+		   			order_type = #{orderType},
+		   			</if>  
+					<if test="caseId!= null">
+		   			case_id = #{caseId},
+		   			</if>  
+					<if test="caseNo!= null">
+		   			case_no = #{caseNo},
+		   			</if>  
+					<if test="carNo!= null">
+		   			car_no = #{carNo},
+		   			</if>  
+					<if test="buyerUserId!= null">
+		   			buyer_user_id = #{buyerUserId},
+		   			</if>  
+					<if test="buyerUserType!= null">
+		   			buyer_user_type = #{buyerUserType},
+		   			</if>  
+					<if test="payerUserId!= null">
+		   			payer_user_id = #{payerUserId},
+		   			</if>  
+					<if test="sellerUserId!= null">
+		   			seller_user_id = #{sellerUserId},
+		   			</if>  
+					<if test="sellerUserType!= null">
+		   			seller_user_type = #{sellerUserType},
+		   			</if>  
+					<if test="serviceId!= null">
+		   			service_id = #{serviceId},
+		   			</if>  
+					<if test="serviceName!= null">
+		   			service_name = #{serviceName},
+		   			</if>  
+					<if test="subjectId!= null">
+		   			subject_id = #{subjectId},
+		   			</if>  
+					<if test="subjectName!= null">
+		   			subject_name = #{subjectName},
+		   			</if>  
+					<if test="responseTime!= null">
+		   			response_time = #{responseTime},
+		   			</if>  
+					<if test="isAlow!= null">
+		   			is_alow = #{isAlow},
+		   			</if>  
+					<if test="alowMoney!= null">
+		   			alow_money = #{alowMoney},
+		   			</if>  
+					<if test="delegateMomey!= null">
+		   			delegate_momey = #{delegateMomey},
+		   			</if>  
+					<if test="delegateDesc!= null">
+		   			delegate_desc = #{delegateDesc},
+		   			</if>  
+					<if test="workAddress!= null">
+		   			work_address = #{workAddress},
+		   			</if>  
+					<if test="longtitude!= null">
+		   			longtitude = #{longtitude},
+		   			</if>  
+					<if test="latitude!= null">
+		   			latitude = #{latitude},
+		   			</if>  
+					<if test="linkMan!= null">
+		   			link_man = #{linkMan},
+		   			</if>  
+					<if test="linkTel!= null">
+		   			link_tel = HEX(AES_ENCRYPT(#{linkTel},'CHEtong@20161102')),
+		   			</if>  
+					<if test="mileage!= null">
+		   			mileage = #{mileage},
+		   			</if>  
+					<if test="getTime!= null">
+		   			get_time = #{getTime},
+		   			</if>  
+					<if test="finishTime!= null">
+		   			finish_time = #{finishTime},
+		   			</if>  
+					<if test="sendTime!= null">
+		   			send_time = #{sendTime},
+		   			</if>  
+					<if test="preliminaryTime!= null">
+		   			preliminary_time = #{preliminaryTime},
+		   			</if>  
+					<if test="preliminaryDesc!= null">
+		   			preliminary_desc = #{preliminaryDesc},
+		   			</if>  
+					<if test="finalTime!= null">
+		   			final_time = #{finalTime},
+		   			</if>  
+					<if test="finalDesc!= null">
+		   			final_desc = #{finalDesc},
+		   			</if>  
+					<if test="sendId!= null">
+		   			send_id = #{sendId},
+		   			</if>  
+					<if test="sendIdType!= null">
+		   			send_id_type = #{sendIdType},
+		   			</if>  
+					<if test="reviewClass!= null">
+		   			review_class = #{reviewClass},
+		   			</if>  
+					<if test="reviewTime!= null">
+		   			review_time = #{reviewTime},
+		   			</if>  
+					<if test="reviewName!= null">
+		   			review_name = #{reviewName},
+		   			</if>  
+					<if test="reviewType!= null">
+		   			review_type = #{reviewType},
+		   			</if>  
+					<if test="ext1!= null">
+		   			ext1 = #{ext1},
+		   			</if>  
+					<if test="ext2!= null">
+		   			ext2 = #{ext2},
+		   			</if>  
+					<if test="ext3!= null">
+		   			ext3 = #{ext3},
+		   			</if>  
+					<if test="ext4!= null">
+		   			ext4 = #{ext4},
+		   			</if>  
+					<if test="ext5!= null">
+		   			ext5 = #{ext5},
+		   			</if>  
+					<if test="ext6!= null">
+		   			ext6 = #{ext6},
+		   			</if>  
+					<if test="ext7!= null">
+		   			ext7 = #{ext7},
+		   			</if>  
+					<if test="ext8!= null">
+		   			ext8 = #{ext8},
+		   			</if>  
+					<if test="groupUserId!= null">
+		   			group_user_id = #{groupUserId},
+		   			</if>  
+					<if test="buyerUserName!= null">
+		   			buyer_user_name = #{buyerUserName},
+		   			</if>  
+					<if test="sellerUserName!= null">
+		   			seller_user_name = #{sellerUserName},
+		   			</if>  
+					<if test="buyerMobile!= null">
+		   			buyer_mobile = #{buyerMobile},
+		   			</if>  
+					<if test="ctAddress!= null">
+		   			ct_address = #{ctAddress},
+		   			</if>  
+					<if test="ctLatitude!= null">
+		   			ct_latitude = #{ctLatitude},
+		   			</if>  
+					<if test="ctLongtitude!= null">
+		   			ct_longtitude = #{ctLongtitude},
+		   			</if>  
+					<if test="arrivalHours!= null">
+		   			arrival_hours = #{arrivalHours},
+		   			</if>  
+					<if test="ext9!= null">
+		   			ext9 = #{ext9},
+		   			</if>  
+					<if test="ext10!= null">
+		   			ext10 = #{ext10},
+		   			</if>  
+					<if test="ext11!= null">
+		   			ext11 = #{ext11},
+		   			</if>  
+					<if test="ext12!= null">
+		   			ext12 = #{ext12},
+		   			</if>  
+					<if test="ext13!= null">
+		   			ext13 = #{ext13},
+		   			</if>  
+					<if test="arrivalTime!= null">
+		   			arrival_time = #{arrivalTime},
+		   			</if>  
+					<if test="isNego!= null">
+		   			is_nego = #{isNego},
+		   			</if>  
+					<if test="negoId!= null">
+		   			nego_id = #{negoId},
+		   			</if>  
+					<if test="commiId!= null">
+		   			commi_id = #{commiId},
+		   			</if>  
+					<if test="ext14!= null">
+		   			ext14 = #{ext14},
+		   			</if>  
+					<if test="ext15!= null">
+		   			ext15 = #{ext15},
+		   			</if>  
+					<if test="ext16!= null">
+		   			ext16 = #{ext16},
+		   			</if>  
+					<if test="ext17!= null">
+		   			ext17 = #{ext17},
+		   			</if>  
+					<if test="ext18!= null">
+		   			ext18 = #{ext18},
+		   			</if>
+		   			<if test="importType!= null">
+                    import_type=#{importType},
+                    </if>
+                    <if test="priceType!= null">
+                    price_type=#{priceType},
+                    </if>
+                    <if test="isRemote!= null">
+                    is_remote=#{isRemote},
+                    </if>   
+                    <if test="orgPayerUserId!= null">
+                    org_payer_user_id=#{orgPayerUserId},
+                    </if>
+                    <if test="insuerUserId!= null">
+                    	insuer_user_id = #{insuerUserId},
+                    </if>    
+		  </trim>
+		  <where>
+               id = #{id} 
+               and (deal_stat = '01' or deal_stat = '03')
+		 </where>
+    
+    </select>
+    
+    
+    <select id="queryCtUserAuthArea" parameterType="com.ctweb.model.user.CtUserAuthArea" resultType ="com.ctweb.model.user.CtUserAuthArea" >
+		SELECT 
+			id as id,
+			user_id as userId,
+			auth_id as authId,
+			rule_type as ruleType,
+			prov_code as provCode,
+			report_no as reportNo,
+			ext1 as ext1,
+			ext2 as ext2,
+			ext3 as ext3
+		FROM ct_user_auth_area 
+		 <where>
+		    <if test="id!= null">
+                  and id=#{id}
+            </if>
+		    <if test="userId!= null">
+                  and user_id=#{userId}
+            </if>
+		    <if test="authId!= null">
+                  and auth_id=#{authId}
+            </if>
+		    <if test="ruleType!= null">
+                  and rule_type=#{ruleType}
+            </if>
+		    <if test="provCode!= null">
+                  and prov_code=#{provCode}
+            </if>
+		    <if test="reportNo!= null">
+                  and report_no=#{reportNo}
+            </if>
+		    <if test="ext1!= null">
+                  and ext1=#{ext1}
+            </if>
+		    <if test="ext2!= null">
+                  and ext2=#{ext2}
+            </if>
+		    <if test="ext3!= null">
+                  and ext3=#{ext3}
+            </if>
+  		</where>
+		  		ORDER BY id DESC
+	</select>
+	
+	<update id="updateOrderPriceInfo" parameterType="map">
+		update fm_order
+		set
+		<if test="buyerUserId!= null">
+		buyer_user_id = #{buyerUserId},
+		</if>
+		<if test="buyerUserName!= null">
+		buyer_user_name = #{buyerUserName},
+		</if>
+		<if test="insuerUserId!= null">
+		insuer_user_id = #{insuerUserId},
+		</if>
+		<if test="isRemote!= null">
+		is_remote = #{isRemote},
+		</if>
+		<if test="priceType!= null">
+		price_type = #{priceType},
+		</if>
+		<if test="isSimple!= null">
+		is_simple = #{isSimple},
+		</if>
+		payer_user_id = #{payerUserId}
+		<where>
+		order_no = #{orderNo}
+		</where>
+	</update>
+	
+	<update id="cancelOrder" parameterType="String">
+		update fm_order
+		set
+		deal_stat = '02'
+		<where>
+		  order_no = #{orderNo}
+		  and deal_stat in ('01','03')
+		</where>
+	</update>
+         <!-- 更新订单车牌号 -->
+    	<update id="updateOrderCarNoByOrderNo" parameterType="map">
+	    	UPDATE fm_order
+				SET car_no = #{carNo}
+			WHERE
+				order_no = #{orderNo}
+    	</update>
+    	
+	<!-- 查询订单授权一次性调解，以及一些状态信息 -->
+	<select id="getOrderInfoUrl" parameterType="java.util.Map" resultType="net.chetong.order.model.form.OrderInfoUrlBean">
+		SELECT
+			o.seller_user_id AS userId,
+			o.service_id AS serviceId,
+			o.order_type AS orderType,
+			o.subject_id AS subjectId,
+			o.is_alow AS isAllow, 
+			o.is_allow_mediation AS isAllowMediation,
+			o.link_man AS linkMan,
+			AES_DECRYPT(UNHEX(o.link_tel),'CHEtong@20161102') AS linkTel,
+			o.buyer_user_id AS buyerUserId,
+			o.case_no AS caseNo,
+			o.car_no AS carNo,
+			o.deal_stat AS dealStat,
+			o.is_simple AS isSimple
+		FROM
+			fm_order o
+		WHERE
+			o.order_no = #{orderNo}
+		
+		UNION ALL
+		
+		SELECT
+			o.seller_user_id AS userId,
+			o.service_id AS serviceId,
+			o.subject_id AS orderType,
+			o.subject_id AS subjectId,
+			'0' AS isAllow,
+			IFNULL(t.is_allow,0) AS isAllowMediation,
+			t.accident_linkman AS linkMan,
+			t.accident_linktel AS linkTel,
+			o.buyer_user_id AS buyerUserId,
+			o.case_no AS caseNo,
+			t.car_no AS carNo,
+			o.deal_stat AS dealStat,
+			'0' AS isSimple
+		FROM rs_order o LEFT JOIN rs_task_info_detail t ON o.task_detail_id=t.id
+		WHERE
+			o.order_no = #{orderNo}
+	
+	</select>
+	
+	<!-- 查询订单是否可作业 -->
+	<select id="queryOrderNoAudited" parameterType="map" resultType="long">
+   		SELECT
+			COUNT(1)
+		FROM
+			fm_order o
+		WHERE
+			o.order_no = #{orderNo}
+		AND o.seller_user_id = #{userId}
+		<!-- 开放订单审核通过也可上传图片 -->
+		<!-- AND o.deal_stat !='09' -->
+   	</select>
+   	
+   	<!-- 清除订单的团队信息 -->
+	<update id="cleanGroupInfoById" parameterType="Long">
+		UPDATE fm_order
+		SET group_user_id = NULL,
+			commi_id = NULL
+		WHERE
+			id = #{orderId}
+	</update>
+	
+	<!-- 查询指定用户名id -->
+	<select id="queryTheLoginId" resultType="Map">
+		select id from ct_user where login_name in ('jinniugonggu','HNSANCHUAN','ai86762735','rmgg','Ywj826', 'slj123456', 'cjb123456','yingda_hn', 'exiu','baoxian','chetong', 'picc')
+	</select>
+	
+	<!-- 审核通过添加图片需要：根据订单号查询订单状态 -->
+	<select id="querydealStat" parameterType="String" resultType="String"> 
+		select deal_stat from fm_order where order_no = #{orderNo}
+	</select>
+	
+</mapper>

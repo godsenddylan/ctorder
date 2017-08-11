@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="sqlmap_fm_order_move_log" >
+  <resultMap id="BaseResultMap" type="net.chetong.aic.order.move.entity.FmOrderMoveLog" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="order_no" property="orderNo" jdbcType="VARCHAR" />
+    <result column="old_buyer_id" property="oldBuyerId" jdbcType="BIGINT" />
+    <result column="old_payer_id" property="oldPayerId" jdbcType="BIGINT" />
+    <result column="new_buyer_id" property="newBuyerId" jdbcType="BIGINT" />
+    <result column="new_payer_id" property="newPayerId" jdbcType="BIGINT" />
+    <result column="mark" property="mark" jdbcType="VARCHAR" />
+    <result column="create_by" property="createBy" jdbcType="BIGINT" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, order_no, old_buyer_id, old_payer_id, new_buyer_id, new_payer_id, mark, create_by, 
+    create_time
+  </sql>
+  
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from fm_order_move_log
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  
+  <insert id="insertSelective" parameterType="net.chetong.aic.order.move.entity.FmOrderMoveLog" >
+    insert into fm_order_move_log
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="orderNo != null" >
+        order_no,
+      </if>
+      <if test="oldBuyerId != null" >
+        old_buyer_id,
+      </if>
+      <if test="oldPayerId != null" >
+        old_payer_id,
+      </if>
+      <if test="newBuyerId != null" >
+        new_buyer_id,
+      </if>
+      <if test="newPayerId != null" >
+        new_payer_id,
+      </if>
+      <if test="mark != null" >
+        mark,
+      </if>
+      <if test="createBy != null" >
+        create_by,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="orderNo != null" >
+        #{orderNo,jdbcType=VARCHAR},
+      </if>
+      <if test="oldBuyerId != null" >
+        #{oldBuyerId,jdbcType=BIGINT},
+      </if>
+      <if test="oldPayerId != null" >
+        #{oldPayerId,jdbcType=BIGINT},
+      </if>
+      <if test="newBuyerId != null" >
+        #{newBuyerId,jdbcType=BIGINT},
+      </if>
+      <if test="newPayerId != null" >
+        #{newPayerId,jdbcType=BIGINT},
+      </if>
+      <if test="mark != null" >
+        #{mark,jdbcType=VARCHAR},
+      </if>
+      <if test="createBy != null" >
+        #{createBy,jdbcType=BIGINT},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  
+</mapper>

@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="custom_wechat">
+
+	<select id="queryGroupIdByMemberUserId" parameterType="java.lang.String" resultType="net.chetong.order.model.CtGroupVO">
+		SELECT g.id AS id, g.user_id AS userId, g.org_name, u.lastname AS connTel1, u.firstname AS connTel2 
+		FROM ct_user u
+		LEFT JOIN ct_person_group pg  ON pg.user_id = u.id AND pg.stat = '1' AND pg.ext1 = '2'
+		LEFT JOIN ct_group g ON g.id = pg.group_id 
+		WHERE u.id = #{userId}
+		limit 1
+	</select>
+
+	<select id="querySellerUserInfoByOrderNo" parameterType="java.lang.String" resultType="net.chetong.order.model.CtUserVO">
+	    SELECT u.id AS id, u.lastname AS lastname, u.firstname AS firstname, u.mobile AS mobile, u.sex AS sex FROM ct_user u 
+	    LEFT JOIN fm_order o ON o.seller_user_id = u.id WHERE o.order_no = #{orderNo}
+	    limit 1
+	</select>
+
+	<select id="queryWatchGroupInfoByOrderNo" parameterType="java.lang.String" resultType="net.chetong.order.model.CtGroupVO">
+		SELECT g.id AS id, g.user_id AS userId, g.org_name AS orgName, g.prov_code AS provCode, g.city_code AS cityCode, g.prov_desc AS provDesc, g.city_desc AS cityDesc 
+		FROM ct_group g 
+		LEFT JOIN fm_order o ON 
+		<choose>
+		    <when test="cityCode != null">
+		        g.city_code = o.ext2 
+		    </when>
+		    <when test="provCode != null">
+		        g.prov_code = o.ext1 AND g.city_code NOT IN 
+		        <foreach collection="spAreas" item="cCode" open="(" separator="," close=")">
+				    #{cCode}
+				</foreach>
+		    </when>
+		</choose>
+		WHERE g.is_manage_org = '1' AND o.service_id = 1 AND o.order_no = #{orderNo}
+		GROUP BY g.id
+	</select>
+	
+	<select id="queryCtUserAuthArea" parameterType="com.ctweb.model.user.CtUserAuthArea" resultType ="com.ctweb.model.user.CtUserAuthArea" >
+		select a.user_id as userId, GROUP_CONCAT(prov_code) as provCode, GROUP_CONCAT(report_no) as reportNo from ct_user_auth_area a where a.user_id = #{userId} and a.auth_id = #{authId}
+	</select>
+	
+	<select id="queryCtUserAuditRightExists" parameterType="java.lang.String" resultType ="java.lang.Integer" >
+		select count(1) as cnt from ct_roles_auth r, ct_user_roles u where u.role_id = r.role_id and u.user_id = #{uid} and r.auth_id = '10'
+	</select>
+</mapper>

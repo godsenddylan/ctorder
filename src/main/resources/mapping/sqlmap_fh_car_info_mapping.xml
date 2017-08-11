@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="sqlmap_fh_car_info">
+	<sql id="carSql">
+		created_by as createdBy,
+		created_date as createdDate,
+		updated_by as updatedBy,
+		updated_date as updatedDate,
+		id AS id,
+		survey_id as surveyId,
+		car_mark AS carMark,
+		vin_no AS vinNo,
+		engine_no AS engineNo,
+		DATE_FORMAT(first_date,'%Y-%m-%d %H:%i:%s') AS firstDate,
+		car_type AS carType,
+		person_count AS personCount,
+		is_drive AS isDrive,
+		car_colour AS carColour,
+		mileage_num AS mileageNum,
+		is_overload AS isOverload,
+		overload_weight AS overloadWeight,
+		mark_type AS markType,
+		seat_count AS seatCount,
+		driving_license AS drivingLicense,		
+		target_type AS targetType,
+		remark AS remark,
+		producer_name as producerName,
+		brand_name AS brandName,
+		serial_name AS serialName,
+		type_code AS typeCode,
+		type_name AS typeName,
+		class_name AS className,
+		product_year AS productYear
+	</sql>
+	
+    <select id="queryCarInfo" parameterType="map" resultType="FhCarInfoVO">
+        select 
+			<include refid="carSql"></include>
+		from fh_car_info 
+		<where>
+			<if test="id!= null">
+                  and id=#{id}
+            </if>
+            <if test="carMark!= null">
+                  and car_mark=#{carMark}
+            </if>
+            <if test="surveyId!=null">
+            	and survey_id = #{surveyId}
+            </if>
+            <if test="targetType!=null">
+            	and target_type = #{targetType}
+            </if>
+            <if test="byReportNo!=null and byReportNo!= ''">
+            	<if test="queryType != null and queryType == '1'.toString()">
+	            	AND id IN (SELECT fl.car_id FROM fh_loss_info fl WHERE fl.loss_type = '1' AND fl.loss_target = '2' AND fl.report_no = #{byReportNo})<!-- 三者定损车 -->
+            	</if>
+            	<if test="queryType != null and queryType == '2'.toString()">
+	            	AND (id IN (SELECT fl.car_id FROM fh_loss_info fl WHERE fl.loss_type = '1' AND fl.report_no = #{byReportNo})<!-- 定损车 -->
+	            	OR survey_id IN (SELECT fu.id FROM fh_survey_info fu WHERE fu.report_no = #{byReportNo}))<!-- 查勘车 -->
+            	</if>
+            </if>
+		</where>
+    </select>
+    
+	<insert id="insertCarInfo" parameterType="FhCarInfoVO" useGeneratedKeys="true" keyProperty="id">
+			INSERT INTO fh_car_info  
+			(
+				created_by,created_date,updated_by,updated_date,
+				car_mark,vin_no,engine_no,first_date,car_type,
+				person_count,is_drive,car_colour,mileage_num,
+				is_overload,overload_weight,mark_type,seat_count,
+				driving_license,remark,survey_id,target_type,
+				producer_name,brand_name,serial_name,type_code,
+				type_name,class_name,product_year
+			)
+			VALUES
+	   		(
+	   			#{createdBy},SYSDATE(),#{updatedBy},SYSDATE(),
+	   			#{carMark},#{vinNo},#{engineNo},
+	   			<choose>
+	   				<when test='firstDate!=null and firstDate!=""'>#{firstDate},</when>
+	   				<otherwise>null,</otherwise>
+	   			</choose>
+	   			#{carType},
+	   			<choose>
+	   				<when test='personCount!=null and personCount!=""'>#{personCount},</when>
+	   				<otherwise>null,</otherwise>
+	   			</choose>
+	   			#{isDrive},#{carColour},#{mileageNum},
+	   			#{isOverload},#{overloadWeight},#{markType},
+	   			<choose>
+	   				<when test='seatCount!=null and seatCount!=""'>#{seatCount},</when>
+	   				<otherwise>null,</otherwise>
+	   			</choose>
+	   			#{drivingLicense},#{remark},#{surveyId},#{targetType},
+	   			#{producerName},#{brandName},#{serialName},#{typeCode},
+	   			#{typeName},#{className},#{productYear}
+			)
+	</insert>
+	<update id="updateCarInfo" parameterType="FhCarInfoVO">
+		update fh_car_info set 
+			<if test="surveyId!=null">
+				survey_id=#{surveyId},
+			</if>
+			<if test="carMark!=null">
+				car_mark = #{carMark},
+			</if>
+			<if test="vinNo!=null">
+				vin_no = #{vinNo},
+			</if>
+			<if test="engineNo!=null">
+				engine_no = #{engineNo},
+			</if>
+			
+			<if test="firstDate!=null">
+				<choose>
+				<when test='firstDate!=""'>first_date = #{firstDate},</when>
+				<otherwise>first_date = null,</otherwise>
+				</choose>
+			</if>
+			<if test="carType!=null">
+				car_type = #{carType},
+			</if>
+			<if test="personCount!=null">
+			 	<choose>
+				<when test='personCount!=""'>person_count = #{personCount},</when>
+				<otherwise>person_count = null,</otherwise>
+				</choose>
+			</if>
+			<if test="isDrive!=null">
+				is_drive = #{isDrive},
+			</if>
+			<if test="carColour!=null">
+				car_colour = #{carColour},
+			</if>
+			<if test="mileageNum!=null">
+				mileage_num = #{mileageNum},
+			</if>
+			<if test="isOverload!=null">
+				is_overload = #{isOverload},
+			</if>
+			<if test="overloadWeight!=null">
+				overload_weight = #{overloadWeight},
+			</if>
+			<if test="markType!=null">
+				mark_type = #{markType},
+			</if>
+			<if test="seatCount!=null">
+				<choose>
+				<when test='seatCount!=""'>seat_count = #{seatCount},</when>
+				<otherwise>seat_count = null,</otherwise>
+				</choose>
+			</if>
+			<if test="drivingLicense!=null">
+				driving_license = #{drivingLicense},
+			</if>
+			<if test="targetType!=null">
+				target_type = #{targetType},
+			</if>
+			<if test="remark!=null">
+				remark = #{remark},
+			</if>
+			<if test="producerName!=null">
+				producer_name = #{producerName},
+			</if>
+			<if test="brandName!=null">
+				brand_name = #{brandName},
+			</if>
+			<if test="serialName!=null">
+				serial_name = #{serialName},
+			</if>
+			<if test="typeCode!=null">
+				type_code = #{typeCode},
+			</if>
+			<if test="typeName!=null">
+				type_name = #{typeName},
+			</if>
+			<if test="className!=null">
+				class_name = #{className},
+			</if>
+			<if test="productYear!=null">
+				product_year = #{productYear},
+			</if>
+			updated_by = #{updatedBy},
+			updated_date = SYSDATE()
+		where id=#{id}
+	</update>
+	<delete id="deleteCarInfo">
+		delete from fh_car_info where id=#{id}
+	</delete>
+</mapper>

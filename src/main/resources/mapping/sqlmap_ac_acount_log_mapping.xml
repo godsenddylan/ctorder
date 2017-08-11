@@ -1,0 +1,250 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="ac_acount_log">
+	<insert id="insertNotNull" parameterType="net.chetong.order.model.AcAcountLogVO" useGeneratedKeys="true" keyProperty="id">
+			INSERT INTO ac_acount_log   
+			(
+				<trim suffix="" suffixOverrides=",">
+					<if test="id!= null">
+		                   id,
+		            </if>
+					<if test="userId!= null">
+		                   user_id,
+		            </if>
+					<if test="tradeId!= null">
+		                   trade_id,
+		            </if>
+					<if test="tradeSeq!= null">
+		                   trade_seq,
+		            </if>
+					<if test="balanceType!= null">
+		                   balance_type,
+		            </if>
+					<if test="tradeType!= null">
+		                   trade_type,
+		            </if>
+					<if test="tradeStat!= null">
+		                   trade_stat,
+		            </if>
+					<if test="tradeTime!= null">
+		                   trade_time,
+		            </if>
+					<if test="tradeMoney!= null">
+		                   trade_money,
+		            </if>
+					<if test="totalMoney!= null">
+		                   total_money,
+		            </if>
+					<if test="tradeDesc!= null">
+		                   trade_desc,
+		            </if>
+					<if test="operId!= null">
+		                   oper_id,
+		            </if>
+					<if test="operTime!= null">
+		                   oper_time,
+		            </if>
+					<if test="ext1!= null">
+		                   ext1,
+		            </if>
+					<if test="ext2!= null">
+		                   ext2,
+		            </if>
+					<if test="ext3!= null">
+		                   ext3,
+		            </if>
+					<if test="note!= null">
+		                   note,
+		            </if>
+	            </trim>
+			)
+			VALUES
+	   		(
+	   			<trim suffix="" suffixOverrides=",">
+		   			<if test="id!= null">
+		   			#{id},
+		   			</if>
+		   			<if test="userId!= null">
+		   			#{userId},
+		   			</if>
+		   			<if test="tradeId!= null">
+		   			#{tradeId},
+		   			</if>
+		   			<if test="tradeSeq!= null">
+		   			#{tradeSeq},
+		   			</if>
+		   			<if test="balanceType!= null">
+		   			#{balanceType},
+		   			</if>
+		   			<if test="tradeType!= null">
+		   			#{tradeType},
+		   			</if>
+		   			<if test="tradeStat!= null">
+		   			#{tradeStat},
+		   			</if>
+		   			<if test="tradeTime!= null">
+		   			#{tradeTime},
+		   			</if>
+		   			<if test="tradeMoney!= null">
+		   			#{tradeMoney},
+		   			</if>
+		   			<if test="totalMoney!= null">
+		   			#{totalMoney},
+		   			</if>
+		   			<if test="tradeDesc!= null">
+		   			#{tradeDesc},
+		   			</if>
+		   			<if test="operId!= null">
+		   			#{operId},
+		   			</if>
+		   			<if test="operTime!= null">
+		   			#{operTime},
+		   			</if>
+		   			<if test="ext1!= null">
+		   			#{ext1},
+		   			</if>
+		   			<if test="ext2!= null">
+		   			#{ext2},
+		   			</if>
+		   			<if test="ext3!= null">
+		   			#{ext3},
+		   			</if>
+		   			<if test="note!= null">
+		   			#{note},
+		   			</if>
+	   			</trim>
+			)
+		</insert>
+	<update id="updateByKeyNotNull">
+		UPDATE ac_acount_log 
+		  <trim prefix="SET" suffixOverrides=",">  
+					<if test="userId!= null">
+		   			user_id = #{userId},
+		   			</if>  
+					<if test="tradeId!= null">
+		   			trade_id = #{tradeId},
+		   			</if>  
+					<if test="tradeSeq!= null">
+		   			trade_seq = #{tradeSeq},
+		   			</if>  
+					<if test="balanceType!= null">
+		   			balance_type = #{balanceType},
+		   			</if>  
+					<if test="tradeType!= null">
+		   			trade_type = #{tradeType},
+		   			</if>  
+					<if test="tradeStat!= null">
+		   			trade_stat = #{tradeStat},
+		   			</if>  
+					<if test="tradeTime!= null">
+		   			trade_time = #{tradeTime},
+		   			</if>  
+					<if test="tradeMoney!= null">
+		   			trade_money = #{tradeMoney},
+		   			</if>  
+					<if test="totalMoney!= null">
+		   			total_money = #{totalMoney},
+		   			</if>  
+					<if test="tradeDesc!= null">
+		   			trade_desc = #{tradeDesc},
+		   			</if>  
+					<if test="operId!= null">
+		   			oper_id = #{operId},
+		   			</if>  
+					<if test="operTime!= null">
+		   			oper_time = #{operTime},
+		   			</if>  
+					<if test="ext1!= null">
+		   			ext1 = #{ext1},
+		   			</if>  
+					<if test="ext2!= null">
+		   			ext2 = #{ext2},
+		   			</if>  
+					<if test="ext3!= null">
+		   			ext3 = #{ext3},
+		   			</if>  
+					<if test="note!= null">
+		   			note = #{note},
+		   			</if>  
+		  </trim>
+		  <where>	   
+				    and id = #{id}
+		 </where>
+	</update>
+	
+	<select id="queryAcAcountLog" parameterType="net.chetong.order.model.AcAcountLogVO" resultType ="net.chetong.order.model.AcAcountLogVO" >
+		SELECT 
+			id as id,
+			user_id as userId,
+			trade_id as tradeId,
+			trade_seq as tradeSeq,
+			balance_type as balanceType,
+			trade_type as tradeType,
+			trade_stat as tradeStat,
+			trade_time as tradeTime,
+			trade_money as tradeMoney,
+			total_money as totalMoney,
+			trade_desc as tradeDesc,
+			oper_id as operId,
+			oper_time as operTime,
+			ext1 as ext1,
+			ext2 as ext2,
+			ext3 as ext3,
+			note as note
+		FROM ac_acount_log 
+		 <where>
+		    <if test="id!= null">
+                  and id=#{id}
+            </if>
+		    <if test="userId!= null">
+                  and user_id=#{userId}
+            </if>
+		    <if test="tradeId!= null">
+                  and trade_id=#{tradeId}
+            </if>
+		    <if test="tradeSeq!= null">
+                  and trade_seq=#{tradeSeq}
+            </if>
+		    <if test="balanceType!= null">
+                  and balance_type=#{balanceType}
+            </if>
+		    <if test="tradeType!= null">
+                  and trade_type=#{tradeType}
+            </if>
+		    <if test="tradeStat!= null">
+                  and trade_stat=#{tradeStat}
+            </if>
+		    <if test="tradeTime!= null">
+                  and trade_time=#{tradeTime}
+            </if>
+		    <if test="tradeMoney!= null">
+                  and trade_money=#{tradeMoney}
+            </if>
+		    <if test="totalMoney!= null">
+                  and total_money=#{totalMoney}
+            </if>
+		    <if test="tradeDesc!= null">
+                  and trade_desc=#{tradeDesc}
+            </if>
+		    <if test="operId!= null">
+                  and oper_id=#{operId}
+            </if>
+		    <if test="operTime!= null">
+                  and oper_time=#{operTime}
+            </if>
+		    <if test="ext1!= null">
+                  and ext1=#{ext1}
+            </if>
+		    <if test="ext2!= null">
+                  and ext2=#{ext2}
+            </if>
+		    <if test="ext3!= null">
+                  and ext3=#{ext3}
+            </if>
+		    <if test="note!= null">
+                  and note=#{note}
+            </if>
+  		</where>
+		  		ORDER BY id DESC
+	</select>
+</mapper>

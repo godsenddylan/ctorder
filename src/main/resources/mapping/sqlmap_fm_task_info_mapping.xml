@@ -1,0 +1,385 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="sqlmap_fm_task_info">
+  	<sql id="taskInfoSql">
+  		created_by as createdBy,
+  		created_date as createdDate,
+  		updated_by as updatedBy,
+  		updated_date as updatedDate,
+  		id as id,
+  		company_task_id as companyTaskId,
+  		report_no as reportNo,
+  		task_type as taskType,
+		source as source,
+		state as state, 
+		handler_code as handlerCode,
+		is_send as isSend,
+		send_state as sendState,
+		insert_date as insertDate,
+		send_user_id as sendUserId,
+		input_user_id as inputUserId,
+		work_address as workAddress,
+		is_show as isShow,
+		company_user as companyUser
+  	</sql>
+	<insert id="insertTaskInfo" parameterType="FmTaskInfoVO" useGeneratedKeys="true" keyProperty="id">
+		insert into fm_task_info(created_by,created_date,updated_by,updated_date,company_task_id,report_no,task_type,
+		source,state, handler_code,is_send,send_state,insert_date,send_user_id,input_user_id,work_address,is_show,company_user)
+		values(#{createdBy},SYSDATE(),#{updatedBy},SYSDATE(),#{companyTaskId},#{reportNo},#{taskType},
+		#{source},#{state},#{handlerCode},#{isSend},#{sendState},SYSDATE(),#{sendUserId},#{inputUserId},#{workAddress},#{isShow},#{companyUser})
+	</insert>
+	
+	<select id="queryTaskInfo" resultType="FmTaskInfoVO">
+		select <include refid="taskInfoSql" />  
+		from fm_task_info 
+		where 1=1
+		<if test="id!=null">
+			and id=#{id}
+		</if>
+		<if test="reportNo!=null">
+			and report_no=#{reportNo}
+		</if>
+		<if test="taskType!=null">
+			and task_type=#{taskType}
+		</if>
+		<if test="source!=null">
+			and source=#{source}
+		</if>
+		<if test="state!=null">
+			and state=#{state}
+		</if>
+		<if test="handlerCode!=null">
+			and handler_code=#{handlerCode}
+		</if>
+		<if test="sendUserId!=null">
+			and send_user_id = #{sendUserId}
+		</if>
+		<if test="sendState!=null">
+			and send_state = #{sendState}
+		</if>
+		<if test="inputUserId!=null">
+			and input_user_id = #{inputUserId}
+		</if>
+		<if test="taskTypeArr!=null">
+			and task_type in
+			<foreach collection="taskTypeArr" item="taskTypeItem" open="(" separator="," close=")">
+        	 	#{taskTypeItem}
+     		</foreach>
+		</if>
+		
+	</select>
+	
+	<select id="querySendTaskList" resultType="map">
+		SELECT 
+		  t.report_no as reportNo,
+		  t.company_task_id as cpyTaskId,
+		  CAST(t.id AS CHAR) AS taskId,
+		  r.order_no as orderNo,
+		  t.company_user companyUser
+		FROM
+		  fm_task_info t ,
+		  fm_task_order_work_relation r
+		WHERE t.id=r.task_id 
+		  AND t.is_send = '1' 
+		  AND t.send_state IN ('0','2') 
+		  AND t.state = '3' 
+		  AND t.task_type = #{taskType}
+		  AND t.source=#{source}
+		  AND EXISTS (SELECT 1 FROM fm_order o WHERE o.order_no=r.order_no AND o.deal_stat='07')
+		  <if test='taskType!="0"'>
+		  	AND NOT EXISTS(SELECT 1 FROM fm_task_info a WHERE a.report_no=t.report_no AND a.task_type='0' AND a.send_state IN ('0','2'))
+		  </if>
+		   <if test="orderNo!=null">
+		   AND r.order_no = #{orderNo}
+		   </if>
+	</select>
+	
+	<select id="querySendImgDataList" resultType="map">
+		SELECT 
+			t.report_no AS reportNo,
+			i.order_no AS orderNo,
+			CAST(i.id AS CHAR) as imgId,
+			t.company_task_id AS companyTaskId,
+			p.photo_type_code AS maxType,
+			p.photo_code AS minType,
+			t.task_type AS taskType,
+			REPLACE(REPLACE(i.filename,' ',''),'　','') AS imgName,
+			t.company_user AS companyUser,
+			i.link AS link,
+			DATE_FORMAT(i.upload_time,'%Y-%m-%d %H:%i:%s') as uploadTime,
+			(SELECT CAST(COUNT(1) AS CHAR) FROM hy_image hi WHERE hi.order_no = i.order_no) AS imgCount			
+		  FROM 
+		  fm_task_info t,
+		  fm_task_order_work_relation r,
+		  hy_image i,
+		  para_photography p
+		  WHERE t.id=r.task_id
+		  AND i.order_no=r.order_no
+		  AND i.tag_id=p.para_id
+		  AND t.is_send = #{isSend} 
+		  AND t.send_state =#{taskSendState} 
+		  AND t.state = #{taskState} 
+		  AND t.source= #{source} 
+		  AND NOT EXISTS 
+			(SELECT 
+			  1 
+			FROM
+			  fh_send_data_info s 
+			WHERE s.relation_type = #{relationType} 
+			  AND s.relation_id = i.id 
+			  AND s.report_no = t.report_no 
+			  )	
+		  ORDER BY i.id
+		  LIMIT 50
+	</select>
+	
+	<update id="updateTaskCaseInfo" parameterType="FmTaskInfoVO">
+		update fm_task_info 
+		set 
+			<if test="sendState!= null">
+				send_state = #{sendState},
+			</if>
+			<if test="state!= null">
+				state = #{state},
+			</if>
+			<if test="handlerCode!= null">
+				handler_code = #{handlerCode},
+			</if>
+			<if test="inputUserId!= null">
+				input_user_id = #{inputUserId},
+			</if>
+			<if test="sendUserId!= null">
+				send_user_id = #{sendUserId},
+			</if>
+			<if test="isSend!= null">
+				is_send = #{isSend},
+			</if>
+			<if test="workAddress!= null">
+				work_address = #{workAddress},
+			</if>
+			<if test="isShow!= null">
+				is_show = #{isShow},
+			</if>
+			updated_by=#{updatedBy},
+			updated_date=SYSDATE()
+		where id=#{id}
+	</update>
+	
+	<!-- <update id="updateTaskIsRedeploy" parameterType="java.lang.String">
+		update fm_task_info 
+		set 
+			is_redeploy = '1'
+		where id = (select cast(task_id as SIGNED INTEGER) from fm_task_order_work_relation where order_no = #{orderNo});
+	</update> -->
+	
+	<select id="queryIsHasAuthority" parameterType="map" resultType="string">		  
+		  SELECT 
+		  t.handler_code
+		FROM
+		  fm_task_info t,
+		  fm_task_order_work_relation r 
+		WHERE t.id = r.task_id
+		 <if test="stateArr!=null">
+		 	AND t.state in 
+		 	<foreach collection="stateArr" item="stateItem" open="(" separator="," close=")">
+		 		#{stateItem}
+		 	</foreach>
+		 </if>
+		  AND r.order_no = #{orderNo} 
+	</select>
+	
+	<select id="queryTaskAndWorkRelationInfo" resultType="map">
+		SELECT 
+		  CAST(t.id AS CHAR) AS taskId,
+		  t.company_task_id companyTaskId,
+		  t.task_type taskType,
+		  t.report_no reportNo,
+		  r.order_no orderNo,
+		  CAST(r.work_id AS CHAR) AS workId,
+		  r.work_type workType,
+		  t.state,
+		  t.send_state as sendState,
+		  t.handler_code as handlerCode
+		FROM
+		  fm_task_info t,
+		  fm_task_order_work_relation r 
+		WHERE t.id=r.task_id
+		  AND r.order_no=#{orderNo}
+	</select>
+	
+	<select id="queryWorkIdByReportNo" parameterType="map" resultType="string">
+	 SELECT CAST(r.work_id AS CHAR) as workId
+	 FROM 
+	 	fm_task_order_work_relation r ,
+	 	fm_task_info t 
+	 WHERE 
+	 	r.task_id=t.id 
+	 AND r.work_type=#{workType} 
+	 AND t.report_no=#{reportNo}
+	 
+	</select>
+	
+	
+	<select id="isExistsTask" parameterType="map" resultType="integer">
+		SELECT count(1) FROM fm_task_info t WHERE t.source=#{source} AND t.company_task_id=#{companyTaskId} AND t.report_no=#{reportNo}
+	</select>
+	<insert id="insertTaskOrderWorkRelationInfo" parameterType="FmTaskOrderWorkRelationVO" useGeneratedKeys="true" keyProperty="id">
+		insert into fm_task_order_work_relation(created_by,created_date,updated_by,updated_date,task_id,order_no,work_id,work_type)
+		values(#{createdBy},SYSDATE(),#{updatedBy},SYSDATE(),#{taskId},#{orderNo},#{workId},#{workType})
+	</insert>
+	
+	<update id="updateTaskAndWorkRelationInfo" parameterType="FmTaskOrderWorkRelationVO">
+		update fm_task_order_work_relation set 
+		<if test="workId!= null">
+			work_id = #{workId},
+		</if>
+		<if test="workType!= null">
+			work_type = #{workType},
+		</if>
+		updated_by = #{updatedBy},
+		updated_date=SYSDATE()
+		where 
+		order_no=#{orderNo}
+	</update>
+	
+	
+	<select id="queryTaskRelationDetail" parameterType="map" resultType="map">
+		select
+			t.id as taskId,
+            d.id as taskDetailId,
+            (SELECT r.order_no FROM fm_task_order_work_relation r WHERE r.task_id = t.id) as orderNo,
+            t.task_type as taskType,
+            d.car_no as carNo,
+            t.state as state
+		from 
+		fm_task_info t,
+		fm_task_detail_info d
+		<where>
+			t.id = d.task_id
+			<if test="carNo!= null">
+                  AND d.car_no=#{carNo}
+            </if>
+            <if test="caseNo!= null">
+                  and t.report_no=#{caseNo}
+            </if>
+            <if test="subjectId!= null">
+                <choose>
+                	<when test=' subjectId=="3" '>
+                		AND t.task_type in ('3','4')
+                	</when>
+                	<otherwise>
+                		AND t.task_type=#{subjectId}
+                	</otherwise>
+                </choose>  
+            </if> 
+		</where>
+		order by t.id desc
+	</select>
+	
+	<!-- 获取报案任务中最多的三者任务 -->
+	<select id="getMaxTaskTypeCount" resultType="integer" parameterType="map">
+	SELECT MAX(a.cnt) FROM 
+		(SELECT 
+		  COUNT(t.task_type) AS cnt 
+		FROM
+		  fm_task_info t 
+		WHERE t.report_no = #{reportNo} 
+		<if test="taskTypeArr!=null">
+			AND t.task_type IN
+			<foreach collection="taskTypeArr" item="taskType" open="(" separator="," close=")">
+				   #{taskType}
+			</foreach>
+		</if>
+		GROUP BY t.task_type ) a 
+	
+	</select>
+	<!-- 找出定损、物损审核完成的永诚订单并且查勘未审核的订单 -->
+	<select id="queryNotAuditSurveyTaskForYC" resultType="FmTaskInfoVO">
+		SELECT 
+	    t.created_by as createdBy,
+  		t.created_date as createdDate,
+  		t.updated_by as updatedBy,
+  		t.updated_date as updatedDate,
+  		t.id as id,
+  		t.company_task_id as companyTaskId,
+  		t.report_no as reportNo,
+  		t.task_type as taskType,
+		t.source as source,
+		t.state as state, 
+		t.handler_code as handlerCode,
+		t.is_send as isSend,
+		t.send_state as sendState,
+		t.insert_date as insertDate,
+		t.send_user_id as sendUserId,
+		t.input_user_id as inputUserId,
+		t.work_address as workAddress,
+		t.is_show as isShow 
+	FROM
+	  fm_task_info t 
+	WHERE t.source = '1' 
+	  AND t.task_type = '0' 
+	  AND t.state = '3' 
+	  AND t.send_state='1'
+	  AND EXISTS 
+	  (SELECT 1 FROM fm_task_info a 
+	  	WHERE a.source = '1' 
+	    	AND a.task_type IN ('1', '2', '3', '4')
+	    	AND a.state='5' AND a.report_no=t.report_no )
+	</select>
+	
+	<select id="queryTaskByCarCase" parameterType="map" resultType="map">
+		SELECT 
+		  t.report_no AS reportNo,
+		  t.source AS source,
+		  CAST(t.id AS CHAR) AS taskId,
+		  t.task_type AS taskType,
+		  d.car_no AS carNo,
+		  CAST(d.id AS CHAR) AS taskDetailId,
+		  d.accident_linkman AS accidentLinkman,
+		  CAST(AES_DECRYPT(UNHEX(d.accident_linktel),'CHEtong@20161102') AS CHAR) AS accidentLinktel
+		FROM
+		  fm_task_info t,
+		  fm_task_detail_info d 
+		WHERE t.id = d.task_id 
+		  AND t.report_no = #{reportNo}
+		  <if test='taskType!="1" and taskType!="3" and taskType!="4"'>
+		  	AND d.car_no = #{carNo}
+		  </if>
+		  AND t.task_type = #{taskType} 
+		  and t.source =#{source}
+		  AND t.state = #{state}
+	</select>
+
+	<!-- 判断是否永诚订单 -->
+	<select id="getYcOrderRelation" resultType="java.util.Map" parameterType ="java.lang.String">
+		SELECT 
+		  CAST(t.id AS CHAR) AS id,
+		  t.order_no AS orderNO,
+		  CAST(t.task_id AS CHAR) AS taskId,
+		  CAST(t.work_id AS CHAR) AS workId,
+		  t.work_type AS workType 
+		FROM
+		  fm_task_order_work_relation t ,
+		  fm_task_info ti
+		WHERE 
+		t.task_id = ti.id 
+		AND t.order_no = #{orderNo} 
+		AND ti.source = '1'
+	</select>
+	
+	<select id="getTaskInfoByOrderNo" resultType="FmTaskInfoVO" parameterType ="java.lang.String">
+		SELECT 
+		  CAST(t.id AS CHAR) AS id,
+		  t.order_no AS orderNO,
+		  CAST(t.task_id AS CHAR) AS taskId,
+		  CAST(t.work_id AS CHAR) AS workId,
+		  t.work_type AS workType,
+		  ti.insert_date AS insertDate
+		FROM
+		  fm_task_order_work_relation t,
+		  fm_task_info ti
+		WHERE 
+		t.task_id = ti.id 
+		AND t.order_no = #{orderNo}
+	</select>
+</mapper>

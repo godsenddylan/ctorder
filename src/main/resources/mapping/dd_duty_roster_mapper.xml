@@ -1,0 +1,320 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="sqlmap.dd_duty_roster">
+
+	<!--实体映射-->
+	<resultMap id="BaseResultMap" type="net.chetong.order.model.DdDutyRoster">
+		<!---->
+		<id column="id" property="id" jdbcType="BIGINT"/>
+		<!--车童ID-->
+		<result column="ct_user_id" property="ctUserId" jdbcType="BIGINT"/>
+		<!--1：车童；2：团队长；3：受阻人；4：机构负责人-->
+		<result column="user_type" property="userType" jdbcType="VARCHAR"/>
+		<!---->
+		<result column="rule_id" property="ruleId" jdbcType="BIGINT"/>
+		<!--工作区域代码-->
+		<result column="area_code" property="areaCode" jdbcType="VARCHAR"/>
+		<!--排班开始日期-->
+		<result column="begin_date" property="beginDate" jdbcType="TIMESTAMP"/>
+		<!--排班结束日期-->
+		<result column="end_date" property="endDate" jdbcType="TIMESTAMP"/>
+		<!--单双号标识：0：双号；1：单号；2：不区分-->
+		<result column="odd_even" property="oddEven" jdbcType="INTEGER"/>
+		<!--状态：0：无效；1：有效-->
+		<result column="status" property="status" jdbcType="INTEGER"/>
+		<!--优先级-->
+		<result column="level" property="level" jdbcType="INTEGER"/>
+		<!---->
+		<result column="create_user_id" property="createUserId" jdbcType="BIGINT"/>
+		<!---->
+		<result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
+		<!---->
+		<result column="modify_time" property="modifyTime" jdbcType="TIMESTAMP"/>
+		<!--手机号码-->
+		<result column="mobile" property="mobile" jdbcType="VARCHAR"/>
+		<!--服务类别-->
+		<result column="service_id" property="serviceId" jdbcType="BIGINT"/>
+	</resultMap>
+
+
+	<!-- 通用查询结果列-->
+	<sql id="Base_Column_List">
+		id,	ct_user_id,	user_type,	rule_id,	area_code,	begin_date,	end_date,	odd_even,	status,	level,	create_user_id,	create_time,	modify_time,	mobile,	service_id
+	</sql>
+
+	<!-- 查询（根据主键ID查询） -->
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long">
+		 SELECT
+		 <include refid="Base_Column_List" />
+		 FROM dd_duty_roster
+		 WHERE id = #{id,jdbcType=BIGINT}
+	</select>
+
+	<!--删除（根据主键ID删除） -->
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+		 DELETE FROM dd_duty_roster
+		 WHERE id = #{id,jdbcType=BIGINT}
+	</delete>
+
+	<!-- 查询（根据参数查询） -->
+	<select id="selectByParams" resultMap="BaseResultMap" parameterType="net.chetong.order.model.DdDutyRoster">
+		 SELECT
+		 <include refid="Base_Column_List" />
+		 FROM dd_duty_roster
+		 <where>
+			<if test="id != null and id != ''">
+				 and id = #{id,jdbcType=BIGINT}
+			</if>
+			<if test="ctUserId != null and ctUserId != ''">
+				 and ct_user_id = #{ctUserId,jdbcType=BIGINT}
+			</if>
+			<if test="userType != null and userType != ''">
+				 and user_type = #{userType,jdbcType=VARCHAR}
+			</if>
+			<if test="ruleId != null and ruleId != ''">
+				 and rule_id = #{ruleId,jdbcType=BIGINT}
+			</if>
+			<if test="areaCode != null and areaCode != ''">
+				 and area_code = #{areaCode,jdbcType=VARCHAR}
+			</if>
+			<if test="beginDate != null and beginDate != ''">
+				 and begin_date = #{beginDate,jdbcType=TIMESTAMP}
+			</if>
+			<if test="endDate != null and endDate != ''">
+				 and end_date = #{endDate,jdbcType=TIMESTAMP}
+			</if>
+			<if test="oddEven != null and oddEven != ''">
+				 and odd_even = #{oddEven,jdbcType=INTEGER}
+			</if>
+			<if test="status != null and status != ''">
+				 and status = #{status,jdbcType=INTEGER}
+			</if>
+			<if test="level != null and level != ''">
+				 and level = #{level,jdbcType=INTEGER}
+			</if>
+			<if test="createUserId != null and createUserId != ''">
+				 and create_user_id = #{createUserId,jdbcType=BIGINT}
+			</if>
+			<if test="createTime != null and createTime != ''">
+				 and create_time = #{createTime,jdbcType=TIMESTAMP}
+			</if>
+			<if test="modifyTime != null and modifyTime != ''">
+				 and modify_time = #{modifyTime,jdbcType=TIMESTAMP}
+			</if>
+			<if test="mobile != null and mobile != ''">
+				 and mobile = #{mobile,jdbcType=VARCHAR}
+			</if>
+			<if test="serviceId != null and serviceId != ''">
+				 and service_id = #{serviceId,jdbcType=BIGINT}
+			</if>
+		 </where>
+	</select>
+
+	<!-- 添加 -->
+	<insert id="insert" parameterType="net.chetong.order.model.DdDutyRoster" useGeneratedKeys="true" keyProperty="id">
+		 INSERT INTO dd_duty_roster
+ 		(id,ct_user_id,user_type,rule_id,area_code,begin_date,end_date,odd_even,status,level,create_user_id,create_time,modify_time,mobile,service_id) 
+		 VALUES 
+ 		(#{id,jdbcType=BIGINT},#{ctUserId,jdbcType=BIGINT},#{userType,jdbcType=VARCHAR},#{ruleId,jdbcType=BIGINT},#{areaCode,jdbcType=VARCHAR},#{beginDate,jdbcType=TIMESTAMP},#{endDate,jdbcType=TIMESTAMP},#{oddEven,jdbcType=INTEGER},#{status,jdbcType=INTEGER},#{level,jdbcType=INTEGER},#{createUserId,jdbcType=BIGINT},#{createTime,jdbcType=TIMESTAMP},#{modifyTime,jdbcType=TIMESTAMP},#{mobile,jdbcType=VARCHAR},#{serviceId,jdbcType=BIGINT}) 
+	</insert>
+
+	<!-- 添加 （匹配有值的字段）-->
+	<insert id="insertSelective" parameterType="net.chetong.order.model.DdDutyRoster" useGeneratedKeys="true" keyProperty="id">
+		 INSERT INTO dd_duty_roster
+		 <trim prefix="(" suffix=")" suffixOverrides="," >
+			<if test="id != null">
+				 id,
+			</if>
+			<if test="ctUserId != null">
+				 ct_user_id,
+			</if>
+			<if test="userType != null">
+				 user_type,
+			</if>
+			<if test="ruleId != null">
+				 rule_id,
+			</if>
+			<if test="areaCode != null">
+				 area_code,
+			</if>
+			<if test="beginDate != null">
+				 begin_date,
+			</if>
+			<if test="endDate != null">
+				 end_date,
+			</if>
+			<if test="oddEven != null">
+				 odd_even,
+			</if>
+			<if test="status != null">
+				 status,
+			</if>
+			<if test="level != null">
+				 level,
+			</if>
+			<if test="createUserId != null">
+				 create_user_id,
+			</if>
+			<if test="createTime != null">
+				 create_time,
+			</if>
+			<if test="modifyTime != null">
+				 modify_time,
+			</if>
+			<if test="mobile != null">
+				 mobile,
+			</if>
+			<if test="serviceId != null">
+				 service_id,
+			</if>
+		 </trim>
+		 <trim prefix="values (" suffix=")" suffixOverrides="," >
+			<if test="id!=null">
+				 #{id,jdbcType=BIGINT},
+			</if>
+			<if test="ctUserId!=null">
+				 #{ctUserId,jdbcType=BIGINT},
+			</if>
+			<if test="userType!=null">
+				 #{userType,jdbcType=VARCHAR},
+			</if>
+			<if test="ruleId!=null">
+				 #{ruleId,jdbcType=BIGINT},
+			</if>
+			<if test="areaCode!=null">
+				 #{areaCode,jdbcType=VARCHAR},
+			</if>
+			<if test="beginDate!=null">
+				 #{beginDate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="endDate!=null">
+				 #{endDate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="oddEven!=null">
+				 #{oddEven,jdbcType=INTEGER},
+			</if>
+			<if test="status!=null">
+				 #{status,jdbcType=INTEGER},
+			</if>
+			<if test="level!=null">
+				 #{level,jdbcType=INTEGER},
+			</if>
+			<if test="createUserId!=null">
+				 #{createUserId,jdbcType=BIGINT},
+			</if>
+			<if test="createTime!=null">
+				 #{createTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="modifyTime!=null">
+				 #{modifyTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="mobile!=null">
+				 #{mobile,jdbcType=VARCHAR},
+			</if>
+			<if test="serviceId!=null">
+				 #{serviceId,jdbcType=BIGINT},
+			</if>
+		 </trim>
+	</insert>
+
+	<!-- 修 改-->
+	<update id="updateByPrimaryKeySelective" parameterType="net.chetong.order.model.DdDutyRoster">
+		 UPDATE dd_duty_roster
+ 		 <set> 
+			<if test="ctUserId != null and ctUserId != ''">
+				 ct_user_id = #{ctUserId,jdbcType=BIGINT},
+			</if>
+			<if test="userType != null and userType != ''">
+				 user_type = #{userType,jdbcType=VARCHAR},
+			</if>
+			<if test="ruleId != null and ruleId != ''">
+				 rule_id = #{ruleId,jdbcType=BIGINT},
+			</if>
+			<if test="areaCode != null and areaCode != ''">
+				 area_code = #{areaCode,jdbcType=VARCHAR},
+			</if>
+			<if test="beginDate != null and beginDate != ''">
+				 begin_date = #{beginDate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="endDate != null and endDate != ''">
+				 end_date = #{endDate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="oddEven != null and oddEven != ''">
+				 odd_even = #{oddEven,jdbcType=INTEGER},
+			</if>
+			<if test="status != null and status != ''">
+				 status = #{status,jdbcType=INTEGER},
+			</if>
+			<if test="level != null and level != ''">
+				 level = #{level,jdbcType=INTEGER},
+			</if>
+			<if test="createUserId != null and createUserId != ''">
+				 create_user_id = #{createUserId,jdbcType=BIGINT},
+			</if>
+			<if test="createTime != null and createTime != ''">
+				 create_time = #{createTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="modifyTime != null and modifyTime != ''">
+				 modify_time = #{modifyTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="mobile != null and mobile != ''">
+				 mobile = #{mobile,jdbcType=VARCHAR},
+			</if>
+			<if test="serviceId != null and serviceId != ''">
+				 service_id = #{serviceId,jdbcType=BIGINT},
+			</if>
+ 		 </set>
+		 WHERE id = #{id,jdbcType=BIGINT}
+	</update>
+
+	<!-- 修 改-->
+	<update id="updateByPrimaryKey" parameterType="net.chetong.order.model.DdDutyRoster">
+		 UPDATE dd_duty_roster
+		 SET 
+			 ct_user_id = #{ctUserId,jdbcType=BIGINT},
+			 user_type = #{userType,jdbcType=VARCHAR},
+			 rule_id = #{ruleId,jdbcType=BIGINT},
+			 area_code = #{areaCode,jdbcType=VARCHAR},
+			 begin_date = #{beginDate,jdbcType=TIMESTAMP},
+			 end_date = #{endDate,jdbcType=TIMESTAMP},
+			 odd_even = #{oddEven,jdbcType=INTEGER},
+			 status = #{status,jdbcType=INTEGER},
+			 level = #{level,jdbcType=INTEGER},
+			 create_user_id = #{createUserId,jdbcType=BIGINT},
+			 create_time = #{createTime,jdbcType=TIMESTAMP},
+			 modify_time = #{modifyTime,jdbcType=TIMESTAMP},
+			 mobile = #{mobile,jdbcType=VARCHAR},
+			 service_id = #{serviceId,jdbcType=BIGINT}
+		 WHERE id = #{id,jdbcType=BIGINT}
+	</update>
+
+	<!-- 查询是否可以转派 -->
+	<select id="selectTransformRoster" resultType="long" parameterType="net.chetong.order.model.DdDutyRoster">
+		 SELECT
+		 	count(1)
+		 FROM dd_duty_roster
+		 WHERE
+			 ct_user_id = #{ctUserId}
+			 AND (
+			 	(user_type=2 AND area_code = #{areaCode})<!-- 协调人精确到区县 -->
+			 	OR 
+			 	(user_type=3 AND substring(area_code,1,4) = substring(#{areaCode},1,4))<!-- 受阻人精确到市 -->
+			 )
+			 <![CDATA[AND begin_date <= curdate()]]>
+			 <![CDATA[AND end_date >= curdate()]]>
+			 AND status = 1
+			 AND service_id = 1
+	</select>
+	
+	<!-- 查询开始时间包含当前时间的数据 -->
+	<select id="selectByParamsOnNow" resultMap="BaseResultMap" parameterType="net.chetong.order.model.DdDutyRoster">
+		 SELECT
+		 <include refid="Base_Column_List" />
+		 FROM dd_duty_roster
+		 WHERE
+			ct_user_id = #{ctUserId}
+			AND user_type = #{userType}
+			<![CDATA[AND begin_date <= curdate()]]>
+			<![CDATA[AND end_date >= curdate()]]>
+	</select>
+</mapper>

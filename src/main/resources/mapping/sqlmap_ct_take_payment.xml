@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ct_take_payment">
+
+
+
+	<select id="queryCtTakePayment" parameterType="net.chetong.order.model.CtTakePaymentVO"
+		resultType="net.chetong.order.model.CtTakePaymentVO">
+		SELECT
+		id as id,
+		payer_user_id as payerUserId,
+		payer_user_name as payerUserName,
+		user_id as userId,
+		user_name as userName,
+		pay_status as payStatus,
+		ext1 as ext1,
+		ext2 as ext2,
+		ext3 as ext3
+		FROM ct_take_payment
+		<where>
+			<if test="userId!= null">
+				and user_id=#{userId}
+			</if>
+			<if test="payStatus!= null">
+				and pay_status=#{payStatus}
+			</if>
+			<if test="serviceId != null and serviceId!=''">
+				and service_id=#{serviceId}
+			</if>
+		</where>
+		ORDER BY id DESC
+		LIMIT 1
+	</select>
+	
+	<select id="getGrantors" parameterType="net.chetong.order.model.CtTakePaymentVO"
+		resultType="net.chetong.order.model.CtTakePaymentVO">
+		
+		SELECT
+			DISTINCT(t.user_id) AS userId,
+			t.id as id,
+			g.org_name as userName
+		FROM ct_take_payment t, ct_group g
+		<where>
+			t.user_id = g.user_id
+			<if test="userId!= null">
+				and t.user_id=#{userId}
+			</if>
+			<if test="payerUserId != null">
+				and t.payer_user_id=#{payerUserId}
+			</if>
+			<if test="payStatus!= null">
+				and t.pay_status=#{payStatus}
+			</if>
+			<if test="serviceId != null and serviceId!=''">
+				and t.service_id=#{serviceId}
+			</if>
+		</where>
+		GROUP BY t.user_id
+		
+	</select>
+	
+	<select id="getGrantorUserIds" parameterType="net.chetong.order.model.CtTakePaymentVO" resultType="java.lang.String">
+		SELECT
+			DISTINCT(user_id) AS userId
+		FROM ct_take_payment
+		<where>
+			<if test="userId!= null">
+				and user_id=#{userId}
+			</if>
+			<if test="payerUserId != null">
+				and payer_user_id=#{payerUserId}
+			</if>
+			<if test="payStatus!= null">
+				and pay_status=#{payStatus}
+			</if>
+			<if test="serviceId != null and serviceId!=''">
+				and service_id=#{serviceId}
+			</if>
+		</where>
+	</select>
+
+
+</mapper>

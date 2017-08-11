@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="fm_order_audit">
+	<insert id="insertNotNull" parameterType="net.chetong.order.model.FmOrderAuditVO" useGeneratedKeys="true" keyProperty="id">
+			INSERT INTO fm_order_audit   
+			(
+				<trim suffix="" suffixOverrides=",">
+					<if test="id!= null">
+		                   id,
+		            </if>
+					<if test="orderId!= null">
+		                   order_id,
+		            </if>
+					<if test="stat!= null">
+		                   stat,
+		            </if>
+					<if test="isBuyerShow!= null">
+		                   is_buyer_show,
+		            </if>
+					<if test="isSellerShow!= null">
+		                   is_seller_show,
+		            </if>
+					<if test="auditId!= null">
+		                   audit_id,
+		            </if>
+					<if test="auditName!= null">
+		                   audit_name,
+		            </if>
+					<if test="auditIdType!= null">
+		                   audit_id_type,
+		            </if>
+					<if test="auditReason!= null">
+		                   audit_reason,
+		            </if>
+					<if test="ext1!= null">
+		                   ext1,
+		            </if>
+					<if test="ext2!= null">
+		                   ext2,
+		            </if>
+					<if test="ext3!= null">
+		                   ext3,
+		            </if>
+		                   audit_time
+	            </trim>
+			)
+			VALUES
+	   		(
+	   			<trim suffix="" suffixOverrides=",">
+		   			<if test="id!= null">
+		   			#{id},
+		   			</if>
+		   			<if test="orderId!= null">
+		   			#{orderId},
+		   			</if>
+		   			<if test="stat!= null">
+		   			#{stat},
+		   			</if>
+		   			<if test="isBuyerShow!= null">
+		   			#{isBuyerShow},
+		   			</if>
+		   			<if test="isSellerShow!= null">
+		   			#{isSellerShow},
+		   			</if>
+		   			<if test="auditId!= null">
+		   			#{auditId},
+		   			</if>
+		   			<if test="auditName!= null">
+		   			#{auditName},
+		   			</if>
+		   			<if test="auditIdType!= null">
+		   			#{auditIdType},
+		   			</if>
+		   			<if test="auditReason!= null">
+		   			#{auditReason},
+		   			</if>
+		   			<if test="ext1!= null">
+		   			#{ext1},
+		   			</if>
+		   			<if test="ext2!= null">
+		   			#{ext2},
+		   			</if>
+		   			<if test="ext3!= null">
+		   			#{ext3},
+		   			</if>
+		   			SYSDATE()
+	   			</trim>
+			)
+		</insert>
+</mapper>

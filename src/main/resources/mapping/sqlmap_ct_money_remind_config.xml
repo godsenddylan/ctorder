@@ -1,0 +1,372 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="sqlmap_ct_money_remind_config">
+
+	<!--实体映射-->
+	<resultMap id="ctMoneyRemindConfigResultMap" type="net.chetong.order.model.CtMoneyRemindConfig">
+		<!--表id-->
+		<id property="id" column="id" />
+		<!--买家机构id-->
+		<result property="userId" column="user_id" />
+		<!--所设置的与机构账号建立代支付关系的委托人id，多个  用 ， 相隔-->
+		<result property="entrustUserId" column="entrust_user_id" />
+		<!--委托人名称-->
+		<result property="entrustUserName" column="entrust_user_name" />
+		<!--后台管理人id-->
+		<result property="operaterId" column="operater_id" />
+		<!--提醒类型：1-余额，2-远程作业费，3-超额附加费，4-重大案件提醒-->
+		<result property="type" column="type" />
+		<!--提醒类型描述-->
+		<result property="typeName" column="type_name" />
+		<!--手机号-->
+		<result property="mobile" column="mobile" />
+		<!--email多个使用  ,  相隔-->
+		<result property="email" column="email" />
+		<!--起止金额配置-->
+		<result property="lowMoney" column="low_money" />
+		<!--高额阈值配置-->
+		<result property="highMoney" column="high_money" />
+		<!--阈值配置，便于拓展-->
+		<result property="numberConfig" column="number_config" />
+		<!--微信号,多个用 , 相隔-->
+		<result property="wechatId" column="wechat_id" />
+		<!--创建者id-->
+		<result property="creatorId" column="creator_id" />
+		<!--创建时间-->
+		<result property="createTime" column="create_time" />
+		<!--更新时间-->
+		<result property="updateTime" column="update_time" />
+		<!--是否启用：1-启用，0-不启用-->
+		<result property="isEnabled" column="is_enabled" />
+		<!--短信提醒是否启用：1-启用，0-不启用-->
+		<result property="smsIsEnabled" column="sms_is_enabled" />
+		<!--邮件提醒是否启用：1-启用，0-不启用-->
+		<result property="emailIsEnabled" column="email_is_enabled" />
+		<!--微信推送提醒是否启用：1-启用，0-不启用-->
+		<result property="wechatIsEnabled" column="wechat_is_enabled" />
+		<!--是否选择全部：1-是，0-否-->
+		<result property="isAll" column="is_all" />
+	</resultMap>
+
+
+	<!-- 通用查询结果列-->
+	<sql id="Base_Column_List">
+		 id,	user_id,	entrust_user_id,	entrust_user_name,	operater_id,	type,	type_name,	mobile,	email,	low_money,	high_money,	number_config,	wechat_id,	creator_id,	create_time,	update_time,	is_enabled,
+		 sms_is_enabled, email_is_enabled, wechat_is_enabled, is_all
+	</sql>
+
+	<!-- 查询（根据主键ID查询） -->
+	<select id="selectByPrimaryKey" resultMap="ctMoneyRemindConfigResultMap" parameterType="java.lang.Long">
+		 SELECT
+		 <include refid="Base_Column_List" />
+		 FROM ct_money_remind_config
+		 WHERE id = #{id}
+	</select>
+
+	<!--删除：根据主键ID删除-->
+	<delete id="deleteByPrimaryKey" parameterType="java.util.Map">
+		 DELETE FROM ct_money_remind_config
+		 WHERE id = #{id}
+		 AND user_id = #{userId}
+	</delete>
+
+	<!-- 添加 -->
+	<insert id="insert" parameterType="net.chetong.order.model.CtMoneyRemindConfig">
+		 INSERT INTO ct_money_remind_config
+ 		(id,user_id,entrust_user_id,entrust_user_name,operater_id,type,type_name,mobile,email,low_money,high_money,number_config,wechat_id,creator_id,create_time,update_time,is_enabled,sms_is_enabled
+ 		,email_is_enabled,wechat_is_enabled) 
+		 VALUES 
+ 		(#{id},#{userId},#{entrustUserId},#{entrustUserName},#{operaterId},#{type},#{typeName},#{mobile},#{email},#{lowMoney},#{highMoney},#{numberConfig},#{wechatId},#{creatorId},#{createTime},#{updateTime},#{isEnabled},
+ 		#{smsIsEnabled},#{emailIsEnabled},#{wechatIsEnabled}) 
+	</insert>
+
+	<!-- 添加 （匹配有值的字段）-->
+	<insert id="insertSelective" parameterType="net.chetong.order.model.CtMoneyRemindConfig">
+		 INSERT INTO ct_money_remind_config
+		 <trim prefix="(" suffix=")" suffixOverrides="," >
+			<if test="userId != null">
+				 user_id,
+			</if>
+			<if test="entrustUserId != null">
+				 entrust_user_id,
+			</if>
+			<if test="entrustUserName != null">
+				 entrust_user_name,
+			</if>
+			<if test="operaterId != null">
+				 operater_id,
+			</if>
+			<if test="type != null">
+				 type,
+			</if>
+			<if test="typeName != null">
+				 type_name,
+			</if>
+			<if test="mobile != null">
+				 mobile,
+			</if>
+			<if test="email != null">
+				 email,
+			</if>
+			<if test="lowMoney != null">
+				 low_money,
+			</if>
+			<if test="highMoney != null">
+				 high_money,
+			</if>
+			<if test="numberConfig != null">
+				 number_config,
+			</if>
+			<if test="wechatId != null">
+				 wechat_id,
+			</if>
+			<if test="creatorId != null">
+				 creator_id,
+			</if>
+				 create_time,
+				 update_time,
+			<if test="isEnabled != null">
+				 is_enabled,
+			</if>
+			<if test="smsIsEnabled != null">
+				 sms_is_enabled,
+			</if>
+			<if test="emailIsEnabled != null">
+				 email_is_enabled,
+			</if>
+			<if test="wechatIsEnabled != null">
+				 wechat_is_enabled,
+			</if>
+			<if test="isAll != null">
+				 is_all,
+			</if>
+
+		 </trim>
+		 <trim prefix="values (" suffix=")" suffixOverrides="," >
+			<if test="userId!=null">
+				 #{userId},
+			</if>
+			<if test="entrustUserId!=null">
+				 #{entrustUserId},
+			</if>
+			<if test="entrustUserName!=null">
+				 #{entrustUserName},
+			</if>
+			<if test="operaterId!=null">
+				 #{operaterId},
+			</if>
+			<if test="type!=null">
+				 #{type},
+			</if>
+			<if test="typeName!=null">
+				 #{typeName},
+			</if>
+			<if test="mobile!=null">
+				 #{mobile},
+			</if>
+			<if test="email!=null">
+				 #{email},
+			</if>
+			<if test="lowMoney!=null">
+				 #{lowMoney},
+			</if>
+			<if test="highMoney!=null">
+				 #{highMoney},
+			</if>
+			<if test="numberConfig!=null">
+				 #{numberConfig},
+			</if>
+			<if test="wechatId!=null">
+				 #{wechatId},
+			</if>
+			<if test="creatorId!=null">
+				 #{creatorId},
+			</if>
+				 NOW(),
+				 NOW(),
+			<if test="isEnabled!=null">
+				 #{isEnabled},
+			</if>
+			<if test="smsIsEnabled !=null">
+				 #{smsIsEnabled},
+			</if>
+			<if test="emailIsEnabled !=null">
+				 #{emailIsEnabled},
+			</if>
+			<if test="wechatIsEnabled !=null">
+				 #{wechatIsEnabled},
+			</if>
+			<if test="isAll !=null">
+				 #{isAll},
+			</if>
+		 </trim>
+	</insert>
+
+	<!-- 修 改-->
+	<update id="updateByPrimaryKeySelective" parameterType="net.chetong.order.model.CtMoneyRemindConfig">
+		 UPDATE ct_money_remind_config
+ 		 <set> 
+			<if test="userId != null">
+				 user_id = #{userId},
+			</if>
+			<if test="entrustUserId != null">
+				 entrust_user_id = #{entrustUserId},
+			</if>
+			<if test="entrustUserName != null">
+				 entrust_user_name = #{entrustUserName},
+			</if>
+			<if test="operaterId != null">
+				 operater_id = #{operaterId},
+			</if>
+			<if test="type != null">
+				 type = #{type},
+			</if>
+			<if test="typeName != null">
+				 type_name = #{typeName},
+			</if>
+			<if test="mobile != null">
+				 mobile = #{mobile},
+			</if>
+			<if test="email != null">
+				 email = #{email},
+			</if>
+			<if test="lowMoney != null">
+				 low_money = #{lowMoney},
+			</if>
+			<if test="highMoney != null">
+				 high_money = #{highMoney},
+			</if>
+			<if test="numberConfig != null">
+				 number_config = #{numberConfig},
+			</if>
+			<if test="wechatId != null">
+				 wechat_id = #{wechatId},
+			</if>
+			<if test="creatorId != null">
+				 creator_id = #{creatorId},
+			</if>
+			<if test="createTime != null">
+				 create_time = #{createTime},
+			</if>
+				 update_time = NOW(),
+			<if test="isEnabled != null">
+				 is_enabled = #{isEnabled},
+			</if>
+			<if test="smsIsEnabled != null">
+				 sms_is_enabled=#{smsIsEnabled},
+			</if>
+			<if test="emailIsEnabled != null">
+				 email_is_enabled=#{emailIsEnabled},
+			</if>
+			<if test="wechatIsEnabled != null">
+				 wechat_is_enabled=#{wechatIsEnabled},
+			</if>
+			<if test="isAll != null">
+				 is_all=#{isAll},
+			</if>
+ 		 </set>
+		 WHERE id = #{id}
+	</update>
+
+	<!-- 修 改-->
+	<update id="updateByPrimaryKey" parameterType="net.chetong.order.model.CtMoneyRemindConfig">
+		 UPDATE ct_money_remind_config
+		 SET 
+			 user_id = #{userId},
+			 entrust_user_id = #{entrustUserId},
+			 entrust_user_name = #{entrustUserName},
+			 operater_id = #{operaterId},
+			 type = #{type},
+			 type_name = #{typeName},
+			 mobile = #{mobile},
+			 email = #{email},
+			 low_money = #{lowMoney},
+			 high_money = #{highMoney},
+			 number_config = #{numberConfig},
+			 wechat_id = #{wechatId},
+			 creator_id = #{creatorId},
+			 create_time = #{createTime},
+			 update_time = NOW(),
+			 is_enabled = #{isEnabled},
+			 sms_is_enabled=#{smsIsEnabled},
+			 email_is_enabled=#{emailIsEnabled},
+			 wechat_is_enabled=#{wechatIsEnabled},
+			 is_all=#{isAll}
+		 WHERE id = #{id}
+	</update>
+	
+	<!-- 获取机构提醒配置列表 -->
+	<select id="getRemindList" parameterType="net.chetong.order.model.CtMoneyRemindConfig" resultMap="ctMoneyRemindConfigResultMap">
+		SELECT
+		 <include refid="Base_Column_List" />
+		 FROM ct_money_remind_config
+		 <where>
+		 	<if test="userId != null">
+				 AND user_id = #{userId}
+			</if>
+			<if test="entrustUserId != null and entrustUserId != ''">
+				 AND entrust_user_id LIKE CONCAT('%', '${entrustUserId}', '%')
+			</if>
+			<if test="entrustUserName != null">
+				 AND entrust_user_name LIKE CONCAT('%', #{entrustUserName}, '%')
+			</if>
+			<if test="operaterId != null">
+				 AND operater_id = #{operaterId}
+			</if>
+			<if test="type != null">
+				 AND type = #{type}
+			</if>
+			<if test="typeName != null">
+				 AND type_name = #{typeName}
+			</if>
+			<if test="mobile != null">
+				 AND mobile = #{mobile}
+			</if>
+			<if test="email != null">
+				 AND email = #{email}
+			</if>
+			<if test="lowMoney != null">
+				<![CDATA[ AND low_money >= #{lowMoney} ]]>
+			</if>
+			<if test="highMoney != null">
+				 <![CDATA[ AND high_money <= #{highMoney} ]]>
+			</if>
+			<if test="numberConfig != null">
+				 AND number_config = #{numberConfig}
+			</if>
+			<if test="wechatId != null">
+				 AND wechat_id = #{wechatId}
+			</if>
+			<if test="creatorId != null">
+				 AND creator_id = #{creatorId}
+			</if>
+			<if test="createTime != null">
+				 AND create_time = #{createTime}
+			</if>
+			<if test="updateTime != null">
+				 AND update_time = #{updateTime}
+			</if>
+			<if test="isEnabled != null">
+				 AND is_enabled = #{isEnabled}
+			</if>
+		 </where>
+		 ORDER BY id DESC
+	</select>
+	
+	<!-- 获取符合提醒的配置 -->
+	<select id="getCorrectRemind" parameterType="net.chetong.order.model.CtMoneyRemindConfig" resultMap="ctMoneyRemindConfigResultMap">
+		SELECT
+		 <include refid="Base_Column_List" />
+		 FROM ct_money_remind_config
+		 WHERE
+		 	 type = #{type}
+		 <if test="entrustUserId != null and entrustUserId !=''">
+			 AND entrust_user_id LIKE CONCAT('%', #{entrustUserId}, '%')
+		 </if>
+		 <![CDATA[ AND low_money <= #{numberConfig} ]]>
+		 <![CDATA[ AND high_money >= #{numberConfig} ]]>
+		 AND is_enabled = #{isEnabled}
+	</select>
+
+</mapper>

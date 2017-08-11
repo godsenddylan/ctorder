@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="sqlmap_para_photography" >
+  <resultMap id="BaseResultMap" type="net.chetong.order.model.ParaPhotoGraphyVO" >
+    <id column="para_id" property="paraId" jdbcType="BIGINT" />
+    <result column="traffic_code" property="trafficCode" jdbcType="VARCHAR" />
+    <result column="traffic_name" property="trafficName" jdbcType="VARCHAR" />
+    <result column="photo_type_code" property="photoTypeCode" jdbcType="VARCHAR" />
+    <result column="photo_type_name" property="photoTypeName" jdbcType="VARCHAR" />
+    <result column="photo_code" property="photoCode" jdbcType="VARCHAR" />
+    <result column="photo_name" property="photoName" jdbcType="VARCHAR" />
+    <result column="flag" property="flag" jdbcType="VARCHAR" />
+    <result column="remark" property="remark" jdbcType="VARCHAR" />
+    <result column="parent" property="parent" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    para_id,traffic_code,traffic_name,photo_type_code,photo_type_name,photo_code,photo_name,flag,remark,parent
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from para_photography
+    where para_id = #{paraId}
+  </select>
+  
+	<select id="selectByPhotoCode" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from para_photography
+    where photo_code = #{photoCode}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from para_photography
+    where para_id = #{paraId}
+  </delete>
+  <select id="queryParaPhotoGraphyList" parameterType="net.chetong.order.model.ParaPhotoGraphyVO" resultMap="BaseResultMap">
+  	select 
+  	<include refid="Base_Column_List" />
+  	from para_photography
+  	<where>
+  		<if test="trafficCode != null">
+  			and traffic_code = #{trafficCode}
+  		</if>
+  		<if test="photoTypeCode != null">
+  			and photo_type_code = #{photoTypeCode}
+  		</if>
+  		<if test="photoCode != null">
+  			and photo_code = #{photoCode}
+  		</if>
+  		<if test="flag != null">
+  			and flag = #{flag}
+  		</if>
+  		<if test="parent != null">
+  			and parent = #{parent}
+  		</if>
+  	</where>
+  </select>
+  <select id="getParentParaPhotoGraphyById" parameterType="java.lang.Long" resultMap="BaseResultMap">
+  	select
+  	<include refid="Base_Column_List" />
+  	from para_photography
+  	where photo_code = (select parent from para_photography where para_id = #{paraId})
+  </select>
+  
+  <select id="getTrafficParaList" parameterType="java.util.List" resultMap="BaseResultMap">
+  	select
+  	<include refid="Base_Column_List" />
+  	from para_photography
+  	where parent='000000' AND traffic_code in (
+	  	select DISTINCT traffic_code 
+	  	FROM para_photography
+	  	where para_id in
+	  		<foreach collection="list" item="idItem" open="(" separator="," close=")">
+	  			#{idItem}
+	  		</foreach>
+  	)
+  </select>
+  
+  <select id="queryParaPhotoGraphyByParentCode" parameterType="net.chetong.order.model.ParaPhotoGraphyVO" resultMap="BaseResultMap">
+  	select 
+  	<include refid="Base_Column_List" />
+  	from para_photography
+  	<where>
+  		parent = #{parent}
+  	</where>
+  </select>
+  
+  <select id="getYcTagListByParent" parameterType="String" resultMap="BaseResultMap">
+  	select 
+  	<include refid="Base_Column_List" />
+  	from para_photography
+  	<where>
+  		FIND_IN_SET(parent, #{parentArrStr})
+  	</where>
+  </select>
+</mapper>

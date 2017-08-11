@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="fh_audit_temp_cost">
+	
+	<select id="queryFhAuditTempCost" parameterType="java.util.Map" resultType ="net.chetong.order.model.FhAuditTempCost" >
+		SELECT 
+			id as id,
+			parent_id as parentId,
+			old_id as oldId,
+			audit_price as auditPrice,
+			remark2 as remark2,
+			type as type,
+			ext1 as ext1,
+			ext2 as ext2,
+			ext3 as ext3
+		FROM fh_audit_temp_cost 
+		 <where>
+		    <if test="id!= null">
+                  and id=#{id}
+            </if>
+		    <if test="parentId!= null">
+                  and parent_id=#{parentId}
+            </if>
+		    <if test="oldId!= null">
+                  and old_id=#{oldId}
+            </if>
+		    <if test="type!= null">
+                  and type=#{type}
+            </if>
+  		</where>
+	</select>
+	
+	<insert id="insertNotNull" useGeneratedKeys="true" keyProperty="id">
+		INSERT INTO fh_audit_temp_cost   
+		(
+			<trim suffix="" suffixOverrides=",">
+				<if test="id!= null">
+	                   id,
+	            </if>
+				<if test="parentId!= null">
+	                   parent_id,
+	            </if>
+				<if test="oldId!= null">
+	                   old_id,
+	            </if>
+				<if test="auditPrice!= null">
+	                   audit_price,
+	            </if>
+				<if test="remark2!= null">
+	                   remark2,
+	            </if>
+				<if test="type!= null">
+	                   type,
+	            </if>
+				<if test="ext1!= null">
+	                   ext1,
+	            </if>
+				<if test="ext2!= null">
+	                   ext2,
+	            </if>
+				<if test="ext3!= null">
+	                   ext3,
+	            </if>
+            </trim>
+		)
+		VALUES
+   		(
+   			<trim suffix="" suffixOverrides=",">
+	   			<if test="id!= null">
+	   			#{id},
+	   			</if>
+	   			<if test="parentId!= null">
+	   			#{parentId},
+	   			</if>
+	   			<if test="oldId!= null">
+	   			#{oldId},
+	   			</if>
+	   			<if test="auditPrice!= null">
+	   			#{auditPrice},
+	   			</if>
+	   			<if test="remark2!= null">
+	   			#{remark2},
+	   			</if>
+	   			<if test="type!= null">
+	   			#{type},
+	   			</if>
+	   			<if test="ext1!= null">
+	   			#{ext1},
+	   			</if>
+	   			<if test="ext2!= null">
+	   			#{ext2},
+	   			</if>
+	   			<if test="ext3!= null">
+	   			#{ext3},
+	   			</if>
+   			</trim>
+		)
+	</insert>
+
+	<delete id="deleteByKey">
+		DELETE FROM 
+			fh_audit_temp_cost 
+		<where>		   
+		    	 and id = #{id}
+		</where>
+	</delete>
+	<delete id="deleteByParentId">
+		DELETE FROM 
+			fh_audit_temp_cost 
+		<where>		   
+		    	 and parent_id = #{parentId}
+		</where>
+	</delete>
+	
+	<update id="updateByKeyNotNull">
+		UPDATE fh_audit_temp_cost 
+		  <trim prefix="SET" suffixOverrides=",">  
+					<if test="parentId!= null">
+		   			parent_id = #{parentId},
+		   			</if>  
+					<if test="oldId!= null">
+		   			old_id = #{oldId},
+		   			</if>  
+					<if test="auditPrice!= null">
+		   			audit_price = #{auditPrice},
+		   			</if>  
+					<if test="remark2!= null">
+		   			remark2 = #{remark2},
+		   			</if>  
+					<if test="type!= null">
+		   			type = #{type},
+		   			</if>  
+					<if test="ext1!= null">
+		   			ext1 = #{ext1},
+		   			</if>  
+					<if test="ext2!= null">
+		   			ext2 = #{ext2},
+		   			</if>  
+					<if test="ext3!= null">
+		   			ext3 = #{ext3},
+		   			</if>  
+		  </trim>
+		  <where>	   
+				    and id = #{id}
+		 </where>
+	</update>
+</mapper>

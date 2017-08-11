@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="sqlmap_fh_repair_factory_info">
+	
+	<sql id="repairFactoryItemSql">
+		created_by as createdBy,
+		created_date as createdDate,
+		updated_by as updatedBy,
+		updated_date as updatedDate,
+		id as id,
+		loss_id as lossId,
+		is_push_repair as isPushRepair,
+		no_push_reason as noPushReason,
+		channel_factory as channelFactory,
+		factory_name as factoryName,
+		factory_type as factoryType,
+		organization_no as organizationNo
+	</sql>
+	<select id="queryRepairFactoryInfo" resultType="FhRepairFactoryInfoVO">
+		select <include refid="repairFactoryItemSql" /> 
+		from fh_repair_factory_info 
+		where 1=1
+		<if test="id!=null">
+			and id=#{id}
+		</if>
+		<if test="lossId!=null">
+			and loss_id =#{lossId}
+		</if>
+	</select>
+	
+	<insert id="insertRepairFactoryInfo" parameterType="FhRepairFactoryInfoVO" useGeneratedKeys="true" keyProperty="id">
+		insert into fh_repair_factory_info(
+			 created_by,
+			 created_date,
+			 updated_by,
+			 updated_date,
+			 loss_id,
+			 is_push_repair,
+			 no_push_reason,
+			 channel_factory,
+			 factory_name,
+			 factory_type,
+			 organization_no)
+		 values(
+		 	#{createdBy},SYSDATE(),#{updatedBy},SYSDATE(),
+		 	#{lossId},#{isPushRepair},#{noPushReason},#{channelFactory},#{factoryName},
+		 	#{factoryType},#{organizationNo}
+		 )
+	
+	</insert>
+	<update id="updateRepairFactoryInfo" parameterType="FhRepairFactoryInfoVO">
+		update fh_repair_factory_info set 
+			<if test="isPushRepair!=null">
+				is_push_repair=#{isPushRepair},
+			</if>
+			<if test="noPushReason!=null">
+				no_push_reason=#{noPushReason},
+			</if>
+			<if test="channelFactory!=null">
+				channel_factory=#{channelFactory},
+			</if>
+			<if test="factoryName!=null">
+				factory_name=#{factoryName},
+			</if>
+			<if test="factoryType!=null">
+				factory_type=#{factoryType},
+			</if>
+			<if test="organizationNo!=null">
+				organization_no=#{organizationNo},
+			</if>
+			updated_by=#{updatedBy},
+			updated_date = SYSDATE()
+		where id=#{id}
+	</update>
+	
+</mapper>

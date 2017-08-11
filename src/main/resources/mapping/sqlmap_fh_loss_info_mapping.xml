@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="sqlmap_fh_loss_info">
+	
+	<sql id="lossInfoSql">
+		created_by as createdBy,
+		created_date as createdDate,
+		updated_by as updatedBy,
+		updated_date as updatedDate,
+		id as id,
+		order_no as orderNo,
+		report_no as reportNo,
+		car_id as carId,
+		loss_type as lossType,
+		loss_target as lossTarget,
+		is_all_loss as isAllLoss,
+		loss_place as lossPlace,
+		DATE_FORMAT(insure_date,'%Y-%m-%d %H:%i:%s') as insureDate,
+		other_force_amount as otherForceAmount,
+		loss_desp as lossDesp,
+		loss_markup_rate as lossMarkupRate,
+		loss_markup_amount as lossMarkupAmount,
+		audit_markup_rate as auditMarkupRate,
+		audit_markup_amount as auditMarkupAmount,
+		part_loss_amount as partLossAmount,
+		part_audit_amount as partAuditAmount,
+		repair_loss_amount as repairLossAmount,
+		repair_audit_amount as repairAuditAmount,
+		fee_loss_amount as feeLossAmount,
+		fee_audit_amount as feeAuditAmount,
+		loss_total_amount as lossTotalAmount,
+		damage_loss_amount as damageLossAmount,
+		damage_audit_amount as damageAuditAmount
+	</sql>
+	<select id="queryLossInfo" resultType="FhLossInfoVO">
+		select <include refid="lossInfoSql" /> 
+		from fh_loss_info 
+		where 1=1
+		<if test="id!=null and id!=''">
+			and id=#{id}
+		</if>
+		<if test="lossId!=null and lossId!=''">
+			and id=#{lossId}
+		</if>
+		<if test="orderNo!=null and orderNo!=''">
+			and order_no =#{orderNo}
+		</if>
+		<if test="reportNo!=null and reportNo!=''">
+			and report_no =#{reportNo}
+		</if>
+		<if test="carId!=null and carId!=''">
+			and car_id =#{carId}
+		</if>
+		<if test="lossType!=null and lossType!=''">
+			and loss_type =#{lossType}
+		</if>
+		<if test="lossTarget!=null and lossTarget!=''">
+			and loss_target =#{lossTarget}
+		</if>
+	</select>
+	
+	<insert id="insertLossInfo" parameterType="FhLossInfoVO" useGeneratedKeys="true" keyProperty="id">
+		insert into fh_loss_info(
+			created_by,
+			created_date,
+			updated_by,
+			updated_date,
+			order_no,
+			report_no,
+			car_id,
+			loss_type,
+			loss_target,
+			is_all_loss,
+			loss_Place,
+			insure_Date,
+			other_Force_Amount,
+			loss_desp,
+			loss_markup_rate,
+			loss_markup_amount,
+			audit_markup_rate,
+			audit_markup_amount,
+			part_loss_amount,
+			part_audit_amount,
+			repair_loss_amount,
+			repair_audit_amount,
+			fee_loss_amount,
+			fee_audit_amount,
+			damage_loss_amount,
+			damage_audit_amount,
+			loss_total_amount)
+		 values(
+		 	#{createdBy},SYSDATE(),#{updatedBy},SYSDATE(),
+		 	#{orderNo},#{reportNo},#{carId},#{lossType},#{lossTarget},#{isAllLoss},#{lossPlace},#{insureDate},#{otherForceAmount},
+		 	#{lossDesp},#{lossMarkupRate},#{lossMarkupAmount},#{auditMarkupRate},#{auditMarkupAmount},
+		 	#{partLossAmount},#{partAuditAmount},#{repairLossAmount},#{repairAuditAmount},#{feeLossAmount},
+		 	#{feeAuditAmount},#{damageLossAmount},#{damageAuditAmount},#{lossTotalAmount}
+		 )
+	
+	</insert>
+	<update id="updateLossInfo" parameterType="FhLossInfoVO">
+		update fh_loss_info set 
+			<if test="carId!=null">
+				car_id=#{carId},
+			</if>
+			<if test="reportNo!=null">
+				report_no=#{reportNo},
+			</if>
+			<if test="lossType!=null">
+				loss_type=#{lossType},
+			</if>
+			<if test="lossTarget!=null">
+				loss_target=#{lossTarget},
+			</if>
+			<if test="isAllLoss!=null">
+				is_all_loss=#{isAllLoss},
+			</if>
+			<if test="lossPlace!=null">
+				loss_place=#{lossPlace},
+			</if>
+			<if test="insureDate!=null">
+				insure_date=#{insureDate},
+			</if>
+			<if test="otherForceAmount!=null">
+				other_force_amount=#{otherForceAmount},
+			</if>
+			<if test="lossDesp!=null">
+				loss_desp=#{lossDesp},
+			</if>
+			<if test="lossMarkupRate!=null">
+				loss_markup_rate=#{lossMarkupRate},
+			</if>
+			<if test="lossMarkupAmount!=null">
+				loss_markup_amount=#{lossMarkupAmount},
+			</if>
+			<if test="auditMarkupRate!=null">
+				audit_markup_rate=#{auditMarkupRate},
+			</if>
+			<if test="auditMarkupAmount!=null">
+				audit_markup_amount=#{auditMarkupAmount},
+			</if>
+			<if test="partLossAmount!=null">
+				part_loss_amount=#{partLossAmount},
+			</if>
+			<if test="partAuditAmount!=null">
+				part_audit_amount=#{partAuditAmount},
+			</if>
+			<if test="repairLossAmount!=null">
+				repair_loss_amount=#{repairLossAmount},
+			</if>
+			<if test="repairAuditAmount!=null">
+				repair_audit_amount=#{repairAuditAmount},
+			</if>
+			<if test="feeLossAmount!=null">
+				fee_loss_amount=#{feeLossAmount},
+			</if>
+			<if test="feeAuditAmount!=null">
+				fee_audit_amount=#{feeAuditAmount},
+			</if>
+			<if test="damageLossAmount!=null">
+				damage_loss_amount=#{damageLossAmount},
+			</if>
+			<if test="damageAuditAmount!=null">
+				damage_audit_amount=#{damageAuditAmount},
+			</if>
+			<if test="lossTotalAmount!=null">
+				loss_total_amount=#{lossTotalAmount},
+			</if>
+			updated_by=#{updatedBy},
+			updated_date = SYSDATE()
+		where id=#{id}
+	</update>
+	<select id="checkLossAmountZero" resultType="map">
+		SELECT 
+		(SELECT COUNT(1) FROM fh_fee_item f WHERE f.loss_id=t.id) feeCount,
+		(SELECT COUNT(1) FROM fh_repair_item r WHERE r.loss_id=t.id) repairCount,
+		(SELECT COUNT(1) FROM fh_part_item p WHERE p.loss_id=t.id) partCount,
+		(SELECT COUNT(1) FROM fh_loss_item l WHERE l.loss_id=t.id) lossCount,
+		t.loss_type lossType,
+		t.loss_total_amount lossTotalAmount
+	 FROM fh_loss_info t WHERE t.order_no=#{orderNo}
+	
+	</select>
+	
+</mapper>

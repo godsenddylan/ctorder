@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="sqlmap_hy_cost" >
+  <resultMap id="BaseResultMap" type="net.chetong.order.model.HyCostVO" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="order_no" property="orderNo" jdbcType="VARCHAR" />
+    <result column="buyer_money" property="buyerMoney" jdbcType="DECIMAL" />
+    <result column="seller_money" property="sellerMoney" jdbcType="DECIMAL" />
+    <result column="group_money" property="groupMoney" jdbcType="DECIMAL" />
+    <result column="created_by" property="createdBy" jdbcType="VARCHAR" />
+    <result column="updated_by" property="updatedBy" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+    <result column="assessment_fee" property="assessmentFee" jdbcType="DECIMAL" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, order_no, buyer_money, seller_money, group_money, created_by, updated_by, create_time, 
+    update_time, assessment_fee
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from hy_cost
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  
+  <!-- 根据订单号查询费用信息 -->
+  <select id="selectCostByOrderNo" resultMap="BaseResultMap" parameterType="java.lang.String">
+  	 select 
+    <include refid="Base_Column_List" />
+    from hy_cost
+    where order_no=#{order_no}
+  </select>
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from hy_cost
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="net.chetong.order.model.HyCostVO" >
+    insert into hy_cost (id, order_no, buyer_money, 
+      seller_money, group_money, created_by, 
+      updated_by, create_time, update_time, assessment_fee
+      )
+    values (#{id,jdbcType=BIGINT}, #{orderNo,jdbcType=VARCHAR}, #{buyerMoney,jdbcType=DECIMAL}, 
+      #{sellerMoney,jdbcType=DECIMAL}, #{groupMoney,jdbcType=DECIMAL}, #{createdBy,jdbcType=VARCHAR}, 
+      #{updatedBy,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP},
+      #{assessmentFee,jdbcType=DECIMAL}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="net.chetong.order.model.HyCostVO" >
+    insert into hy_cost
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="orderNo != null" >
+        order_no,
+      </if>
+      <if test="buyerMoney != null" >
+        buyer_money,
+      </if>
+      <if test="sellerMoney != null" >
+        seller_money,
+      </if>
+      <if test="groupMoney != null" >
+        group_money,
+      </if>
+      <if test="createdBy != null" >
+        created_by,
+      </if>
+      <if test="updatedBy != null" >
+        updated_by,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="updateTime != null" >
+        update_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="orderNo != null" >
+        #{orderNo,jdbcType=VARCHAR},
+      </if>
+      <if test="buyerMoney != null" >
+        #{buyerMoney,jdbcType=DECIMAL},
+      </if>
+      <if test="sellerMoney != null" >
+        #{sellerMoney,jdbcType=DECIMAL},
+      </if>
+      <if test="groupMoney != null" >
+        #{groupMoney,jdbcType=DECIMAL},
+      </if>
+      <if test="createdBy != null" >
+        #{createdBy,jdbcType=VARCHAR},
+      </if>
+      <if test="updatedBy != null" >
+        #{updatedBy,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="net.chetong.order.model.HyCostVO" >
+    update hy_cost
+    <set >
+      <if test="orderNo != null" >
+        order_no = #{orderNo,jdbcType=VARCHAR},
+      </if>
+      <if test="buyerMoney != null" >
+        buyer_money = #{buyerMoney,jdbcType=DECIMAL},
+      </if>
+      <if test="sellerMoney != null" >
+        seller_money = #{sellerMoney,jdbcType=DECIMAL},
+      </if>
+      <if test="groupMoney != null" >
+        group_money = #{groupMoney,jdbcType=DECIMAL},
+      </if>
+      <if test="createdBy != null" >
+        created_by = #{createdBy,jdbcType=VARCHAR},
+      </if>
+      <if test="updatedBy != null" >
+        updated_by = #{updatedBy,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="assessmentFee != null" >
+        assessment_fee = #{assessmentFee,jdbcType=DECIMAL},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="net.chetong.order.model.HyCostVO" >
+    update hy_cost
+    set order_no = #{orderNo,jdbcType=VARCHAR},
+      buyer_money = #{buyerMoney,jdbcType=DECIMAL},
+      seller_money = #{sellerMoney,jdbcType=DECIMAL},
+      group_money = #{groupMoney,jdbcType=DECIMAL},
+      created_by = #{createdBy,jdbcType=VARCHAR},
+      updated_by = #{updatedBy,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      assessment_fee = #{assessmentFee,jdbcType=DECIMAL}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  
+  <delete id="deleteByOrderNo" parameterType="String" >
+    delete from hy_cost
+    where order_no = #{orderNo,jdbcType=VARCHAR}
+  </delete>
+  
+</mapper>

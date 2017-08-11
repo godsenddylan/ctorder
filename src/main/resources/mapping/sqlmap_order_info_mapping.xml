@@ -1,0 +1,281 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="sqlmap_order_info">
+
+	<sql id="Base_Column_List">
+		id as id, deal_stat as dealStat, order_source as
+		orderSource, order_type as orderType, order_no as orderNo, case_id as
+		caseId,
+		case_no as caseNo, car_no as carNo, buyer_user_id as buyerUserId,
+		buyer_user_type as buyerUserType, payer_user_id as payerUserId,
+		seller_user_id as sellerUserId, seller_user_type as sellerUserType,
+		service_id as serviceId, service_name as serviceName,
+		subject_id as subjectId, subject_name as subjectName, response_time as
+		responseTime, is_alow as isAlow, alow_money as alowMoney,
+		delegate_momey as delegateMomey, delegate_desc as delegateDesc,
+		work_address as workAddress, longtitude as longtitude, latitude as
+		latitude,
+		link_man as linkMan, AES_DECRYPT(UNHEX(link_tel),'CHEtong@20161102') as linkTel, mileage as mileage, get_time as
+		getTime, finish_time as finishTime, send_time as sendTime,
+		preliminary_time as preliminaryTime, preliminary_desc as
+		preliminaryDesc, final_time as finalTime, final_desc as finalDesc,
+		send_id as sendId, send_id_type as sendIdType, review_class as
+		reviewClass, review_time as reviewTime, review_name as reviewName,
+		review_type as reviewType, ext1 as ext1, ext2 as ext2, ext3 as ext3,
+		ext4 as ext4, ext5 as ext5, ext6 as ext6, ext7 as ext7, ext8 as ext8,
+		group_user_id as groupUserId, buyer_user_name as buyerUserName,
+		seller_user_name as sellerUserName, buyer_mobile as buyerMobile,
+		ct_address as ctAddress, ct_latitude as ctLatitude, ct_longtitude as
+		ctLongtitude, arrival_hours as arrivalHours, ext9 as ext9,
+		ext10 as ext10, ext11 as ext11, ext12 as ext12, ext13 as ext13,
+		arrival_time as arrivalTime, is_nego as isNego, nego_id as negoId,
+		commi_id as commiId, ext14 as ext14, ext15 as ext15, ext16 as ext16,
+		ext17 as ext17, ext18 as ext18
+	</sql>
+
+
+
+	<select id="queryOverTimeOrder" resultType="net.chetong.order.model.FmOrderVO">
+		select
+		<include refid="Base_Column_List" />
+		from fm_order o
+		where o.deal_stat in ('04','06','08')
+	<![CDATA[
+		and ( (o.order_type = '0' and TIMESTAMPDIFF(MINUTE,  o.send_time, now()) > 11*60 and TIMESTAMPDIFF(MINUTE,  o.send_time, now()) < 12*60 )
+		or (o.order_type != '0' and TIMESTAMPDIFF(MINUTE,  o.send_time, now()) > 23*60 and TIMESTAMPDIFF(MINUTE,  o.send_time, now()) < 24*60 ) )
+	]]>
+	</select>
+	
+	<!-- 自动审核必须是,车险订单,异地订单,非导单,非简易订单,非永诚订单,万元以下 -->
+	<!-- 
+	<select id="queryOverTimeAuditOrder" resultType="net.chetong.order.model.FmOrderVO" parameterType="java.util.Map">
+	<![CDATA[
+		SELECT
+			o.id AS id,
+			o.order_no AS orderNo,
+			o.order_type AS orderType,
+			o.buyer_user_id AS buyerUserId,
+			o.seller_user_id AS sellerUserId,
+			a.apply_id_a AS sendId
+		FROM
+			fm_order o
+		LEFT JOIN fm_order_cost c ON o.id = c.order_id
+		LEFT JOIN ct_third_apply_info a ON a.service_id = 1
+		AND a.grant_type = 2               
+		AND a.`status` = '2'               
+		AND a.`level` = '1'               
+		AND a.grant_id_c = o.buyer_user_id
+		WHERE
+			o.import_type = '0'          
+		AND o.is_simple = '0'              
+		AND o.is_remote = '1'             
+		AND o.service_id = 1              
+		AND o.deal_stat = '07'             
+		AND c.lost_money < 10000           
+		AND NOT EXISTS ( SELECT 1 FROM fm_task_info t WHERE t.report_no = o.case_no AND t.source = '1')				
+		AND TIMESTAMPDIFF(SECOND, o.finish_time, now()) * 1000 > ${AUTO_AUDIT_OF_OVER_TIME}    
+		AND o.send_time > #{EVALUATE_SYSTEM_PUBLISH_TIME}        
+	]]>
+	</select> 
+	-->
+	 
+	 <!-- 需自动审核的所有订单 ：车险订单,非导单,非简易订单,非永诚订单-->
+	<!--  <select id="queryOverTimeAuditOrder" resultType="net.chetong.order.model.FmOrderVO" parameterType="java.util.Map">
+	<![CDATA[
+		SELECT
+			o.id AS id,
+			o.order_no AS orderNo,
+			o.order_type AS orderType,
+			o.buyer_user_id AS buyerUserId,
+			o.seller_user_id AS sellerUserId,
+			a.apply_id_a AS sendId
+		FROM
+			fm_order o
+		LEFT JOIN fm_order_cost c ON o.id = c.order_id
+		LEFT JOIN ct_third_apply_info a ON a.service_id = 1
+		AND a.grant_type = 2
+		AND a.`status` = '2'
+		AND a.`level` = '1'
+		AND a.grant_id_c = o.buyer_user_id
+		WHERE
+			o.import_type = '0'
+		AND o.is_simple = '0'        
+		AND o.deal_stat = '07'   
+		AND NOT EXISTS ( SELECT 1 FROM fm_task_info t WHERE t.report_no = o.case_no AND t.source = '1')				
+		AND o.send_time > #{EVALUATE_SYSTEM_PUBLISH_TIME}
+	]]> 
+	</select> -->
+	 
+	<!-- 自动审核必须是,车险-查勘-订单,非导单,非简易订单,非永诚订单 ,3天后自动审核-->
+	<select id="queryOverTimeAuditExploreOrder" resultType="net.chetong.order.model.FmOrderVO" parameterType="java.util.Map">
+	<![CDATA[
+		SELECT
+			o.id AS id,
+			o.order_no AS orderNo,
+			o.order_type AS orderType,
+			o.buyer_user_id AS buyerUserId,
+			o.seller_user_id AS sellerUserId,
+			a.apply_id_a AS sendId
+		FROM
+			fm_order o
+		LEFT JOIN fm_order_cost c ON o.id = c.order_id
+		LEFT JOIN ct_third_apply_info a ON a.service_id = 1
+		AND a.grant_type = 2
+		AND a.`status` = '2'
+		AND a.`level` = '1'
+		AND a.grant_id_c = o.buyer_user_id
+		WHERE
+			o.import_type = '0'
+		AND o.is_simple = '0'
+		AND o.is_remote = '1'
+		and o.order_type = '0'
+		AND o.deal_stat = '07'
+		AND o.service_id = 1
+		AND NOT EXISTS ( SELECT 1 FROM fm_task_info t WHERE t.report_no = o.case_no AND t.source = '1')				
+		AND TIMESTAMPDIFF(SECOND, o.finish_time, now()) * 1000 > ${AUTO_AUDIT_OF_OVER_TIME_3}
+		AND o.send_time > #{EVALUATE_SYSTEM_PUBLISH_TIME}
+	]]>
+	
+	</select>
+	<!-- 自动审核必须是,车险-定损/物损-订单,非导单,非简易订单,非永诚订单 ，金额在5000以下，3天后自动审核-->
+	<select id="queryOverTimeAuditLossOrder_1" resultType="net.chetong.order.model.FmOrderVO" parameterType="java.util.Map">
+	<![CDATA[
+		SELECT
+			o.id AS id,
+			o.order_no AS orderNo,
+			o.order_type AS orderType,
+			o.buyer_user_id AS buyerUserId,
+			o.seller_user_id AS sellerUserId,
+			a.apply_id_a AS sendId
+		FROM
+			fm_order o
+		LEFT JOIN fm_order_cost c ON o.id = c.order_id
+		LEFT JOIN ct_third_apply_info a ON a.service_id = 1
+		AND a.grant_type = 2
+		AND a.`status` = '2'
+		AND a.`level` = '1'
+		AND a.grant_id_c = o.buyer_user_id
+		WHERE
+			o.import_type = '0'
+		AND o.is_simple = '0'
+		AND o.is_remote = '1'
+		AND o.deal_stat = '07'
+		and o.order_type !='0' 
+		AND o.service_id = 1
+		AND c.lost_money <= ${LOST_MONEY_1}   
+		AND NOT EXISTS ( SELECT 1 FROM fm_task_info t WHERE t.report_no = o.case_no AND t.source = '1')				
+		AND TIMESTAMPDIFF(SECOND, o.finish_time, now()) * 1000 > ${AUTO_AUDIT_OF_OVER_TIME_3}
+		AND o.send_time > #{EVALUATE_SYSTEM_PUBLISH_TIME}
+	]]>
+	</select>
+	
+	<!-- 自动审核必须是,车险-定损/物损-订单,非导单,非简易订单,非永诚订单 ，金额在5000-10000，7天后自动审核-->
+	<select id="queryOverTimeAuditLossOrder_2" resultType="net.chetong.order.model.FmOrderVO" parameterType="java.util.Map">
+	<![CDATA[
+		SELECT
+			o.id AS id,
+			o.order_no AS orderNo,
+			o.order_type AS orderType,
+			o.buyer_user_id AS buyerUserId,
+			o.seller_user_id AS sellerUserId,
+			a.apply_id_a AS sendId
+		FROM
+			fm_order o
+		LEFT JOIN fm_order_cost c ON o.id = c.order_id
+		LEFT JOIN ct_third_apply_info a ON a.service_id = 1
+		AND a.grant_type = 2
+		AND a.`status` = '2'
+		AND a.`level` = '1'
+		AND a.grant_id_c = o.buyer_user_id
+		WHERE
+			o.import_type = '0'
+		AND o.is_simple = '0'
+		AND o.is_remote = '1'
+		and o.order_type != '0'
+		AND o.deal_stat = '07'
+		AND o.service_id = 1
+		AND c.lost_money > ${LOST_MONEY_1} and c.lost_money <= ${LOST_MONEY_2}   
+		AND NOT EXISTS ( SELECT 1 FROM fm_task_info t WHERE t.report_no = o.case_no AND t.source = '1')				
+		AND TIMESTAMPDIFF(SECOND, o.finish_time, now()) * 1000 > ${AUTO_AUDIT_OF_OVER_TIME_7}
+		AND o.send_time > #{EVALUATE_SYSTEM_PUBLISH_TIME}
+	]]>
+	</select>
+	
+	<!-- 自动审核必须是,车险-定损/物损-订单,非导单,非简易订单,非永诚订单 ，金额在10000-50000，15天后自动审核-->
+	<select id="queryOverTimeAuditLossOrder_3" resultType="net.chetong.order.model.FmOrderVO" parameterType="java.util.Map">
+	<![CDATA[
+		SELECT
+			o.id AS id,
+			o.order_no AS orderNo,
+			o.order_type AS orderType,
+			o.buyer_user_id AS buyerUserId,
+			o.seller_user_id AS sellerUserId,
+			a.apply_id_a AS sendId
+		FROM
+			fm_order o
+		LEFT JOIN fm_order_cost c ON o.id = c.order_id
+		LEFT JOIN ct_third_apply_info a ON a.service_id = 1
+		AND a.grant_type = 2
+		AND a.`status` = '2'
+		AND a.`level` = '1'
+		AND a.grant_id_c = o.buyer_user_id
+		WHERE
+			o.import_type = '0'
+		AND o.is_simple = '0'
+		AND o.is_remote = '1'
+		and o.order_type != '0'
+		AND o.deal_stat = '07'
+		AND o.service_id = 1
+		AND c.lost_money > ${LOST_MONEY_2} and c.lost_money <= ${LOST_MONEY_3}   
+		AND NOT EXISTS ( SELECT 1 FROM fm_task_info t WHERE t.report_no = o.case_no AND t.source = '1')				
+		AND TIMESTAMPDIFF(SECOND, o.finish_time, now()) * 1000 > ${AUTO_AUDIT_OF_OVER_TIME_15}
+		AND o.send_time > #{EVALUATE_SYSTEM_PUBLISH_TIME}
+	]]>
+	</select>
+	
+	<!-- 自动审核必须是,车险-定损/物损-订单,非导单,非简易订单,非永诚订单 ，金额在50000以上，60天后自动审核-->
+	<select id="queryOverTimeAuditLossOrder_4" resultType="net.chetong.order.model.FmOrderVO" parameterType="java.util.Map">
+	<![CDATA[
+		SELECT
+			o.id AS id,
+			o.order_no AS orderNo,
+			o.order_type AS orderType,
+			o.buyer_user_id AS buyerUserId,
+			o.seller_user_id AS sellerUserId,
+			a.apply_id_a AS sendId
+		FROM
+			fm_order o
+		LEFT JOIN fm_order_cost c ON o.id = c.order_id
+		LEFT JOIN ct_third_apply_info a ON a.service_id = 1
+		AND a.grant_type = 2
+		AND a.`status` = '2'
+		AND a.`level` = '1'
+		AND a.grant_id_c = o.buyer_user_id
+		WHERE
+			o.import_type = '0'
+		AND o.is_simple = '0'
+		AND o.is_remote = '1'
+		and o.order_type != '0'
+		AND o.deal_stat = '07'
+		AND o.service_id = 1
+		AND c.lost_money > ${LOST_MONEY_3}   
+		AND NOT EXISTS ( SELECT 1 FROM fm_task_info t WHERE t.report_no = o.case_no AND t.source = '1')				
+		AND TIMESTAMPDIFF(SECOND, o.finish_time, now()) * 1000 > ${AUTO_AUDIT_OF_OVER_TIME_60}
+		AND o.send_time > #{EVALUATE_SYSTEM_PUBLISH_TIME}
+	]]>
+	</select>
+	
+	<select id="querySurveyOrderByAddLossOrder" resultType="net.chetong.order.model.FmOrderVO" parameterType="net.chetong.order.model.FmOrderVO">
+	    SELECT o1.id AS id, o1.order_no AS orderNo, o1.order_type AS orderType, o1.deal_stat AS dealStat, o1.send_time AS sendTime, o1.finish_time AS finishTime, o1.final_time AS finalTime 
+	    FROM fm_order o1 LEFT JOIN fm_order o2 ON o2.case_id = o1.case_id AND o2.order_type != '0' AND o1.order_type = '0' WHERE o2.order_no = #{orderNo}
+	    limit 1
+	</select>
+	
+	<select id="queryGuidByOrderCodeForSurvey" parameterType="java.lang.String" resultType="map">
+        select id AS id,max(guid) AS guid from fh_survey_model where order_code=#{orderCode} and enabled=1
+    </select>
+    <select id="queryGuidByOrderCodeForLoss" parameterType="java.lang.String" resultType="map">
+        select id AS id,max(guid) AS guid from fh_loss_model where order_code=#{orderCode} and enabled=1
+    </select>
+    
+</mapper>

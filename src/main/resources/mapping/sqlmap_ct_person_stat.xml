@@ -1,0 +1,500 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ct_person_stat">
+
+	<select id="queryCountCtPersonStat" parameterType="com.ctweb.model.user.CtPersonStat" resultType="java.lang.Long" >
+		SELECT 
+			count(*)
+		FROM ct_person_stat
+		<where>
+			<if test="id!= null">
+				and id=#{id}
+			</if>
+			<if test="userId!= null">
+				and user_id=#{userId}
+			</if>
+			<if test="serviceId!= null">
+				and service_id=#{serviceId}
+			</if>
+			<if test="serviceName!= null">
+				and service_name=#{serviceName}
+			</if>
+			<if test="isBusy!= null">
+				and is_busy=#{isBusy}
+			</if>
+			<if test="currOrderCount!= null">
+				and curr_order_count=#{currOrderCount}
+			</if>
+			<if test="longitude!= null">
+				and longitude=#{longitude}
+			</if>
+			<if test="dimension!= null">
+				and dimension=#{dimension}
+			</if>
+			<if test="lastNotifyTime!= null">
+				and last_notify_time=#{lastNotifyTime}
+			</if>
+			<if test="ext1!= null">
+				and ext1=#{ext1}
+			</if>
+			<if test="ext2!= null">
+				and ext2=#{ext2}
+			</if>
+			<if test="ext3!= null">
+				and ext3=#{ext3}
+			</if>
+		</where> 
+	</select>
+	
+	<select id="queryCtPersonStat" parameterType="com.ctweb.model.user.CtPersonStat" resultType ="com.ctweb.model.user.CtPersonStat" >
+		SELECT 
+			id as id,
+			user_id as userId,
+			service_id as serviceId,
+			service_name as serviceName,
+			is_busy as isBusy,
+			curr_order_count as currOrderCount,
+			longitude as longitude,
+			dimension as dimension,
+			last_notify_time as lastNotifyTime,
+			ext1 as ext1,
+			ext2 as ext2,
+			ext3 as ext3
+		FROM ct_person_stat 
+		 <where>
+		    <if test="id!= null">
+                  and id=#{id}
+            </if>
+		    <if test="userId!= null">
+                  and user_id=#{userId}
+            </if>
+		    <if test="serviceId!= null">
+                  and service_id=#{serviceId}
+            </if>
+		    <if test="serviceName!= null">
+                  and service_name=#{serviceName}
+            </if>
+		    <if test="isBusy!= null">
+                  and is_busy=#{isBusy}
+            </if>
+		    <if test="currOrderCount!= null">
+                  and curr_order_count=#{currOrderCount}
+            </if>
+		    <if test="longitude!= null">
+                  and longitude=#{longitude}
+            </if>
+		    <if test="dimension!= null">
+                  and dimension=#{dimension}
+            </if>
+		    <if test="lastNotifyTime!= null">
+                  and last_notify_time=#{lastNotifyTime}
+            </if>
+		    <if test="ext1!= null">
+                  and ext1=#{ext1}
+            </if>
+		    <if test="ext2!= null">
+                  and ext2=#{ext2}
+            </if>
+		    <if test="ext3!= null">
+                  and ext3=#{ext3}
+            </if>
+  		</where>
+		  		ORDER BY id DESC
+	</select>
+	
+		<insert id="insertNotNull" parameterType="com.ctweb.model.user.CtPersonStat" useGeneratedKeys="true" keyProperty="id">
+			INSERT INTO ct_person_stat   
+			(
+				<trim suffix="" suffixOverrides=",">
+					<if test="id!= null">
+		                   id,
+		            </if>
+					<if test="userId!= null">
+		                   user_id,
+		            </if>
+					<if test="serviceId!= null">
+		                   service_id,
+		            </if>
+					<if test="serviceName!= null">
+		                   service_name,
+		            </if>
+					<if test="isBusy!= null">
+		                   is_busy,
+		            </if>
+					<if test="currOrderCount!= null">
+		                   curr_order_count,
+		            </if>
+					<if test="longitude!= null">
+		                   longitude,
+		            </if>
+					<if test="dimension!= null">
+		                   dimension,
+		            </if>
+					<if test="lastNotifyTime!= null">
+		                   last_notify_time,
+		            </if>
+					<if test="ext1!= null">
+		                   ext1,
+		            </if>
+					<if test="ext2!= null">
+		                   ext2,
+		            </if>
+					<if test="ext3!= null">
+		                   ext3,
+		            </if>
+	            </trim>
+			)
+			VALUES
+	   		(
+	   			<trim suffix="" suffixOverrides=",">
+		   			<if test="id!= null">
+		   			#{id},
+		   			</if>
+		   			<if test="userId!= null">
+		   			#{userId},
+		   			</if>
+		   			<if test="serviceId!= null">
+		   			#{serviceId},
+		   			</if>
+		   			<if test="serviceName!= null">
+		   			#{serviceName},
+		   			</if>
+		   			<if test="isBusy!= null">
+		   			#{isBusy},
+		   			</if>
+		   			<if test="currOrderCount!= null">
+		   			#{currOrderCount},
+		   			</if>
+		   			<if test="longitude!= null">
+		   			#{longitude},
+		   			</if>
+		   			<if test="dimension!= null">
+		   			#{dimension},
+		   			</if>
+		   			<if test="lastNotifyTime!= null">
+		   			#{lastNotifyTime},
+		   			</if>
+		   			<if test="ext1!= null">
+		   			#{ext1},
+		   			</if>
+		   			<if test="ext2!= null">
+		   			#{ext2},
+		   			</if>
+		   			<if test="ext3!= null">
+		   			#{ext3},
+		   			</if>
+	   			</trim>
+			)
+		</insert>
+
+	<select id="queryByKey" resultType="com.ctweb.model.user.CtPersonStat">
+		SELECT 
+			id as id, 
+			user_id as userId, 
+			service_id as serviceId, 
+			service_name as serviceName, 
+			is_busy as isBusy, 
+			curr_order_count as currOrderCount, 
+			longitude as longitude, 
+			dimension as dimension, 
+			last_notify_time as lastNotifyTime, 
+			ext1 as ext1, 
+			ext2 as ext2, 
+			ext3 as ext3 
+		FROM
+			ct_person_stat
+	    <where>		   
+		    	 and id = #{id}
+		</where>
+	</select>
+	
+	<delete id="deleteByKey">
+		DELETE FROM 
+			ct_person_stat 
+		<where>		   
+		    	 and id = #{id}
+		</where>
+	</delete>
+	
+	<update id="updateByKeyNotNull">
+		UPDATE ct_person_stat 
+		  <trim prefix="SET" suffixOverrides=",">  
+					<if test="userId!= null">
+		   			user_id = #{userId},
+		   			</if>  
+					<if test="serviceId!= null">
+		   			service_id = #{serviceId},
+		   			</if>  
+					<if test="serviceName!= null">
+		   			service_name = #{serviceName},
+		   			</if>  
+					<if test="isBusy!= null">
+		   			is_busy = #{isBusy},
+		   			</if>  
+					<if test="currOrderCount!= null">
+		   			curr_order_count = #{currOrderCount},
+		   			</if>  
+					<if test="longitude!= null">
+		   			longitude = #{longitude},
+		   			</if>  
+					<if test="dimension!= null">
+		   			dimension = #{dimension},
+		   			</if>  
+					<if test="lastNotifyTime!= null">
+		   			last_notify_time = #{lastNotifyTime},
+		   			</if>  
+					<if test="ext1!= null">
+		   			ext1 = #{ext1},
+		   			</if>  
+					<if test="ext2!= null">
+		   			ext2 = #{ext2},
+		   			</if>  
+					<if test="ext3!= null">
+		   			ext3 = #{ext3},
+		   			</if>  
+		  </trim>
+		  <where>	   
+				    and id = #{id}
+		 </where>
+	</update>
+	
+	
+	<!-- 获取距离差，根据派单的经纬度与车童到达目的地经纬度 -->
+	<select id="queryDistance" parameterType="java.util.Map" resultType="java.lang.Double">
+		SELECT
+			ROUND(
+				getDistance (
+					#{orderlongitude},
+					#{orderlatitude},
+					#{longitude},
+					#{latitude}
+				),
+				2
+			)
+		FROM DUAL
+	</select>
+	
+	
+	<select id="queryCtPersonService" parameterType="CtPersonServiceVO" resultType ="CtPersonServiceVO" >
+		SELECT 
+			id as id,
+			user_id as userId,
+			service_id as serviceId,
+			audit_stat as auditStat,
+			stat as stat,
+			is_service as isService,
+			is_exam as isExam,
+			max_exam_id as maxExamId,
+			prov_code as provCode,
+			city_code as cityCode,
+			area_code as areaCode,
+			prov_desc as provDesc,
+			city_desc as cityDesc,
+			area_desc as areaDesc,
+			service_rank as serviceRank,
+			review_rank as reviewRank,
+			ability as ability,
+			service_count as serviceCount,
+			apply_time as applyTime,
+			audit_time as auditTime,
+			start_time as startTime,
+			mod_time as modTime,
+			oper_id as operId,
+			recommend_name as recommendName,
+			recommend_mobile as recommendMobile,
+			ext1 as ext1,
+			ext2 as ext2,
+			ext3 as ext3,
+			good_professional as goodProfessional,
+			is_mgr as isMgr
+		FROM ct_person_service 
+		 <where>
+		    <if test="id!= null">
+                  and id=#{id}
+            </if>
+		    <if test="userId!= null">
+                  and user_id=#{userId}
+            </if>
+		    <if test="serviceId!= null">
+                  and service_id=#{serviceId}
+            </if>
+		    <if test="auditStat!= null">
+                  and audit_stat=#{auditStat}
+            </if>
+		    <if test="stat!= null">
+                  and stat=#{stat}
+            </if>
+		    <if test="isService!= null">
+                  and is_service=#{isService}
+            </if>
+		    <if test="isExam!= null">
+                  and is_exam=#{isExam}
+            </if>
+		    <if test="maxExamId!= null">
+                  and max_exam_id=#{maxExamId}
+            </if>
+		    <if test="provCode!= null">
+                  and prov_code=#{provCode}
+            </if>
+		    <if test="cityCode!= null">
+                  and city_code=#{cityCode}
+            </if>
+		    <if test="areaCode!= null">
+                  and area_code=#{areaCode}
+            </if>
+		    <if test="provDesc!= null">
+                  and prov_desc=#{provDesc}
+            </if>
+		    <if test="cityDesc!= null">
+                  and city_desc=#{cityDesc}
+            </if>
+		    <if test="areaDesc!= null">
+                  and area_desc=#{areaDesc}
+            </if>
+		    <if test="serviceRank!= null">
+                  and service_rank=#{serviceRank}
+            </if>
+		    <if test="reviewRank!= null">
+                  and review_rank=#{reviewRank}
+            </if>
+		    <if test="ability!= null">
+                  and ability=#{ability}
+            </if>
+		    <if test="serviceCount!= null">
+                  and service_count=#{serviceCount}
+            </if>
+		    <if test="applyTime!= null">
+                  and apply_time=#{applyTime}
+            </if>
+		    <if test="auditTime!= null">
+                  and audit_time=#{auditTime}
+            </if>
+		    <if test="startTime!= null">
+                  and start_time=#{startTime}
+            </if>
+		    <if test="modTime!= null">
+                  and mod_time=#{modTime}
+            </if>
+		    <if test="operId!= null">
+                  and oper_id=#{operId}
+            </if>
+		    <if test="recommendName!= null">
+                  and recommend_name=#{recommendName}
+            </if>
+		    <if test="recommendMobile!= null">
+                  and recommend_mobile=#{recommendMobile}
+            </if>
+		    <if test="ext1!= null">
+                  and ext1=#{ext1}
+            </if>
+		    <if test="ext2!= null">
+                  and ext2=#{ext2}
+            </if>
+		    <if test="ext3!= null">
+                  and ext3=#{ext3}
+            </if>
+		    <if test="goodProfessional!= null">
+                  and good_professional=#{goodProfessional}
+            </if>
+		    <if test="isMgr!= null">
+                  and is_mgr=#{isMgr}
+            </if>
+            </where>
+	</select>
+	<update id="updateCtPersonService">
+		UPDATE ct_person_service 
+		  <trim prefix="SET" suffixOverrides=",">  
+					<if test="userId!= null">
+		   			user_id = #{userId},
+		   			</if>  
+					<if test="serviceId!= null">
+		   			service_id = #{serviceId},
+		   			</if>  
+					<if test="auditStat!= null">
+		   			audit_stat = #{auditStat},
+		   			</if>  
+					<if test="stat!= null">
+		   			stat = #{stat},
+		   			</if>  
+					<if test="isService!= null">
+		   			is_service = #{isService},
+		   			</if>  
+					<if test="isExam!= null">
+		   			is_exam = #{isExam},
+		   			</if>  
+					<if test="maxExamId!= null">
+		   			max_exam_id = #{maxExamId},
+		   			</if>  
+					<if test="provCode!= null">
+		   			prov_code = #{provCode},
+		   			</if>  
+					<if test="cityCode!= null">
+		   			city_code = #{cityCode},
+		   			</if>  
+					<if test="areaCode!= null">
+		   			area_code = #{areaCode},
+		   			</if>  
+					<if test="provDesc!= null">
+		   			prov_desc = #{provDesc},
+		   			</if>  
+					<if test="cityDesc!= null">
+		   			city_desc = #{cityDesc},
+		   			</if>  
+					<if test="areaDesc!= null">
+		   			area_desc = #{areaDesc},
+		   			</if>  
+					<if test="serviceRank!= null">
+		   			service_rank = #{serviceRank},
+		   			</if>  
+					<if test="reviewRank!= null">
+		   			review_rank = #{reviewRank},
+		   			</if>  
+					<if test="ability!= null">
+		   			ability = #{ability},
+		   			</if>  
+					<if test="serviceCount!= null">
+		   			service_count = #{serviceCount},
+		   			</if>  
+					<if test="applyTime!= null">
+		   			apply_time = #{applyTime},
+		   			</if>  
+					<if test="auditTime!= null">
+		   			audit_time = #{auditTime},
+		   			</if>  
+					<if test="startTime!= null">
+		   			start_time = #{startTime},
+		   			</if>  
+					<if test="modTime!= null">
+		   			mod_time = #{modTime},
+		   			</if>  
+					<if test="operId!= null">
+		   			oper_id = #{operId},
+		   			</if>  
+					<if test="recommendName!= null">
+		   			recommend_name = #{recommendName},
+		   			</if>  
+					<if test="recommendMobile!= null">
+		   			recommend_mobile = #{recommendMobile},
+		   			</if>  
+					<if test="ext1!= null">
+		   			ext1 = #{ext1},
+		   			</if>  
+					<if test="ext2!= null">
+		   			ext2 = #{ext2},
+		   			</if>  
+					<if test="ext3!= null">
+		   			ext3 = #{ext3},
+		   			</if>  
+					<if test="goodProfessional!= null">
+		   			good_professional = #{goodProfessional},
+		   			</if>  
+					<if test="isMgr!= null">
+		   			is_mgr = #{isMgr},
+		   			</if>  
+		  </trim>
+		  <where>	 
+			id = #{id}
+		 </where>
+	</update>
+	
+</mapper>

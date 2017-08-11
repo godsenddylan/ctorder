@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="sqlmap_fh_survey_report_item">
+	
+	<sql id="surveyReportItemSql">
+		created_by as createdBy,
+		created_date as createdDate,
+		updated_by as updatedBy,
+		updated_date as updatedDate,
+		CAST(id AS CHAR) AS id,
+		CAST(survey_id AS CHAR) AS surveyId,
+		code as code,
+		name as name,
+		value as value,
+		remark AS remark
+	</sql>
+	<select id="querySurveyReportItem" resultType="FhSurveyReportItemVO" parameterType="map">
+		select <include refid="surveyReportItemSql" /> 
+		from fh_survey_report_item 
+		where 1=1
+		<if test="id!=null">
+			and id=#{id}
+		</if>
+		<if test="surveyId!=null">
+			and survey_id =#{surveyId}
+		</if>
+	</select>
+	
+	<insert id="insertSurveyReportItem" parameterType="FhSurveyReportItemVO" useGeneratedKeys="true" keyProperty="id">
+		insert into fh_survey_report_item(
+			created_by,
+			created_date,
+			updated_by,
+			updated_date,
+			survey_id,
+			code,
+			name,
+			value,
+			remark)
+		 values(
+		 	#{createdBy},SYSDATE(),#{updatedBy},SYSDATE(),
+		 	#{surveyId},#{code},#{name},#{value},#{remark}
+		 )
+	
+	</insert>
+	<update id="updateSurveyReportItem" parameterType="FhSurveyReportItemVO">
+		update fh_survey_report_item set 
+			<if test="code!=null">
+				code=#{code},
+			</if>
+			<if test="name!=null">
+				name=#{name},
+			</if>
+			<if test="value!=null">
+				value=#{value},
+			</if>
+			<if test="remark!=null">
+				remark=#{remark},
+			</if>
+			updated_by=#{updatedBy},
+			updated_date = SYSDATE()
+		where id=#{id}
+	</update>
+	<delete id="deleteSurveyReportItem">
+		delete from fh_survey_report_item where id=#{id}
+	</delete>
+	
+</mapper>

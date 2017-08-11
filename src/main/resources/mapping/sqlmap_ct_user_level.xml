@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="sqlmap_ct_user_level">
+	<resultMap id="BaseResultMap" type="net.chetong.order.model.CtUserLevelVO" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="user_id" property="userId" jdbcType="BIGINT" />
+    <result column="user_name" property="userName" jdbcType="VARCHAR" />
+    <result column="up_user_id" property="upUserId" jdbcType="BIGINT" />
+    <result column="up_user_name" property="upUserName" jdbcType="VARCHAR" />
+    <result column="add_date" property="addDate" jdbcType="TIMESTAMP" />
+    <result column="status" property="status" jdbcType="VARCHAR" />
+    <result column="is_work_price" property="isWorkPrice" jdbcType="VARCHAR" />
+    <result column="ext1" property="ext1" jdbcType="VARCHAR" />
+    <result column="ext2" property="ext2" jdbcType="VARCHAR" />
+    <result column="ext3" property="ext3" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, user_id, user_name, up_user_id, up_user_name, add_date, status, is_work_price, 
+    ext1, ext2, ext3
+  </sql>
+  <select id="selectByUserId" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from ct_user_level
+    where user_id = #{userId,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from ct_user_level
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="net.chetong.order.model.CtUserLevelVO" >
+    insert into ct_user_level (id, user_id, user_name, 
+      up_user_id, up_user_name, add_date, 
+      status, is_work_price, ext1, 
+      ext2, ext3)
+    values (#{id,jdbcType=BIGINT}, #{userId,jdbcType=BIGINT}, #{userName,jdbcType=VARCHAR}, 
+      #{upUserId,jdbcType=BIGINT}, #{upUserName,jdbcType=VARCHAR}, #{addDate,jdbcType=TIMESTAMP}, 
+      #{status,jdbcType=VARCHAR}, #{isWorkPrice,jdbcType=VARCHAR}, #{ext1,jdbcType=VARCHAR}, 
+      #{ext2,jdbcType=VARCHAR}, #{ext3,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="net.chetong.order.model.CtUserLevelVO" >
+    insert into ct_user_level
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="userId != null" >
+        user_id,
+      </if>
+      <if test="userName != null" >
+        user_name,
+      </if>
+      <if test="upUserId != null" >
+        up_user_id,
+      </if>
+      <if test="upUserName != null" >
+        up_user_name,
+      </if>
+      <if test="addDate != null" >
+        add_date,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+      <if test="isWorkPrice != null" >
+        is_work_price,
+      </if>
+      <if test="ext1 != null" >
+        ext1,
+      </if>
+      <if test="ext2 != null" >
+        ext2,
+      </if>
+      <if test="ext3 != null" >
+        ext3,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="userId != null" >
+        #{userId,jdbcType=BIGINT},
+      </if>
+      <if test="userName != null" >
+        #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="upUserId != null" >
+        #{upUserId,jdbcType=BIGINT},
+      </if>
+      <if test="upUserName != null" >
+        #{upUserName,jdbcType=VARCHAR},
+      </if>
+      <if test="addDate != null" >
+        #{addDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="isWorkPrice != null" >
+        #{isWorkPrice,jdbcType=VARCHAR},
+      </if>
+      <if test="ext1 != null" >
+        #{ext1,jdbcType=VARCHAR},
+      </if>
+      <if test="ext2 != null" >
+        #{ext2,jdbcType=VARCHAR},
+      </if>
+      <if test="ext3 != null" >
+        #{ext3,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="net.chetong.order.model.CtUserLevelVO" >
+    update ct_user_level
+    <set >
+      <if test="userId != null" >
+        user_id = #{userId,jdbcType=BIGINT},
+      </if>
+      <if test="userName != null" >
+        user_name = #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="upUserId != null" >
+        up_user_id = #{upUserId,jdbcType=BIGINT},
+      </if>
+      <if test="upUserName != null" >
+        up_user_name = #{upUserName,jdbcType=VARCHAR},
+      </if>
+      <if test="addDate != null" >
+        add_date = #{addDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="isWorkPrice != null" >
+        is_work_price = #{isWorkPrice,jdbcType=VARCHAR},
+      </if>
+      <if test="ext1 != null" >
+        ext1 = #{ext1,jdbcType=VARCHAR},
+      </if>
+      <if test="ext2 != null" >
+        ext2 = #{ext2,jdbcType=VARCHAR},
+      </if>
+      <if test="ext3 != null" >
+        ext3 = #{ext3,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="net.chetong.order.model.CtUserLevelVO" >
+    update ct_user_level
+    set user_id = #{userId,jdbcType=BIGINT},
+      user_name = #{userName,jdbcType=VARCHAR},
+      up_user_id = #{upUserId,jdbcType=BIGINT},
+      up_user_name = #{upUserName,jdbcType=VARCHAR},
+      add_date = #{addDate,jdbcType=TIMESTAMP},
+      status = #{status,jdbcType=VARCHAR},
+      is_work_price = #{isWorkPrice,jdbcType=VARCHAR},
+      ext1 = #{ext1,jdbcType=VARCHAR},
+      ext2 = #{ext2,jdbcType=VARCHAR},
+      ext3 = #{ext3,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  
+  <select id="queryBroOrg" parameterType="String" resultType="net.chetong.order.model.CtUserLevelVO">
+  	select
+  	c.id as id, 
+  	c.user_id as userId, 
+  	c.user_name as userName, 
+  	c.up_user_id as upUserId, 
+  	c.up_user_name as upUserName, 
+  	c.add_date as addDate, 
+  	c.status as status, 
+  	c.is_work_price as isWorkPrice, 
+    c.ext1 as ext1, 
+    c.ext2 as ext2, 
+    c.ext3 as ext3
+    from ct_user_level c
+    <where>
+    	 c.up_user_id = (select c1.up_user_id from ct_user_level c1 where c1.user_id = #{userId})
+    </where>
+  </select>
+</mapper>

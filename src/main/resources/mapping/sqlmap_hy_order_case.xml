@@ -1,0 +1,297 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="sqlmap_hy_order_case" >
+  <resultMap id="BaseResultMap" type="net.chetong.order.model.HyOrderCaseVO" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="case_no" property="caseNo" jdbcType="VARCHAR" />
+    <result column="buyer_user_id" property="buyerUserId" jdbcType="BIGINT" />
+    <result column="buyer_user_name" property="buyerUserName" jdbcType="VARCHAR" />
+    <result column="buyer_tel" property="buyerTel" jdbcType="VARCHAR" />
+    <result column="entrust_user_name" property="entrustUserName" jdbcType="VARCHAR" />
+    <result column="entrust_user_id" property="entrustUserId" jdbcType="VARCHAR" />
+    <result column="insurer_linkman" property="insurerLinkman" jdbcType="VARCHAR" />
+    <result column="insurer_linktel" property="insurerLinktel" jdbcType="VARCHAR" />
+    <result column="insured_linkman" property="insuredLinkman" jdbcType="VARCHAR" />
+    <result column="insured_linktel" property="insuredLinktel" jdbcType="VARCHAR" />
+    <result column="created_by" property="createdBy" jdbcType="VARCHAR" />
+    <result column="updated_by" property="updatedBy" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  
+  	<resultMap type="net.chetong.order.model.HyCaseTemplate" id="configModel">
+		<id property="id" column="id"/>
+		<result property="fileName" column="file_name"/>
+		<result property="fileUrl" column="file_url"/>
+		<result property="fileUrls" column="file_urls"/>
+		<result property="fileLevel" column="file_level"/>
+		<result property="fileDesc" column="file_desc"/>
+		<result property="fileSize" column="file_size"/>
+		<result property="orgId" column="org_id"/>
+		<result property="caseId" column="case_id"/>
+		<result property="caseNo" column="case_no"/>
+		<result property="createBy" column="create_by"/>
+		<result property="createTime" column="create_time"/>
+		<result property="updateBy" column="update_by"/>
+		<result property="updateTime" column="update_time"/>
+		<collection property="hyCaseTemplateImageList" column="templateId=id}" select="queryHyCaseTemplateImageListByTemplateId"/>
+	</resultMap>
+  	<resultMap type="net.chetong.order.model.HyCaseTemplateImage" id="hyCaseTemplateImageList">
+		<result property="id" column="t_id"/>
+		<result property="templateId" column="template_id"/>
+		<result property="url" column="url"/>
+		<result property="page" column="page"/>
+		<result property="imageSize" column="image_size"/>
+	</resultMap>
+  
+  
+  <sql id="Base_Column_List" >
+    id, case_no, buyer_user_id, buyer_user_name, entrust_user_name, entrust_user_id, insurer_linkman, insurer_linktel, insured_linkman, insured_linktel, 
+    created_by, updated_by, create_time, update_time
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from hy_order_case
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from hy_order_case
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="net.chetong.order.model.HyOrderCaseVO" >
+    insert into hy_order_case (id, case_no, buyer_user_id, buyer_user_name, entrust_user_name, entrust_user_id,
+      insurer_linkman, insurer_linktel, insured_linkman, 
+      insured_linktel, created_by, updated_by, 
+      create_time, update_time)
+	     values (#{id,jdbcType=BIGINT}, #{caseNo,jdbcType=VARCHAR}, #{buyerUserId,jdbcType=BIGINT}, #{buyerUserName}, #{entrustUserName}, #{entrustUserId}
+      #{insurerLinkman,jdbcType=VARCHAR}, #{insurerLinktel,jdbcType=VARCHAR}, #{insuredLinkman,jdbcType=VARCHAR}, 
+      #{insuredLinktel,jdbcType=VARCHAR}, #{createdBy,jdbcType=VARCHAR}, #{updatedBy,jdbcType=VARCHAR}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP})
+  </insert>
+  
+  <insert id="insertSelective" parameterType="net.chetong.order.model.HyOrderCaseVO" useGeneratedKeys="true" keyProperty="id">
+    insert into hy_order_case
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null and id !=''" >
+        id,
+      </if>
+      <if test="caseNo != null and caseNo !=''" >
+        case_no,
+      </if>
+      <if test="buyerUserId != null and buyerUserId!=''" >
+        buyer_user_id,
+      </if>
+      <if test="buyerUserName != null and buyerUserName!=''" >
+        buyer_user_name,
+      </if>
+      <if test="entrustUserName != null and entrustUserName!=''" >
+        entrust_user_name,
+      </if>
+       <if test="entrustUserId != null and entrustUserId!=''" >
+        entrust_user_id,
+      </if>
+      <if test="insurerLinkman != null and insurerLinkman!=''" >
+        insurer_linkman,
+      </if>
+      <if test="insurerLinktel != null and insurerLinktel!=''" >
+        insurer_linktel,
+      </if>
+      <if test="insuredLinkman != null and insuredLinkman!=''" >
+        insured_linkman,
+      </if>
+      <if test="insuredLinktel != null and insuredLinktel!=''" >
+        insured_linktel,
+      </if>
+      <if test="createdBy != null and createdBy!=''" >
+        created_by,
+      </if>
+      <if test="updatedBy != null and updatedBy!=''" >
+        updated_by,
+      </if>
+      <if test="createTime != null and createTime!=''" >
+        create_time,
+      </if>
+      <if test="updateTime != null and updateTime!=''" >
+        update_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null and id!=''" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="caseNo != null and caseNo!=''" >
+        #{caseNo,jdbcType=VARCHAR},
+      </if>
+      <if test="buyerUserId != null and buyerUserId !=''" >
+        #{buyerUserId},
+      </if>
+      <if test="buyerUserName != null and buyerUserName!=''" >
+        #{buyerUserName},
+      </if>
+      <if test="entrustUserName != null and entrustUserName!=''" >
+        #{entrustUserName},
+      </if>
+      <if test="entrustUserId != null and entrustUserId!=''" >
+        #{entrustUserId},
+      </if>
+      <if test="insurerLinkman != null and insurerLinkman!=''" >
+        #{insurerLinkman,jdbcType=VARCHAR},
+      </if>
+      <if test="insurerLinktel != null and insurerLinktel!=''" >
+        #{insurerLinktel,jdbcType=VARCHAR},
+      </if>
+      <if test="insuredLinkman != null and insuredLinkman!=''" >
+        #{insuredLinkman,jdbcType=VARCHAR},
+      </if>
+      <if test="insuredLinktel != null and insuredLinktel!=''" >
+        #{insuredLinktel,jdbcType=VARCHAR},
+      </if>
+      <if test="createdBy != null and createdBy!=''" >
+        #{createdBy,jdbcType=VARCHAR},
+      </if>
+      <if test="updatedBy != null and updatedBy!=''" >
+        #{updatedBy,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null and createTime!=''" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null and updateTime!=''" >
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="net.chetong.order.model.HyOrderCaseVO" >
+    update hy_order_case
+    <set >
+      <if test="caseNo != null and caseNo!=''" >
+        case_no = #{caseNo,jdbcType=VARCHAR},
+      </if>
+      <if test="buyerUserId != null and buyerUserId!=''" >
+        buyer_user_id = #{buyerUserId},
+      </if>
+      <if test="buyerUserName != null and buyerUserName!=''" >
+        buyer_user_name = #{buyerUserName},
+      </if>
+      <if test="entrustUserName != null and entrustUserName!=''" >
+        entrust_user_name = #{entrustUserName},
+      </if>
+      <if test="entrustUserId != null and entrustUserId!=''" >
+        entrust_user_id = #{entrustUserId},
+      </if>
+      <if test="insurerLinkman != null and insurerLinkman!=''" >
+        insurer_linkman = #{insurerLinkman,jdbcType=VARCHAR},
+      </if>
+      <if test="insurerLinktel != null and insurerLinktel!=''" >
+        insurer_linktel = #{insurerLinktel,jdbcType=VARCHAR},
+      </if>
+      <if test="insuredLinkman != null and insuredLinkman!=''" >
+        insured_linkman = #{insuredLinkman,jdbcType=VARCHAR},
+      </if>
+      <if test="insuredLinktel != null and insuredLinktel!=''" >
+        insured_linktel = #{insuredLinktel,jdbcType=VARCHAR},
+      </if>
+      <if test="createdBy != null and createdBy!=''" >
+        created_by = #{createdBy,jdbcType=VARCHAR},
+      </if>
+      <if test="updatedBy != null and updatedBy!=''" >
+        updated_by = #{updatedBy,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null and createTime!=''" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null and updateTime!=''" >
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="net.chetong.order.model.HyOrderCaseVO" >
+    update hy_order_case
+    set case_no = #{caseNo,jdbcType=VARCHAR},
+      buyer_user_id = #{buyerUserId,jdbcType=BIGINT},
+      buyer_user_name = #{buyerUserName},
+      entrust_user_name = #{entrustUserName},
+      entrust_user_id = #{entrustUserId},
+      insurer_linkman = #{insurerLinkman,jdbcType=VARCHAR},
+      insurer_linktel = #{insurerLinktel,jdbcType=VARCHAR},
+      insured_linkman = #{insuredLinkman,jdbcType=VARCHAR},
+      insured_linktel = #{insuredLinktel,jdbcType=VARCHAR},
+      created_by = #{createdBy,jdbcType=VARCHAR},
+      updated_by = #{updatedBy,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_time = #{updateTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  
+  <update id="updateByCaseNo" parameterType="net.chetong.order.model.HyOrderCaseVO" >
+    update hy_order_case
+    set 
+      entrust_user_name = #{entrustUserName},
+      entrust_user_id = #{entrustUserId}
+    where case_no = #{caseNo,jdbcType=VARCHAR}
+  </update>
+  
+  <!-- 根据报案号查询案件信息 -->
+  <select id="queryCaseByCaseNo" parameterType="String" resultMap="BaseResultMap">
+  		SELECT
+  			<include refid="Base_Column_List" />
+		FROM
+			hy_order_case c
+		WHERE
+			c.case_no = #{caseNo}
+  </select>
+  
+  <select id="queryCaseByOrderNo" parameterType="String" resultMap="BaseResultMap">
+  		SELECT
+  		  c.id, c.case_no, c.buyer_user_id, c.insurer_linkman, c.insurer_linktel, c.insured_linkman, c.insured_linktel, 
+    		c.created_by, c.updated_by, c.create_time, c.update_time,
+  		 (SELECT g.conn_tel1 FROM ct_group g WHERE g.user_id=c.buyer_user_id) AS buyer_tel,
+  		 (SELECT g.org_name FROM ct_group g WHERE g.user_id=c.buyer_user_id) AS buyer_user_name,
+  		 c.entrust_user_name
+    	from hy_order_case c
+    	<where>
+    	  c.case_no = (select ho.case_no from hy_order ho where ho.order_no = #{orderNo})
+    	</where>
+  </select>
+  
+  <!-- 查询货运险案件模板 -->
+  <select id="queryHyCaseTemplate" parameterType="net.chetong.order.model.HyCaseTemplate" resultMap="configModel">
+		SELECT
+			t.id,
+			t.file_name,
+			t.file_url,
+			t.file_urls,
+			t.file_level,
+			t.file_desc,
+			t.file_size,
+			t.org_id,
+			t.case_id,
+			t.case_no,
+			t.create_by,
+			t.create_time,
+			t.update_by,
+			t.update_time
+			FROM
+				hy_case_template t
+		<where>
+		 t.file_level = #{fileLevel}
+		 <if test="orgId != null and orgId != ''" >
+		 AND t.org_id = #{orgId} 
+		 </if>
+		 <if test="caseNo != null and caseNo != ''"  >
+		 AND t.case_no = #{caseNo}
+		 </if>
+		 ORDER BY t.id DESC
+		</where> 
+	</select>
+	
+	<select id="queryHyCaseTemplateImageListByTemplateId" resultMap="hyCaseTemplateImageList">
+		SELECT 
+			* 
+		FROM hy_case_template_image hcti 
+		WHERE hcti.template_id = #{templateId} 
+		ORDER BY hcti.page ASC
+	</select>
+	
+</mapper>

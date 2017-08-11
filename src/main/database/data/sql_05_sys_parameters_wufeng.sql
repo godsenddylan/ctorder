@@ -1,0 +1,1 @@
+  INSERT INTO sys_parameters(created_by,created_date,updated_by,updated_date,company_code,type_code,CODE,short_name,full_name,parent_code,remark)  VALUES ("SYSTEM",SYSDATE(),"SYSTEM",SYSDATE(),"CTW","DDMOBILE","18826504992","调度提醒电话","调度提醒电话","","车童网获取保险公司任务后短信提醒");

@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="sqlmap_rs_order_cost">
+
+	<!--实体映射-->
+	<resultMap id="rsOrderCostResultMap" type="net.chetong.order.model.RsOrderCost">
+		<!---->
+		<id property="id" column="id" />
+		<!--订单号-->
+		<result property="orderNo" column="order_no" />
+		<!--机构应付费用-->
+		<result property="payMoney" column="pay_money" />
+		<!--车童服务费-->
+		<result property="serviceMoney" column="service_money" />
+		<!--团队服务费-->
+		<result property="groupMoney" column="group_money" />
+		<!--通道费-->
+		<result property="channelMoney" column="channel_money" />
+		<!--创建人-->
+		<result property="creator" column="creator" />
+		<!--创建时间-->
+		<result property="createTime" column="create_time" />
+	</resultMap>
+
+
+	<!-- 通用查询结果列-->
+	<sql id="Base_Column_List">
+		 id,	order_no,	pay_money,	service_money,	group_money,	channel_money,	creator,	create_time
+	</sql>
+
+	<!-- 查询（根据主键ID查询） -->
+	<select id="selectByPrimaryKey" resultMap="rsOrderCostResultMap" parameterType="java.lang.Long">
+		 SELECT
+		 <include refid="Base_Column_List" />
+		 FROM rs_order_cost
+		 WHERE id = #{id}
+	</select>
+
+	<!--删除：根据主键ID删除-->
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+		 DELETE FROM rs_order_cost
+		 WHERE id = #{id}
+	</delete>
+
+	<!-- 添加 -->
+	<insert id="insert" parameterType="net.chetong.order.model.RsOrderCost">
+		 INSERT INTO rs_order_cost
+ 		(id,order_no,pay_money,service_money,group_money,channel_money,creator,create_time) 
+		 VALUES 
+ 		(#{id},#{orderNo},#{payMoney},#{serviceMoney},#{groupMoney},#{channelMoney},#{creator},#{createTime}) 
+	</insert>
+
+	<!-- 添加 （匹配有值的字段）-->
+	<insert id="insertSelective" parameterType="net.chetong.order.model.RsOrderCost">
+		 INSERT INTO rs_order_cost
+		 <trim prefix="(" suffix=")" suffixOverrides="," >
+			<if test="id != null">
+				 id,
+			</if>
+			<if test="orderNo != null">
+				 order_no,
+			</if>
+			<if test="payMoney != null">
+				 pay_money,
+			</if>
+			<if test="serviceMoney != null">
+				 service_money,
+			</if>
+			<if test="groupMoney != null">
+				 group_money,
+			</if>
+			<if test="channelMoney != null">
+				 channel_money,
+			</if>
+			<if test="creator != null">
+				 creator,
+			</if>
+			<if test="createTime != null">
+				 create_time,
+			</if>
+
+		 </trim>
+		 <trim prefix="values (" suffix=")" suffixOverrides="," >
+			<if test="id!=null">
+				 #{id},
+			</if>
+			<if test="orderNo!=null">
+				 #{orderNo},
+			</if>
+			<if test="payMoney!=null">
+				 #{payMoney},
+			</if>
+			<if test="serviceMoney!=null">
+				 #{serviceMoney},
+			</if>
+			<if test="groupMoney!=null">
+				 #{groupMoney},
+			</if>
+			<if test="channelMoney!=null">
+				 #{channelMoney},
+			</if>
+			<if test="creator!=null">
+				 #{creator},
+			</if>
+			<if test="createTime!=null">
+				 #{createTime},
+			</if>
+		 </trim>
+	</insert>
+
+	<!-- 修 改-->
+	<update id="updateByPrimaryKeySelective" parameterType="net.chetong.order.model.RsOrderCost">
+		 UPDATE rs_order_cost
+ 		 <set> 
+			<if test="orderNo != null">
+				 order_no = #{orderNo},
+			</if>
+			<if test="payMoney != null">
+				 pay_money = #{payMoney},
+			</if>
+			<if test="serviceMoney != null">
+				 service_money = #{serviceMoney},
+			</if>
+			<if test="groupMoney != null">
+				 group_money = #{groupMoney},
+			</if>
+			<if test="channelMoney != null">
+				 channel_money = #{channelMoney},
+			</if>
+			<if test="creator != null">
+				 creator = #{creator},
+			</if>
+			<if test="createTime != null">
+				 create_time = #{createTime},
+			</if>
+
+ 		 </set>
+		 WHERE id = #{id}
+	</update>
+
+	<!-- 修 改-->
+	<update id="updateByPrimaryKey" parameterType="net.chetong.order.model.RsOrderCost">
+		 UPDATE rs_order_cost
+		 SET 
+			 order_no = #{orderNo},
+			 pay_money = #{payMoney},
+			 service_money = #{serviceMoney},
+			 group_money = #{groupMoney},
+			 channel_money = #{channelMoney},
+			 creator = #{creator},
+			 create_time = #{createTime}
+		 WHERE id = #{id}
+	</update>
+	
+	<select id="getCostList" parameterType="java.util.Map" resultMap="rsOrderCostResultMap">
+		SELECT
+		<include refid="Base_Column_List" />
+		FROM rs_order_cost
+		WHERE order_no = #{orderNo}
+	</select>
+
+</mapper>

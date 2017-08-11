@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="sqlmap_fm_order_status_log">
+
+	<select id="queryFmOrderStatusLogByOrderId" parameterType="java.util.Map" resultType ="net.chetong.order.model.OrderFlowVO" >
+		SELECT 
+			fol.order_id as orderId,
+			fol.new_order_status as orderStatus,
+			case fol.new_order_status <!-- 00派单中 01无响应 02注销 03撤单 04作业中 05待初审 06初审退回  07待审核 08已退回 09审核通过 -->
+			when '00' then '重派'
+			when '01' then '无响应'
+			when '02' then '注销'
+			when '03' then '撤单'
+			when '04' then '接单'
+			when '05' then '申请审核'<!-- 待初审 -->
+			when '06' then '初审退回'
+			when '07' then '申请审核'
+			when '08' then '审核退回'
+			when '09' then '审核通过'
+			end as  orderStatusDesc,
+			fol.create_date as createDate
+		FROM fm_order_status_log fol
+		WHERE fol.old_order_status != fol.new_order_status
+		AND fol.order_id=#{orderId}
+		ORDER BY fol.id DESC
+	</select>
+</mapper>

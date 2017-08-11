@@ -1,0 +1,1037 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="sqlmap_fh_loss_model">
+
+	<select id="queryFhLossModel" parameterType="net.chetong.order.model.FhLossModelVO" resultType ="net.chetong.order.model.FhLossModelVO" >
+		SELECT 
+			id as id,
+			vehicle_model as vehicleModel,
+			car_mark as carMark,
+			repair_ft_name as repairFtName,
+			management_fee as managementFee,
+			remnant as remnant,
+			management_fee2 as managementFee2, 
+			remnant2 as remnant2, 
+			loss_time as lossTime,
+			CAST(AES_DECRYPT(UNHEX(contact_phone),'CHEtong@20161102') AS CHAR) as contactPhone,
+			vehicle_no as vehicleNo,
+			material_amount as materialAmount,
+			insert_time as insertTime,
+			subtotal as subtotal,
+			report_no as reportNo,
+			repair_ft_phone as repairFtPhone,
+			vin as vin,
+			loss_desp as lossDesp,
+			repair_ft_type as repairFtType,
+			loss_address as lossAddress,
+			address_place as addressPlace,
+			last_time as lastTime,
+			guid as guid,
+			is_subject as isSubject,
+			contact_name as contactName,
+			taskstate as taskstate,
+			enabled as enabled,
+			loss_quality as lossQuality,
+			doc_quality as docQuality,
+			subtract_rate as subtractRate,
+			is_phone as isPhone,
+			audit_opinion as auditOpinion,
+			order_code as orderCode,
+			base_fee as baseFee,
+			travel_fee as travelFee,
+			over_fee as overFee,
+			extra_reward as extraReward,
+			power_fee as powerFee,
+			busi_charge as busiCharge,
+			driver_name as driverName,
+			CAST(AES_DECRYPT(UNHEX(driver_phone),'CHEtong@20161102') AS CHAR) as driverPhone,
+			vehicle_model_id as vehicleModelId,
+			is_add as isAdd,
+			reserved as reserved,
+			mileage as mileage,
+			principal_code as principalCode,
+			user_code as userCode,
+			accident_date as accidentDate,
+			accident_desp as accidentDesp,
+			case_state as caseState,
+			is_call as isCall,
+			service_name as serviceName,
+			service_code as serviceCode,
+			principal_name as principalName,
+			principal_info as principalInfo,
+			principal_time as principalTime,
+			principal_auth as principalAuth
+		FROM fh_loss_model 
+		 <where>
+		    <if test="id!= null">
+                  and id=#{id}
+            </if>
+		    <if test="vehicleModel!= null">
+                  and vehicle_model=#{vehicleModel}
+            </if>
+		    <if test="carMark!= null">
+                  and car_mark=#{carMark}
+            </if>
+		    <if test="repairFtName!= null">
+                  and repair_ft_name=#{repairFtName}
+            </if>
+		    <if test="managementFee!= null">
+                  and management_fee=#{managementFee}
+            </if>
+		    <if test="remnant!= null">
+                  and remnant=#{remnant}
+            </if>
+		    <if test="lossTime!= null">
+                  and loss_time=#{lossTime}
+            </if>
+		    <if test="contactPhone!= null">
+                  and contact_phone=HEX(AES_ENCRYPT(#{contactPhone},'CHEtong@20161102'))
+            </if>
+		    <if test="vehicleNo!= null">
+                  and vehicle_no=#{vehicleNo}
+            </if>
+		    <if test="materialAmount!= null">
+                  and material_amount=#{materialAmount}
+            </if>
+		    <if test="insertTime!= null">
+                  and insert_time=#{insertTime}
+            </if>
+		    <if test="subtotal!= null">
+                  and subtotal=#{subtotal}
+            </if>
+		    <if test="reportNo!= null">
+                  and report_no=#{reportNo}
+            </if>
+		    <if test="repairFtPhone!= null">
+                  and repair_ft_phone=#{repairFtPhone}
+            </if>
+		    <if test="vin!= null">
+                  and vin=#{vin}
+            </if>
+		    <if test="lossDesp!= null">
+                  and loss_desp=#{lossDesp}
+            </if>
+		    <if test="repairFtType!= null">
+                  and repair_ft_type=#{repairFtType}
+            </if>
+		    <if test="lossAddress!= null">
+                  and loss_address=#{lossAddress}
+            </if>
+		    <if test="addressPlace!= null">
+                  and address_place=#{addressPlace}
+            </if>
+		    <if test="lastTime!= null">
+                  and last_time=#{lastTime}
+            </if>
+		    <if test="guid!= null">
+                  and guid=#{guid}
+            </if>
+		    <if test="isSubject!= null">
+                  and is_subject=#{isSubject}
+            </if>
+		    <if test="contactName!= null">
+                  and contact_name=#{contactName}
+            </if>
+		    <if test="taskstate!= null">
+                  and taskstate=#{taskstate}
+            </if>
+		    <if test="enabled!= null">
+                  and enabled=#{enabled}
+            </if>
+		    <if test="lossQuality!= null">
+                  and loss_quality=#{lossQuality}
+            </if>
+		    <if test="docQuality!= null">
+                  and doc_quality=#{docQuality}
+            </if>
+		    <if test="subtractRate!= null">
+                  and subtract_rate=#{subtractRate}
+            </if>
+		    <if test="isPhone!= null">
+                  and is_phone=#{isPhone}
+            </if>
+		    <if test="auditOpinion!= null">
+                  and audit_opinion=#{auditOpinion}
+            </if>
+		    <if test="orderCode!= null">
+                  and order_code=#{orderCode}
+            </if>
+		    <if test="baseFee!= null">
+                  and base_fee=#{baseFee}
+            </if>
+		    <if test="travelFee!= null">
+                  and travel_fee=#{travelFee}
+            </if>
+		    <if test="overFee!= null">
+                  and over_fee=#{overFee}
+            </if>
+		    <if test="extraReward!= null">
+                  and extra_reward=#{extraReward}
+            </if>
+		    <if test="powerFee!= null">
+                  and power_fee=#{powerFee}
+            </if>
+		    <if test="busiCharge!= null">
+                  and busi_charge=#{busiCharge}
+            </if>
+		    <if test="driverName!= null">
+                  and driver_name=#{driverName}
+            </if>
+		    <if test="driverPhone!= null">
+                  and driver_phone=HEX(AES_ENCRYPT(#{driverPhone},'CHEtong@20161102'))
+            </if>
+		    <if test="vehicleModelId!= null">
+                  and vehicle_model_id=#{vehicleModelId}
+            </if>
+		    <if test="isAdd!= null">
+                  and is_add=#{isAdd}
+            </if>
+		    <if test="reserved!= null">
+                  and reserved=#{reserved}
+            </if>
+		    <if test="mileage!= null">
+                  and mileage=#{mileage}
+            </if>
+		    <if test="principalCode!= null">
+                  and principal_code=#{principalCode}
+            </if>
+		    <if test="userCode!= null">
+                  and user_code=#{userCode}
+            </if>
+		    <if test="accidentDate!= null">
+                  and accident_date=#{accidentDate}
+            </if>
+		    <if test="accidentDesp!= null">
+                  and accident_desp=#{accidentDesp}
+            </if>
+		    <if test="caseState!= null">
+                  and case_state=#{caseState}
+            </if>
+		    <if test="isCall!= null">
+                  and is_call=#{isCall}
+            </if>
+		    <if test="serviceName!= null">
+                  and service_name=#{serviceName}
+            </if>
+		    <if test="serviceCode!= null">
+                  and service_code=#{serviceCode}
+            </if>
+		    <if test="principalName!= null">
+                  and principal_name=#{principalName}
+            </if>
+		    <if test="principalInfo!= null">
+                  and principal_info=#{principalInfo}
+            </if>
+		    <if test="principalTime!= null">
+                  and principal_time=#{principalTime}
+            </if>
+		    <if test="principalAuth!= null">
+                  and principal_auth=#{principalAuth}
+            </if>
+  		</where>
+		  		ORDER BY id DESC
+	</select>
+	
+		<insert id="insertNotNull" parameterType="net.chetong.order.model.FhLossModelVO" useGeneratedKeys="true" keyProperty="id">
+			INSERT INTO fh_loss_model   
+			(
+				<trim suffix="" suffixOverrides=",">
+					<if test="vehicleModel!= null">
+		                   vehicle_model,
+		            </if>
+					<if test="carMark!= null">
+		                   car_mark,
+		            </if>
+					<if test="repairFtName!= null">
+		                   repair_ft_name,
+		            </if>
+					<if test="managementFee!= null">
+		                   management_fee,
+		            </if>
+					<if test="remnant!= null">
+		                   remnant,
+		            </if>
+					<if test="lossTime!= null">
+		                   loss_time,
+		            </if>
+					<if test="contactPhone!= null">
+		                   contact_phone,
+		            </if>
+					<if test="vehicleNo!= null">
+		                   vehicle_no,
+		            </if>
+					<if test="materialAmount!= null">
+		                   material_amount,
+		            </if>
+					<if test="insertTime!= null">
+		                   insert_time,
+		            </if>
+					<if test="subtotal!= null">
+		                   subtotal,
+		            </if>
+					<if test="reportNo!= null">
+		                   report_no,
+		            </if>
+					<if test="repairFtPhone!= null">
+		                   repair_ft_phone,
+		            </if>
+					<if test="vin!= null">
+		                   vin,
+		            </if>
+					<if test="lossDesp!= null">
+		                   loss_desp,
+		            </if>
+					<if test="repairFtType!= null">
+		                   repair_ft_type,
+		            </if>
+					<if test="lossAddress!= null">
+		                   loss_address,
+		            </if>
+					<if test="addressPlace!= null">
+		                   address_place,
+		            </if>
+					<if test="lastTime!= null">
+		                   last_time,
+		            </if>
+					<if test="guid!= null">
+		                   guid,
+		            </if>
+					<if test="isSubject!= null">
+		                   is_subject,
+		            </if>
+					<if test="contactName!= null">
+		                   contact_name,
+		            </if>
+					<if test="taskstate!= null">
+		                   taskstate,
+		            </if>
+					<if test="enabled!= null">
+		                   enabled,
+		            </if>
+					<if test="lossQuality!= null">
+		                   loss_quality,
+		            </if>
+					<if test="docQuality!= null">
+		                   doc_quality,
+		            </if>
+					<if test="subtractRate!= null">
+		                   subtract_rate,
+		            </if>
+					<if test="isPhone!= null">
+		                   is_phone,
+		            </if>
+					<if test="auditOpinion!= null">
+		                   audit_opinion,
+		            </if>
+					<if test="orderCode!= null">
+		                   order_code,
+		            </if>
+					<if test="baseFee!= null">
+		                   base_fee,
+		            </if>
+					<if test="travelFee!= null">
+		                   travel_fee,
+		            </if>
+					<if test="overFee!= null">
+		                   over_fee,
+		            </if>
+					<if test="extraReward!= null">
+		                   extra_reward,
+		            </if>
+					<if test="powerFee!= null">
+		                   power_fee,
+		            </if>
+					<if test="busiCharge!= null">
+		                   busi_charge,
+		            </if>
+					<if test="driverName!= null">
+		                   driver_name,
+		            </if>
+					<if test="driverPhone!= null">
+		                   driver_phone,
+		            </if>
+					<if test="vehicleModelId!= null">
+		                   vehicle_model_id,
+		            </if>
+					<if test="isAdd!= null">
+		                   is_add,
+		            </if>
+					<if test="reserved!= null">
+		                   reserved,
+		            </if>
+					<if test="mileage!= null">
+		                   mileage,
+		            </if>
+					<if test="principalCode!= null">
+		                   principal_code,
+		            </if>
+					<if test="userCode!= null">
+		                   user_code,
+		            </if>
+					<if test="accidentDate!= null">
+		                   accident_date,
+		            </if>
+					<if test="accidentDesp!= null">
+		                   accident_desp,
+		            </if>
+					<if test="caseState!= null">
+		                   case_state,
+		            </if>
+					<if test="isCall!= null">
+		                   is_call,
+		            </if>
+					<if test="serviceName!= null">
+		                   service_name,
+		            </if>
+					<if test="serviceCode!= null">
+		                   service_code,
+		            </if>
+					<if test="principalName!= null">
+		                   principal_name,
+		            </if>
+					<if test="principalInfo!= null">
+		                   principal_info,
+		            </if>
+					<if test="principalTime!= null">
+		                   principal_time,
+		            </if>
+					<if test="principalAuth!= null">
+		                   principal_auth,
+		            </if>
+	            </trim>
+			)
+			VALUES
+	   		(
+	   			<trim suffix="" suffixOverrides=",">
+		   			<if test="vehicleModel!= null">
+		   			#{vehicleModel},
+		   			</if>
+		   			<if test="carMark!= null">
+		   			#{carMark},
+		   			</if>
+		   			<if test="repairFtName!= null">
+		   			#{repairFtName},
+		   			</if>
+		   			<if test="managementFee!= null">
+		   			#{managementFee},
+		   			</if>
+		   			<if test="remnant!= null">
+		   			#{remnant},
+		   			</if>
+		   			<if test="lossTime!= null">
+		   			#{lossTime},
+		   			</if>
+		   			<if test="contactPhone!= null">
+		   			HEX(AES_ENCRYPT(#{contactPhone},'CHEtong@20161102')),
+		   			</if>
+		   			<if test="vehicleNo!= null">
+		   			#{vehicleNo},
+		   			</if>
+		   			<if test="materialAmount!= null">
+		   			#{materialAmount},
+		   			</if>
+		   			<if test="insertTime!= null">
+		   			#{insertTime},
+		   			</if>
+		   			<if test="subtotal!= null">
+		   			#{subtotal},
+		   			</if>
+		   			<if test="reportNo!= null">
+		   			#{reportNo},
+		   			</if>
+		   			<if test="repairFtPhone!= null">
+		   			#{repairFtPhone},
+		   			</if>
+		   			<if test="vin!= null">
+		   			#{vin},
+		   			</if>
+		   			<if test="lossDesp!= null">
+		   			#{lossDesp},
+		   			</if>
+		   			<if test="repairFtType!= null">
+		   			#{repairFtType},
+		   			</if>
+		   			<if test="lossAddress!= null">
+		   			#{lossAddress},
+		   			</if>
+		   			<if test="addressPlace!= null">
+		   			#{addressPlace},
+		   			</if>
+		   			<if test="lastTime!= null">
+		   			#{lastTime},
+		   			</if>
+		   			<if test="guid!= null">
+		   			#{guid},
+		   			</if>
+		   			<if test="isSubject!= null">
+		   			#{isSubject},
+		   			</if>
+		   			<if test="contactName!= null">
+		   			#{contactName},
+		   			</if>
+		   			<if test="taskstate!= null">
+		   			#{taskstate},
+		   			</if>
+		   			<if test="enabled!= null">
+		   			#{enabled},
+		   			</if>
+		   			<if test="lossQuality!= null">
+		   			#{lossQuality},
+		   			</if>
+		   			<if test="docQuality!= null">
+		   			#{docQuality},
+		   			</if>
+		   			<if test="subtractRate!= null">
+		   			#{subtractRate},
+		   			</if>
+		   			<if test="isPhone!= null">
+		   			#{isPhone},
+		   			</if>
+		   			<if test="auditOpinion!= null">
+		   			#{auditOpinion},
+		   			</if>
+		   			<if test="orderCode!= null">
+		   			#{orderCode},
+		   			</if>
+		   			<if test="baseFee!= null">
+		   			#{baseFee},
+		   			</if>
+		   			<if test="travelFee!= null">
+		   			#{travelFee},
+		   			</if>
+		   			<if test="overFee!= null">
+		   			#{overFee},
+		   			</if>
+		   			<if test="extraReward!= null">
+		   			#{extraReward},
+		   			</if>
+		   			<if test="powerFee!= null">
+		   			#{powerFee},
+		   			</if>
+		   			<if test="busiCharge!= null">
+		   			#{busiCharge},
+		   			</if>
+		   			<if test="driverName!= null">
+		   			#{driverName},
+		   			</if>
+		   			<if test="driverPhone!= null">
+		   			HEX(AES_ENCRYPT(#{driverPhone},'CHEtong@20161102')),
+		   			</if>
+		   			<if test="vehicleModelId!= null">
+		   			#{vehicleModelId},
+		   			</if>
+		   			<if test="isAdd!= null">
+		   			#{isAdd},
+		   			</if>
+		   			<if test="reserved!= null">
+		   			#{reserved},
+		   			</if>
+		   			<if test="mileage!= null">
+		   			#{mileage},
+		   			</if>
+		   			<if test="principalCode!= null">
+		   			#{principalCode},
+		   			</if>
+		   			<if test="userCode!= null">
+		   			#{userCode},
+		   			</if>
+		   			<if test="accidentDate!= null">
+		   			#{accidentDate},
+		   			</if>
+		   			<if test="accidentDesp!= null">
+		   			#{accidentDesp},
+		   			</if>
+		   			<if test="caseState!= null">
+		   			#{caseState},
+		   			</if>
+		   			<if test="isCall!= null">
+		   			#{isCall},
+		   			</if>
+		   			<if test="serviceName!= null">
+		   			#{serviceName},
+		   			</if>
+		   			<if test="serviceCode!= null">
+		   			#{serviceCode},
+		   			</if>
+		   			<if test="principalName!= null">
+		   			#{principalName},
+		   			</if>
+		   			<if test="principalInfo!= null">
+		   			#{principalInfo},
+		   			</if>
+		   			<if test="principalTime!= null">
+		   			#{principalTime},
+		   			</if>
+		   			<if test="principalAuth!= null">
+		   			#{principalAuth},
+		   			</if>
+	   			</trim>
+			)
+		</insert>
+
+	<select id="queryByKey" resultType="net.chetong.order.model.FhLossModelVO">
+		SELECT 
+			id as id, 
+			vehicle_model as vehicleModel, 
+			car_mark as carMark, 
+			repair_ft_name as repairFtName, 
+			management_fee as managementFee, 
+			remnant as remnant, 
+			loss_time as lossTime, 
+			management_fee2 as managementFee2, 
+			remnant2 as remnant2, 
+			loss_time as lossTime, 
+			CAST(AES_DECRYPT(UNHEX(contact_phone),'CHEtong@20161102') AS CHAR) as contactPhone, 
+			vehicle_no as vehicleNo, 
+			material_amount as materialAmount, 
+			insert_time as insertTime, 
+			subtotal as subtotal, 
+			report_no as reportNo, 
+			repair_ft_phone as repairFtPhone, 
+			vin as vin, 
+			loss_desp as lossDesp, 
+			repair_ft_type as repairFtType, 
+			loss_address as lossAddress, 
+			address_place as addressPlace, 
+			last_time as lastTime, 
+			guid as guid, 
+			is_subject as isSubject, 
+			contact_name as contactName, 
+			taskstate as taskstate, 
+			enabled as enabled, 
+			loss_quality as lossQuality, 
+			doc_quality as docQuality, 
+			subtract_rate as subtractRate, 
+			is_phone as isPhone, 
+			audit_opinion as auditOpinion, 
+			order_code as orderCode, 
+			base_fee as baseFee, 
+			travel_fee as travelFee, 
+			over_fee as overFee, 
+			extra_reward as extraReward, 
+			power_fee as powerFee, 
+			busi_charge as busiCharge, 
+			driver_name as driverName, 
+			CAST(AES_DECRYPT(UNHEX(driver_phone),'CHEtong@20161102') AS CHAR) as driverPhone, 
+			vehicle_model_id as vehicleModelId, 
+			is_add as isAdd, 
+			reserved as reserved, 
+			mileage as mileage, 
+			principal_code as principalCode, 
+			user_code as userCode, 
+			accident_date as accidentDate, 
+			accident_desp as accidentDesp, 
+			case_state as caseState, 
+			is_call as isCall, 
+			service_name as serviceName, 
+			service_code as serviceCode, 
+			principal_name as principalName, 
+			principal_info as principalInfo, 
+			principal_time as principalTime, 
+			principal_auth as principalAuth 
+		FROM
+			fh_loss_model
+	    <where>		   
+		    	 and id = #{id}
+		</where>
+	</select>
+	
+	<delete id="deleteByKey">
+		DELETE FROM 
+			fh_loss_model 
+		<where>		   
+		    	 and id = #{id}
+		</where>
+	</delete>
+	
+	<update id="updateByKeyNotNull">
+		UPDATE fh_loss_model 
+		  <trim prefix="SET" suffixOverrides=",">  
+					<if test="vehicleModel!= null">
+		   			vehicle_model = #{vehicleModel},
+		   			</if>  
+					<if test="carMark!= null">
+		   			car_mark = #{carMark},
+		   			</if>  
+					<if test="repairFtName!= null">
+		   			repair_ft_name = #{repairFtName},
+		   			</if>  
+					<if test="managementFee!= null">
+		   			management_fee = #{managementFee},
+		   			</if>  
+					<if test="remnant!= null">
+		   			remnant = #{remnant},
+		   			</if>  
+					<if test="managementFee2!= null">
+		   			management_fee2 = #{managementFee2},
+		   			</if>  
+					<if test="remnant2!= null">
+		   			remnant2 = #{remnant2},
+		   			</if>  
+					<if test="lossTime!= null">
+		   			loss_time = #{lossTime},
+		   			</if>  
+					<if test="contactPhone!= null">
+		   			contact_phone = HEX(AES_ENCRYPT(#{contactPhone},'CHEtong@20161102')),
+		   			</if>  
+					<if test="vehicleNo!= null">
+		   			vehicle_no = #{vehicleNo},
+		   			</if>  
+					<if test="materialAmount!= null">
+		   			material_amount = #{materialAmount},
+		   			</if>  
+					<if test="insertTime!= null">
+		   			insert_time = #{insertTime},
+		   			</if>  
+					<if test="subtotal!= null">
+		   			subtotal = #{subtotal},
+		   			</if>  
+					<if test="reportNo!= null">
+		   			report_no = #{reportNo},
+		   			</if>  
+					<if test="repairFtPhone!= null">
+		   			repair_ft_phone = #{repairFtPhone},
+		   			</if>  
+					<if test="vin!= null">
+		   			vin = #{vin},
+		   			</if>  
+					<if test="lossDesp!= null">
+		   			loss_desp = #{lossDesp},
+		   			</if>  
+					<if test="repairFtType!= null">
+		   			repair_ft_type = #{repairFtType},
+		   			</if>  
+					<if test="lossAddress!= null">
+		   			loss_address = #{lossAddress},
+		   			</if>  
+					<if test="addressPlace!= null">
+		   			address_place = #{addressPlace},
+		   			</if>  
+					<if test="lastTime!= null">
+		   			last_time = #{lastTime},
+		   			</if>  
+					<if test="guid!= null">
+		   			guid = #{guid},
+		   			</if>  
+					<if test="isSubject!= null">
+		   			is_subject = #{isSubject},
+		   			</if>  
+					<if test="contactName!= null">
+		   			contact_name = #{contactName},
+		   			</if>  
+					<if test="taskstate!= null">
+		   			taskstate = #{taskstate},
+		   			</if>  
+					<if test="enabled!= null">
+		   			enabled = #{enabled},
+		   			</if>  
+					<if test="lossQuality!= null">
+		   			loss_quality = #{lossQuality},
+		   			</if>  
+					<if test="docQuality!= null">
+		   			doc_quality = #{docQuality},
+		   			</if>  
+					<if test="subtractRate!= null">
+		   			subtract_rate = #{subtractRate},
+		   			</if>  
+					<if test="isPhone!= null">
+		   			is_phone = #{isPhone},
+		   			</if>  
+					<if test="auditOpinion!= null">
+		   			audit_opinion = #{auditOpinion},
+		   			</if>  
+					<if test="orderCode!= null">
+		   			order_code = #{orderCode},
+		   			</if>  
+					<if test="baseFee!= null">
+		   			base_fee = #{baseFee},
+		   			</if>  
+					<if test="travelFee!= null">
+		   			travel_fee = #{travelFee},
+		   			</if>  
+					<if test="overFee!= null">
+		   			over_fee = #{overFee},
+		   			</if>  
+					<if test="extraReward!= null">
+		   			extra_reward = #{extraReward},
+		   			</if>  
+					<if test="powerFee!= null">
+		   			power_fee = #{powerFee},
+		   			</if>  
+					<if test="busiCharge!= null">
+		   			busi_charge = #{busiCharge},
+		   			</if>  
+					<if test="driverName!= null">
+		   			driver_name = #{driverName},
+		   			</if>  
+					<if test="driverPhone!= null">
+		   			driver_phone = HEX(AES_ENCRYPT(#{driverPhone},'CHEtong@20161102')),
+		   			</if>  
+					<if test="vehicleModelId!= null">
+		   			vehicle_model_id = #{vehicleModelId},
+		   			</if>  
+					<if test="isAdd!= null">
+		   			is_add = #{isAdd},
+		   			</if>  
+					<if test="reserved!= null">
+		   			reserved = #{reserved},
+		   			</if>  
+					<if test="mileage!= null">
+		   			mileage = #{mileage},
+		   			</if>  
+					<if test="principalCode!= null">
+		   			principal_code = #{principalCode},
+		   			</if>  
+					<if test="userCode!= null">
+		   			user_code = #{userCode},
+		   			</if>  
+					<if test="accidentDate!= null">
+		   			accident_date = #{accidentDate},
+		   			</if>  
+					<if test="accidentDesp!= null">
+		   			accident_desp = #{accidentDesp},
+		   			</if>  
+					<if test="caseState!= null">
+		   			case_state = #{caseState},
+		   			</if>  
+					<if test="isCall!= null">
+		   			is_call = #{isCall},
+		   			</if>  
+					<if test="serviceName!= null">
+		   			service_name = #{serviceName},
+		   			</if>  
+					<if test="serviceCode!= null">
+		   			service_code = #{serviceCode},
+		   			</if>  
+					<if test="principalName!= null">
+		   			principal_name = #{principalName},
+		   			</if>  
+					<if test="principalInfo!= null">
+		   			principal_info = #{principalInfo},
+		   			</if>  
+					<if test="principalTime!= null">
+		   			principal_time = #{principalTime},
+		   			</if>  
+					<if test="principalAuth!= null">
+		   			principal_auth = #{principalAuth},
+		   			</if>  
+					<if test="extraType!= null">
+		   			extra_type = #{extraType},
+		   			</if>  
+		  </trim>
+		  <where>	   
+				    and id = #{id}
+		 </where>
+	</update>
+	
+	<update id="updateByOrderNoNotNull">
+		UPDATE fh_loss_model 
+		  <trim prefix="SET" suffixOverrides=",">  
+					<if test="vehicleModel!= null">
+		   			vehicle_model = #{vehicleModel},
+		   			</if>  
+					<if test="carMark!= null">
+		   			car_mark = #{carMark},
+		   			</if>  
+					<if test="repairFtName!= null">
+		   			repair_ft_name = #{repairFtName},
+		   			</if>  
+					<if test="managementFee!= null">
+		   			management_fee = #{managementFee},
+		   			</if>  
+					<if test="remnant!= null">
+		   			remnant = #{remnant},
+		   			</if>  
+					<if test="lossTime!= null">
+		   			loss_time = #{lossTime},
+		   			</if>  
+					<if test="contactPhone!= null">
+		   			contact_phone = HEX(AES_ENCRYPT(#{contactPhone},'CHEtong@20161102')),
+		   			</if>  
+					<if test="vehicleNo!= null">
+		   			vehicle_no = #{vehicleNo},
+		   			</if>  
+					<if test="materialAmount!= null">
+		   			material_amount = #{materialAmount},
+		   			</if>  
+					<if test="insertTime!= null">
+		   			insert_time = #{insertTime},
+		   			</if>  
+					<if test="subtotal!= null">
+		   			subtotal = #{subtotal},
+		   			</if>  
+					<if test="reportNo!= null">
+		   			report_no = #{reportNo},
+		   			</if>  
+					<if test="repairFtPhone!= null">
+		   			repair_ft_phone = #{repairFtPhone},
+		   			</if>  
+					<if test="vin!= null">
+		   			vin = #{vin},
+		   			</if>  
+					<if test="lossDesp!= null">
+		   			loss_desp = #{lossDesp},
+		   			</if>  
+					<if test="repairFtType!= null">
+		   			repair_ft_type = #{repairFtType},
+		   			</if>  
+					<if test="lossAddress!= null">
+		   			loss_address = #{lossAddress},
+		   			</if>  
+					<if test="addressPlace!= null">
+		   			address_place = #{addressPlace},
+		   			</if>  
+					<if test="lastTime!= null">
+		   			last_time = #{lastTime},
+		   			</if>  
+					<if test="guid!= null">
+		   			guid = #{guid},
+		   			</if>  
+					<if test="isSubject!= null">
+		   			is_subject = #{isSubject},
+		   			</if>  
+					<if test="contactName!= null">
+		   			contact_name = #{contactName},
+		   			</if>  
+					<if test="taskstate!= null">
+		   			taskstate = #{taskstate},
+		   			</if>  
+					<if test="enabled!= null">
+		   			enabled = #{enabled},
+		   			</if>  
+					<if test="lossQuality!= null">
+		   			loss_quality = #{lossQuality},
+		   			</if>  
+					<if test="docQuality!= null">
+		   			doc_quality = #{docQuality},
+		   			</if>  
+					<if test="subtractRate!= null">
+		   			subtract_rate = #{subtractRate},
+		   			</if>  
+					<if test="isPhone!= null">
+		   			is_phone = #{isPhone},
+		   			</if>  
+					<if test="auditOpinion!= null">
+		   			audit_opinion = #{auditOpinion},
+		   			</if>  
+					<if test="orderCode!= null">
+		   			order_code = #{orderCode},
+		   			</if>  
+					<if test="baseFee!= null">
+		   			base_fee = #{baseFee},
+		   			</if>  
+					<if test="travelFee!= null">
+		   			travel_fee = #{travelFee},
+		   			</if>  
+					<if test="overFee!= null">
+		   			over_fee = #{overFee},
+		   			</if>  
+					<if test="extraReward!= null">
+		   			extra_reward = #{extraReward},
+		   			</if>  
+					<if test="powerFee!= null">
+		   			power_fee = #{powerFee},
+		   			</if>  
+					<if test="busiCharge!= null">
+		   			busi_charge = #{busiCharge},
+		   			</if>  
+					<if test="driverName!= null">
+		   			driver_name = #{driverName},
+		   			</if>  
+					<if test="driverPhone!= null">
+		   			driver_phone = HEX(AES_ENCRYPT(#{driverPhone},'CHEtong@20161102')),
+		   			</if>  
+					<if test="vehicleModelId!= null">
+		   			vehicle_model_id = #{vehicleModelId},
+		   			</if>  
+					<if test="isAdd!= null">
+		   			is_add = #{isAdd},
+		   			</if>  
+					<if test="reserved!= null">
+		   			reserved = #{reserved},
+		   			</if>  
+					<if test="mileage!= null">
+		   			mileage = #{mileage},
+		   			</if>  
+					<if test="principalCode!= null">
+		   			principal_code = #{principalCode},
+		   			</if>  
+					<if test="userCode!= null">
+		   			user_code = #{userCode},
+		   			</if>  
+					<if test="accidentDate!= null">
+		   			accident_date = #{accidentDate},
+		   			</if>  
+					<if test="accidentDesp!= null">
+		   			accident_desp = #{accidentDesp},
+		   			</if>  
+					<if test="caseState!= null">
+		   			case_state = #{caseState},
+		   			</if>  
+					<if test="isCall!= null">
+		   			is_call = #{isCall},
+		   			</if>  
+					<if test="serviceName!= null">
+		   			service_name = #{serviceName},
+		   			</if>  
+					<if test="serviceCode!= null">
+		   			service_code = #{serviceCode},
+		   			</if>  
+					<if test="principalName!= null">
+		   			principal_name = #{principalName},
+		   			</if>  
+					<if test="principalInfo!= null">
+		   			principal_info = #{principalInfo},
+		   			</if>  
+					<if test="principalTime!= null">
+		   			principal_time = #{principalTime},
+		   			</if>  
+					<if test="principalAuth!= null">
+		   			principal_auth = #{principalAuth},
+		   			</if>  
+		  </trim>
+		  <where>	   
+				    and order_code = #{orderCode}
+		 </where>
+	</update>
+	
+	<!-- 根据查询定损单是否是新订单 -->
+	<select id="queryLossIsNewByLossId" resultType="java.lang.String">
+		SELECT
+			o.ext15
+		FROM
+			fm_order o,
+			fh_loss_model m
+		WHERE
+			o.order_no = m.order_code
+		AND m.id = #{lossId}
+	</select>
+	
+	<!-- 查询GUID下的所有车俩-->
+    <select id="queryAllCarByGuid" parameterType="java.lang.String" resultType="java.util.Map">
+        SELECT
+			id AS taskId,
+			car_mark AS carMark,
+			is_subject AS isMain
+		FROM
+			fh_loss_model
+		WHERE
+			guid = #{guid} 
+			and enabled=1
+    </select>
+    
+    <update id="updateModelByOrderCode">
+		UPDATE fh_loss_model 
+		  <trim prefix="SET" suffixOverrides=",">  
+			<if test="taskstate!= null">
+   				taskstate = #{taskstate},
+   			</if> 
+			<if test="principalName!= null">
+	   			principal_name = #{principalName},
+	   		</if>  
+		  </trim>
+		  <where>	   
+		    and order_code = #{orderCode}
+		 </where>
+	</update>
+</mapper>

@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="sqlmap_fh_damage_model">
+
+	 <!-- 查询某个订单号下面的物损项 -->
+    <select id="queryDamageByOrderCode" parameterType="java.lang.String" resultType="net.chetong.order.model.FhDamageModelVO">
+        select 
+			id as id,
+			project as project,
+			standard as standard,
+			unit as unit,
+			num as num,
+			price as price,
+			subtotal as subtotal,
+			`explain` as `explain`,
+			`explain2` as `explain2`,
+			orderno as orderno,
+			order_code as orderCode,
+			guid as guid,
+			audit_price as auditPrice
+		 from fh_damage_model where order_code=#{orderCode}
+    </select>
+    
+     <select id="queryDamagePriceByOrderCode" parameterType="java.lang.String" resultType="BigDecimal">
+        SELECT SUM(d.subtotal) FROM fh_damage_model d WHERE d.order_code=#{orderCode}
+    </select>
+    
+    <!-- 查询物损根据订单集合 -->
+    <select id="findDamageByOrderCode" parameterType="java.util.List" resultType="net.chetong.order.model.FhDamageModelVO">
+        select
+			id as id,
+			project as project,
+			standard as standard,
+			unit as unit,
+			num as num,
+			price as price,
+			subtotal as subtotal,
+			`explain` as `explain`,
+			`explain2` as `explain2`,
+			orderno as orderno,
+			order_code as orderCode,
+			guid as guid,
+			audit_price as auditPrice
+        from fh_damage_model where order_code in
+        <foreach collection="list" item="orderCode" open="(" separator="," close=")">
+            #{orderCode}
+        </foreach>
+    </select>
+    
+    <insert id="insertNotNull" parameterType="net.chetong.order.model.FhDamageModelVO" useGeneratedKeys="true" keyProperty="id">
+			INSERT INTO fh_damage_model   
+			(
+				<trim suffix="" suffixOverrides=",">
+					<if test="project!= null">
+		                   project,
+		            </if>
+					<if test="standard!= null">
+		                   standard,
+		            </if>
+					<if test="unit!= null">
+		                   unit,
+		            </if>
+					<if test="num!= null">
+		                   num,
+		            </if>
+					<if test="price!= null">
+		                   price,
+		            </if>
+					<if test="subtotal!= null">
+		                   subtotal,
+		            </if>
+					<if test="explain!= null">
+		                   `explain`,
+		            </if>
+					<if test="explain2!= null">
+		                   `explain2`,
+		            </if>
+					<if test="orderno!= null">
+		                   orderno,
+		            </if>
+					<if test="orderCode!= null">
+		                   order_code,
+		            </if>
+					<if test="guid!= null">
+		                   guid,
+		            </if>
+		            <if test="auditPrice!= null">
+		                   audit_price,
+		            </if>
+	            </trim>
+			)
+			VALUES
+	   		(
+	   			<trim suffix="" suffixOverrides=",">
+		   			<if test="project!= null">
+		   			#{project},
+		   			</if>
+		   			<if test="standard!= null">
+		   			#{standard},
+		   			</if>
+		   			<if test="unit!= null">
+		   			#{unit},
+		   			</if>
+		   			<if test="num!= null">
+		   			#{num},
+		   			</if>
+		   			<if test="price!= null">
+		   			#{price},
+		   			</if>
+		   			<if test="subtotal!= null">
+		   			#{subtotal},
+		   			</if>
+		   			<if test="explain!= null">
+		   			#{explain},
+		   			</if>
+		   			<if test="explain2!= null">
+		   			#{explain2},
+		   			</if>
+		   			<if test="orderno!= null">
+		   			#{orderno},
+		   			</if>
+		   			<if test="orderCode!= null">
+		   			#{orderCode},
+		   			</if>
+		   			<if test="guid!= null">
+		   			#{guid},
+		   			</if>
+		   			<if test="auditPrice!= null">
+		   			#{auditPrice},
+		   			</if>
+	   			</trim>
+			)
+		</insert>
+		
+	<!-- 删除指定订单的物损小项 -->
+	<delete id="delDamageByOrderCodeAndGuid" parameterType="java.util.Map">
+		delete from fh_damage_model where order_code=#{orderCode} and guid=#{guid}
+	</delete>
+		<!-- 修改核价金额 -->
+	<update id="updateDamageAuditPrice" parameterType="net.chetong.order.model.FhDamageModelVO">
+		update fh_damage_model set audit_price=#{auditPrice}, explain2=#{explain2} where id=#{id}
+	</update>
+	
+</mapper>

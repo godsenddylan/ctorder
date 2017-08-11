@@ -1,0 +1,1056 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="sqlmap_fh_survey_model">
+
+	
+	
+	<select id="queryFhSurveyModel" parameterType="net.chetong.order.model.FhSurveyModelVO" resultType ="net.chetong.order.model.FhSurveyModelVO" >
+		SELECT 
+			id as id,
+			survey_desp as surveyDesp,
+			accident_type as accidentType,
+			accident_duty as accidentDuty,
+			survey_place as surveyPlace,
+			loss_desp as lossDesp,
+			survey_time as surveyTime,
+			taskstate as taskstate,
+			report_no as reportNo,
+			insert_time as insertTime,
+			CAST(AES_DECRYPT(UNHEX(contact_phone),'CHEtong@20161102') AS CHAR) as contactPhone,
+			is_cali as isCali,
+			is_injured as isInjured,
+			bank as bank,
+			insured_account as insuredAccount,
+			car_mark as carMark,
+			address_place as addressPlace,
+			last_time as lastTime,
+			guid as guid,
+			contact_name as contactName,
+			enabled as enabled,
+			driver_name as driverName,
+			is_phone as isPhone,
+			is_loss as isLoss,
+			is_carmodel as isCarmodel,
+			is_driver_card as isDriverCard,
+			is_driving_license as isDrivingLicense,
+			is_vin as isVin,
+			injured_reason as injuredReason,
+			damage_reason as damageReason,
+			order_code as orderCode,
+			base_fee as baseFee,
+			travel_fee as travelFee,
+			over_fee as overFee,
+			extra_reward as extraReward,
+			power_fee as powerFee,
+			busi_charge as busiCharge,
+			account_name as accountName,
+			survey_desp_type as surveyDespType,
+			CAST(AES_DECRYPT(UNHEX(driver_phone),'CHEtong@20161102') AS CHAR) as driverPhone,
+			is_auth_loss as isAuthLoss,
+			reserverd as reserverd,
+			mileage as mileage,
+			principal_code as principalCode,
+			signature_path as signaturePath,
+			accident_date as accidentDate,
+			accident_desp as accidentDesp,
+			case_state as caseState,
+			is_call as isCall,
+			service_name as serviceName,
+			service_code as serviceCode,
+			principal_name as principalName,
+			principal_info as principalInfo,
+			principal_time as principalTime,
+			principal_auth as principalAuth,
+			is_subject as isSubject,
+			user_code as userCode,
+			estimate_loss_amount as estimateLossAmount
+		FROM fh_survey_model 
+		 <where>
+		    <if test="id!= null">
+                  and id=#{id}
+            </if>
+		    <if test="surveyDesp!= null">
+                  and survey_desp=#{surveyDesp}
+            </if>
+		    <if test="accidentType!= null">
+                  and accident_type=#{accidentType}
+            </if>
+		    <if test="accidentDuty!= null">
+                  and accident_duty=#{accidentDuty}
+            </if>
+		    <if test="surveyPlace!= null">
+                  and survey_place=#{surveyPlace}
+            </if>
+		    <if test="lossDesp!= null">
+                  and loss_desp=#{lossDesp}
+            </if>
+		    <if test="surveyTime!= null">
+                  and survey_time=#{surveyTime}
+            </if>
+		    <if test="taskstate!= null">
+                  and taskstate=#{taskstate}
+            </if>
+		    <if test="reportNo!= null">
+                  and report_no=#{reportNo}
+            </if>
+		    <if test="insertTime!= null">
+                  and insert_time=#{insertTime}
+            </if>
+		    <if test="contactPhone!= null">
+                  and contact_phone=HEX(AES_ENCRYPT(#{contactPhone},'CHEtong@20161102'))
+            </if>
+		    <if test="isCali!= null">
+                  and is_cali=#{isCali}
+            </if>
+		    <if test="isInjured!= null">
+                  and is_injured=#{isInjured}
+            </if>
+		    <if test="bank!= null">
+                  and bank=#{bank}
+            </if>
+		    <if test="insuredAccount!= null">
+                  and insured_account=#{insuredAccount}
+            </if>
+		    <if test="carMark!= null">
+                  and car_mark=#{carMark}
+            </if>
+		    <if test="addressPlace!= null">
+                  and address_place=#{addressPlace}
+            </if>
+		    <if test="lastTime!= null">
+                  and last_time=#{lastTime}
+            </if>
+		    <if test="guid!= null">
+                  and guid=#{guid}
+            </if>
+		    <if test="contactName!= null">
+                  and contact_name=#{contactName}
+            </if>
+		    <if test="enabled!= null">
+                  and enabled=#{enabled}
+            </if>
+		    <if test="driverName!= null">
+                  and driver_name=#{driverName}
+            </if>
+		    <if test="isPhone!= null">
+                  and is_phone=#{isPhone}
+            </if>
+		    <if test="isLoss!= null">
+                  and is_loss=#{isLoss}
+            </if>
+		    <if test="isCarmodel!= null">
+                  and is_carmodel=#{isCarmodel}
+            </if>
+		    <if test="isDriverCard!= null">
+                  and is_driver_card=#{isDriverCard}
+            </if>
+		    <if test="isDrivingLicense!= null">
+                  and is_driving_license=#{isDrivingLicense}
+            </if>
+		    <if test="isVin!= null">
+                  and is_vin=#{isVin}
+            </if>
+		    <if test="injuredReason!= null">
+                  and injured_reason=#{injuredReason}
+            </if>
+		    <if test="damageReason!= null">
+                  and damage_reason=#{damageReason}
+            </if>
+		    <if test="orderCode!= null">
+                  and order_code=#{orderCode}
+            </if>
+		    <if test="baseFee!= null">
+                  and base_fee=#{baseFee}
+            </if>
+		    <if test="travelFee!= null">
+                  and travel_fee=#{travelFee}
+            </if>
+		    <if test="overFee!= null">
+                  and over_fee=#{overFee}
+            </if>
+		    <if test="extraReward!= null">
+                  and extra_reward=#{extraReward}
+            </if>
+		    <if test="powerFee!= null">
+                  and power_fee=#{powerFee}
+            </if>
+		    <if test="busiCharge!= null">
+                  and busi_charge=#{busiCharge}
+            </if>
+		    <if test="accountName!= null">
+                  and account_name=#{accountName}
+            </if>
+		    <if test="surveyDespType!= null">
+                  and survey_desp_type=#{surveyDespType}
+            </if>
+		    <if test="driverPhone!= null">
+                  and driver_phone=HEX(AES_ENCRYPT(#{driverPhone},'CHEtong@20161102'))
+            </if>
+		    <if test="isAuthLoss!= null">
+                  and is_auth_loss=#{isAuthLoss}
+            </if>
+		    <if test="reserverd!= null">
+                  and reserverd=#{reserverd}
+            </if>
+		    <if test="mileage!= null">
+                  and mileage=#{mileage}
+            </if>
+		    <if test="principalCode!= null">
+                  and principal_code=#{principalCode}
+            </if>
+		    <if test="signaturePath!= null">
+                  and signature_path=#{signaturePath}
+            </if>
+		    <if test="accidentDate!= null">
+                  and accident_date=#{accidentDate}
+            </if>
+		    <if test="accidentDesp!= null">
+                  and accident_desp=#{accidentDesp}
+            </if>
+		    <if test="caseState!= null">
+                  and case_state=#{caseState}
+            </if>
+		    <if test="isCall!= null">
+                  and is_call=#{isCall}
+            </if>
+		    <if test="serviceName!= null">
+                  and service_name=#{serviceName}
+            </if>
+		    <if test="serviceCode!= null">
+                  and service_code=#{serviceCode}
+            </if>
+		    <if test="principalName!= null">
+                  and principal_name=#{principalName}
+            </if>
+		    <if test="principalInfo!= null">
+                  and principal_info=#{principalInfo}
+            </if>
+		    <if test="principalTime!= null">
+                  and principal_time=#{principalTime}
+            </if>
+		    <if test="principalAuth!= null">
+                  and principal_auth=#{principalAuth}
+            </if>
+		    <if test="isSubject!= null">
+                  and is_subject=#{isSubject}
+            </if>
+		    <if test="userCode!= null">
+                  and user_code=#{userCode}
+            </if>
+            <if test="estimateLossAmount!= null">
+                  and estimate_loss_amount=#{estimateLossAmount}
+            </if>
+  		</where>
+		  		ORDER BY id DESC
+	</select>
+	
+		<insert id="insertNotNull" parameterType="net.chetong.order.model.FhSurveyModelVO" useGeneratedKeys="true" keyProperty="id">
+			INSERT INTO fh_survey_model   
+			(
+				<trim suffix="" suffixOverrides=",">
+					<if test="surveyDesp!= null">
+		                   survey_desp,
+		            </if>
+					<if test="accidentType!= null">
+		                   accident_type,
+		            </if>
+					<if test="accidentDuty!= null">
+		                   accident_duty,
+		            </if>
+					<if test="surveyPlace!= null">
+		                   survey_place,
+		            </if>
+					<if test="lossDesp!= null">
+		                   loss_desp,
+		            </if>
+					<if test="surveyTime!= null">
+		                   survey_time,
+		            </if>
+					<if test="taskstate!= null">
+		                   taskstate,
+		            </if>
+					<if test="reportNo!= null">
+		                   report_no,
+		            </if>
+					<if test="insertTime!= null">
+		                   insert_time,
+		            </if>
+					<if test="contactPhone!= null">
+		                   contact_phone,
+		            </if>
+					<if test="isCali!= null">
+		                   is_cali,
+		            </if>
+					<if test="isInjured!= null">
+		                   is_injured,
+		            </if>
+					<if test="bank!= null">
+		                   bank,
+		            </if>
+					<if test="insuredAccount!= null">
+		                   insured_account,
+		            </if>
+					<if test="carMark!= null">
+		                   car_mark,
+		            </if>
+					<if test="addressPlace!= null">
+		                   address_place,
+		            </if>
+					<if test="lastTime!= null">
+		                   last_time,
+		            </if>
+					<if test="guid!= null">
+		                   guid,
+		            </if>
+					<if test="contactName!= null">
+		                   contact_name,
+		            </if>
+					<if test="enabled!= null">
+		                   enabled,
+		            </if>
+					<if test="driverName!= null">
+		                   driver_name,
+		            </if>
+					<if test="isPhone!= null">
+		                   is_phone,
+		            </if>
+					<if test="isLoss!= null">
+		                   is_loss,
+		            </if>
+					<if test="isCarmodel!= null">
+		                   is_carmodel,
+		            </if>
+					<if test="isDriverCard!= null">
+		                   is_driver_card,
+		            </if>
+					<if test="isDrivingLicense!= null">
+		                   is_driving_license,
+		            </if>
+					<if test="isVin!= null">
+		                   is_vin,
+		            </if>
+					<if test="injuredReason!= null">
+		                   injured_reason,
+		            </if>
+					<if test="damageReason!= null">
+		                   damage_reason,
+		            </if>
+					<if test="orderCode!= null">
+		                   order_code,
+		            </if>
+					<if test="baseFee!= null">
+		                   base_fee,
+		            </if>
+					<if test="travelFee!= null">
+		                   travel_fee,
+		            </if>
+					<if test="overFee!= null">
+		                   over_fee,
+		            </if>
+					<if test="extraReward!= null">
+		                   extra_reward,
+		            </if>
+					<if test="powerFee!= null">
+		                   power_fee,
+		            </if>
+					<if test="busiCharge!= null">
+		                   busi_charge,
+		            </if>
+					<if test="accountName!= null">
+		                   account_name,
+		            </if>
+					<if test="surveyDespType!= null">
+		                   survey_desp_type,
+		            </if>
+					<if test="driverPhone!= null">
+		                   driver_phone,
+		            </if>
+					<if test="isAuthLoss!= null">
+		                   is_auth_loss,
+		            </if>
+					<if test="reserverd!= null">
+		                   reserverd,
+		            </if>
+					<if test="mileage!= null">
+		                   mileage,
+		            </if>
+					<if test="principalCode!= null">
+		                   principal_code,
+		            </if>
+					<if test="signaturePath!= null">
+		                   signature_path,
+		            </if>
+					<if test="accidentDate!= null">
+		                   accident_date,
+		            </if>
+					<if test="accidentDesp!= null">
+		                   accident_desp,
+		            </if>
+					<if test="caseState!= null">
+		                   case_state,
+		            </if>
+					<if test="isCall!= null">
+		                   is_call,
+		            </if>
+					<if test="serviceName!= null">
+		                   service_name,
+		            </if>
+					<if test="serviceCode!= null">
+		                   service_code,
+		            </if>
+					<if test="principalName!= null">
+		                   principal_name,
+		            </if>
+					<if test="principalInfo!= null">
+		                   principal_info,
+		            </if>
+					<if test="principalTime!= null">
+		                   principal_time,
+		            </if>
+					<if test="principalAuth!= null">
+		                   principal_auth,
+		            </if>
+					<if test="isSubject!= null">
+		                   is_subject,
+		            </if>
+					<if test="userCode!= null">
+		                   user_code,
+		            </if>
+	            </trim>
+			)
+			VALUES
+	   		(
+	   			<trim suffix="" suffixOverrides=",">
+		   			<if test="surveyDesp!= null">
+		   			#{surveyDesp},
+		   			</if>
+		   			<if test="accidentType!= null">
+		   			#{accidentType},
+		   			</if>
+		   			<if test="accidentDuty!= null">
+		   			#{accidentDuty},
+		   			</if>
+		   			<if test="surveyPlace!= null">
+		   			#{surveyPlace},
+		   			</if>
+		   			<if test="lossDesp!= null">
+		   			#{lossDesp},
+		   			</if>
+		   			<if test="surveyTime!= null">
+		   			#{surveyTime},
+		   			</if>
+		   			<if test="taskstate!= null">
+		   			#{taskstate},
+		   			</if>
+		   			<if test="reportNo!= null">
+		   			#{reportNo},
+		   			</if>
+		   			<if test="insertTime!= null">
+		   			#{insertTime},
+		   			</if>
+		   			<if test="contactPhone!= null">
+		   			HEX(AES_ENCRYPT(#{contactPhone},'CHEtong@20161102')),
+		   			</if>
+		   			<if test="isCali!= null">
+		   			#{isCali},
+		   			</if>
+		   			<if test="isInjured!= null">
+		   			#{isInjured},
+		   			</if>
+		   			<if test="bank!= null">
+		   			#{bank},
+		   			</if>
+		   			<if test="insuredAccount!= null">
+		   			#{insuredAccount},
+		   			</if>
+		   			<if test="carMark!= null">
+		   			#{carMark},
+		   			</if>
+		   			<if test="addressPlace!= null">
+		   			#{addressPlace},
+		   			</if>
+		   			<if test="lastTime!= null">
+		   			#{lastTime},
+		   			</if>
+		   			<if test="guid!= null">
+		   			#{guid},
+		   			</if>
+		   			<if test="contactName!= null">
+		   			#{contactName},
+		   			</if>
+		   			<if test="enabled!= null">
+		   			#{enabled},
+		   			</if>
+		   			<if test="driverName!= null">
+		   			#{driverName},
+		   			</if>
+		   			<if test="isPhone!= null">
+		   			#{isPhone},
+		   			</if>
+		   			<if test="isLoss!= null">
+		   			#{isLoss},
+		   			</if>
+		   			<if test="isCarmodel!= null">
+		   			#{isCarmodel},
+		   			</if>
+		   			<if test="isDriverCard!= null">
+		   			#{isDriverCard},
+		   			</if>
+		   			<if test="isDrivingLicense!= null">
+		   			#{isDrivingLicense},
+		   			</if>
+		   			<if test="isVin!= null">
+		   			#{isVin},
+		   			</if>
+		   			<if test="injuredReason!= null">
+		   			#{injuredReason},
+		   			</if>
+		   			<if test="damageReason!= null">
+		   			#{damageReason},
+		   			</if>
+		   			<if test="orderCode!= null">
+		   			#{orderCode},
+		   			</if>
+		   			<if test="baseFee!= null">
+		   			#{baseFee},
+		   			</if>
+		   			<if test="travelFee!= null">
+		   			#{travelFee},
+		   			</if>
+		   			<if test="overFee!= null">
+		   			#{overFee},
+		   			</if>
+		   			<if test="extraReward!= null">
+		   			#{extraReward},
+		   			</if>
+		   			<if test="powerFee!= null">
+		   			#{powerFee},
+		   			</if>
+		   			<if test="busiCharge!= null">
+		   			#{busiCharge},
+		   			</if>
+		   			<if test="accountName!= null">
+		   			#{accountName},
+		   			</if>
+		   			<if test="surveyDespType!= null">
+		   			#{surveyDespType},
+		   			</if>
+		   			<if test="driverPhone!= null">
+		   			HEX(AES_ENCRYPT(#{driverPhone},'CHEtong@20161102')),
+		   			</if>
+		   			<if test="isAuthLoss!= null">
+		   			#{isAuthLoss},
+		   			</if>
+		   			<if test="reserverd!= null">
+		   			#{reserverd},
+		   			</if>
+		   			<if test="mileage!= null">
+		   			#{mileage},
+		   			</if>
+		   			<if test="principalCode!= null">
+		   			#{principalCode},
+		   			</if>
+		   			<if test="signaturePath!= null">
+		   			#{signaturePath},
+		   			</if>
+		   			<if test="accidentDate!= null">
+		   			#{accidentDate},
+		   			</if>
+		   			<if test="accidentDesp!= null">
+		   			#{accidentDesp},
+		   			</if>
+		   			<if test="caseState!= null">
+		   			#{caseState},
+		   			</if>
+		   			<if test="isCall!= null">
+		   			#{isCall},
+		   			</if>
+		   			<if test="serviceName!= null">
+		   			#{serviceName},
+		   			</if>
+		   			<if test="serviceCode!= null">
+		   			#{serviceCode},
+		   			</if>
+		   			<if test="principalName!= null">
+		   			#{principalName},
+		   			</if>
+		   			<if test="principalInfo!= null">
+		   			#{principalInfo},
+		   			</if>
+		   			<if test="principalTime!= null">
+		   			#{principalTime},
+		   			</if>
+		   			<if test="principalAuth!= null">
+		   			#{principalAuth},
+		   			</if>
+		   			<if test="isSubject!= null">
+		   			#{isSubject},
+		   			</if>
+		   			<if test="userCode!= null">
+		   			#{userCode},
+		   			</if>
+	   			</trim>
+			)
+		</insert>
+
+	<select id="queryByKey" resultType="net.chetong.order.model.FhSurveyModelVO">
+		SELECT 
+			id as id, 
+			survey_desp as surveyDesp, 
+			accident_type as accidentType, 
+			accident_duty as accidentDuty, 
+			survey_place as surveyPlace, 
+			loss_desp as lossDesp, 
+			survey_time as surveyTime, 
+			taskstate as taskstate, 
+			report_no as reportNo, 
+			insert_time as insertTime, 
+			CAST(AES_DECRYPT(UNHEX(contact_phone),'CHEtong@20161102') AS CHAR) as contactPhone, 
+			is_cali as isCali, 
+			is_injured as isInjured, 
+			bank as bank, 
+			insured_account as insuredAccount, 
+			car_mark as carMark, 
+			address_place as addressPlace, 
+			last_time as lastTime, 
+			guid as guid, 
+			contact_name as contactName, 
+			enabled as enabled, 
+			driver_name as driverName, 
+			is_phone as isPhone, 
+			is_loss as isLoss, 
+			is_carmodel as isCarmodel, 
+			is_driver_card as isDriverCard, 
+			is_driving_license as isDrivingLicense, 
+			is_vin as isVin, 
+			injured_reason as injuredReason, 
+			damage_reason as damageReason, 
+			order_code as orderCode, 
+			base_fee as baseFee, 
+			travel_fee as travelFee, 
+			over_fee as overFee, 
+			extra_reward as extraReward, 
+			power_fee as powerFee, 
+			busi_charge as busiCharge, 
+			account_name as accountName, 
+			survey_desp_type as surveyDespType, 
+			CAST(AES_DECRYPT(UNHEX(driver_phone),'CHEtong@20161102') AS CHAR) as driverPhone, 
+			is_auth_loss as isAuthLoss, 
+			reserverd as reserverd, 
+			mileage as mileage, 
+			principal_code as principalCode, 
+			signature_path as signaturePath, 
+			accident_date as accidentDate, 
+			accident_desp as accidentDesp, 
+			case_state as caseState, 
+			is_call as isCall, 
+			service_name as serviceName, 
+			service_code as serviceCode, 
+			principal_name as principalName, 
+			principal_info as principalInfo, 
+			principal_time as principalTime, 
+			principal_auth as principalAuth, 
+			is_subject as isSubject, 
+			user_code as userCode ,
+			estimate_loss_amount as estimateLossAmount
+		FROM
+			fh_survey_model
+	    <where>		   
+		    	 and id = #{id}
+		</where>
+	</select>
+	
+	<delete id="deleteByKey">
+		DELETE FROM 
+			fh_survey_model 
+		<where>		   
+		    	 and id = #{id}
+		</where>
+	</delete>
+	
+	<update id="updateByKeyNotNull">
+		UPDATE fh_survey_model 
+		  <trim prefix="SET" suffixOverrides=",">  
+					<if test="surveyDesp!= null">
+		   			survey_desp = #{surveyDesp},
+		   			</if>  
+					<if test="accidentType!= null">
+		   			accident_type = #{accidentType},
+		   			</if>  
+					<if test="accidentDuty!= null">
+		   			accident_duty = #{accidentDuty},
+		   			</if>  
+					<if test="surveyPlace!= null">
+		   			survey_place = #{surveyPlace},
+		   			</if>  
+					<if test="lossDesp!= null">
+		   			loss_desp = #{lossDesp},
+		   			</if>  
+					<if test="surveyTime!= null">
+		   			survey_time = #{surveyTime},
+		   			</if>  
+					<if test="taskstate!= null">
+		   			taskstate = #{taskstate},
+		   			</if>  
+					<if test="reportNo!= null">
+		   			report_no = #{reportNo},
+		   			</if>  
+					<if test="insertTime!= null">
+		   			insert_time = #{insertTime},
+		   			</if>  
+					<if test="contactPhone!= null">
+		   			contact_phone = HEX(AES_ENCRYPT(#{contactPhone},'CHEtong@20161102')),
+		   			</if>  
+					<if test="isCali!= null">
+		   			is_cali = #{isCali},
+		   			</if>  
+					<if test="isInjured!= null">
+		   			is_injured = #{isInjured},
+		   			</if>  
+					<if test="bank!= null">
+		   			bank = #{bank},
+		   			</if>  
+					<if test="insuredAccount!= null">
+		   			insured_account = #{insuredAccount},
+		   			</if>  
+					<if test="carMark!= null">
+		   			car_mark = #{carMark},
+		   			</if>  
+					<if test="addressPlace!= null">
+		   			address_place = #{addressPlace},
+		   			</if>  
+					<if test="lastTime!= null">
+		   			last_time = #{lastTime},
+		   			</if>  
+					<if test="guid!= null">
+		   			guid = #{guid},
+		   			</if>  
+					<if test="contactName!= null">
+		   			contact_name = #{contactName},
+		   			</if>  
+					<if test="enabled!= null">
+		   			enabled = #{enabled},
+		   			</if>  
+					<if test="driverName!= null">
+		   			driver_name = #{driverName},
+		   			</if>  
+					<if test="isPhone!= null">
+		   			is_phone = #{isPhone},
+		   			</if>  
+					<if test="isLoss!= null">
+		   			is_loss = #{isLoss},
+		   			</if>  
+					<if test="isCarmodel!= null">
+		   			is_carmodel = #{isCarmodel},
+		   			</if>  
+					<if test="isDriverCard!= null">
+		   			is_driver_card = #{isDriverCard},
+		   			</if>  
+					<if test="isDrivingLicense!= null">
+		   			is_driving_license = #{isDrivingLicense},
+		   			</if>  
+					<if test="isVin!= null">
+		   			is_vin = #{isVin},
+		   			</if>  
+					<if test="injuredReason!= null">
+		   			injured_reason = #{injuredReason},
+		   			</if>  
+					<if test="damageReason!= null">
+		   			damage_reason = #{damageReason},
+		   			</if>  
+					<if test="orderCode!= null">
+		   			order_code = #{orderCode},
+		   			</if>  
+					<if test="baseFee!= null">
+		   			base_fee = #{baseFee},
+		   			</if>  
+					<if test="travelFee!= null">
+		   			travel_fee = #{travelFee},
+		   			</if>  
+					<if test="overFee!= null">
+		   			over_fee = #{overFee},
+		   			</if>  
+					<if test="extraReward!= null">
+		   			extra_reward = #{extraReward},
+		   			</if>  
+					<if test="powerFee!= null">
+		   			power_fee = #{powerFee},
+		   			</if>  
+					<if test="busiCharge!= null">
+		   			busi_charge = #{busiCharge},
+		   			</if>  
+					<if test="accountName!= null">
+		   			account_name = #{accountName},
+		   			</if>  
+					<if test="surveyDespType!= null">
+		   			survey_desp_type = #{surveyDespType},
+		   			</if>  
+					<if test="driverPhone!= null">
+		   			driver_phone = HEX(AES_ENCRYPT(#{driverPhone},'CHEtong@20161102')),
+		   			</if>  
+					<if test="isAuthLoss!= null">
+		   			is_auth_loss = #{isAuthLoss},
+		   			</if>  
+					<if test="reserverd!= null">
+		   			reserverd = #{reserverd},
+		   			</if>  
+					<if test="mileage!= null">
+		   			mileage = #{mileage},
+		   			</if>  
+					<if test="principalCode!= null">
+		   			principal_code = #{principalCode},
+		   			</if>  
+					<if test="signaturePath!= null">
+		   			signature_path = #{signaturePath},
+		   			</if>  
+					<if test="accidentDate!= null">
+		   			accident_date = #{accidentDate},
+		   			</if>  
+					<if test="accidentDesp!= null">
+		   			accident_desp = #{accidentDesp},
+		   			</if>  
+					<if test="caseState!= null">
+		   			case_state = #{caseState},
+		   			</if>  
+					<if test="isCall!= null">
+		   			is_call = #{isCall},
+		   			</if>  
+					<if test="serviceName!= null">
+		   			service_name = #{serviceName},
+		   			</if>  
+					<if test="serviceCode!= null">
+		   			service_code = #{serviceCode},
+		   			</if>  
+					<if test="principalName!= null">
+		   			principal_name = #{principalName},
+		   			</if>  
+					<if test="principalInfo!= null">
+		   			principal_info = #{principalInfo},
+		   			</if>  
+					<if test="principalTime!= null">
+		   			principal_time = #{principalTime},
+		   			</if>  
+					<if test="principalAuth!= null">
+		   			principal_auth = #{principalAuth},
+		   			</if>  
+					<if test="isSubject!= null">
+		   			is_subject = #{isSubject},
+		   			</if>  
+					<if test="userCode!= null">
+		   			user_code = #{userCode},
+		   			</if> 
+		   			<if test="estimateLossAmount!= null">
+		   			estimate_loss_amount = #{estimateLossAmount},
+		   			</if> 
+		  </trim>
+		  <where>	   
+				    and id = #{id}
+		 </where>
+	</update>
+	
+	<update id="updateModelByOrderCode">
+		UPDATE fh_survey_model 
+		  <trim prefix="SET" suffixOverrides=",">  
+			<if test="taskstate!= null">
+	  			taskstate = #{taskstate},
+	  		</if>
+		  </trim>
+		  <where>	   
+				and order_code=#{orderCode}
+		 </where>
+	</update>
+	
+	
+	<update id="updateByOrderNoNotNull" parameterType="net.chetong.order.model.FhSurveyModelVO">
+		UPDATE fh_survey_model 
+		  <trim prefix="SET" suffixOverrides=",">  
+					<if test="surveyDesp!= null">
+		   			survey_desp = #{surveyDesp},
+		   			</if>  
+					<if test="accidentType!= null">
+		   			accident_type = #{accidentType},
+		   			</if>  
+					<if test="accidentDuty!= null">
+		   			accident_duty = #{accidentDuty},
+		   			</if>  
+					<if test="surveyPlace!= null">
+		   			survey_place = #{surveyPlace},
+		   			</if>  
+					<if test="lossDesp!= null">
+		   			loss_desp = #{lossDesp},
+		   			</if>  
+					<if test="surveyTime!= null">
+		   			survey_time = #{surveyTime},
+		   			</if>  
+					<if test="taskstate!= null">
+		   			taskstate = #{taskstate},
+		   			</if>  
+					<if test="reportNo!= null">
+		   			report_no = #{reportNo},
+		   			</if>  
+					<if test="insertTime!= null">
+		   			insert_time = #{insertTime},
+		   			</if>  
+					<if test="contactPhone!= null">
+		   			contact_phone = HEX(AES_ENCRYPT(#{contactPhone},'CHEtong@20161102')),
+		   			</if>  
+					<if test="isCali!= null">
+		   			is_cali = #{isCali},
+		   			</if>  
+					<if test="isInjured!= null">
+		   			is_injured = #{isInjured},
+		   			</if>  
+					<if test="bank!= null">
+		   			bank = #{bank},
+		   			</if>  
+					<if test="insuredAccount!= null">
+		   			insured_account = #{insuredAccount},
+		   			</if>  
+					<if test="carMark!= null">
+		   			car_mark = #{carMark},
+		   			</if>  
+					<if test="addressPlace!= null">
+		   			address_place = #{addressPlace},
+		   			</if>  
+					<if test="lastTime!= null">
+		   			last_time = #{lastTime},
+		   			</if>  
+					<if test="guid!= null">
+		   			guid = #{guid},
+		   			</if>  
+					<if test="contactName!= null">
+		   			contact_name = #{contactName},
+		   			</if>  
+					<if test="enabled!= null">
+		   			enabled = #{enabled},
+		   			</if>  
+					<if test="driverName!= null">
+		   			driver_name = #{driverName},
+		   			</if>  
+					<if test="isPhone!= null">
+		   			is_phone = #{isPhone},
+		   			</if>  
+					<if test="isLoss!= null">
+		   			is_loss = #{isLoss},
+		   			</if>  
+					<if test="isCarmodel!= null">
+		   			is_carmodel = #{isCarmodel},
+		   			</if>  
+					<if test="isDriverCard!= null">
+		   			is_driver_card = #{isDriverCard},
+		   			</if>  
+					<if test="isDrivingLicense!= null">
+		   			is_driving_license = #{isDrivingLicense},
+		   			</if>  
+					<if test="isVin!= null">
+		   			is_vin = #{isVin},
+		   			</if>  
+					<if test="injuredReason!= null">
+		   			injured_reason = #{injuredReason},
+		   			</if>  
+					<if test="damageReason!= null">
+		   			damage_reason = #{damageReason},
+		   			</if>  
+					<if test="baseFee!= null">
+		   			base_fee = #{baseFee},
+		   			</if>  
+					<if test="travelFee!= null">
+		   			travel_fee = #{travelFee},
+		   			</if>  
+					<if test="overFee!= null">
+		   			over_fee = #{overFee},
+		   			</if>  
+					<if test="extraReward!= null">
+		   			extra_reward = #{extraReward},
+		   			</if>  
+					<if test="powerFee!= null">
+		   			power_fee = #{powerFee},
+		   			</if>  
+					<if test="busiCharge!= null">
+		   			busi_charge = #{busiCharge},
+		   			</if>  
+					<if test="accountName!= null">
+		   			account_name = #{accountName},
+		   			</if>  
+					<if test="surveyDespType!= null">
+		   			survey_desp_type = #{surveyDespType},
+		   			</if>  
+					<if test="driverPhone!= null">
+		   			driver_phone = HEX(AES_ENCRYPT(#{driverPhone},'CHEtong@20161102')),
+		   			</if>  
+					<if test="isAuthLoss!= null">
+		   			is_auth_loss = #{isAuthLoss},
+		   			</if>  
+					<if test="reserverd!= null">
+		   			reserverd = #{reserverd},
+		   			</if>  
+					<if test="mileage!= null">
+		   			mileage = #{mileage},
+		   			</if>  
+					<if test="principalCode!= null">
+		   			principal_code = #{principalCode},
+		   			</if>  
+					<if test="signaturePath!= null">
+		   			signature_path = #{signaturePath},
+		   			</if>  
+					<if test="accidentDate!= null">
+		   			accident_date = #{accidentDate},
+		   			</if>  
+					<if test="accidentDesp!= null">
+		   			accident_desp = #{accidentDesp},
+		   			</if>  
+					<if test="caseState!= null">
+		   			case_state = #{caseState},
+		   			</if>  
+					<if test="isCall!= null">
+		   			is_call = #{isCall},
+		   			</if>  
+					<if test="serviceName!= null">
+		   			service_name = #{serviceName},
+		   			</if>  
+					<if test="serviceCode!= null">
+		   			service_code = #{serviceCode},
+		   			</if>  
+					<if test="principalName!= null">
+		   			principal_name = #{principalName},
+		   			</if>  
+					<if test="principalInfo!= null">
+		   			principal_info = #{principalInfo},
+		   			</if>  
+					<if test="principalTime!= null">
+		   			principal_time = #{principalTime},
+		   			</if>  
+					<if test="principalAuth!= null">
+		   			principal_auth = #{principalAuth},
+		   			</if>  
+					<if test="isSubject!= null">
+		   			is_subject = #{isSubject},
+		   			</if>  
+					<if test="userCode!= null">
+		   			user_code = #{userCode},
+		   			</if> 
+		   			<if test="estimateLossAmount!= null">
+		   			estimate_loss_amount = #{estimateLossAmount},
+		   			</if> 
+		   			<if test="extraType!= null">
+		   			extra_type = #{extraType},
+		   			</if>  
+		  </trim>
+		  <where>	   
+				order_code=#{orderCode}
+		 </where>
+	</update>
+	
+	<!-- 获取查看签名路径 -->
+	<select id="getSignaturePath" parameterType="java.util.Map" resultType="java.lang.String">
+		SELECT
+			f.signature_path AS signaturePath
+		FROM
+			fh_survey_model f
+		WHERE
+			f.report_no = #{caseNo}
+		ORDER BY
+			f.id DESC
+		LIMIT 1
+	</select>
+</mapper>

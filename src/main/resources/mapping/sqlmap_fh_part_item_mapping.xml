@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="sqlmap_fh_part_item">
+	
+	<sql id="partItemSql">
+		created_by as createdBy,
+		created_date as createdDate,
+		updated_by as updatedBy,
+		updated_date as updatedDate,
+		id as id,
+		loss_id as lossId,
+		insure_code as insureCode,
+		part_no as partNo,
+		part_name as partName,
+		part_amount as partAmount,
+		market_price as marketPrice,
+		loss_price as lossPrice,
+		loss_count as lossCount,
+		part_salvage as partSalvage,
+		total_amount as totalAmount,
+		audit_price as auditPrice,
+		audit_count as auditCount,
+		audit_salvage as auditSalvage,
+		audit_amount as auditAmount,
+		callback_flag as callbackFlag,
+		first_amount as firstAmount,
+		self_define as selfDefine,
+		factory_part_no as factoryPartNo
+	</sql>
+	<select id="queryPartItemInfo" resultType="FhPartItemVO">
+		select <include refid="partItemSql" /> 
+		from fh_part_item 
+		where 1=1
+		<if test="id!=null">
+			and id=#{id}
+		</if>
+		<if test="lossId!=null">
+			and loss_id =#{lossId}
+		</if>
+	</select>
+	
+	<insert id="insertPartItemInfo" parameterType="FhPartItemVO" useGeneratedKeys="true" keyProperty="id">
+		insert into fh_part_item(
+			 created_by,
+			 created_date,
+			 updated_by,
+			 updated_date,
+			 loss_id,
+			 insure_code,
+			 part_no,
+			 part_name,
+			 part_amount,
+			 market_price,
+			 loss_price,
+			 loss_count,
+			 part_salvage,
+			 total_amount,
+			 audit_price,
+			 audit_count,
+			 audit_salvage,
+			 audit_amount,
+			 callback_flag,
+			 first_amount,
+			 self_define,
+			 factory_part_no)
+		 values(
+		 	#{createdBy},SYSDATE(),#{updatedBy},SYSDATE(),
+		 	#{lossId},#{insureCode},#{partNo},#{partName},#{partAmount},
+		 	#{marketPrice},#{lossPrice},#{lossCount},#{partSalvage},#{totalAmount},
+		 	#{auditPrice},#{auditCount},#{auditSalvage},#{auditAmount},#{callbackFlag},#{firstAmount},
+		 	#{selfDefine},#{factoryPartNo}
+		 )
+	
+	</insert>
+	<update id="updatePartItemInfo" parameterType="FhPartItemVO">
+		update fh_part_item set 
+			<if test="insureCode!=null">
+				insure_code=#{insureCode},
+			</if>
+			<if test="partNo!=null">
+				part_no=#{partNo},
+			</if>
+			<if test="partName!=null">
+				part_name=#{partName},
+			</if>
+			<if test="partAmount!=null">
+				part_amount=#{partAmount},
+			</if>
+			<if test="marketPrice!=null">
+				market_price=#{marketPrice},
+			</if>
+			<if test="lossPrice!=null">
+				loss_price=#{lossPrice},
+			</if>
+			<if test="lossCount!=null">
+				loss_count=#{lossCount},
+			</if>
+			<if test="partSalvage!=null">
+				part_salvage=#{partSalvage},
+			</if>
+			<if test="totalAmount!=null">
+				total_amount=#{totalAmount},
+			</if>
+			<if test="auditPrice!=null">
+				audit_price=#{auditPrice},
+			</if>
+			<if test="auditCount!=null">
+				audit_count=#{auditCount},
+			</if>
+			<if test="auditSalvage!=null">
+				audit_salvage=#{auditSalvage},
+			</if>
+			<if test="auditAmount!=null">
+				audit_amount=#{auditAmount},
+			</if>
+			<if test="callbackFlag!=null">
+				callback_flag=#{callbackFlag},
+			</if>
+			<if test="firstAmount!=null">
+				first_amount=#{firstAmount},
+			</if>
+			<if test="selfDefine!=null">
+				self_define=#{selfDefine},
+			</if>
+			<if test="factoryPartNo!=null">
+				factory_part_no=#{factoryPartNo},
+			</if>
+			updated_by=#{updatedBy},
+			updated_date = SYSDATE()
+		where id=#{id}
+			<if test='lossId!=null and lossId!="" '>
+				and loss_id=#{lossId}
+			</if>
+	</update>
+	
+	<delete id="deletePartItemInfo">
+		delete from fh_part_item where id=#{id}
+	</delete>
+	
+</mapper>

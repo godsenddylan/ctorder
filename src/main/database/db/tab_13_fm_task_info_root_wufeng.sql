@@ -1,0 +1,21 @@
+CREATE TABLE `fm_task_info` (
+  `created_by` VARCHAR(32) NOT NULL COMMENT '创建人',
+  `created_date` DATETIME NOT NULL COMMENT '创建日期',
+  `updated_by` VARCHAR(32) NOT NULL COMMENT '修改人',
+  `updated_date` DATETIME NOT NULL COMMENT '修改日期',
+  `id` BIGINT(20) NOT NULL AUTO_INCREMENT COMMENT '表ID',
+  `company_task_id` VARCHAR(32) NOT NULL COMMENT '保险公司任务ID',
+  `report_no` VARCHAR(32) NOT NULL COMMENT '报案号',
+  `task_type` VARCHAR(20) NOT NULL COMMENT '任务类型',
+  `source` VARCHAR(2) DEFAULT NULL COMMENT '来源：1=永诚',
+  `state` VARCHAR(2) NOT NULL COMMENT '任务状态 0:待派单 1:待抢单  2:作业中 3:待审核 4:审核退回(作业中) 5:审核通过(完成)',
+  `send_user_id` VARCHAR(32) DEFAULT NULL COMMENT '派单人(任务派单处理人)',
+  `input_user_id` VARCHAR(32) DEFAULT NULL COMMENT '录单人(报案录入人)',
+  `handler_code` VARCHAR(32) DEFAULT NULL COMMENT '任务处理人(作业人/接单人)',
+  `is_send` VARCHAR(1) DEFAULT NULL COMMENT '是否发送数据给保险公司：0:不需要 1:需要',
+  `send_state` VARCHAR(1) DEFAULT NULL COMMENT '发送状态: 0未发送 1发送成功 2发送失败',
+  `insert_date` DATETIME NOT NULL COMMENT '任务建立时间',
+  `work_address` VARCHAR(100) DEFAULT NULL COMMENT '作业地点',
+  PRIMARY KEY (`id`),
+  KEY `idx_task_taskid` (`company_task_id`)
+) ENGINE=INNODB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COMMENT='报案对应任务表';

@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="third_apply_info">
+	
+	<select id="queryThirdApplyInfo" resultType="net.chetong.order.model.CtThirdApplyInfoVO">
+		select 
+				t.id AS id,
+				apply_id_a AS applyIdA,
+				middle_id_b AS middleIdB,
+				grant_id_c AS grantIdC,
+				service_id AS serviceId,
+				grant_type AS grantType,
+				apply_date AS applyDate,
+				grant_date AS grantDate,
+				cancel_date AS cancelDate,
+				status AS status,
+				level AS level,
+				c2a_fee AS c2aFee,
+				b2a_fee AS b2aFee,
+				c2b_fee AS c2bFee
+		from ct_third_apply_info t
+		<where>
+		    <if test="id!= null">
+                  and t.id=#{id}
+            </if>
+            <if test="applyIdA!= null">
+                  and t.apply_id_a=#{applyIdA}
+            </if>
+            <if test="middleIdB!= null">
+                  and t.middle_id_b=#{middleIdB}
+            </if>
+            <if test="grantIdC!= null">
+                  and t.grant_id_c=#{grantIdC}
+            </if>
+            <if test="serviceId!= null">
+                  and t.service_id=#{serviceId}
+            </if>
+            <if test="grantType!= null">
+                  and t.grant_type=#{grantType}
+            </if>
+            <if test="level!= null">
+                  and t.level=#{level}
+            </if>
+            <if test="status!= null">
+                  and t.status=#{status}
+            </if>
+        </where>
+	</select>	
+</mapper>

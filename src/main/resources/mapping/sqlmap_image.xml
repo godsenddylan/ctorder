@@ -1,0 +1,297 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="sqlmap_image">
+
+	<!-- 查询图片通过guid -->
+    <select id="queryImageByGuidAndType" parameterType="java.util.Map" resultType="java.util.Map">
+        select 
+        	id as id,
+			img_name as imgName,
+			img_path as imgPath,
+			small_path as smallPath,
+			insert_time as insertTime,
+			upload_time as uploadTime,
+			task_id as taskId,
+			img_type as imgType,
+			user_id as userId,
+			upload_type as uploadType
+        from fh_loss_image 
+        where guid=#{guid} 
+        <if test="type !=null and type !=''">
+        	and img_type=#{type}
+        </if>
+        and enabled=1 
+        order by id 
+    </select>
+    
+	<!-- 查询图片的数量 -->
+    <select id="queryImageCount" parameterType="java.util.Map" resultType="java.util.Map">
+        select 
+        	i.img_type as imgType,
+        	count(1) as count
+        from fh_loss_image i
+        where i.guid=#{guid} 
+        	and i.enabled=1 
+        group by i.img_type 
+    </select>
+    
+	<!-- 查询图片的总数量 -->
+    <select id="queryImageTotalCount" parameterType="java.util.Map" resultType="long">
+        select 
+        	count(1) as count
+        from fh_loss_image i
+        where i.guid=#{guid} 
+        	and i.enabled=1 
+    </select>
+    
+    <!-- 查询图片通过guid -->
+    <select id="queryImageByGuid" parameterType="map" resultType="net.chetong.order.model.FhLossImageVO">
+        select 
+        	id as id,
+			img_name as imgName,
+			img_path as imgPath,
+			small_path as smallPath,
+			insert_time as insertTime,
+			upload_time as uploadTime,
+			task_id as taskId,
+			img_type as imgType,
+			user_id as userId,
+			upload_type as uploadType
+        from fh_loss_image 
+        where guid=#{guid} 
+        and enabled=1 
+        <if test="ids !=null and ids !=''">
+        and id IN(
+        	<foreach collection="ids" item="item" separator=",">
+        	#{item}
+        	</foreach>
+        	)
+        </if>
+    </select>
+    
+    <!-- 保存图片 -->
+    <insert id="saveImage" parameterType="java.util.Map" >
+			INSERT INTO fh_loss_image   
+			(
+				<trim suffix="" suffixOverrides=",">
+					<if test="id!= null">
+		                   id,
+		            </if>
+					<if test="guid!= null">
+		                   guid,
+		            </if>
+					<if test="imgType!= null">
+		                   img_type,
+		            </if>
+					<if test="imgName!= null">
+		                   img_name,
+		            </if>
+					<if test="imgPath!= null">
+		                   img_path,
+		            </if>
+					<if test="smallPath!= null">
+		                   small_path,
+		            </if>
+		            insert_time,
+					<if test="remark!= null">
+		                   remark,
+		            </if>
+		            enabled,
+					<if test="taskId!= null">
+		                   task_id,
+		            </if>
+					<if test="uploadTime!= null">
+		                   upload_time,
+		            </if>
+					<if test="userId!= null">
+		                   user_id,
+		            </if>
+		            <if test="tagId!= null">
+		                   tag_id,
+		            </if>
+		            <if test="uploadType!= null">
+		                   upload_type,
+		            </if>
+	            </trim>
+			)
+			VALUES
+	   		(
+	   			<trim suffix="" suffixOverrides=",">
+		   			<if test="id!= null">
+		   			#{id},
+		   			</if>
+		   			<if test="guid!= null">
+		   			#{guid},
+		   			</if>
+		   			<if test="imgType!= null">
+		   			#{imgType},
+		   			</if>
+		   			<if test="imgName!= null">
+		   			#{imgName},
+		   			</if>
+		   			<if test="imgPath!= null">
+		   			#{imgPath},
+		   			</if>
+		   			<if test="smallPath!= null">
+		   			#{smallPath},
+		   			</if>
+		   			NOW(),
+		   			<if test="remark!= null">
+		   			#{remark},
+		   			</if>
+		   			'1',
+		   			<if test="taskId!= null">
+		   			#{taskId},
+		   			</if>
+		   			<if test="uploadTime!= null">
+		   			#{uploadTime},
+		   			</if>
+		   			<if test="userId!= null">
+		   			#{userId},
+		   			</if>
+		   			<if test="tagId!= null">
+		            #{tagId},
+		            </if>
+		             <if test="uploadType!= null">
+		            #{uploadType},
+		            </if>
+	   			</trim>
+			)
+		</insert>
+		
+		<!-- 保存图片 -->
+    <insert id="insertSelective" parameterType="net.chetong.order.model.FhLossImageVO" useGeneratedKeys="true" keyColumn="id" keyProperty="id">
+			INSERT INTO fh_loss_image   
+			(
+				<trim suffix="" suffixOverrides=",">
+					<if test="id!= null">
+		                   id,
+		            </if>
+					<if test="guid!= null">
+		                   guid,
+		            </if>
+					<if test="imgType!= null">
+		                   img_type,
+		            </if>
+					<if test="imgName!= null">
+		                   img_name,
+		            </if>
+					<if test="imgPath!= null">
+		                   img_path,
+		            </if>
+					<if test="smallPath!= null">
+		                   small_path,
+		            </if>
+		            insert_time,
+					<if test="remark!= null">
+		                   remark,
+		            </if>
+		            enabled,
+					<if test="taskId!= null">
+		                   task_id,
+		            </if>
+					<if test="uploadTime!= null">
+		                   upload_time,
+		            </if>
+					<if test="userId!= null">
+		                   user_id,
+		            </if>
+					<if test="tagId!= null">
+		                   tag_id,
+		            </if>
+					<if test="uploadType!= null">
+		                   upload_type,
+		            </if>
+		            <if test="isPassimage!= null">
+		                   isPassimage,
+		            </if>
+	            </trim>
+			)
+			VALUES
+	   		(
+	   			<trim suffix="" suffixOverrides=",">
+		   			<if test="id!= null">
+		   			#{id},
+		   			</if>
+		   			<if test="guid!= null">
+		   			#{guid},
+		   			</if>
+		   			<if test="imgType!= null">
+		   			#{imgType},
+		   			</if>
+		   			<if test="imgName!= null">
+		   			#{imgName},
+		   			</if>
+		   			<if test="imgPath!= null">
+		   			#{imgPath},
+		   			</if>
+		   			<if test="smallPath!= null">
+		   			#{smallPath},
+		   			</if>
+		   			NOW(),
+		   			<if test="remark!= null">
+		   			#{remark},
+		   			</if>
+		   			'1',
+		   			<if test="taskId!= null">
+		   			#{taskId},
+		   			</if>
+		   			<if test="uploadTime!= null">
+		   			#{uploadTime},
+		   			</if>
+		   			<if test="userId!= null">
+		   			#{userId},
+		   			</if>
+		   			<if test="tagId!= null">
+		            #{tagId},
+		            </if>
+		            <if test="uploadType!= null">
+					#{uploadType},
+		            </if>
+		            <if test="isPassimage!= null">
+					#{isPassimage},
+		            </if>
+	   			</trim>
+			)
+		</insert>
+    
+    	<!-- 删除图片 -->
+    	<update id="delImage" parameterType="String">
+       	 	update fh_loss_image set ENABLED='0' where id=#{id}
+    	</update>
+    	
+    	<select id="queryLinksByIds" parameterType="list" resultType="string">
+	   		SELECT i.img_path FROM fh_loss_image i WHERE i.id in
+		  	<foreach collection="list" item="item" open="(" separator="," close=")">
+		  		#{item}
+		  	</foreach>
+   		</select>
+   		
+   		<select id="queryCxPhotoNodeList" parameterType="string" resultType="net.chetong.order.model.PhotoNode">
+	   		SELECT
+				i.id nodeId,
+				i.img_name name,
+				i.tag_id parentId,
+				i.img_path imageUrl,
+				i.upload_time uploadTime,
+				i.insert_time takephotoTime,
+				i.user_id userId,
+				i.task_id taskId,
+				i.isPassimage isPassimage
+			FROM
+				fh_loss_image i
+			WHERE
+				i.guid = #{guid}
+			AND i.ENABLED='1'
+   </select>
+   
+   <update id="delCxImageBatch" parameterType="map">
+	  	update fh_loss_image set ENABLED='0',upload_time=NOW() where id in
+	  	<foreach collection="photoIds" item="item" open="(" separator="," close=")">
+	  		#{item}
+	  	</foreach>
+	  	and user_id=#{userId}
+  	</update>
+  
+  
+</mapper>

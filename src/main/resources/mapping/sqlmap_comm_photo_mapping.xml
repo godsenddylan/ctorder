@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="sqlmap_comm_photo_mapping">
+	
+	<!-- 查询车险和人伤标签list -->
+	<select id="queryTagNodesByTagType" resultType="net.chetong.order.model.TagNode">
+		SELECT
+			t.id as nodeId,
+			t.tag_name as name,
+			t.pid as parentId
+		FROM
+			rs_media_type t
+		WHERE
+			t.tag_type = #{tagType}
+		order by seq_no,id asc
+	</select>
+	
+	<!-- 查询货运险和永诚标签list -->
+	<select id="queryHyAndYcTagNodesByTagType" resultType="net.chetong.order.model.TagNode">
+		SELECT
+			p.para_id as nodeId,
+			IFNULL(p.photo_name,p.photo_type_name) as name,
+			(SELECT p2.para_id FROM para_photography p2 WHERE p2.photo_code=p.parent) as parentId
+		FROM
+			para_photography p
+		WHERE
+			p.traffic_code=#{tagType}
+		AND p.parent !='000000'
+	</select>
+	
+	<!-- 查询顶层标签的父id -->
+	<select id="queryTopNodeParentId" resultType="Long" parameterType="map">
+		SELECT
+			p.para_id
+		FROM
+			para_photography p
+		WHERE
+			p.traffic_code = #{traffic_code}
+		AND p.parent='000000'
+		LIMIT 1
+	</select>
+	
+	<!-- 查询车险影像标签 id remark映射关系 -->
+	<select id="queryCxMediaTagMap" resultType="map">
+		SELECT
+			t.id,
+			t.remark
+		FROM
+			rs_media_type t
+		WHERE
+			t.tag_type = '11'
+		AND t.pid > 0
+	</select>
+	
+</mapper>

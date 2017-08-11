@@ -1,0 +1,777 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="sqlmap_work_model">
+<resultMap id="surveyMap" type="net.chetong.order.model.FhSurveyModelVO" >
+  <id column="id" property="id" jdbcType="BIGINT" />
+  <result column="survey_desp" property="surveyDesp" jdbcType="VARCHAR" />
+  <result column="accident_type" property="accidentType" jdbcType="VARCHAR" />
+  <result column="accident_duty" property="accidentDuty" jdbcType="VARCHAR" />
+  <result column="survey_place" property="surveyPlace" jdbcType="VARCHAR" />
+  <result column="loss_desp" property="lossDesp" jdbcType="VARCHAR" />
+  <result column="survey_time" property="surveyTime" jdbcType="VARCHAR" />
+  <result column="taskstate" property="taskstate" jdbcType="VARCHAR" />
+  <result column="report_no" property="reportNo" jdbcType="VARCHAR" />
+  <result column="insert_time" property="insertTime" jdbcType="VARCHAR" />
+  <result column="contact_phone" property="contactPhone" jdbcType="VARCHAR" />
+  <result column="is_cali" property="isCali" jdbcType="VARCHAR" />
+  <result column="is_injured" property="isInjured" jdbcType="VARCHAR" />
+  <result column="bank" property="bank" jdbcType="VARCHAR" />
+  <result column="insured_account" property="insuredAccount" jdbcType="VARCHAR" />
+  <result column="car_mark" property="carMark" jdbcType="VARCHAR" />
+  <result column="address_place" property="addressPlace" jdbcType="VARCHAR" />
+  <result column="last_time" property="lastTime" jdbcType="VARCHAR" />
+  <result column="guid" property="guid" jdbcType="VARCHAR" />
+  <result column="contact_name" property="contactName" jdbcType="VARCHAR" />
+  <result column="enabled" property="enabled" jdbcType="INTEGER" />
+  <result column="driver_name" property="driverName" jdbcType="VARCHAR" />
+  <result column="is_phone" property="isPhone" jdbcType="VARCHAR" />
+  <result column="is_loss" property="isLoss" jdbcType="VARCHAR" />
+  <result column="is_carmodel" property="isCarmodel" jdbcType="VARCHAR" />
+  <result column="is_driver_card" property="isDriverCard" jdbcType="VARCHAR" />
+  <result column="is_driving_license" property="isDrivingLicense" jdbcType="VARCHAR" />
+  <result column="is_vin" property="isVin" jdbcType="VARCHAR" />
+  <result column="injured_reason" property="injuredReason" jdbcType="VARCHAR" />
+  <result column="damage_reason" property="damageReason" jdbcType="VARCHAR" />
+  <result column="order_code" property="orderCode" jdbcType="VARCHAR" />
+  <result column="base_fee" property="baseFee" jdbcType="VARCHAR" />
+  <result column="travel_fee" property="travelFee" jdbcType="VARCHAR" />
+  <result column="over_fee" property="overFee" jdbcType="VARCHAR" />
+  <result column="extra_reward" property="extraReward" jdbcType="VARCHAR" />
+  <result column="power_fee" property="powerFee" jdbcType="VARCHAR" />
+  <result column="busi_charge" property="busiCharge" jdbcType="VARCHAR" />
+  <result column="account_name" property="accountName" jdbcType="VARCHAR" />
+  <result column="survey_desp_type" property="surveyDespType" jdbcType="VARCHAR" />
+  <result column="driver_phone" property="driverPhone" jdbcType="VARCHAR" />
+  <result column="is_auth_loss" property="isAuthLoss" jdbcType="VARCHAR" />
+  <result column="reserverd" property="reserverd" jdbcType="VARCHAR" />
+  <result column="mileage" property="mileage" jdbcType="VARCHAR" />
+  <result column="principal_code" property="principalCode" jdbcType="VARCHAR" />
+  <result column="signature_path" property="signaturePath" jdbcType="VARCHAR" />
+  <result column="accident_date" property="accidentDate" jdbcType="VARCHAR" />
+  <result column="case_state" property="caseState" jdbcType="VARCHAR" />
+  <result column="is_call" property="isCall" jdbcType="VARCHAR" />
+  <result column="service_name" property="serviceName" jdbcType="VARCHAR" />
+  <result column="service_code" property="serviceCode" jdbcType="VARCHAR" />
+  <result column="principal_name" property="principalName" jdbcType="VARCHAR" />
+  <result column="principal_time" property="principalTime" jdbcType="VARCHAR" />
+  <result column="principal_auth" property="principalAuth" jdbcType="VARCHAR" />
+  <result column="is_subject" property="isSubject" jdbcType="VARCHAR" />
+  <result column="user_code" property="userCode" jdbcType="VARCHAR" />
+  <result column="estimate_loss_amount" property="estimateLossAmount" jdbcType="VARCHAR" />
+  <result column="accident_desp" property="accidentDesp" jdbcType="LONGVARCHAR" />
+  <result column="principal_info" property="principalInfo" jdbcType="LONGVARCHAR" />
+  
+  <result column="deal_stat" property="dealStat" jdbcType="VARCHAR" />
+  <result column="scheduling_fee" property="sendOrderCost" jdbcType="VARCHAR" />
+  <result column="audit_fee" property="auditEntrustCost" jdbcType="VARCHAR" />
+  <result column="is_simple" property="isSimple" jdbcType="VARCHAR" />
+  <result column="extra_type" property="extraType" jdbcType="VARCHAR" />
+  
+  <result column="support_linkman" property="supportLinkman" jdbcType="VARCHAR" />
+  <result column="support_linktel" property="supportLinktel" jdbcType="VARCHAR" />
+  <result column="signature_result" property="signatureResult" jdbcType="CHAR" />
+</resultMap>
+
+
+  <resultMap id="lossMap" type="net.chetong.order.model.FhLossModelVO" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="vehicle_model" property="vehicleModel" jdbcType="VARCHAR" />
+    <result column="car_mark" property="carMark" jdbcType="VARCHAR" />
+    <result column="repair_ft_name" property="repairFtName" jdbcType="VARCHAR" />
+    <result column="management_fee" property="managementFee" jdbcType="DECIMAL" />
+    <result column="remnant" property="remnant" jdbcType="DECIMAL" />
+    <result column="loss_time" property="lossTime" jdbcType="VARCHAR" />
+    <result column="contact_phone" property="contactPhone" jdbcType="VARCHAR" />
+    <result column="vehicle_no" property="vehicleNo" jdbcType="INTEGER" />
+    <result column="material_amount" property="materialAmount" jdbcType="DECIMAL" />
+    <result column="insert_time" property="insertTime" jdbcType="VARCHAR" />
+    <result column="subtotal" property="subtotal" jdbcType="DECIMAL" />
+    <result column="report_no" property="reportNo" jdbcType="VARCHAR" />
+    <result column="repair_ft_phone" property="repairFtPhone" jdbcType="VARCHAR" />
+    <result column="vin" property="vin" jdbcType="VARCHAR" />
+    <result column="loss_desp" property="lossDesp" jdbcType="VARCHAR" />
+    <result column="repair_ft_type" property="repairFtType" jdbcType="VARCHAR" />
+    <result column="loss_address" property="lossAddress" jdbcType="VARCHAR" />
+    <result column="address_place" property="addressPlace" jdbcType="VARCHAR" />
+    <result column="last_time" property="lastTime" jdbcType="VARCHAR" />
+    <result column="guid" property="guid" jdbcType="VARCHAR" />
+    <result column="is_subject" property="isSubject" jdbcType="VARCHAR" />
+    <result column="contact_name" property="contactName" jdbcType="VARCHAR" />
+    <result column="taskstate" property="taskstate" jdbcType="VARCHAR" />
+    <result column="enabled" property="enabled" jdbcType="INTEGER" />
+    <result column="loss_quality" property="lossQuality" jdbcType="VARCHAR" />
+    <result column="doc_quality" property="docQuality" jdbcType="VARCHAR" />
+    <result column="subtract_rate" property="subtractRate" jdbcType="VARCHAR" />
+    <result column="is_phone" property="isPhone" jdbcType="VARCHAR" />
+    <result column="audit_opinion" property="auditOpinion" jdbcType="VARCHAR" />
+    <result column="order_code" property="orderCode" jdbcType="VARCHAR" />
+    <result column="base_fee" property="baseFee" jdbcType="VARCHAR" />
+    <result column="travel_fee" property="travelFee" jdbcType="VARCHAR" />
+    <result column="over_fee" property="overFee" jdbcType="VARCHAR" />
+    <result column="extra_reward" property="extraReward" jdbcType="VARCHAR" />
+    <result column="power_fee" property="powerFee" jdbcType="VARCHAR" />
+    <result column="busi_charge" property="busiCharge" jdbcType="VARCHAR" />
+    <result column="driver_name" property="driverName" jdbcType="VARCHAR" />
+    <result column="driver_phone" property="driverPhone" jdbcType="VARCHAR" />
+    <result column="vehicle_model_id" property="vehicleModelId" jdbcType="VARCHAR" />
+    <result column="is_add" property="isAdd" jdbcType="VARCHAR" />
+    <result column="reserved" property="reserved" jdbcType="VARCHAR" />
+    <result column="mileage" property="mileage" jdbcType="VARCHAR" />
+    <result column="principal_code" property="principalCode" jdbcType="VARCHAR" />
+    <result column="user_code" property="userCode" jdbcType="VARCHAR" />
+    <result column="accident_date" property="accidentDate" jdbcType="VARCHAR" />
+    <result column="case_state" property="caseState" jdbcType="VARCHAR" />
+    <result column="is_call" property="isCall" jdbcType="VARCHAR" />
+    <result column="service_name" property="serviceName" jdbcType="VARCHAR" />
+    <result column="service_code" property="serviceCode" jdbcType="VARCHAR" />
+    <result column="principal_name" property="principalName" jdbcType="VARCHAR" />
+    <result column="principal_time" property="principalTime" jdbcType="VARCHAR" />
+    <result column="principal_auth" property="principalAuth" jdbcType="VARCHAR" />
+    <result column="accident_desp" property="accidentDesp" jdbcType="LONGVARCHAR" />
+    <result column="principal_info" property="principalInfo" jdbcType="LONGVARCHAR" />
+    <result column="management_fee2" property="managementFee2" jdbcType="DECIMAL" />
+    <result column="remnant2" property="remnant2" jdbcType="DECIMAL" />
+    
+    <result column="deal_stat" property="dealStat" jdbcType="VARCHAR" />
+  	<result column="scheduling_fee" property="sendOrderCost" jdbcType="VARCHAR" />
+  	<result column="audit_fee" property="auditEntrustCost" jdbcType="VARCHAR" />
+	<result column="is_simple" property="isSimple" jdbcType="VARCHAR" />
+	<result column="extra_type" property="extraType" jdbcType="VARCHAR" />
+	
+	<result column="support_linkman" property="supportLinkman" jdbcType="VARCHAR" />
+  	<result column="support_linktel" property="supportLinktel" jdbcType="VARCHAR" />
+  </resultMap>
+
+
+
+  <sql id="Survey_Column_List" >
+    s.id, s.survey_desp, s.accident_type, s.accident_duty, s.survey_place, s.loss_desp, s.survey_time, 
+    s.taskstate, s.report_no, s.insert_time, CAST(AES_DECRYPT(UNHEX(s.contact_phone),'CHEtong@20161102') AS CHAR) contact_phone, s.is_cali, s.is_injured, s.bank, s.insured_account, 
+    s.car_mark, s.address_place, s.last_time, s.guid, s.contact_name, s.enabled, s.driver_name, s.is_phone, 
+    s.is_loss, s.is_carmodel, s.is_driver_card, s.is_driving_license, s.is_vin, s.injured_reason, 
+    s.damage_reason, s.order_code, s.base_fee, s.travel_fee, s.over_fee, s.extra_reward, s.power_fee, 
+    s.busi_charge, s.account_name, s.survey_desp_type, CAST(AES_DECRYPT(UNHEX(s.driver_phone),'CHEtong@20161102') AS CHAR) driver_phone, s.is_auth_loss, s.reserverd, 
+    s.mileage, s.principal_code, s.signature_path, s.accident_date, s.case_state, s.is_call, s.service_name, 
+    s.service_code, s.principal_name, s.principal_time, s.principal_auth, s.is_subject, s.user_code, 
+    s.estimate_loss_amount,s.accident_desp, s.principal_info,s.extra_type,s.signature_result
+  </sql>
+  
+  <sql id="Loss_Column_List" >
+    l.id, l.vehicle_model, l.car_mark, l.repair_ft_name, l.management_fee, l.remnant, l.loss_time, 
+    CAST(AES_DECRYPT(UNHEX(l.contact_phone),'CHEtong@20161102') AS CHAR) contact_phone, l.vehicle_no, l.material_amount, l.insert_time, l.subtotal, l.report_no, l.repair_ft_phone, 
+    l.vin, l.loss_desp, l.repair_ft_type, l.loss_address, l.address_place, l.last_time, l.guid, l.is_subject, 
+    l.contact_name, l.taskstate, l.enabled, l.loss_quality, l.doc_quality, l.subtract_rate, l.is_phone, 
+    l.audit_opinion, l.order_code, l.base_fee, l.travel_fee, l.over_fee, l.extra_reward, l.power_fee, 
+    l.busi_charge, l.driver_name, CAST(AES_DECRYPT(UNHEX(l.driver_phone),'CHEtong@20161102') AS CHAR) driver_phone, l.vehicle_model_id, l.is_add, l.reserved, l.mileage, 
+    l.principal_code, l.user_code, l.accident_date, l.case_state, l.is_call, l.service_name, l.service_code, 
+    l.principal_name, l.principal_time, l.principal_auth,l.accident_desp, l.principal_info,l.management_fee2,l.remnant2,l.extra_type
+  </sql>
+	
+  <select id="querySurveyModelByOrderNo" parameterType="Map" resultMap="surveyMap">
+      select 
+      		<include refid="Survey_Column_List" />,
+              o.deal_stat,d.scheduling_fee,d.audit_fee,o.is_simple,
+              (SELECT fi.support_linkman FROM fm_task_detail_info fi WHERE fi.task_id = (SELECT fr.task_id FROM fm_task_order_work_relation fr WHERE fr.order_no = (SELECT fo.order_no FROM fm_order fo WHERE fo.order_no = o.order_no))) as support_linkman,
+              (SELECT fi.support_linktel FROM fm_task_detail_info fi WHERE fi.task_id = (SELECT fr.task_id FROM fm_task_order_work_relation fr WHERE fr.order_no = (SELECT fo.order_no FROM fm_order fo WHERE fo.order_no = o.order_no))) as support_linktel 
+		FROM
+		fh_survey_model s,fm_order_cost_detail_temp d,fm_order o 
+		WHERE
+		order_code = #{orderNo}
+		AND s.order_code = o.order_no 
+		AND d.order_id = o.id
+		AND enabled = 1
+		AND o.order_type = #{orderType}
+  </select>
+  
+  <!-- 根据报案号查询查勘单信息 -->
+   <select id="querySurveyModelInCase" parameterType="Map" resultMap="surveyMap">
+       SELECT 
+      		<include refid="Survey_Column_List" />,
+      		o.is_simple
+		FROM
+			fh_survey_model s
+		left join fm_order o on s.order_code = o.order_no
+		WHERE
+					s.report_no=#{caseNo}
+			AND s.taskstate='9'
+		ORDER BY s.id DESC
+		LIMIT 0,1
+  </select>
+  
+  <select id="queryLossModelByOrderNo" parameterType="Map" resultMap="lossMap">
+      select 
+      		<include refid="Loss_Column_List" />,
+              o.deal_stat,d.scheduling_fee,d.audit_fee,o.is_simple,
+              (SELECT fi.support_linkman FROM fm_task_detail_info fi WHERE fi.task_id = (SELECT fr.task_id FROM fm_task_order_work_relation fr WHERE fr.order_no = (SELECT fo.order_no FROM fm_order fo WHERE fo.order_no = o.order_no))) as support_linkman,
+              (SELECT fi.support_linktel FROM fm_task_detail_info fi WHERE fi.task_id = (SELECT fr.task_id FROM fm_task_order_work_relation fr WHERE fr.order_no = (SELECT fo.order_no FROM fm_order fo WHERE fo.order_no = o.order_no))) as support_linktel
+		FROM
+		fh_loss_model l,fm_order_cost_detail_temp d,fm_order o 
+		WHERE
+		order_code = #{orderNo}
+		AND l.order_code = o.order_no 
+		AND d.order_id = o.id
+		AND enabled = 1
+		AND o.order_type = #{orderType}
+  </select>
+  
+ 	<!-- 根据报案号查询定损单信息 -->
+    <select id="queryLossModelInCase" parameterType="Map" resultMap="lossMap">
+        SELECT 
+      		<include refid="Loss_Column_List" />,
+      		o.is_simple
+		FROM
+			fh_loss_model l
+		left join fm_order o on l.order_code = o.order_no
+		WHERE
+				l.report_no=#{caseNo}
+			AND	l.taskstate='9'
+		ORDER BY l.id
+  </select>
+  
+  <select id="queryBuyerAndSeller" parameterType="java.lang.String" resultType="Map">
+  		select o.seller_user_id , o.buyer_user_id from fm_order o where o.order_no = #{orderNo}
+  </select>
+  
+  
+  	<update id="updateSurveyModelByKey">
+		UPDATE fh_survey_model 
+		  <trim prefix="SET" suffixOverrides=",">  
+					<if test="surveyDesp!= null">
+		   			survey_desp = #{surveyDesp},
+		   			</if>  
+					<if test="accidentType!= null">
+		   			accident_type = #{accidentType},
+		   			</if>  
+					<if test="accidentDuty!= null">
+		   			accident_duty = #{accidentDuty},
+		   			</if>  
+					<if test="surveyPlace!= null">
+		   			survey_place = #{surveyPlace},
+		   			</if>  
+					<if test="lossDesp!= null">
+		   			loss_desp = #{lossDesp},
+		   			</if>  
+					<if test="surveyTime!= null">
+		   			survey_time = #{surveyTime},
+		   			</if>  
+					<if test="taskstate!= null">
+		   			taskstate = #{taskstate},
+		   			</if>  
+					<if test="reportNo!= null">
+		   			report_no = #{reportNo},
+		   			</if>  
+					<if test="insertTime!= null">
+		   			insert_time = #{insertTime},
+		   			</if>  
+					<if test="contactPhone!= null">
+		   			contact_phone = HEX(AES_ENCRYPT(#{contactPhone},'CHEtong@20161102')),
+		   			</if>  
+					<if test="isCali!= null">
+		   			is_cali = #{isCali},
+		   			</if>  
+					<if test="isInjured!= null">
+		   			is_injured = #{isInjured},
+		   			</if>  
+					<if test="bank!= null">
+		   			bank = #{bank},
+		   			</if>  
+					<if test="insuredAccount!= null">
+		   			insured_account = #{insuredAccount},
+		   			</if>  
+					<if test="carMark!= null">
+		   			car_mark = #{carMark},
+		   			</if>  
+					<if test="addressPlace!= null">
+		   			address_place = #{addressPlace},
+		   			</if>  
+					<if test="lastTime!= null">
+		   			last_time = #{lastTime},
+		   			</if>  
+					<if test="guid!= null">
+		   			guid = #{guid},
+		   			</if>  
+					<if test="contactName!= null">
+		   			contact_name = #{contactName},
+		   			</if>  
+					<if test="enabled!= null">
+		   			enabled = #{enabled},
+		   			</if>  
+					<if test="driverName!= null">
+		   			driver_name = #{driverName},
+		   			</if>  
+					<if test="isPhone!= null">
+		   			is_phone = #{isPhone},
+		   			</if>  
+					<if test="isLoss!= null">
+		   			is_loss = #{isLoss},
+		   			</if>  
+					<if test="isCarmodel!= null">
+		   			is_carmodel = #{isCarmodel},
+		   			</if>  
+					<if test="isDriverCard!= null">
+		   			is_driver_card = #{isDriverCard},
+		   			</if>  
+					<if test="isDrivingLicense!= null">
+		   			is_driving_license = #{isDrivingLicense},
+		   			</if>  
+					<if test="isVin!= null">
+		   			is_vin = #{isVin},
+		   			</if>  
+					<if test="injuredReason!= null">
+		   			injured_reason = #{injuredReason},
+		   			</if>  
+					<if test="damageReason!= null">
+		   			damage_reason = #{damageReason},
+		   			</if>  
+					<if test="orderCode!= null">
+		   			order_code = #{orderCode},
+		   			</if>  
+					<if test="baseFee!= null">
+		   			base_fee = #{baseFee},
+		   			</if>  
+					<if test="travelFee!= null">
+		   			travel_fee = #{travelFee},
+		   			</if>  
+					<if test="overFee!= null">
+		   			over_fee = #{overFee},
+		   			</if>  
+					<if test="extraReward!= null">
+		   			extra_reward = #{extraReward},
+		   			</if>  
+					<if test="powerFee!= null">
+		   			power_fee = #{powerFee},
+		   			</if>  
+					<if test="busiCharge!= null">
+		   			busi_charge = #{busiCharge},
+		   			</if>  
+					<if test="accountName!= null">
+		   			account_name = #{accountName},
+		   			</if>  
+					<if test="surveyDespType!= null">
+		   			survey_desp_type = #{surveyDespType},
+		   			</if>  
+					<if test="driverPhone!= null">
+		   			driver_phone = HEX(AES_ENCRYPT(#{driverPhone},'CHEtong@20161102')),
+		   			</if>  
+					<if test="isAuthLoss!= null">
+		   			is_auth_loss = #{isAuthLoss},
+		   			</if>  
+					<if test="reserverd!= null">
+		   			reserverd = #{reserverd},
+		   			</if>  
+					<if test="mileage!= null">
+		   			mileage = #{mileage},
+		   			</if>  
+					<if test="principalCode!= null">
+		   			principal_code = #{principalCode},
+		   			</if>  
+					<if test="signaturePath!= null">
+		   			signature_path = #{signaturePath},
+		   			</if>  
+					<if test="accidentDate!= null">
+		   			accident_date = #{accidentDate},
+		   			</if>  
+					<if test="accidentDesp!= null">
+		   			accident_desp = #{accidentDesp},
+		   			</if>  
+					<if test="caseState!= null">
+		   			case_state = #{caseState},
+		   			</if>  
+					<if test="isCall!= null">
+		   			is_call = #{isCall},
+		   			</if>  
+					<if test="serviceName!= null">
+		   			service_name = #{serviceName},
+		   			</if>  
+					<if test="serviceCode!= null">
+		   			service_code = #{serviceCode},
+		   			</if>  
+					<if test="principalName!= null">
+		   			principal_name = #{principalName},
+		   			</if>  
+					<if test="principalInfo!= null">
+		   			principal_info = #{principalInfo},
+		   			</if>  
+					<if test="principalTime!= null">
+		   			principal_time = #{principalTime},
+		   			</if>  
+					<if test="principalAuth!= null">
+		   			principal_auth = #{principalAuth},
+		   			</if>  
+					<if test="isSubject!= null">
+		   			is_subject = #{isSubject},
+		   			</if>  
+					<if test="userCode!= null">
+		   			user_code = #{userCode},
+		   			</if> 
+		   			<if test="estimateLossAmount!= null">
+		   			estimate_loss_amount = #{estimateLossAmount},
+		   			</if> 
+		  </trim>
+		  <where>	   
+				    and id = #{id}
+		 </where>
+	</update>
+	
+	
+	<update id="updateLossModelByKey">
+		UPDATE fh_loss_model 
+		  <trim prefix="SET" suffixOverrides=",">  
+					<if test="vehicleModel!= null">
+		   			vehicle_model = #{vehicleModel},
+		   			</if>  
+					<if test="carMark!= null">
+		   			car_mark = #{carMark},
+		   			</if>  
+					<if test="repairFtName!= null">
+		   			repair_ft_name = #{repairFtName},
+		   			</if>  
+					<if test="managementFee!= null">
+		   			management_fee = #{managementFee},
+		   			</if>  
+					<if test="remnant!= null">
+		   			remnant = #{remnant},
+		   			</if>  
+					<if test="lossTime!= null">
+		   			loss_time = #{lossTime},
+		   			</if>  
+					<if test="contactPhone!= null">
+		   			contact_phone = HEX(AES_ENCRYPT(#{contactPhone},'CHEtong@20161102')),
+		   			</if>  
+					<if test="vehicleNo!= null">
+		   			vehicle_no = #{vehicleNo},
+		   			</if>  
+					<if test="materialAmount!= null">
+		   			material_amount = #{materialAmount},
+		   			</if>  
+					<if test="insertTime!= null">
+		   			insert_time = #{insertTime},
+		   			</if>  
+					<if test="subtotal!= null">
+		   			subtotal = #{subtotal},
+		   			</if>  
+					<if test="reportNo!= null">
+		   			report_no = #{reportNo},
+		   			</if>  
+					<if test="repairFtPhone!= null">
+		   			repair_ft_phone = #{repairFtPhone},
+		   			</if>  
+					<if test="vin!= null">
+		   			vin = #{vin},
+		   			</if>  
+					<if test="lossDesp!= null">
+		   			loss_desp = #{lossDesp},
+		   			</if>  
+					<if test="repairFtType!= null">
+		   			repair_ft_type = #{repairFtType},
+		   			</if>  
+					<if test="lossAddress!= null">
+		   			loss_address = #{lossAddress},
+		   			</if>  
+					<if test="addressPlace!= null">
+		   			address_place = #{addressPlace},
+		   			</if>  
+					<if test="lastTime!= null">
+		   			last_time = #{lastTime},
+		   			</if>  
+					<if test="guid!= null">
+		   			guid = #{guid},
+		   			</if>  
+					<if test="isSubject!= null">
+		   			is_subject = #{isSubject},
+		   			</if>  
+					<if test="contactName!= null">
+		   			contact_name = #{contactName},
+		   			</if>  
+					<if test="taskstate!= null">
+		   			taskstate = #{taskstate},
+		   			</if>  
+					<if test="enabled!= null">
+		   			enabled = #{enabled},
+		   			</if>  
+					<if test="lossQuality!= null">
+		   			loss_quality = #{lossQuality},
+		   			</if>  
+					<if test="docQuality!= null">
+		   			doc_quality = #{docQuality},
+		   			</if>  
+					<if test="subtractRate!= null">
+		   			subtract_rate = #{subtractRate},
+		   			</if>  
+					<if test="isPhone!= null">
+		   			is_phone = #{isPhone},
+		   			</if>  
+					<if test="auditOpinion!= null">
+		   			audit_opinion = #{auditOpinion},
+		   			</if>  
+					<if test="orderCode!= null">
+		   			order_code = #{orderCode},
+		   			</if>  
+					<if test="baseFee!= null">
+		   			base_fee = #{baseFee},
+		   			</if>  
+					<if test="travelFee!= null">
+		   			travel_fee = #{travelFee},
+		   			</if>  
+					<if test="overFee!= null">
+		   			over_fee = #{overFee},
+		   			</if>  
+					<if test="extraReward!= null">
+		   			extra_reward = #{extraReward},
+		   			</if>  
+					<if test="powerFee!= null">
+		   			power_fee = #{powerFee},
+		   			</if>  
+					<if test="busiCharge!= null">
+		   			busi_charge = #{busiCharge},
+		   			</if>  
+					<if test="driverName!= null">
+		   			driver_name = #{driverName},
+		   			</if>  
+					<if test="driverPhone!= null">
+		   			driver_phone = HEX(AES_ENCRYPT(#{driverPhone},'CHEtong@20161102')),
+		   			</if>  
+					<if test="vehicleModelId!= null">
+		   			vehicle_model_id = #{vehicleModelId},
+		   			</if>  
+					<if test="isAdd!= null">
+		   			is_add = #{isAdd},
+		   			</if>  
+					<if test="reserved!= null">
+		   			reserved = #{reserved},
+		   			</if>  
+					<if test="mileage!= null">
+		   			mileage = #{mileage},
+		   			</if>  
+					<if test="principalCode!= null">
+		   			principal_code = #{principalCode},
+		   			</if>  
+					<if test="userCode!= null">
+		   			user_code = #{userCode},
+		   			</if>  
+					<if test="accidentDate!= null">
+		   			accident_date = #{accidentDate},
+		   			</if>  
+					<if test="accidentDesp!= null">
+		   			accident_desp = #{accidentDesp},
+		   			</if>  
+					<if test="caseState!= null">
+		   			case_state = #{caseState},
+		   			</if>  
+					<if test="isCall!= null">
+		   			is_call = #{isCall},
+		   			</if>  
+					<if test="serviceName!= null">
+		   			service_name = #{serviceName},
+		   			</if>  
+					<if test="serviceCode!= null">
+		   			service_code = #{serviceCode},
+		   			</if>  
+					<if test="principalName!= null">
+		   			principal_name = #{principalName},
+		   			</if>  
+					<if test="principalInfo!= null">
+		   			principal_info = #{principalInfo},
+		   			</if>  
+					<if test="principalTime!= null">
+		   			principal_time = #{principalTime},
+		   			</if>  
+					<if test="principalAuth!= null">
+		   			principal_auth = #{principalAuth},
+		   			</if>  
+		  </trim>
+		  <where>	   
+				    and id = #{id}
+		 </where>
+	</update>
+  
+  	<insert id="addRsInjuredPerson" parameterType="net.chetong.order.model.RsInjuredPerson" useGeneratedKeys="true" keyColumn="id" keyProperty="id">
+  		INSERT INTO rs_injured_person   
+			(
+				<trim suffix="" suffixOverrides=",">
+					<if test="id != null">
+		                   id,
+		            </if>
+					<if test="caseNo != null">
+		                   case_no,
+		            </if>
+		            <if test="orderNo != null">
+		            	order_no,
+		            </if>
+		            <if test="serviceId != null">
+		            	service_id,
+		            </if>
+					<if test="injuredName !=null">
+		                   injured_name,
+		            </if>
+					<if test="injuredTel != null">
+		                   injured_tel,
+		            </if>
+					<if test="injuredSex != null">
+		                   injured_sex,
+		            </if>
+					<if test="injuredAge != null">
+		                   injured_age,
+		            </if>
+					<if test="personType != null">
+		                   person_type,
+		            </if>
+					<if test="hospitalName != null">
+		                   hospital_name,
+		            </if>
+					<if test="isSendHospital != null">
+		                   is_send_hospital,
+		            </if>
+		            <if test="accidentType != null">
+		            	accident_type,
+		            </if>
+		            <if test="accidentRespType != null">
+		            	accident_resp_type,
+		            </if>
+	            </trim>
+			)
+			VALUES
+	   		(
+	   			<trim suffix="" suffixOverrides=",">
+		   			<if test="id != null">
+		   			#{id},
+		   			</if>
+		   			<if test="caseNo != null">
+		   			#{caseNo},
+		   			</if>
+		   			<if test="orderNo != null">
+		   			 	#{orderNo},
+		   			</if>
+		   			<if test="serviceId != null">
+		   				#{serviceId},
+		   			</if>
+		   			<if test="injuredName != null">
+		   			#{injuredName},
+		   			</if>
+		   			<if test="injuredTel != null">
+		   			#{injuredTel},
+		   			</if>
+		   			<if test="injuredSex != null">
+		   			#{injuredSex},
+		   			</if>
+		   			<if test="injuredAge != null">
+		   			#{injuredAge},
+		   			</if>
+		   			<if test="personType!= null">
+		   			#{personType},
+		   			</if>
+		   			<if test="hospitalName != null">
+		   			#{hospitalName},
+		   			</if>
+		   			<if test="isSendHospital != null">
+		   			#{isSendHospital},
+		   			</if>
+		   			<if test="accidentType != null">
+		   				#{accidentType},
+		   			</if>
+		   			<if test="accidentRespType != null">
+		   				#{accidentRespType},
+		   			</if>
+	   			</trim>
+			)
+  	</insert>
+    
+    <delete id="delInjuredPersonByCaseNoAndOrderNo" parameterType="Map">
+    	DELETE FROM rs_injured_person 
+    		WHERE case_no =#{caseNo} AND order_no = #{orderNo} 
+    </delete>
+    
+    <select id="getInjuredPersonList" parameterType="Map" resultType="net.chetong.order.model.RsInjuredPerson">
+    	SELECT id AS id,
+		       case_no AS caseNo,
+		       order_no AS orderNo,
+		       service_id AS serviceId,
+		       injured_name AS injuredName,
+		       injured_tel AS injuredTel,
+		       injured_sex AS injuredSex,
+		       injured_age AS injuredAge,
+		       person_type AS personType,
+		       hospital_name AS hospitalName,
+		       is_send_hospital AS isSendHospital,
+		       accident_type AS accidentType,
+		       accident_resp_type AS accidentRespType
+		FROM rs_injured_person 
+		WHERE case_no = #{caseNo} AND order_no = #{orderNo}
+    </select>
+    
+    <select id="checkInjuredPersonIsActived" parameterType="java.lang.Long" resultType="int">
+    	SELECT COUNT(1)
+ 		FROM rs_order AS o INNER JOIN rs_task_info_detail AS d ON o.task_detail_id = d.id
+ 		where d.injured_id = #{injuredId}
+    </select>
+    
+    <select id="getInjuredPersonById" parameterType="java.lang.Long" resultType="net.chetong.order.model.RsInjuredPerson">
+		SELECT 
+			id  AS id,    
+			case_no  AS caseNo,         
+			order_no AS orderNo,
+			service_id AS serviceId,      
+			injured_name AS injuredName,    
+			injured_tel AS injuredTel,     
+			injured_sex AS injuredSex,      
+			injured_age AS injuredAge,      
+			person_type AS personType,      
+			hospital_name AS hospitalName,    
+			is_send_hospital AS isSendHospital,  
+			accident_type AS accidentType,    
+			accident_resp_type AS accidentRespType
+		FROM rs_injured_person 
+		WHERE id = #{id}
+    </select>
+    
+    <delete id="delInjuredPersonById" parameterType="java.lang.Long">
+    	 DELETE FROM rs_injured_person
+		 WHERE id = #{id}
+    </delete>
+    
+    <update id="updateInjuredPersonById" parameterType="net.chetong.order.model.RsInjuredPerson">
+		 UPDATE rs_injured_person
+ 		 <set> 
+			<if test="caseNo != null">
+				 case_no = #{caseNo},
+			</if>
+			<if test="orderNo != null">
+				order_no = #{orderNo},
+			</if>
+			<if test="serviceId != null">
+				service_id = #{serviceId},
+			</if>
+			<if test="injuredName != null">
+				 injured_name = #{injuredName},
+			</if>
+			<if test="injuredTel != null">
+				 injured_tel = #{injuredTel},
+			</if>
+			<if test="injuredSex != null">
+				 injured_sex = #{injuredSex},
+			</if>
+			<if test="injuredAge != null">
+				 injured_age = #{injuredAge},
+			</if>
+			<if test="personType != null">
+				 person_type = #{personType},
+			</if>
+			<if test="hospitalName != null">
+				 hospital_name = #{hospitalName},
+			</if>
+			<if test="isSendHospital != null">
+				 is_send_hospital = #{isSendHospital},
+			</if>
+			<if test="accidentType != null">
+				 accident_type = #{accidentType},
+			</if>
+			<if test="accidentRespType != null">
+				 accident_resp_type = #{accidentRespType},
+			</if>
+
+ 		 </set>
+		 WHERE id = #{id}
+	</update>
+	
+</mapper>
+

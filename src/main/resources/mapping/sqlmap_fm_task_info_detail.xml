@@ -1,0 +1,315 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="sqlmap_fm_task_detail_info" >
+  <resultMap id="BaseResultMap" type="net.chetong.order.model.FmTaskDetailInfoVO" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="task_id" property="taskId" jdbcType="BIGINT" />
+    <result column="car_no" property="carNo" jdbcType="VARCHAR" />
+    <result column="is_allow" property="isAllow" jdbcType="VARCHAR" />
+    <result column="allow_money" property="allowMoney" jdbcType="DECIMAL" />
+    <result column="accident_linkman" property="accidentLinkman" jdbcType="VARCHAR" />
+    <result column="accident_linktel" property="accidentLinktel" jdbcType="VARCHAR" />
+    <result column="entrust_id" property="entrustId" jdbcType="BIGINT" />
+    <result column="entrust_name" property="entrustName" jdbcType="VARCHAR" />   
+    <result column="support_linkman" property="supportLinkman" jdbcType="VARCHAR" />
+    <result column="support_linktel" property="supportLinktel" jdbcType="VARCHAR" />
+    <result column="accident_description" property="accidentDescription" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, task_id, car_no, is_allow, allow_money, accident_linkman, CAST(AES_DECRYPT(UNHEX(accident_linktel),'CHEtong@20161102') AS CHAR) accident_linktel, entrust_id, 
+    entrust_name, support_linkman, support_linktel, accident_description
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from fm_task_detail_info
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from fm_task_detail_info
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="net.chetong.order.model.FmTaskDetailInfoVO" >
+    insert into fm_task_detail_info (id, task_id, car_no, 
+      is_allow, allow_money, accident_linkman, 
+      accident_linktel, entrust_id, entrust_name, 
+      support_linkman, support_linktel,accident_description
+      )
+    values (#{id,jdbcType=BIGINT}, #{taskId,jdbcType=BIGINT}, #{carNo,jdbcType=VARCHAR}, 
+      #{isAllow,jdbcType=VARCHAR}, #{allowMoney,jdbcType=DECIMAL}, #{accidentLinkman,jdbcType=VARCHAR}, 
+      HEX(AES_ENCRYPT(#{accidentLinktel,jdbcType=VARCHAR},'CHEtong@20161102')), #{entrustId,jdbcType=BIGINT}, #{entrustName,jdbcType=VARCHAR}, 
+      #{supportLinkman,jdbcType=VARCHAR}, #{supportLinktel,jdbcType=VARCHAR}, #{accidentDescription,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="net.chetong.order.model.FmTaskDetailInfoVO" >
+    insert into fm_task_detail_info
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="taskId != null" >
+        task_id,
+      </if>
+      <if test="carNo != null" >
+        car_no,
+      </if>
+      <if test="isAllow != null" >
+        is_allow,
+      </if>
+      <if test="allowMoney != null" >
+        allow_money,
+      </if>
+      <if test="accidentLinkman != null" >
+        accident_linkman,
+      </if>
+      <if test="accidentLinktel != null" >
+        accident_linktel,
+      </if>
+      <if test="entrustId != null" >
+        entrust_id,
+      </if>
+      <if test="entrustName != null" >
+        entrust_name,
+      </if>
+      <if test="isEntrust != null" >
+        is_entrust,
+      </if>
+      <if test="companyName != null" >
+        company_name,
+      </if>
+      <if test="supportLinkman != null" >
+        support_linkman,
+      </if>
+      <if test="supportLinktel != null" >
+        support_linktel,
+      </if>
+      <if test="accidentDescription != null" >
+        accident_description,
+      </if>
+      
+      <if test="isAllowMediation != null">
+      	 is_allow_mediation ,
+      </if>
+      <if test="allowMediationMoney != null and allowMediationMoney !='' ">
+      	  allow_mediation_money,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="taskId != null" >
+        #{taskId,jdbcType=BIGINT},
+      </if>
+      <if test="carNo != null" >
+        #{carNo,jdbcType=VARCHAR},
+      </if>
+      <if test="isAllow != null" >
+        #{isAllow,jdbcType=VARCHAR},
+      </if>
+      <if test="allowMoney != null" >
+        #{allowMoney,jdbcType=DECIMAL},
+      </if>
+      <if test="accidentLinkman != null" >
+        #{accidentLinkman,jdbcType=VARCHAR},
+      </if>
+      <if test="accidentLinktel != null" >
+        HEX(AES_ENCRYPT(#{accidentLinktel},'CHEtong@20161102')),
+      </if>
+      <if test="entrustId != null" >
+        #{entrustId,jdbcType=BIGINT},
+      </if>
+      <if test="entrustName != null" >
+        #{entrustName,jdbcType=VARCHAR},
+      </if>
+       <if test="isEntrust != null" >
+        #{isEntrust},
+      </if>
+      <if test="companyName != null" >
+        #{companyName},
+      </if>
+      <if test="supportLinkman != null" >
+        #{supportLinkman,jdbcType=VARCHAR},
+      </if>
+      <if test="supportLinktel != null" >
+        #{supportLinktel,jdbcType=VARCHAR},
+      </if>
+      <if test="accidentDescription != null" >
+        #{accidentDescription,jdbcType=VARCHAR},
+      </if>
+      <if test="isAllowMediation != null">
+      	#{isAllowMediation},
+      </if>
+      <if test="allowMediationMoney != null and allowMediationMoney !=''">
+      	#{allowMediationMoney},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="net.chetong.order.model.FmTaskDetailInfoVO" >
+    update fm_task_detail_info
+    <set >
+      <if test="taskId != null" >
+        task_id = #{taskId,jdbcType=BIGINT},
+      </if>
+      <if test="carNo != null" >
+        car_no = #{carNo,jdbcType=VARCHAR},
+      </if>
+      <if test="isAllow != null" >
+        is_allow = #{isAllow,jdbcType=VARCHAR},
+      </if>
+      <if test="allowMoney != null" >
+        allow_money = #{allowMoney,jdbcType=DECIMAL},
+      </if>
+      <if test="accidentLinkman != null" >
+        accident_linkman = #{accidentLinkman,jdbcType=VARCHAR},
+      </if>
+      <if test="accidentLinktel != null" >
+        accident_linktel = HEX(AES_ENCRYPT(#{accidentLinktel,jdbcType=VARCHAR},'CHEtong@20161102')),
+      </if>
+      <if test="entrustId != null" >
+        entrust_id = #{entrustId,jdbcType=BIGINT},
+      </if>
+      <if test="entrustName != null" >
+        entrust_name = #{entrustName,jdbcType=VARCHAR},
+      </if>
+      <if test="isEntrust != null" >
+        is_entrust = #{isEntrust},
+      </if>
+      <if test="companyName != null" >
+        company_name = #{companyName},
+      </if>
+      <if test="supportLinkman != null" >
+        support_linkman = #{supportLinkman,jdbcType=VARCHAR},
+      </if>
+      <if test="supportLinktel != null" >
+        support_linktel = #{supportLinktel,jdbcType=VARCHAR},
+      </if>
+      <if test="accidentDescription != null" >
+        accident_description = #{accidentDescription,jdbcType=VARCHAR},
+      </if>
+      <if test="isAllowMediation != null">
+      	is_allow_mediation = #{isAllowMediation},
+      </if>
+      <if test="allowMediationMoney != null and allowMediationMoney !=''">
+      	allow_mediation_money = #{allowMediationMoney},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="net.chetong.order.model.FmTaskDetailInfoVO" >
+    update fm_task_detail_info
+    set task_id = #{taskId,jdbcType=BIGINT},
+      car_no = #{carNo,jdbcType=VARCHAR},
+      is_allow = #{isAllow,jdbcType=VARCHAR},
+      allow_money = #{allowMoney,jdbcType=DECIMAL},
+      accident_linkman = #{accidentLinkman,jdbcType=VARCHAR},
+      accident_linktel = HEX(AES_ENCRYPT(#{accidentLinktel,jdbcType=VARCHAR},'CHEtong@20161102')),
+      entrust_id = #{entrustId,jdbcType=BIGINT},
+      entrust_name = #{entrustName,jdbcType=VARCHAR},    
+      support_linkman = #{supportLinkman,jdbcType=VARCHAR},
+      support_linktel = #{supportLinktel,jdbcType=VARCHAR},
+      accident_description = #{accidentDescription,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  
+    <select id="queryTaskDetailInfoByOrderNo" parameterType="String" resultMap="BaseResultMap">
+  		select
+  		id, 
+  		task_id, 
+  		car_no, 
+  		is_allow, 
+  		allow_money, 
+  		accident_linkman,
+  		CAST(AES_DECRYPT(UNHEX(accident_linktel),'CHEtong@20161102') AS CHAR) accident_linktel, 
+  		entrust_id, 
+        entrust_name, 
+        support_linkman, 
+        support_linktel, 
+        accident_description
+        from
+        fm_task_detail_info
+        <where>
+           task_id = (select task_id from fm_task_order_work_relation where order_no = #{orderNo})	
+        </where>
+
+  </select>
+  
+  <select id="queryTaskDetailInfoByTaskId" resultMap="BaseResultMap">
+  		select
+  		id, 
+  		task_id, 
+  		car_no, 
+  		is_allow, 
+  		allow_money, 
+  		accident_linkman,
+  		CAST(AES_DECRYPT(UNHEX(accident_linktel),'CHEtong@20161102') AS CHAR) accident_linktel, 
+  		entrust_id, 
+        entrust_name, 
+        support_linkman, 
+        support_linktel, 
+        accident_description
+        from
+        fm_task_detail_info
+      where
+        task_id = #{taskId}
+  </select>
+  
+     <update id="updateDtlMainCarNoByReportNo" parameterType="map" >
+    UPDATE 
+	  fm_task_detail_info 
+	SET
+	  car_no = #{carNo} 
+	WHERE task_id IN 
+	  (SELECT 
+	    t.id 
+	  FROM
+	    fm_task_info t 
+	  WHERE t.report_no = #{reportNo} 
+	    AND t.task_type IN ('0', '1', '3'))
+  </update>
+  
+  <update id="updateTaskDetailByTaskId" parameterType="net.chetong.order.model.FmTaskDetailInfoVO" >
+    update fm_task_detail_info
+    set
+      is_allow = #{isAllow,jdbcType=VARCHAR}
+    where  task_id = #{taskId,jdbcType=BIGINT}
+  </update>
+  
+  <!-- 根据taskId修改detail信息 -->
+  <update id="updateByTaskIdSelective" parameterType="net.chetong.order.model.FmTaskDetailInfoVO" >
+    update fm_task_detail_info
+    <set >
+      <if test="carNo != null" >
+        car_no = #{carNo,jdbcType=VARCHAR},
+      </if>
+      <if test="isAllow != null" >
+        is_allow = #{isAllow,jdbcType=VARCHAR},
+      </if>
+      <if test="allowMoney != null" >
+        allow_money = #{allowMoney,jdbcType=DECIMAL},
+      </if>
+      <if test="accidentLinkman != null" >
+        accident_linkman = #{accidentLinkman,jdbcType=VARCHAR},
+      </if>
+      <if test="accidentLinktel != null" >
+        accident_linktel = HEX(AES_ENCRYPT(#{accidentLinktel,jdbcType=VARCHAR},'CHEtong@20161102')),
+      </if>
+      <if test="entrustId != null" >
+        entrust_id = #{entrustId,jdbcType=BIGINT},
+      </if>
+      <if test="entrustName != null" >
+        entrust_name = #{entrustName,jdbcType=VARCHAR},
+      </if>
+      <if test="supportLinkman != null" >
+        support_linkman = #{supportLinkman,jdbcType=VARCHAR},
+      </if>
+      <if test="supportLinktel != null" >
+        support_linktel = #{supportLinktel,jdbcType=VARCHAR},
+      </if>
+      <if test="accidentDescription != null" >
+        accident_description = #{accidentDescription,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where task_id = #{taskId}
+  </update>
+</mapper>

@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="sqlmap_fh_loss_item">
+	
+	<sql id="lossItemSql">
+		created_by as createdBy,
+		created_date as createdDate,
+		updated_by as updatedBy,
+		updated_date as updatedDate,
+		CAST(id AS CHAR) AS id,
+		CAST(loss_id AS CHAR) AS lossId,
+		insure_code as insureCode,
+		loss_name as lossName,
+		standard as standard,
+		CAST(loss_count AS CHAR) AS lossCount,
+		CAST(price AS CHAR) AS price,
+		CAST(loss_degree AS CHAR) AS lossDegree,
+		CAST(salvage AS CHAR) AS salvage,
+		CAST(total_amount AS CHAR) AS totalAmount,
+		CAST(audit_price AS CHAR) AS auditPrice,
+		CAST(audit_count AS CHAR) AS auditCount,
+		CAST(audit_loss_degree AS CHAR) AS auditLossDegree,
+		CAST(audit_salvage AS CHAR) AS auditSalvage,
+		CAST(audit_amount AS CHAR) AS auditAmount,
+		CAST(first_amount AS CHAR) AS firstAmount
+	</sql>
+	<select id="queryLossItemInfo" resultType="FhLossItemVO" parameterType="map">
+		select <include refid="lossItemSql" /> 
+		from fh_loss_item 
+		where 1=1
+		<if test="id!=null">
+			and id=#{id}
+		</if>
+		<if test="lossId!=null">
+			and loss_id =#{lossId}
+		</if>
+	</select>
+	
+	<insert id="insertLossItemInfo" parameterType="FhLossItemVO" useGeneratedKeys="true" keyProperty="id">
+		insert into fh_loss_item(
+			created_by,
+			created_date,
+			updated_by,
+			updated_date,
+			loss_id,
+			insure_code,
+			loss_name,
+			standard,
+			loss_count,
+			price,
+			loss_degree,
+			salvage,
+			total_amount,
+			audit_price,
+			audit_count,
+			audit_loss_degree,
+			audit_salvage,
+			audit_amount,
+			first_amount)
+		 values(
+		 	#{createdBy},SYSDATE(),#{updatedBy},SYSDATE(),
+		 	#{lossId},#{insureCode},#{lossName},#{standard},#{lossCount},
+		 	#{price},#{lossDegree},#{salvage},#{totalAmount},#{auditPrice},
+		 	#{auditCount},#{auditLossDegree},#{auditSalvage},#{auditAmount},#{firstAmount}
+		 )
+	
+	</insert>
+	<update id="updateLossItemInfo" parameterType="FhLossItemVO">
+		update fh_loss_item set 
+			<if test="insureCode!=null">
+				insure_code=#{insureCode},
+			</if>
+			<if test="lossName!=null">
+				loss_name=#{lossName},
+			</if>
+			<if test="standard!=null">
+				standard=#{standard},
+			</if>
+			<if test="lossCount!=null">
+				loss_count=#{lossCount},
+			</if>
+			<if test="price!=null">
+				price=#{price},
+			</if>
+			<if test="lossDegree!=null">
+				loss_degree=#{lossDegree},
+			</if>
+			<if test="salvage!=null">
+				salvage=#{salvage},
+			</if>
+			<if test="totalAmount!=null">
+				total_amount=#{totalAmount},
+			</if>
+			<if test="auditPrice!=null">
+				audit_price=#{auditPrice},
+			</if>
+			<if test="auditCount!=null">
+				audit_count=#{auditCount},
+			</if>
+			<if test="auditLossDegree!=null">
+				audit_loss_degree=#{auditLossDegree},
+			</if>
+			<if test="auditSalvage!=null">
+				audit_salvage=#{auditSalvage},
+			</if>
+			<if test="auditAmount!=null">
+				audit_amount=#{auditAmount},
+			</if>
+			<if test="firstAmount!=null">
+				first_amount=#{firstAmount},
+			</if>
+			updated_by=#{updatedBy},
+			updated_date = SYSDATE()
+		where id=#{id}
+			<if test='lossId!=null and lossId!="" '>
+				and loss_id=#{lossId}
+			</if>
+	</update>
+	
+	<delete id="deleteLossItemInfo">
+		delete from fh_loss_item where id=#{id}
+	</delete>
+	
+</mapper>

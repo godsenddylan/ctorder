@@ -1,0 +1,200 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="sqlmap_hy_cost_detail" >
+  <resultMap id="BaseResultMap" type="net.chetong.order.model.HyCostDetailVO" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="cost_id" property="costId" jdbcType="BIGINT" />
+    <result column="order_no" property="orderNo" jdbcType="VARCHAR" />
+    <result column="cost_name" property="costName" jdbcType="VARCHAR" />
+    <result column="cost_type" property="costType" jdbcType="VARCHAR" />
+    <result column="cost_money" property="costMoney" jdbcType="DECIMAL" />
+    <result column="created_by" property="createdBy" jdbcType="VARCHAR" />
+    <result column="updated_by" property="updatedBy" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, cost_id, order_no, cost_name, cost_type, cost_money, created_by, updated_by, 
+    create_time, update_time
+  </sql>
+  
+  
+  <select id="queryCostMoney" parameterType="String" resultType="map">
+  		SELECT c.order_no, 
+		MAX(CASE c.cost_type WHEN '1' THEN c.cost_money ELSE 0 END) AS baseMoney,
+		MAX(CASE c.cost_type WHEN '2' THEN c.cost_money ELSE 0 END) AS channelMoney,
+		MAX(CASE c.cost_type WHEN '3' THEN c.cost_money ELSE 0 END) AS invoiceMoney,
+		MAX(CASE c.cost_type WHEN '4' THEN c.cost_money ELSE 0 END) AS groupManageMoney,
+		MAX(CASE c.cost_type WHEN '5' THEN c.cost_money ELSE 0 END) AS insuranceMoney,
+		MAX(CASE c.cost_type WHEN '6' THEN c.cost_money ELSE 0 END) AS financeMoney,
+		MAX(CASE c.cost_type WHEN '7' THEN c.cost_money ELSE 0 END) AS extraRewardMoney,
+		MAX(CASE c.cost_type WHEN '10' THEN c.cost_money ELSE 0 END) AS additionalChannelMoney,
+		MAX(CASE c.cost_type WHEN '11' THEN c.cost_money ELSE 0 END) AS workPrice
+ 		FROM hy_cost_detail c
+ 		WHERE c.order_no = #{orderNo}
+ 		GROUP BY c.order_no
+  </select>
+  
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from hy_cost_detail
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from hy_cost_detail
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="net.chetong.order.model.HyCostDetailVO" >
+    insert into hy_cost_detail (id, cost_id, order_no, 
+      cost_name, cost_type, cost_money, 
+      created_by, updated_by, create_time, 
+      update_time)
+    values (#{id,jdbcType=BIGINT}, #{costId,jdbcType=BIGINT}, #{orderNo,jdbcType=VARCHAR}, 
+      #{costName,jdbcType=VARCHAR}, #{costType,jdbcType=VARCHAR}, #{costMoney,jdbcType=DECIMAL}, 
+      #{createdBy,jdbcType=VARCHAR}, #{updatedBy,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{updateTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="net.chetong.order.model.HyCostDetailVO" >
+    insert into hy_cost_detail
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="costId != null" >
+        cost_id,
+      </if>
+      <if test="orderNo != null" >
+        order_no,
+      </if>
+      <if test="costName != null" >
+        cost_name,
+      </if>
+      <if test="costType != null" >
+        cost_type,
+      </if>
+      <if test="costMoney != null" >
+        cost_money,
+      </if>
+      <if test="createdBy != null" >
+        created_by,
+      </if>
+      <if test="updatedBy != null" >
+        updated_by,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="updateTime != null" >
+        update_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="costId != null" >
+        #{costId,jdbcType=BIGINT},
+      </if>
+      <if test="orderNo != null" >
+        #{orderNo,jdbcType=VARCHAR},
+      </if>
+      <if test="costName != null" >
+        #{costName,jdbcType=VARCHAR},
+      </if>
+      <if test="costType != null" >
+        #{costType,jdbcType=VARCHAR},
+      </if>
+      <if test="costMoney != null" >
+        #{costMoney,jdbcType=DECIMAL},
+      </if>
+      <if test="createdBy != null" >
+        #{createdBy,jdbcType=VARCHAR},
+      </if>
+      <if test="updatedBy != null" >
+        #{updatedBy,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="net.chetong.order.model.HyCostDetailVO" >
+    update hy_cost_detail
+    <set >
+      <if test="costId != null" >
+        cost_id = #{costId,jdbcType=BIGINT},
+      </if>
+      <if test="orderNo != null" >
+        order_no = #{orderNo,jdbcType=VARCHAR},
+      </if>
+      <if test="costName != null" >
+        cost_name = #{costName,jdbcType=VARCHAR},
+      </if>
+      <if test="costType != null" >
+        cost_type = #{costType,jdbcType=VARCHAR},
+      </if>
+      <if test="costMoney != null" >
+        cost_money = #{costMoney,jdbcType=DECIMAL},
+      </if>
+      <if test="createdBy != null" >
+        created_by = #{createdBy,jdbcType=VARCHAR},
+      </if>
+      <if test="updatedBy != null" >
+        updated_by = #{updatedBy,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="net.chetong.order.model.HyCostDetailVO" >
+    update hy_cost_detail
+    set cost_id = #{costId,jdbcType=BIGINT},
+      order_no = #{orderNo,jdbcType=VARCHAR},
+      cost_name = #{costName,jdbcType=VARCHAR},
+      cost_type = #{costType,jdbcType=VARCHAR},
+      cost_money = #{costMoney,jdbcType=DECIMAL},
+      created_by = #{createdBy,jdbcType=VARCHAR},
+      updated_by = #{updatedBy,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_time = #{updateTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  
+   <delete id="deleteByCostKey" parameterType="java.lang.Long" >
+    delete from hy_cost_detail
+    where cost_id = #{costId,jdbcType=BIGINT}
+  </delete>
+  
+  <update id="updateCostMoneyByCostIdAndType" parameterType="net.chetong.order.model.HyCostDetailVO">
+  	UPDATE hy_cost_detail
+	SET cost_money = IFNULL(cost_money, 0) + #{costMoney},
+	 updated_by = #{updatedBy}
+	WHERE
+		cost_id = #{costId}
+	AND cost_type = '6'
+  </update>
+  
+  <delete id="deleteByOrderNo" parameterType="String" >
+    delete from hy_cost_detail
+    where order_no = #{orderNo,jdbcType=VARCHAR}
+  </delete>
+   
+   <!-- 根据订单号和类型查询 -->
+   <select id="selectByOrderNoAndType" resultMap="BaseResultMap" parameterType="net.chetong.order.model.HyCostDetailVO" >
+    select 
+    <include refid="Base_Column_List" />
+    from hy_cost_detail
+    where
+        order_no=#{orderNo}
+        and cost_type=#{costType}
+  </select>
+</mapper>

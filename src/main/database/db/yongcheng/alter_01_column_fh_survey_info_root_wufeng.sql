@@ -1,0 +1,1 @@
+ALTER TABLE `fh_survey_info` ADD COLUMN `insurmedtel` VARCHAR(11) NULL  COMMENT '被保险人联系电话' AFTER `estimate_loss_amount`;

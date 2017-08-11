@@ -1,0 +1,327 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="fh_audit_temp">
+	
+	<select id="queryFhAuditTemp" parameterType="net.chetong.order.model.FhAuditTemp" resultType ="net.chetong.order.model.FhAuditTemp" >
+		SELECT 
+			id as id,
+			user_id as userId,
+			order_no as orderNo,
+			management_fee2 as managementFee2,
+			remnant2 as remnant2,
+			buyer_bonus as buyerBonus,
+			audit_opinion as auditOpinion,
+			evaluate_opinion as evaluateOpinion,
+			star_num as starNum,
+			is_valid as isValid,
+			order_type as orderType,
+			extra_type as extraType,
+			extra_reason as extraReason,
+			extra_explain as extraExplain,
+			ct_deduct_money as ctDeductMoney,
+			team_deduct_money as teamDeductMoney,
+			assessment_fee as assessmentFee,
+			ext1 as ext1,
+			ext2 as ext2,
+			ext3 as ext3
+		FROM fh_audit_temp 
+		 <where>
+		    <if test="id!= null">
+                  and id=#{id}
+            </if>
+		    <if test="userId!= null">
+                  and user_id=#{userId}
+            </if>
+		    <if test="orderNo!= null">
+                  and order_no=#{orderNo}
+            </if>
+		    <if test="isValid!= null and isValid!=''">
+                  and is_valid=#{isValid}
+            </if>
+		    <if test="orderType!= null and orderType!=''">
+                  and order_type=#{orderType}
+            </if>
+  		</where>
+	</select>
+	
+	<insert id="insertNotNull" parameterType="net.chetong.order.model.FhAuditTemp" useGeneratedKeys="true" keyProperty="id">
+		INSERT INTO fh_audit_temp   
+		(
+			<trim suffix="" suffixOverrides=",">
+				<if test="id!= null">
+	                   id,
+	            </if>
+				<if test="userId!= null">
+	                   user_id,
+	            </if>
+				<if test="orderNo!= null">
+	                   order_no,
+	            </if>
+				<if test="managementFee2!= null">
+	                   management_fee2,
+	            </if>
+				<if test="remnant2!= null">
+	                   remnant2,
+	            </if>
+				<if test="buyerBonus!= null">
+	                   buyer_bonus,
+	            </if>
+				<if test="auditOpinion!= null">
+	                   audit_opinion,
+	            </if>
+				<if test="evaluateOpinion!= null">
+	                   evaluate_opinion,
+	            </if>
+				<if test="starNum!= null">
+	                   star_num,
+	            </if>
+				<if test="isValid!= null">
+	                   is_valid,
+	            </if>
+				<if test="orderType!= null">
+	                   order_type,
+	            </if>
+	            
+				<if test="extraType!= null">
+	                   extra_type,
+	            </if>
+				<if test="extraReason!= null">
+	                   extra_reason,
+	            </if>
+				<if test="ctDeductMoney!= null">
+	                   ct_deduct_money,
+	            </if>
+				<if test="teamDeductMoney!= null">
+	                   team_deduct_money,
+	            </if>
+				<if test="extraExplain!= null">
+	                   extra_explain,
+	            </if>
+	            
+				<if test="ext1!= null">
+	                   ext1,
+	            </if>
+				<if test="ext2!= null">
+	                   ext2,
+	            </if>
+				<if test="ext3!= null">
+	                   ext3,
+	            </if>
+	            <if test="assessmentFee!= null">
+		   			assessment_fee,
+		   		</if>  
+            </trim>
+		)
+		VALUES
+   		(
+   			<trim suffix="" suffixOverrides=",">
+	   			<if test="id!= null">
+	   			#{id},
+	   			</if>
+	   			<if test="userId!= null">
+	   			#{userId},
+	   			</if>
+	   			<if test="orderNo!= null">
+	   			#{orderNo},
+	   			</if>
+	   			<if test="managementFee2!= null">
+	   			#{managementFee2},
+	   			</if>
+	   			<if test="remnant2!= null">
+	   			#{remnant2},
+	   			</if>
+	   			<if test="buyerBonus!= null">
+	   			#{buyerBonus},
+	   			</if>
+	   			<if test="auditOpinion!= null">
+	   			#{auditOpinion},
+	   			</if>
+	   			<if test="evaluateOpinion!= null">
+	   			#{evaluateOpinion},
+	   			</if>
+	   			<if test="starNum!= null">
+	   			#{starNum},
+	   			</if>
+	   			<if test="isValid!= null">
+	   			#{isValid},
+	   			</if>
+	   			<if test="orderType!= null">
+	   			#{orderType},
+	   			</if>
+	   			
+	   			<if test="extraType!= null">
+	   			#{extraType},
+	   			</if>
+	   			<if test="extraReason!= null">
+	   			#{extraReason},
+	   			</if>
+	   			<if test="ctDeductMoney!= null">
+	   			#{ctDeductMoney},
+	   			</if>
+	   			<if test="teamDeductMoney!= null">
+	   			#{teamDeductMoney},
+	   			</if>
+	   			<if test="extraExplain!= null">
+	   			#{extraExplain},
+	   			</if>
+	   			
+	   			<if test="ext1!= null">
+	   			#{ext1},
+	   			</if>
+	   			<if test="ext2!= null">
+	   			#{ext2},
+	   			</if>
+	   			<if test="ext3!= null">
+	   			#{ext3},
+	   			</if>
+	   			<if test="assessmentFee!= null">
+		   		#{assessmentFee},
+		   		</if>
+   			</trim>
+		)
+	</insert>
+
+	<delete id="deleteByKey">
+		DELETE FROM 
+			fh_audit_temp 
+		<where>		   
+		    	 and id = #{id}
+		</where>
+	</delete>
+	
+	<update id="updateByKeyNotNull">
+		UPDATE fh_audit_temp 
+		  <trim prefix="SET" suffixOverrides=",">  
+					<if test="userId!= null">
+		   			user_id = #{userId},
+		   			</if>  
+					<if test="orderNo!= null">
+		   			order_no = #{orderNo},
+		   			</if>  
+					<if test="managementFee2!= null">
+		   			management_fee2 = #{managementFee2},
+		   			</if>  
+					<if test="remnant2!= null">
+		   			remnant2 = #{remnant2},
+		   			</if>  
+					<if test="buyerBonus!= null">
+		   			buyer_bonus = #{buyerBonus},
+		   			</if>  
+					<if test="auditOpinion!= null">
+		   			audit_opinion = #{auditOpinion},
+		   			</if>  
+					<if test="evaluateOpinion!= null">
+		   			evaluate_opinion = #{evaluateOpinion},
+		   			</if>  
+					<if test="starNum!= null">
+		   			star_num = #{starNum},
+		   			</if>  
+					<if test="isValid!= null">
+		   			is_valid = #{isValid},
+		   			</if>  
+					<if test="orderType!= null">
+		   			order_type = #{orderType},
+		   			</if>
+		   			
+		   			<if test="extraType!= null">
+		   			extra_type=#{extraType},
+		   			</if>
+		   			<if test="extraReason!= null">
+		   			extra_reason=#{extraReason},
+		   			</if>
+		   			<if test="ctDeductMoney!= null">
+		   			ct_deduct_money=#{ctDeductMoney},
+		   			</if>
+		   			<if test="teamDeductMoney!= null">
+		   			team_deduct_money=#{teamDeductMoney},
+		   			</if>
+		   			<if test="extraExplain!= null">
+		   			extra_explain=#{extraExplain},
+		   			</if>
+		   			  
+					<if test="ext1!= null">
+		   			ext1 = #{ext1},
+		   			</if>  
+					<if test="ext2!= null">
+		   			ext2 = #{ext2},
+		   			</if>  
+					<if test="ext3!= null">
+		   			ext3 = #{ext3},
+		   			</if>
+		   			
+		   			<if test="assessmentFee!= null">
+		   			assessment_fee = #{assessmentFee},
+		   			</if>  
+		  </trim>
+		  <where>	   
+				    and id = #{id}
+		 </where>
+	</update>
+	
+	<update id="updateByKeyNotNullByOrderNo">
+		UPDATE fh_audit_temp 
+		  <trim prefix="SET" suffixOverrides=",">  
+					<if test="userId!= null">
+		   			user_id = #{userId},
+		   			</if>  
+					<if test="orderNo!= null">
+		   			order_no = #{orderNo},
+		   			</if>  
+					<if test="managementFee2!= null">
+		   			management_fee2 = #{managementFee2},
+		   			</if>  
+					<if test="remnant2!= null">
+		   			remnant2 = #{remnant2},
+		   			</if>  
+					<if test="buyerBonus!= null">
+		   			buyer_bonus = #{buyerBonus},
+		   			</if>  
+					<if test="auditOpinion!= null">
+		   			audit_opinion = #{auditOpinion},
+		   			</if>  
+					<if test="evaluateOpinion!= null">
+		   			evaluate_opinion = #{evaluateOpinion},
+		   			</if>  
+					<if test="starNum!= null">
+		   			star_num = #{starNum},
+		   			</if>  
+					<if test="isValid!= null">
+		   			is_valid = #{isValid},
+		   			</if>  
+					<if test="orderType!= null">
+		   			order_type = #{orderType},
+		   			</if>  
+		   			
+		   			<if test="extraType!= null">
+		   			extra_type=#{extraType},
+		   			</if>
+		   			<if test="extraReason!= null">
+		   			extra_reason=#{extraReason},
+		   			</if>
+		   			<if test="ctDeductMoney!= null">
+		   			ct_deduct_money=#{ctDeductMoney},
+		   			</if>
+		   			<if test="teamDeductMoney!= null">
+		   			team_deduct_money=#{teamDeductMoney},
+		   			</if>
+		   			<if test="extraExplain!= null">
+		   			extra_explain=#{extraExplain},
+		   			</if>
+		   			
+					<if test="ext1!= null">
+		   			ext1 = #{ext1},
+		   			</if>  
+					<if test="ext2!= null">
+		   			ext2 = #{ext2},
+		   			</if>  
+					<if test="ext3!= null">
+		   			ext3 = #{ext3},
+		   			</if>  
+		  </trim>
+		  <where>	   
+				    and order_no = #{orderNo}
+		 </where>
+	</update>
+	
+	
+</mapper>

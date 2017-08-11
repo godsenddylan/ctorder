@@ -1,0 +1,256 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="fm_withdraw_order">
+
+	<select id="queryCountFmWithdrawOrder" parameterType="net.chetong.order.model.FmWithdrawOrder" resultType="java.lang.Long" >
+		SELECT 
+			count(*)
+		FROM fm_withdraw_order 
+		<where>
+			<if test="id!= null">
+				and id=#{id}
+			</if>
+			<if test="orderId!= null">
+				and order_id=#{orderId}
+			</if>
+			<if test="orderNo!= null">
+				and order_no=#{orderNo}
+			</if>
+			<if test="withdrawType!= null">
+				and withdraw_type=#{withdrawType}
+			</if>
+			<if test="withdrawReason!= null">
+				and withdraw_reason=#{withdrawReason}
+			</if>
+			<if test="userId!= null">
+				and user_id=#{userId}
+			</if>
+			<if test="withdrawTime!= null">
+				and withdraw_time=#{withdrawTime}
+			</if>
+			<if test="ext1!= null">
+				and ext1=#{ext1}
+			</if>
+			<if test="ext2!= null">
+				and ext2=#{ext2}
+			</if>
+			<if test="ext3!= null">
+				and ext3=#{ext3}
+			</if>
+			<if test="ext4!= null">
+				and ext4=#{ext4}
+			</if>
+			<if test="ext5!= null">
+				and ext5=#{ext5}
+			</if>
+		</where> 
+	</select>
+	
+	<select id="queryFmWithdrawOrder" parameterType="net.chetong.order.model.FmWithdrawOrder" resultType ="net.chetong.order.model.FmWithdrawOrder" >
+		SELECT 
+			id as id,
+			order_id as orderId,
+			order_no as orderNo,
+			withdraw_type as withdrawType,
+			withdraw_reason as withdrawReason,
+			user_id as userId,
+			withdraw_time as withdrawTime,
+			ext1 as ext1,
+			ext2 as ext2,
+			ext3 as ext3,
+			ext4 as ext4,
+			ext5 as ext5
+		FROM fm_withdraw_order 
+		 <where>
+		    <if test="id!= null">
+                  and id=#{id}
+            </if>
+		    <if test="orderId!= null">
+                  and order_id=#{orderId}
+            </if>
+		    <if test="orderNo!= null">
+                  and order_no=#{orderNo}
+            </if>
+            <if test="withdrawType!= null">
+				and withdraw_type=#{withdrawType}
+			</if>
+		    <if test="withdrawReason!= null">
+                  and withdraw_reason=#{withdrawReason}
+            </if>
+		    <if test="userId!= null">
+                  and user_id=#{userId}
+            </if>
+		    <if test="withdrawTime!= null">
+                  and withdraw_time=#{withdrawTime}
+            </if>
+		    <if test="ext1!= null">
+                  and ext1=#{ext1}
+            </if>
+		    <if test="ext2!= null">
+                  and ext2=#{ext2}
+            </if>
+		    <if test="ext3!= null">
+                  and ext3=#{ext3}
+            </if>
+		    <if test="ext4!= null">
+                  and ext4=#{ext4}
+            </if>
+		    <if test="ext5!= null">
+                  and ext5=#{ext5}
+            </if>
+  		</where>
+	</select>
+	
+		<insert id="insertNotNull" parameterType="net.chetong.order.model.FmWithdrawOrder" useGeneratedKeys="true" keyProperty="id">
+			INSERT INTO fm_withdraw_order   
+			(
+				<trim suffix="" suffixOverrides=",">
+					<if test="id!= null">
+		                   id,
+		            </if>
+					<if test="orderId!= null">
+		                   order_id,
+		            </if>
+					<if test="orderNo!= null">
+		                   order_no,
+		            </if>
+		            <if test="withdrawType!= null">
+		                   withdraw_type,
+		            </if>
+					<if test="withdrawReason!= null">
+		                   withdraw_reason,
+		            </if>
+					<if test="userId!= null">
+		                   user_id,
+		            </if>
+					<if test="withdrawTime!= null">
+		                   withdraw_time,
+		            </if>
+					<if test="ext1!= null">
+		                   ext1,
+		            </if>
+					<if test="ext2!= null">
+		                   ext2,
+		            </if>
+					<if test="ext3!= null">
+		                   ext3,
+		            </if>
+					<if test="ext4!= null">
+		                   ext4,
+		            </if>
+					<if test="ext5!= null">
+		                   ext5,
+		            </if>
+	            </trim>
+			)
+			VALUES
+	   		(
+	   			<trim suffix="" suffixOverrides=",">
+		   			<if test="id!= null">
+		   			#{id},
+		   			</if>
+		   			<if test="orderId!= null">
+		   			#{orderId},
+		   			</if>
+		   			<if test="orderNo!= null">
+		   			#{orderNo},
+		   			</if>
+		   			<if test="withdrawType!= null">
+		   			#{withdrawType},
+		   			</if>
+		   			<if test="withdrawReason!= null">
+		   			#{withdrawReason},
+		   			</if>
+		   			<if test="userId!= null">
+		   			#{userId},
+		   			</if>
+		   			<if test="withdrawTime!= null">
+		   			#{withdrawTime},
+		   			</if>
+		   			<if test="ext1!= null">
+		   			#{ext1},
+		   			</if>
+		   			<if test="ext2!= null">
+		   			#{ext2},
+		   			</if>
+		   			<if test="ext3!= null">
+		   			#{ext3},
+		   			</if>
+		   			<if test="ext4!= null">
+		   			#{ext4},
+		   			</if>
+		   			<if test="ext5!= null">
+		   			#{ext5},
+		   			</if>
+	   			</trim>
+			)
+		</insert>
+
+	<select id="queryByKey" resultType="net.chetong.order.model.FmWithdrawOrder">
+		SELECT 
+			id as id, 
+			order_id as orderId, 
+			order_no as orderNo, 
+			withdraw_type as withdrawType,
+			withdraw_reason as withdrawReason, 
+			user_id as userId, 
+			withdraw_time as withdrawTime, 
+			ext1 as ext1, 
+			ext2 as ext2, 
+			ext3 as ext3, 
+			ext4 as ext4, 
+			ext5 as ext5 
+		FROM
+			fm_withdraw_order
+	    <where>		   
+		    	 and id = #{id}
+		</where>
+	</select>
+	
+	<delete id="deleteByKey">
+		DELETE FROM 
+			fm_withdraw_order 
+		<where>		   
+		    	 and id = #{id}
+		</where>
+	</delete>
+	
+	<update id="updateByKeyNotNull">
+		UPDATE fm_withdraw_order 
+		  <trim prefix="SET" suffixOverrides=",">  
+					<if test="orderId!= null">
+		   			order_id = #{orderId},
+		   			</if>  
+					<if test="orderNo!= null">
+		   			order_no = #{orderNo},
+		   			</if>  
+					<if test="withdrawReason!= null">
+		   			withdraw_reason = #{withdrawReason},
+		   			</if>  
+					<if test="userId!= null">
+		   			user_id = #{userId},
+		   			</if>  
+					<if test="withdrawTime!= null">
+		   			withdraw_time = #{withdrawTime},
+		   			</if>  
+					<if test="ext1!= null">
+		   			ext1 = #{ext1},
+		   			</if>  
+					<if test="ext2!= null">
+		   			ext2 = #{ext2},
+		   			</if>  
+					<if test="ext3!= null">
+		   			ext3 = #{ext3},
+		   			</if>  
+					<if test="ext4!= null">
+		   			ext4 = #{ext4},
+		   			</if>  
+					<if test="ext5!= null">
+		   			ext5 = #{ext5},
+		   			</if>  
+		  </trim>
+		  <where>	   
+				    and id = #{id}
+		 </where>
+	</update>
+</mapper>

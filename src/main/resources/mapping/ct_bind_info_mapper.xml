@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ct_bind_info_mapper">
+
+	<!--实体映射-->
+	<resultMap id="ctBindInfoResultMap" type="net.chetong.order.model.CtBindInfo">
+		<!---->
+		<id property="id" column="id" />
+		<!--绑定类型:1-微信,2-懒掌柜,-->
+		<result property="bindType" column="bind_type" />
+		<!--用户ID-->
+		<result property="userId" column="user_id" />
+		<!--第三方唯一标识(字符串),微信的openId,懒掌柜的managerId-->
+		<result property="bindId" column="bind_id" />
+		<!--第三方账号:微信号,-->
+		<result property="bindNo" column="bind_no" />
+		<!--昵称-->
+		<result property="nickname" column="nickname" />
+		<!--头像-->
+		<result property="headPic" column="head_pic" />
+		<!--创建者-->
+		<result property="createId" column="create_id" />
+		<!--创建时间-->
+		<result property="createTime" column="create_time" />
+	</resultMap>
+
+
+	<!-- 通用查询结果列-->
+	<sql id="Base_Column_List">
+		 id,	bind_type,	user_id,	bind_id,	bind_no,	nickname,	head_pic,	create_id,	create_time
+	</sql>
+
+	<!-- 查询（根据主键ID查询） -->
+	<select id="selectByPrimaryKey" resultMap="ctBindInfoResultMap" parameterType="java.lang.Long">
+		 SELECT
+		 <include refid="Base_Column_List" />
+		 FROM ct_bind_info
+		 WHERE id = #{id}
+	</select>
+
+	<!--删除：根据主键ID删除-->
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+		 DELETE FROM ct_bind_info
+		 WHERE id = #{id}
+	</delete>
+
+	<!-- 添加 -->
+	<insert id="insert" parameterType="net.chetong.order.model.CtBindInfo">
+		 INSERT INTO ct_bind_info
+ 		(id,bind_type,user_id,bind_id,bind_no,nickname,head_pic,create_id,create_time) 
+		 VALUES 
+ 		(#{id},#{bindType},#{userId},#{bindId},#{bindNo},#{nickname},#{headPic},#{createId},#{createTime}) 
+	</insert>
+
+	<!-- 添加 （匹配有值的字段）-->
+	<insert id="insertSelective" parameterType="net.chetong.order.model.CtBindInfo">
+		 INSERT INTO ct_bind_info
+		 <trim prefix="(" suffix=")" suffixOverrides="," >
+			<if test="bindType != null">
+				 bind_type,
+			</if>
+			<if test="userId != null">
+				 user_id,
+			</if>
+			<if test="bindId != null">
+				 bind_id,
+			</if>
+			<if test="bindNo != null">
+				 bind_no,
+			</if>
+			<if test="nickname != null">
+				 nickname,
+			</if>
+			<if test="headPic != null">
+				 head_pic,
+			</if>
+			<if test="createId != null">
+				 create_id,
+			</if>
+				 create_time,
+
+		 </trim>
+		 <trim prefix="values (" suffix=")" suffixOverrides="," >
+			<if test="bindType!=null">
+				 #{bindType},
+			</if>
+			<if test="userId!=null">
+				 #{userId},
+			</if>
+			<if test="bindId!=null">
+				 #{bindId},
+			</if>
+			<if test="bindNo!=null">
+				 #{bindNo},
+			</if>
+			<if test="nickname!=null">
+				 #{nickname},
+			</if>
+			<if test="headPic!=null">
+				 #{headPic},
+			</if>
+			<if test="createId!=null">
+				 #{createId},
+			</if>
+				 SYSDATE()
+		 </trim>
+	</insert>
+
+	<!-- 修 改-->
+	<update id="updateByPrimaryKeySelective" parameterType="net.chetong.order.model.CtBindInfo">
+		 UPDATE ct_bind_info
+ 		 <set> 
+			<if test="bindType != null">
+				 bind_type = #{bindType},
+			</if>
+			<if test="userId != null">
+				 user_id = #{userId},
+			</if>
+			<if test="bindId != null">
+				 bind_id = #{bindId},
+			</if>
+			<if test="bindNo != null">
+				 bind_no = #{bindNo},
+			</if>
+			<if test="nickname != null">
+				 nickname = #{nickname},
+			</if>
+			<if test="headPic != null">
+				 head_pic = #{headPic},
+			</if>
+			<if test="createId != null">
+				 create_id = #{createId},
+			</if>
+				 create_time = SYSDATE()
+
+ 		 </set>
+		 WHERE id = #{id}
+	</update>
+
+	<!-- 修 改-->
+	<update id="updateByPrimaryKey" parameterType="net.chetong.order.model.CtBindInfo">
+		 UPDATE ct_bind_info
+		 SET 
+			 bind_type = #{bindType},
+			 user_id = #{userId},
+			 bind_id = #{bindId},
+			 bind_no = #{bindNo},
+			 nickname = #{nickname},
+			 head_pic = #{headPic},
+			 create_id = #{createId},
+			 create_time = SYSDATE()
+		 WHERE id = #{id}
+	</update>
+	
+	<select id="getBindWechatInfo" resultMap="ctBindInfoResultMap">
+		 SELECT
+		 <include refid="Base_Column_List" />
+		 FROM ct_bind_info
+		 <where>
+		 	bind_type = '1'
+		 	AND nickname IN
+		 	<foreach collection="array" index="index" item="item" open="(" separator="," close=")">
+		 		#{item}
+		 	</foreach>
+		 </where>
+	</select>
+	
+	
+</mapper>
